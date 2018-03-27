@@ -12,27 +12,35 @@ r.prototype = e.prototype, t.prototype = new r();
 **/
 var Bingo = (function (_super) {
     __extends(Bingo, _super);
-    function Bingo(x, y) {
+    function Bingo(x, y, type) {
         var _this = _super.call(this) || this;
         _this.width = 48;
         _this.height = 48;
         _this.image = new egret.Bitmap();
         _this.x = x;
         _this.y = y;
+        _this.type = type;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.drawDoors, _this);
         return _this;
     }
     Bingo.prototype.drawDoors = function () {
         this.addImage();
+        this.addText();
     };
     Bingo.prototype.addImage = function () {
         var shape = new egret.Shape;
-        shape.graphics.beginFill(0xff0000 + Math.floor(Math.random() * 100) * (0xffffff / 100), 1);
         shape.graphics.lineStyle(2, 0xff0000 + Math.floor(Math.random() * 100) * (0xffffff / 100));
         shape.graphics.drawRect(this.x, this.y, this.width, this.height);
         shape.graphics.endFill();
         console.log("增加");
         this.addChild(shape);
+    };
+    Bingo.prototype.addText = function () {
+        var text = new egret.TextField();
+        text.text = this.type;
+        text.x = this.x + text.textWidth / 2;
+        text.y = this.y + text.textHeight / 2;
+        this.addChild(text);
     };
     return Bingo;
 }(egret.Sprite));

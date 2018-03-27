@@ -15,6 +15,7 @@ var GameBody = (function (_super) {
     function GameBody(width, height) {
         var _this = _super.call(this) || this;
         _this.image = new egret.Bitmap();
+        _this.bingos = [];
         _this.x = 0;
         _this.y = 100;
         _this.width = width;
@@ -24,15 +25,29 @@ var GameBody = (function (_super) {
     }
     GameBody.prototype.drawDoors = function () {
         this.addImage();
+        this.drawBingo();
+        this.$parent.stage.$stageWidth;
     };
     GameBody.prototype.addImage = function () {
         var shape = new egret.Shape;
         shape.graphics.beginFill(0x0000, .5);
         shape.graphics.lineStyle(1, 0x333333);
-        shape.graphics.drawRect(this.x, this.y, this.width, this.height);
+        shape.graphics.drawRect(this.x, this.y, this.width, this.height - 100);
         shape.graphics.endFill();
-        console.log("增加");
         this.addChild(shape);
+    };
+    GameBody.prototype.drawBingo = function () {
+        for (var i = 0; i < 10; i++) {
+            for (var j = 0; j < 10; j++) {
+                var ran = this.ran(1, 5);
+                var bingo = new Bingo(40 * i, 40 * j, ran);
+                this.addChild(bingo);
+                this.bingos.push(bingo);
+            }
+        }
+    };
+    GameBody.prototype.ran = function (end, start) {
+        return Math.floor(Math.random() * (end - start + 1) + start);
     };
     return GameBody;
 }(egret.Sprite));
