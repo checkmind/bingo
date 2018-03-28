@@ -17,9 +17,9 @@ var GameBody = (function (_super) {
         _this.image = new egret.Bitmap();
         _this.bingos = [];
         _this.x = 0;
-        _this.y = 100;
+        _this.y = 50;
         _this.width = width;
-        _this.height = height - 100;
+        _this.height = height;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.drawDoors, _this);
         return _this;
     }
@@ -30,9 +30,9 @@ var GameBody = (function (_super) {
     };
     GameBody.prototype.addImage = function () {
         var shape = new egret.Shape;
-        shape.graphics.beginFill(0x0000, .5);
-        shape.graphics.lineStyle(1, 0x333333);
-        shape.graphics.drawRect(this.x, this.y, this.width, this.height - 100);
+        shape.graphics.beginFill(0xf2f2f2, .5);
+        shape.graphics.lineStyle(1, 0xf2f2f2);
+        shape.graphics.drawRect(this.x, this.y, this.width, this.height);
         shape.graphics.endFill();
         this.addChild(shape);
     };
@@ -40,7 +40,7 @@ var GameBody = (function (_super) {
         for (var i = 0; i < 10; i++) {
             for (var j = 0; j < 10; j++) {
                 var ran = this.ran(1, 5);
-                var bingo = new Bingo(40 * i, 40 * j, ran);
+                var bingo = new Bingo(i, j, ran);
                 this.addChild(bingo);
                 this.bingos.push(bingo);
             }

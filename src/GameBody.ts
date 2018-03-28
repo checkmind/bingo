@@ -8,9 +8,9 @@ class GameBody extends egret.Sprite{
     public constructor(width,height){
         super();
         this.x = 0;
-        this.y = 100;
+        this.y = 50;
         this.width = width;
-        this.height = height-100;
+        this.height = height;
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawDoors,this);
     }
     private drawDoors(){
@@ -20,9 +20,9 @@ class GameBody extends egret.Sprite{
     }
     private addImage(){
         var shape:egret.Shape = new egret.Shape;
-        shape.graphics.beginFill(0x0000,.5)
-        shape.graphics.lineStyle(1,0x333333)
-        shape.graphics.drawRect(this.x, this.y, this.width,this.height-100);
+        shape.graphics.beginFill(0xf2f2f2,.5)
+        shape.graphics.lineStyle(1,0xf2f2f2)
+        shape.graphics.drawRect(this.x, this.y, this.width,this.height);
         shape.graphics.endFill();
         this.addChild(shape);
     }
@@ -30,7 +30,7 @@ class GameBody extends egret.Sprite{
         for(let i = 0;i<10;i++) {
             for(let j = 0;j<10;j++) {
                 let ran = this.ran(1,5)
-                let bingo:Bingo = new Bingo(40*i,40*j,ran);
+                let bingo:Bingo = new Bingo(i,j,ran);
                 this.addChild(bingo);
                 this.bingos.push(bingo)
             }
