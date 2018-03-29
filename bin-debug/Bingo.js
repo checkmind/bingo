@@ -30,7 +30,7 @@ var Bingo = (function (_super) {
         this.addText();
     };
     Bingo.prototype.addImage = function () {
-        var shape = new egret.Shape;
+        var shape = new egret.Shape();
         shape.graphics.beginFill(this.colors[this.type]);
         shape.graphics.drawRect(0, 0, this.width, this.height);
         shape.graphics.endFill();
@@ -38,13 +38,19 @@ var Bingo = (function (_super) {
     };
     Bingo.prototype.addText = function () {
         var text = new egret.TextField();
-        text.text = this.type;
+        // text.text = this.type;
+        text.text = this.coord.i + '' + this.coord.j;
         text.x = this.width / 2 - text.textWidth / 2;
         text.y = this.height / 2 - text.textHeight / 2;
         this.addChild(text);
     };
     Bingo.prototype.killSelf = function () {
         this.$parent.removeChild(this);
+        var shape = new egret.Shape();
+        shape.graphics.lineStyle(2, 0xffffff);
+        shape.graphics.drawRect(0, 0, this.width, this.height);
+        shape.graphics.endFill();
+        this.addChild(shape);
     };
     return Bingo;
 }(egret.Sprite));

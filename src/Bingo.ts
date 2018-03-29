@@ -20,7 +20,7 @@ class Bingo extends egret.Sprite{
         this.addText();
     }
     private addImage(){
-        var shape:egret.Shape = new egret.Shape;
+        var shape:egret.Shape = new egret.Shape();
         shape.graphics.beginFill(this.colors[this.type])
         shape.graphics.drawRect(0, 0, this.width,this.height);
         shape.graphics.endFill();
@@ -28,12 +28,19 @@ class Bingo extends egret.Sprite{
     }
     private addText() {
         var text:egret.TextField = new egret.TextField();
-        text.text = this.type;
+        // text.text = this.type;
+        text.text = this.coord.i+''+this.coord.j;
         text.x = this.width/2 - text.textWidth/2;
         text.y = this.height/2 -text.textHeight/2;
         this.addChild(text);        
     }
     public killSelf() {
         this.$parent.removeChild(this);
+
+        var shape:egret.Shape = new egret.Shape()
+        shape.graphics.lineStyle(2, 0xffffff);
+        shape.graphics.drawRect(0, 0, this.width,this.height);
+        shape.graphics.endFill();
+        this.addChild(shape);
     }
 }
