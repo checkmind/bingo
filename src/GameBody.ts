@@ -41,8 +41,6 @@ class GameBody extends egret.Sprite{
             this.bingos.push(arrs);
         }
         this.checkBingos();
-        this.clearAll();
-        this.updataGame();
     }
     private ran(end:number, start:number) {
 		return Math.floor(Math.random()*(end-start)+start)
@@ -56,6 +54,8 @@ class GameBody extends egret.Sprite{
                 that.checkAround(vals,false)
             })
         })
+        this.clearAll();
+        this.updataGame();
     }
     /* 检测周围有没有相同色号,第二个参数限定反向 1,2,3,4 t r b l */
     private checkAround(obj,direction) {
@@ -147,26 +147,40 @@ class GameBody extends egret.Sprite{
             }  
             val&&val.killSelf&&val.killSelf();
         })
+        this.clears.length = 0;
     }
     /* 更新函数 */
     private updataGame() {
-        for(let i = this.bingos.length-1;i>=0;i--) {
+        for(let i = 0;i<this.bingos.length;i++) {
 			let now = this.bingos[i]
-			for(let j = 0;j<now.length;j++) {
+            for(let j = this.col-1;j>0;j--) {
 				// 当前没有方块，去上级拿
 				if( !now[j] ) {
-					if(this.bingos[i-1]){
-						now[j] = this.bingos[i-1][j]
-						delete this.bingos[i-1][j]
+                    let topBingo = this.getMyTop(i,j-1) 
+					if(topBingo){
+                        topBingo.moveToBottom(j);
+                        now[j] = topBingo;
+                        delete this.bingos[topBingo.coord.i][topBingo.coord.j];
 					}
 					else{
-                        let ran = this.ran(0,5)
-                        let bingo:Bingo = new Bingo(i-1,j,ran,{i, j});
-                        this.addChild(bingo);
-						now[j] = bingo                       
+                        // let ran = this.ran(0,5)
+                        // let bingo:Bingo = new Bingo(i-1,j,ran,{i, j});
+                        // this.addChild(bingo);
+						// now[j] = bingo                       
                     }
 				}
 			}
 		}
+
+    }
+    /* 得到上级方块 */
+    private getMyTop(i,j) {
+
+        if(this.bingos[i][j]) {
+            return this.bingos[i][j]  
+        }
+        if(j<0)
+            return false
+        return this.getMyTop(i,j-1)
     }
 }

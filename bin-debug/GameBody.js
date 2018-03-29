@@ -51,8 +51,6 @@ var GameBody = (function (_super) {
             this.bingos.push(arrs);
         }
         this.checkBingos();
-        this.clearAll();
-        this.updataGame();
     };
     GameBody.prototype.ran = function (end, start) {
         return Math.floor(Math.random() * (end - start) + start);
@@ -66,6 +64,8 @@ var GameBody = (function (_super) {
                 that.checkAround(vals, false);
             });
         });
+        this.clearAll();
+        this.updataGame();
     };
     /* 检测周围有没有相同色号,第二个参数限定反向 1,2,3,4 t r b l */
     GameBody.prototype.checkAround = function (obj, direction) {
@@ -155,27 +155,39 @@ var GameBody = (function (_super) {
             }
             val && val.killSelf && val.killSelf();
         });
+        this.clears.length = 0;
     };
     /* 更新函数 */
     GameBody.prototype.updataGame = function () {
-        for (var i = this.bingos.length - 1; i >= 0; i--) {
+        for (var i = 0; i < this.bingos.length; i++) {
             var now = this.bingos[i];
-            for (var j = 0; j < now.length; j++) {
+            for (var j = this.col - 1; j > 0; j--) {
                 // 当前没有方块，去上级拿
                 if (!now[j]) {
-                    if (this.bingos[i - 1]) {
-                        now[j] = this.bingos[i - 1][j];
-                        delete this.bingos[i - 1][j];
+                    var topBingo = this.getMyTop(i, j - 1);
+                    if (topBingo) {
+                        topBingo.moveToBottom(j);
+                        now[j] = topBingo;
+                        delete this.bingos[topBingo.coord.i][topBingo.coord.j];
                     }
                     else {
-                        var ran = this.ran(0, 5);
-                        var bingo = new Bingo(i - 1, j, ran, { i: i, j: j });
-                        this.addChild(bingo);
-                        now[j] = bingo;
+                        // let ran = this.ran(0,5)
+                        // let bingo:Bingo = new Bingo(i-1,j,ran,{i, j});
+                        // this.addChild(bingo);
+                        // now[j] = bingo                       
                     }
                 }
             }
         }
+    };
+    /* 得到上级方块 */
+    GameBody.prototype.getMyTop = function (i, j) {
+        if (this.bingos[i][j]) {
+            return this.bingos[i][j];
+        }
+        if (j < 0)
+            return false;
+        return this.getMyTop(i, j - 1);
     };
     return GameBody;
 }(egret.Sprite));

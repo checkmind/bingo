@@ -52,6 +52,12 @@ var Bingo = (function (_super) {
         shape.graphics.endFill();
         this.addChild(shape);
     };
+    Bingo.prototype.moveToBottom = function (j) {
+        /*** 本示例关键代码段开始 ***/
+        var distance = j * (this.height + 10);
+        egret.Tween.get(this)
+            .to({ x: this.x, y: distance }, 600, egret.Ease.sineIn);
+    };
     return Bingo;
 }(egret.Sprite));
 __reflect(Bingo.prototype, "Bingo");

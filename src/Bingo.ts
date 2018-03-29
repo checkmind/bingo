@@ -43,4 +43,10 @@ class Bingo extends egret.Sprite{
         shape.graphics.endFill();
         this.addChild(shape);
     }
+    public moveToBottom(j) {
+        /*** 本示例关键代码段开始 ***/
+        let distance = j * (this.height+10)
+        egret.Tween.get( this )
+            .to( {x:this.x,y:distance}, 600, egret.Ease.sineIn );
+    }
 }
