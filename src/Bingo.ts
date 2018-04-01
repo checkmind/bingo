@@ -7,13 +7,16 @@ class Bingo extends egret.Sprite{
     public type
     public coord
     public colors = [0x1ca5fc,0x295c9d,0x990000,0x7f0000]
+    private choosed
+    private borderShape:egret.Shape
     public constructor(x,y,type,coord){
         super();
-        this.x = x*(this.width+10);
-        this.y = y*(this.height+10);
+        this.x = x*(this.width);
+        this.y = y*(this.height);
         this.coord = coord
         this.type = type;
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawDoors,this);
+        
     }
     private drawDoors(){
         this.addImage();
@@ -36,17 +39,45 @@ class Bingo extends egret.Sprite{
     }
     public killSelf() {
         this.$parent.removeChild(this);
-
-        var shape:egret.Shape = new egret.Shape()
-        shape.graphics.lineStyle(2, 0xffffff);
-        shape.graphics.drawRect(0, 0, this.width,this.height);
-        shape.graphics.endFill();
-        this.addChild(shape);
+    }
+    public moveToDirection(direction) {
+        if( GameBody.lock )
+            return;
+        GameBody.lock = true
+        switch(direction) {
+            case 1:
+                egret.Tween.get( this ).to( {x:this.x,y:this.y-this.height}, 600, egret.Ease.sineIn );
+                break;
+            case 2:
+                egret.Tween.get( this ).to( {x:this.x+this.width,y:this.y}, 600, egret.Ease.sineIn );
+                break;
+            case 3:
+                egret.Tween.get( this ).to( {x:this.x,y:this.y+this.height}, 600, egret.Ease.sineIn );
+                break;
+            default:
+                egret.Tween.get( this ).to( {x:this.x-this.width,y:this.y}, 600, egret.Ease.sineIn );
+                break;
+        }
+        GameBody.lock = false;
     }
     public moveToBottom(j) {
         /*** 本示例关键代码段开始 ***/
-        let distance = j * (this.height+10)
+        let distance = j * (this.height)
         egret.Tween.get( this )
             .to( {x:this.x,y:distance}, 600, egret.Ease.sineIn );
+    }
+    public chooseBingo() {
+        console.log(this.coord)
+        if( this.choosed ) {
+            this.removeChild(this.borderShape)
+            this.choosed = false;
+            return;
+        }
+        this.borderShape = new egret.Shape()
+        this.borderShape.graphics.lineStyle(2, 0xffffff);
+        this.borderShape.graphics.drawRect(0, 0, this.width,this.height);
+        this.borderShape.graphics.endFill();
+        this.addChild(this.borderShape);
+        this.choosed = true;
     }
 }
