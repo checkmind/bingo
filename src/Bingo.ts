@@ -20,14 +20,33 @@ class Bingo extends egret.Sprite{
     }
     private drawDoors(){
         this.addImage();
-        this.addText();
+        //this.addText();
+        this.addBlackHole();
     }
     private addImage(){
-        var shape:egret.Shape = new egret.Shape();
-        shape.graphics.beginFill(this.colors[this.type])
-        shape.graphics.drawRect(0, 0, this.width,this.height);
-        shape.graphics.endFill();
-        this.addChild(shape);
+        // var shape:egret.Shape = new egret.Shape();
+        // shape.graphics.beginFill(this.colors[this.type])
+        // shape.graphics.drawRect(0, 0, this.width,this.height);
+        // shape.graphics.endFill();
+        // this.addChild(shape);
+        console.log(this.type)
+        let sky = this.createBitmapByName((this.type+1)+"_png");
+        sky.width = this.width;
+        sky.height = this.height;
+        this.addChild(sky);
+    }
+    private addBlackHole() {
+        console.log(this.type)
+        let sky = this.createBitmapByName("blackhole_png");
+        sky.width = this.width;
+        sky.height = this.height;
+        this.addChild(sky);
+    }
+    private createBitmapByName(name: string) {
+        let result = new egret.Bitmap();
+        let texture: egret.Texture = RES.getRes(name);
+        result.texture = texture;
+        return result;
     }
     private addText() {
         var text:egret.TextField = new egret.TextField();
@@ -41,9 +60,7 @@ class Bingo extends egret.Sprite{
         this.$parent.removeChild(this);
     }
     public moveToDirection(direction) {
-        if( GameBody.lock )
-            return;
-        GameBody.lock = true
+
         let that = this;
         let fn = () => {
             that.removeChoosed();
@@ -63,7 +80,7 @@ class Bingo extends egret.Sprite{
                 egret.Tween.get( this ).to( {x:this.x-this.width,y:this.y}, 600, egret.Ease.sineIn ).call(fn);
                 break;
         }
-        GameBody.lock = false;
+
     }
     public moveToBottom(j) {
         /*** 本示例关键代码段开始 ***/

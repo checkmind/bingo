@@ -16,29 +16,30 @@ var GameBody = (function (_super) {
         var _this = _super.call(this) || this;
         _this.image = new egret.Bitmap();
         _this.bingos = [];
-        _this.row = 8;
-        _this.col = 8;
+        _this.row = 2;
+        _this.col = 10;
         _this.clears = [];
         // 交换栈
         _this.stackArr = [];
         _this.x = 0;
-        _this.y = 50;
+        _this.y = 200;
         _this.width = width;
-        _this.height = height;
+        _this.height = height - _this.y;
+        _this.row = Math.floor(_this.width / GameBody.childW);
+        _this.col = Math.floor(_this.height / GameBody.childH);
+        _this.x = (_this.width - _this.row * GameBody.childH) / 2;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.drawDoors, _this);
         _this.touchEnabled = true;
         _this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, _this.mouseDown, _this);
-        GameBody.that = _this;
         return _this;
     }
     /* 事件捕捉 */
     GameBody.prototype.mouseDown = function (ev) {
+        var _this = this;
         var x = Math.floor(ev.stageX / GameBody.childW);
         var y = Math.floor((ev.stageY - this.y) / GameBody.childH);
-        var had;
-        if (GameBody.lock) {
+        if (this.lock)
             return;
-        }
         if (this.exitObj(this.bingos, x, y)) {
             this.bingos[x][y].chooseBingo();
             // 栈里面已经有bingo了
@@ -47,6 +48,10 @@ var GameBody = (function (_super) {
                     this.stackArr[0].chooseBingo();
                     this.bingos[x][y].chooseBingo();
                     this.stackArr.length = 0;
+                    this.lock = true;
+                    setTimeout(function () {
+                        _this.lock = false;
+                    }, 630);
                 }
                 else {
                     this.stackArr[0].removeChoosed();
@@ -115,18 +120,18 @@ var GameBody = (function (_super) {
         this.bingos[coord_2.x][coord_2.y] = obj;
         setTimeout(function () {
             _this.checkFun();
-        }, 800);
+        }, 1000);
     };
     GameBody.prototype.drawDoors = function () {
-        this.addImage();
+        // this.addImage();
         this.drawBingo();
         this.$parent.stage.$stageWidth;
     };
     GameBody.prototype.addImage = function () {
         var shape = new egret.Shape;
-        shape.graphics.beginFill(0xf2f2f2, .5);
-        shape.graphics.lineStyle(1, 0xf2f2f2);
-        shape.graphics.drawRect(this.x, 0, this.width, this.height);
+        shape.graphics.beginFill(0x000000, .5);
+        shape.graphics.lineStyle(1, 0x000000);
+        shape.graphics.drawRect(0, 0, this.width - this.x, this.height);
         shape.graphics.endFill();
         this.addChild(shape);
     };
@@ -227,7 +232,7 @@ var GameBody = (function (_super) {
     };
     /* 判断对象是否存在 */
     GameBody.prototype.exitObj = function (obj, x, y) {
-        if (x < 0 || y < 0 || x > this.row || y > this.row || !obj[x] || !obj[x][y]) {
+        if (x < 0 || y < 0 || x > this.row || y > this.col || !obj[x] || !obj[x][y]) {
             return false;
         }
         return true;

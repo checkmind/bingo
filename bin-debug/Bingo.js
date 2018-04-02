@@ -27,14 +27,33 @@ var Bingo = (function (_super) {
     }
     Bingo.prototype.drawDoors = function () {
         this.addImage();
-        this.addText();
+        //this.addText();
+        this.addBlackHole();
     };
     Bingo.prototype.addImage = function () {
-        var shape = new egret.Shape();
-        shape.graphics.beginFill(this.colors[this.type]);
-        shape.graphics.drawRect(0, 0, this.width, this.height);
-        shape.graphics.endFill();
-        this.addChild(shape);
+        // var shape:egret.Shape = new egret.Shape();
+        // shape.graphics.beginFill(this.colors[this.type])
+        // shape.graphics.drawRect(0, 0, this.width,this.height);
+        // shape.graphics.endFill();
+        // this.addChild(shape);
+        console.log(this.type);
+        var sky = this.createBitmapByName((this.type + 1) + "_png");
+        sky.width = this.width;
+        sky.height = this.height;
+        this.addChild(sky);
+    };
+    Bingo.prototype.addBlackHole = function () {
+        console.log(this.type);
+        var sky = this.createBitmapByName("blackhole_png");
+        sky.width = this.width;
+        sky.height = this.height;
+        this.addChild(sky);
+    };
+    Bingo.prototype.createBitmapByName = function (name) {
+        var result = new egret.Bitmap();
+        var texture = RES.getRes(name);
+        result.texture = texture;
+        return result;
     };
     Bingo.prototype.addText = function () {
         var text = new egret.TextField();
@@ -48,9 +67,6 @@ var Bingo = (function (_super) {
         this.$parent.removeChild(this);
     };
     Bingo.prototype.moveToDirection = function (direction) {
-        if (GameBody.lock)
-            return;
-        GameBody.lock = true;
         var that = this;
         var fn = function () {
             that.removeChoosed();
@@ -69,7 +85,6 @@ var Bingo = (function (_super) {
                 egret.Tween.get(this).to({ x: this.x - this.width, y: this.y }, 600, egret.Ease.sineIn).call(fn);
                 break;
         }
-        GameBody.lock = false;
     };
     Bingo.prototype.moveToBottom = function (j) {
         /*** 本示例关键代码段开始 ***/

@@ -5,12 +5,11 @@ class GameBody extends egret.Sprite{
     public height:number;
     private image:egret.Bitmap = new egret.Bitmap();
     private bingos = [];
-    private row = 8;
-    private col = 8;
+    private row = 2;
+    private col = 10;
     private clears = [];
     // 事件锁，需控制的事件完成后才能继续进行
-    static lock;
-    static that;
+    private lock;
     static childW:number = 90;
     static childH:number = 90;
     private a;
@@ -19,22 +18,22 @@ class GameBody extends egret.Sprite{
     public constructor(width,height){
         super();
         this.x = 0;
-        this.y = 50;
+        this.y = 200;
         this.width = width;
-        this.height = height;
+        this.height = height-this.y;
+        this.row = Math.floor(this.width / GameBody.childW)
+        this.col = Math.floor(this.height/ GameBody.childH)
+        this.x = (this.width - this.row*GameBody.childH) / 2
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawDoors,this);
         this.touchEnabled = true;
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.mouseDown, this);
-        GameBody.that = this; 
     }
     /* 事件捕捉 */
     private mouseDown(ev) {
         let x =  Math.floor(ev.stageX/GameBody.childW);
         let y = Math.floor((ev.stageY-this.y)/GameBody.childH);
-        let had;
-        if( GameBody.lock ) {
+        if(this.lock)
             return;
-        }
         if(this.exitObj(this.bingos,x,y)){
            this.bingos[x][y].chooseBingo();
            // 栈里面已经有bingo了
@@ -43,6 +42,10 @@ class GameBody extends egret.Sprite{
                    this.stackArr[0].chooseBingo();
                    this.bingos[x][y].chooseBingo();
                    this.stackArr.length = 0;
+                   this.lock = true;
+                   setTimeout(()=>{
+                       this.lock = false;
+                   },630)
                } else {
                    this.stackArr[0].removeChoosed();
                    this.stackArr.length = 0;
@@ -105,19 +108,19 @@ class GameBody extends egret.Sprite{
         this.bingos[coord_2.x][coord_2.y] = obj;
         setTimeout(()=>{
              this.checkFun();            
-        },800)
+        },1000)
     }
    
     private drawDoors(){
-        this.addImage();
+       // this.addImage();
         this.drawBingo();
         this.$parent.stage.$stageWidth
     }
     private addImage(){
         var shape:egret.Shape = new egret.Shape;
-        shape.graphics.beginFill(0xf2f2f2,.5)
-        shape.graphics.lineStyle(1,0xf2f2f2)
-        shape.graphics.drawRect(this.x, 0, this.width,this.height);
+        shape.graphics.beginFill(0x000000,.5)
+        shape.graphics.lineStyle(1,0x000000) 
+        shape.graphics.drawRect(0, 0, this.width-this.x,this.height);
         shape.graphics.endFill();
         this.addChild(shape);
     }
@@ -220,7 +223,7 @@ class GameBody extends egret.Sprite{
     }
     /* 判断对象是否存在 */
     private exitObj(obj,x,y) {
-        if(x<0 || y<0 || x>this.row || y>this.row || !obj[x] || !obj[x][y]  ){
+        if(x<0 || y<0 || x>this.row || y>this.col || !obj[x] || !obj[x][y]  ){
             return false
         }
         return true;
