@@ -16,8 +16,8 @@ var GameBody = (function (_super) {
         var _this = _super.call(this) || this;
         _this.image = new egret.Bitmap();
         _this.bingos = [];
-        _this.row = 15;
-        _this.col = 15;
+        _this.row = 8;
+        _this.col = 8;
         _this.clears = [];
         // 交换栈
         _this.stackArr = [];
@@ -33,9 +33,12 @@ var GameBody = (function (_super) {
     }
     /* 事件捕捉 */
     GameBody.prototype.mouseDown = function (ev) {
-        var x = Math.floor(ev.stageX / 48);
-        var y = Math.floor((ev.stageY - this.y) / 48);
+        var x = Math.floor(ev.stageX / GameBody.childW);
+        var y = Math.floor((ev.stageY - this.y) / GameBody.childH);
         var had;
+        if (GameBody.lock) {
+            return;
+        }
         if (this.exitObj(this.bingos, x, y)) {
             this.bingos[x][y].chooseBingo();
             // 栈里面已经有bingo了
@@ -46,6 +49,7 @@ var GameBody = (function (_super) {
                     this.stackArr.length = 0;
                 }
                 else {
+                    this.stackArr[0].removeChoosed();
                     this.stackArr.length = 0;
                     this.stackArr.push(this.bingos[x][y]);
                 }
@@ -103,11 +107,15 @@ var GameBody = (function (_super) {
     };
     // 交换两个对象 direction是方向 1 2 3 4对应上右下左
     GameBody.prototype.changeObj = function (object_1, object_2) {
+        var _this = this;
         var coord_1 = this.getObjSet(object_1);
         var coord_2 = this.getObjSet(object_2);
         var obj = this.bingos[coord_1.x][coord_1.y];
         this.bingos[coord_1.x][coord_1.y] = this.bingos[coord_2.x][coord_2.y];
         this.bingos[coord_2.x][coord_2.y] = obj;
+        setTimeout(function () {
+            _this.checkFun();
+        }, 800);
     };
     GameBody.prototype.drawDoors = function () {
         this.addImage();
@@ -133,7 +141,12 @@ var GameBody = (function (_super) {
             }
             this.bingos.push(arrs);
         }
+        this.checkFun();
+    };
+    GameBody.prototype.checkFun = function () {
         this.checkBingos();
+        if (this.clears.length === 0)
+            return;
         this.clearAll();
         this.updataGame();
     };
@@ -238,6 +251,7 @@ var GameBody = (function (_super) {
                 delete _this.bingos[i][j];
             }
         });
+        this.clears.length = 0;
     };
     /* 更新函数 */
     GameBody.prototype.updataGame = function () {
@@ -266,10 +280,7 @@ var GameBody = (function (_super) {
             }
         }
         setTimeout(function () {
-            _this.checkBingos();
-            _this.clearAll();
-            _this.clears.length = 0;
-            _this.updataGame();
+            _this.checkFun();
         }, 1000);
     };
     /* 得到上级方块 */
@@ -307,6 +318,8 @@ var GameBody = (function (_super) {
             x: x, y: y
         };
     };
+    GameBody.childW = 90;
+    GameBody.childH = 90;
     return GameBody;
 }(egret.Sprite));
 __reflect(GameBody.prototype, "GameBody");

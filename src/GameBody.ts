@@ -5,12 +5,14 @@ class GameBody extends egret.Sprite{
     public height:number;
     private image:egret.Bitmap = new egret.Bitmap();
     private bingos = [];
-    private row = 15;
-    private col = 15;
+    private row = 8;
+    private col = 8;
     private clears = [];
     // 事件锁，需控制的事件完成后才能继续进行
     static lock;
     static that;
+    static childW:number = 90;
+    static childH:number = 90;
     private a;
     // 交换栈
     private stackArr = [];
@@ -27,9 +29,12 @@ class GameBody extends egret.Sprite{
     }
     /* 事件捕捉 */
     private mouseDown(ev) {
-        let x =  Math.floor(ev.stageX/48);
-        let y = Math.floor((ev.stageY-this.y)/48);
+        let x =  Math.floor(ev.stageX/GameBody.childW);
+        let y = Math.floor((ev.stageY-this.y)/GameBody.childH);
         let had;
+        if( GameBody.lock ) {
+            return;
+        }
         if(this.exitObj(this.bingos,x,y)){
            this.bingos[x][y].chooseBingo();
            // 栈里面已经有bingo了
@@ -39,6 +44,7 @@ class GameBody extends egret.Sprite{
                    this.bingos[x][y].chooseBingo();
                    this.stackArr.length = 0;
                } else {
+                   this.stackArr[0].removeChoosed();
                    this.stackArr.length = 0;
                    this.stackArr.push(this.bingos[x][y])
                }
@@ -97,6 +103,9 @@ class GameBody extends egret.Sprite{
         let obj = this.bingos[coord_1.x][coord_1.y];
         this.bingos[coord_1.x][coord_1.y] = this.bingos[coord_2.x][coord_2.y] 
         this.bingos[coord_2.x][coord_2.y] = obj;
+        setTimeout(()=>{
+             this.checkFun();            
+        },800)
     }
    
     private drawDoors(){
@@ -123,7 +132,12 @@ class GameBody extends egret.Sprite{
             }
             this.bingos.push(arrs);
         }
+        this.checkFun();
+    }
+    private checkFun() {
         this.checkBingos();
+        if(this.clears.length ===0)
+                return;
         this.clearAll();
         this.updataGame();
     }
@@ -229,6 +243,7 @@ class GameBody extends egret.Sprite{
                 delete this.bingos[i][j];
             }  
         })
+        this.clears.length = 0;
     }
     /* 更新函数 */
     private updataGame() {
@@ -257,10 +272,7 @@ class GameBody extends egret.Sprite{
 		}
 
         setTimeout(()=>{
-            this.checkBingos();
-            this.clearAll();
-            this.clears.length = 0;
-            this.updataGame();
+            this.checkFun();
         },1000)
     }
 

@@ -1,8 +1,8 @@
 /* 
 **/
 class Bingo extends egret.Sprite{
-    public width:number = 48;
-    public height:number = 48;
+    public width:number = GameBody.childW;
+    public height:number = GameBody.childH;
     private image:egret.Bitmap = new egret.Bitmap();
     public type
     public coord
@@ -44,18 +44,23 @@ class Bingo extends egret.Sprite{
         if( GameBody.lock )
             return;
         GameBody.lock = true
+        let that = this;
+        let fn = () => {
+            that.removeChoosed();
+            
+        }
         switch(direction) {
             case 1:
-                egret.Tween.get( this ).to( {x:this.x,y:this.y-this.height}, 600, egret.Ease.sineIn );
+                egret.Tween.get( this ).to( {x:this.x,y:this.y-this.height}, 600, egret.Ease.sineIn ).call(fn);
                 break;
             case 2:
-                egret.Tween.get( this ).to( {x:this.x+this.width,y:this.y}, 600, egret.Ease.sineIn );
+                egret.Tween.get( this ).to( {x:this.x+this.width,y:this.y}, 600, egret.Ease.sineIn ).call(fn);
                 break;
             case 3:
-                egret.Tween.get( this ).to( {x:this.x,y:this.y+this.height}, 600, egret.Ease.sineIn );
+                egret.Tween.get( this ).to( {x:this.x,y:this.y+this.height}, 600, egret.Ease.sineIn ).call(fn);
                 break;
             default:
-                egret.Tween.get( this ).to( {x:this.x-this.width,y:this.y}, 600, egret.Ease.sineIn );
+                egret.Tween.get( this ).to( {x:this.x-this.width,y:this.y}, 600, egret.Ease.sineIn ).call(fn);
                 break;
         }
         GameBody.lock = false;
@@ -67,10 +72,8 @@ class Bingo extends egret.Sprite{
             .to( {x:this.x,y:distance}, 600, egret.Ease.sineIn );
     }
     public chooseBingo() {
-        console.log(this.coord)
         if( this.choosed ) {
-            this.removeChild(this.borderShape)
-            this.choosed = false;
+            this.removeChoosed();
             return;
         }
         this.borderShape = new egret.Shape()
@@ -79,5 +82,11 @@ class Bingo extends egret.Sprite{
         this.borderShape.graphics.endFill();
         this.addChild(this.borderShape);
         this.choosed = true;
+    }
+    public removeChoosed() {
+        if( !this.choosed )
+            return;
+        this.removeChild(this.borderShape)
+        this.choosed = false;
     }
 }

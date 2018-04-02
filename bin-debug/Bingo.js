@@ -14,8 +14,8 @@ var Bingo = (function (_super) {
     __extends(Bingo, _super);
     function Bingo(x, y, type, coord) {
         var _this = _super.call(this) || this;
-        _this.width = 48;
-        _this.height = 48;
+        _this.width = GameBody.childW;
+        _this.height = GameBody.childH;
         _this.image = new egret.Bitmap();
         _this.colors = [0x1ca5fc, 0x295c9d, 0x990000, 0x7f0000];
         _this.x = x * (_this.width);
@@ -51,18 +51,22 @@ var Bingo = (function (_super) {
         if (GameBody.lock)
             return;
         GameBody.lock = true;
+        var that = this;
+        var fn = function () {
+            that.removeChoosed();
+        };
         switch (direction) {
             case 1:
-                egret.Tween.get(this).to({ x: this.x, y: this.y - this.height }, 600, egret.Ease.sineIn);
+                egret.Tween.get(this).to({ x: this.x, y: this.y - this.height }, 600, egret.Ease.sineIn).call(fn);
                 break;
             case 2:
-                egret.Tween.get(this).to({ x: this.x + this.width, y: this.y }, 600, egret.Ease.sineIn);
+                egret.Tween.get(this).to({ x: this.x + this.width, y: this.y }, 600, egret.Ease.sineIn).call(fn);
                 break;
             case 3:
-                egret.Tween.get(this).to({ x: this.x, y: this.y + this.height }, 600, egret.Ease.sineIn);
+                egret.Tween.get(this).to({ x: this.x, y: this.y + this.height }, 600, egret.Ease.sineIn).call(fn);
                 break;
             default:
-                egret.Tween.get(this).to({ x: this.x - this.width, y: this.y }, 600, egret.Ease.sineIn);
+                egret.Tween.get(this).to({ x: this.x - this.width, y: this.y }, 600, egret.Ease.sineIn).call(fn);
                 break;
         }
         GameBody.lock = false;
@@ -74,10 +78,8 @@ var Bingo = (function (_super) {
             .to({ x: this.x, y: distance }, 600, egret.Ease.sineIn);
     };
     Bingo.prototype.chooseBingo = function () {
-        console.log(this.coord);
         if (this.choosed) {
-            this.removeChild(this.borderShape);
-            this.choosed = false;
+            this.removeChoosed();
             return;
         }
         this.borderShape = new egret.Shape();
@@ -86,6 +88,12 @@ var Bingo = (function (_super) {
         this.borderShape.graphics.endFill();
         this.addChild(this.borderShape);
         this.choosed = true;
+    };
+    Bingo.prototype.removeChoosed = function () {
+        if (!this.choosed)
+            return;
+        this.removeChild(this.borderShape);
+        this.choosed = false;
     };
     return Bingo;
 }(egret.Sprite));
