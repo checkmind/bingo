@@ -30,14 +30,12 @@ class Bingo extends egret.Sprite{
         // shape.graphics.drawRect(0, 0, this.width,this.height);
         // shape.graphics.endFill();
         // this.addChild(shape);
-        console.log(this.type)
         this.img = this.createBitmapByName((this.type+1)+"_png");
         this.img.width = this.width;
         this.img.height = this.height;
         this.addChild(this.img);
     }
     private addBlackHole(fn) {
-        console.log(this.type)
         this.removeChild(this.img)
         let sky = this.createBitmapByName("blackhole_png");
         sky.width = this.width;
@@ -48,7 +46,6 @@ class Bingo extends egret.Sprite{
         sky.y = sky.width/2;
         var funcChange = ():void=>{
             sky.rotation += 6 * iDirection;
-            console.log(sky.width,sky.height)
             if(sky.scaleX>0.1)
             {
                 sky.scaleX -= 0.01;
@@ -81,12 +78,12 @@ class Bingo extends egret.Sprite{
             this.$parent.removeChild(this);            
         })
     }
+    // 交换位置
     public moveToDirection(direction) {
 
         let that = this;
         let fn = () => {
             that.removeChoosed();
-            
         }
         switch(direction) {
             case 1:
@@ -104,6 +101,7 @@ class Bingo extends egret.Sprite{
         }
 
     }
+
     public moveToBottom(j) {
         /*** 本示例关键代码段开始 ***/
         let distance = j * (this.height)

@@ -15,6 +15,8 @@ class GameBody extends egret.Sprite{
     private a;
     // 交换栈
     private stackArr = [];
+    // 产生新的bingos
+    private newBingos = [];
     public constructor(width,height){
         super();
         this.x = 0;
@@ -96,7 +98,6 @@ class GameBody extends egret.Sprite{
                 return true;
             }
         }
-        console.log("不可以交换")
         return false;
     }
     // 交换两个对象 direction是方向 1 2 3 4对应上右下左
@@ -114,10 +115,6 @@ class GameBody extends egret.Sprite{
     private drawDoors(){
        // this.addImage();
         this.drawBingo();
-        setTimeout(()=>{
-        this.addBingo();
-            
-        },3000)
     }
     private addImage(){
         var shape:egret.Shape = new egret.Shape;
@@ -145,25 +142,44 @@ class GameBody extends egret.Sprite{
         for(let k=0;k<this.bingos[0].length;k++) {
             if(this.bingos[0][k]){
                 console.log("游戏结束")
-                return false;
+               // return false;
             }
         }
         for(let i = 0;i<this.row;i++) {
-            let arrs = [];
-            for(let j = 0;j<1;j++) {
                 let ran = this.ran(0,5)
-                let bingo:Bingo = new Bingo(i,j,ran,{i, j});
+                let bingo:Bingo = new Bingo(i,-1,ran,{i, j:0});
                 this.addChild(bingo);
-                arrs.push(bingo);
-            }
-            this.bingos.push(arrs);
+                this.newBingos.push(bingo);            
         }
+        this.moveToBottom();
+    }
+    private moveToBottom() {
+        // 移动到的坐标
+        let x,y;
+        this.newBingos.map((val,index)=> {
+            x = index;
+            console.log(x);
+            let bottomCoord = this.getMyBottom(x,0)
+            if(bottomCoord){
+                y = bottomCoord.j;
+            } else {
+                y = this.col;
+            }
+            if(y>=1)
+                val.moveToBottom(y-1);
+            this.bingos[x][y-1] = val;
+        })
+        this.newBingos.length = 0;
         this.checkFun();
     }
     private checkFun() {
         this.checkBingos();
-        if(this.clears.length ===0)
-                return;
+        if(this.clears.length ===0){
+            setTimeout(()=>{
+                this.addBingo();   
+            },3000)
+            return;
+        }
         this.clearAll();
         setTimeout(()=>{
             this.updataGame();            
@@ -313,6 +329,15 @@ class GameBody extends egret.Sprite{
         if(j<0)
             return false
         return this.getMyTop(i,j-1)
+    }
+    /* 得到下级方块 */
+    private getMyBottom(i,j) {
+        if(this.bingos[i][j]) {
+            return {i,j}  
+        }
+        if(j>this.col)
+            return false
+        return this.getMyBottom(i,j+1)
     }
     /* 删除bingos里面的对象 */
     private deleteBingos(obj) {

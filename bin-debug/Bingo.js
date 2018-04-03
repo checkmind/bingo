@@ -36,14 +36,12 @@ var Bingo = (function (_super) {
         // shape.graphics.drawRect(0, 0, this.width,this.height);
         // shape.graphics.endFill();
         // this.addChild(shape);
-        console.log(this.type);
         this.img = this.createBitmapByName((this.type + 1) + "_png");
         this.img.width = this.width;
         this.img.height = this.height;
         this.addChild(this.img);
     };
     Bingo.prototype.addBlackHole = function (fn) {
-        console.log(this.type);
         this.removeChild(this.img);
         var sky = this.createBitmapByName("blackhole_png");
         sky.width = this.width;
@@ -54,7 +52,6 @@ var Bingo = (function (_super) {
         sky.y = sky.width / 2;
         var funcChange = function () {
             sky.rotation += 6 * iDirection;
-            console.log(sky.width, sky.height);
             if (sky.scaleX > 0.1) {
                 sky.scaleX -= 0.01;
                 sky.scaleY -= 0.01;
@@ -86,6 +83,7 @@ var Bingo = (function (_super) {
             _this.$parent.removeChild(_this);
         });
     };
+    // 交换位置
     Bingo.prototype.moveToDirection = function (direction) {
         var that = this;
         var fn = function () {

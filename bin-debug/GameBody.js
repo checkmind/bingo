@@ -21,6 +21,8 @@ var GameBody = (function (_super) {
         _this.clears = [];
         // 交换栈
         _this.stackArr = [];
+        // 产生新的bingos
+        _this.newBingos = [];
         _this.x = 0;
         _this.y = 200;
         _this.width = width;
@@ -107,7 +109,6 @@ var GameBody = (function (_super) {
                 return true;
             }
         }
-        console.log("不可以交换");
         return false;
     };
     // 交换两个对象 direction是方向 1 2 3 4对应上右下左
@@ -123,12 +124,8 @@ var GameBody = (function (_super) {
         }, 1000);
     };
     GameBody.prototype.drawDoors = function () {
-        var _this = this;
         // this.addImage();
         this.drawBingo();
-        setTimeout(function () {
-            _this.addBingo();
-        }, 3000);
     };
     GameBody.prototype.addImage = function () {
         var shape = new egret.Shape;
@@ -152,23 +149,51 @@ var GameBody = (function (_super) {
         this.checkFun();
     };
     GameBody.prototype.addBingo = function () {
-        for (var i = 0; i < this.row; i++) {
-            var arrs = [];
-            for (var j = 0; j < 1; j++) {
-                var ran = this.ran(0, 5);
-                var bingo = new Bingo(i, j, ran, { i: i, j: j });
-                this.addChild(bingo);
-                arrs.push(bingo);
+        if (this.bingos[0])
+            for (var k = 0; k < this.bingos[0].length; k++) {
+                if (this.bingos[0][k]) {
+                    console.log("游戏结束");
+                    // return false;
+                }
             }
-            this.bingos.push(arrs);
+        for (var i = 0; i < this.row; i++) {
+            var ran = this.ran(0, 5);
+            var bingo = new Bingo(i, -1, ran, { i: i, j: 0 });
+            this.addChild(bingo);
+            this.newBingos.push(bingo);
         }
+        this.moveToBottom();
+    };
+    GameBody.prototype.moveToBottom = function () {
+        var _this = this;
+        // 移动到的坐标
+        var x, y;
+        this.newBingos.map(function (val, index) {
+            x = index;
+            console.log(x);
+            var bottomCoord = _this.getMyBottom(x, 0);
+            if (bottomCoord) {
+                y = bottomCoord.j;
+            }
+            else {
+                y = _this.col;
+            }
+            if (y >= 1)
+                val.moveToBottom(y - 1);
+            _this.bingos[x][y - 1] = val;
+        });
+        this.newBingos.length = 0;
         this.checkFun();
     };
     GameBody.prototype.checkFun = function () {
         var _this = this;
         this.checkBingos();
-        if (this.clears.length === 0)
+        if (this.clears.length === 0) {
+            setTimeout(function () {
+                _this.addBingo();
+            }, 3000);
             return;
+        }
         this.clearAll();
         setTimeout(function () {
             _this.updataGame();
@@ -315,6 +340,15 @@ var GameBody = (function (_super) {
         if (j < 0)
             return false;
         return this.getMyTop(i, j - 1);
+    };
+    /* 得到下级方块 */
+    GameBody.prototype.getMyBottom = function (i, j) {
+        if (this.bingos[i][j]) {
+            return { i: i, j: j };
+        }
+        if (j > this.col)
+            return false;
+        return this.getMyBottom(i, j + 1);
     };
     /* 删除bingos里面的对象 */
     GameBody.prototype.deleteBingos = function (obj) {
