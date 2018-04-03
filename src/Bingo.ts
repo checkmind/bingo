@@ -9,6 +9,7 @@ class Bingo extends egret.Sprite{
     public colors = [0x1ca5fc,0x295c9d,0x990000,0x7f0000]
     private choosed
     private borderShape:egret.Shape
+    public img
     public constructor(x,y,type,coord){
         super();
         this.x = x*(this.width);
@@ -21,7 +22,7 @@ class Bingo extends egret.Sprite{
     private drawDoors(){
         this.addImage();
         //this.addText();
-        this.addBlackHole();
+        //this.addBlackHole();
     }
     private addImage(){
         // var shape:egret.Shape = new egret.Shape();
@@ -30,17 +31,36 @@ class Bingo extends egret.Sprite{
         // shape.graphics.endFill();
         // this.addChild(shape);
         console.log(this.type)
-        let sky = this.createBitmapByName((this.type+1)+"_png");
-        sky.width = this.width;
-        sky.height = this.height;
-        this.addChild(sky);
+        this.img = this.createBitmapByName((this.type+1)+"_png");
+        this.img.width = this.width;
+        this.img.height = this.height;
+        this.addChild(this.img);
     }
-    private addBlackHole() {
+    private addBlackHole(fn) {
         console.log(this.type)
+        this.removeChild(this.img)
         let sky = this.createBitmapByName("blackhole_png");
         sky.width = this.width;
         sky.height = this.height;
+        sky.anchorOffsetX = this.width/2
+        sky.anchorOffsetY = this.width/2
+        sky.x = sky.width/2;
+        sky.y = sky.width/2;
+        var funcChange = ():void=>{
+            sky.rotation += 6 * iDirection;
+            console.log(sky.width,sky.height)
+            if(sky.scaleX>0.1)
+            {
+                sky.scaleX -= 0.01;
+                sky.scaleY -= 0.01;
+            }
+        }
+        var iDirection:number = 1;  
+        //egret.Tween.get( sky ).to( {width:0,height:0}, 600, egret.Ease.sineIn )
+        
         this.addChild(sky);
+        egret.Tween.get( sky, { onChange:funcChange, onChangeObj:sky } )
+            .to( {}, 1000, egret.Ease.sineIn ).call(fn);
     }
     private createBitmapByName(name: string) {
         let result = new egret.Bitmap();
@@ -57,7 +77,9 @@ class Bingo extends egret.Sprite{
         this.addChild(text);        
     }
     public killSelf() {
-        this.$parent.removeChild(this);
+        this.addBlackHole(()=>{
+            this.$parent.removeChild(this);            
+        })
     }
     public moveToDirection(direction) {
 

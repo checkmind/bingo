@@ -28,7 +28,7 @@ var Bingo = (function (_super) {
     Bingo.prototype.drawDoors = function () {
         this.addImage();
         //this.addText();
-        this.addBlackHole();
+        //this.addBlackHole();
     };
     Bingo.prototype.addImage = function () {
         // var shape:egret.Shape = new egret.Shape();
@@ -37,17 +37,34 @@ var Bingo = (function (_super) {
         // shape.graphics.endFill();
         // this.addChild(shape);
         console.log(this.type);
-        var sky = this.createBitmapByName((this.type + 1) + "_png");
-        sky.width = this.width;
-        sky.height = this.height;
-        this.addChild(sky);
+        this.img = this.createBitmapByName((this.type + 1) + "_png");
+        this.img.width = this.width;
+        this.img.height = this.height;
+        this.addChild(this.img);
     };
-    Bingo.prototype.addBlackHole = function () {
+    Bingo.prototype.addBlackHole = function (fn) {
         console.log(this.type);
+        this.removeChild(this.img);
         var sky = this.createBitmapByName("blackhole_png");
         sky.width = this.width;
         sky.height = this.height;
+        sky.anchorOffsetX = this.width / 2;
+        sky.anchorOffsetY = this.width / 2;
+        sky.x = sky.width / 2;
+        sky.y = sky.width / 2;
+        var funcChange = function () {
+            sky.rotation += 6 * iDirection;
+            console.log(sky.width, sky.height);
+            if (sky.scaleX > 0.1) {
+                sky.scaleX -= 0.01;
+                sky.scaleY -= 0.01;
+            }
+        };
+        var iDirection = 1;
+        //egret.Tween.get( sky ).to( {width:0,height:0}, 600, egret.Ease.sineIn )
         this.addChild(sky);
+        egret.Tween.get(sky, { onChange: funcChange, onChangeObj: sky })
+            .to({}, 1000, egret.Ease.sineIn).call(fn);
     };
     Bingo.prototype.createBitmapByName = function (name) {
         var result = new egret.Bitmap();
@@ -64,7 +81,10 @@ var Bingo = (function (_super) {
         this.addChild(text);
     };
     Bingo.prototype.killSelf = function () {
-        this.$parent.removeChild(this);
+        var _this = this;
+        this.addBlackHole(function () {
+            _this.$parent.removeChild(_this);
+        });
     };
     Bingo.prototype.moveToDirection = function (direction) {
         var that = this;

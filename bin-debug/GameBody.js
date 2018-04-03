@@ -123,9 +123,12 @@ var GameBody = (function (_super) {
         }, 1000);
     };
     GameBody.prototype.drawDoors = function () {
+        var _this = this;
         // this.addImage();
         this.drawBingo();
-        this.$parent.stage.$stageWidth;
+        setTimeout(function () {
+            _this.addBingo();
+        }, 3000);
     };
     GameBody.prototype.addImage = function () {
         var shape = new egret.Shape;
@@ -148,12 +151,28 @@ var GameBody = (function (_super) {
         }
         this.checkFun();
     };
+    GameBody.prototype.addBingo = function () {
+        for (var i = 0; i < this.row; i++) {
+            var arrs = [];
+            for (var j = 0; j < 1; j++) {
+                var ran = this.ran(0, 5);
+                var bingo = new Bingo(i, j, ran, { i: i, j: j });
+                this.addChild(bingo);
+                arrs.push(bingo);
+            }
+            this.bingos.push(arrs);
+        }
+        this.checkFun();
+    };
     GameBody.prototype.checkFun = function () {
+        var _this = this;
         this.checkBingos();
         if (this.clears.length === 0)
             return;
         this.clearAll();
-        this.updataGame();
+        setTimeout(function () {
+            _this.updataGame();
+        }, 1000);
     };
     GameBody.prototype.ran = function (end, start) {
         return Math.floor(Math.random() * (end - start) + start);

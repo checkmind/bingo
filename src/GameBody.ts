@@ -114,7 +114,10 @@ class GameBody extends egret.Sprite{
     private drawDoors(){
        // this.addImage();
         this.drawBingo();
-        this.$parent.stage.$stageWidth
+        setTimeout(()=>{
+        this.addBingo();
+            
+        },3000)
     }
     private addImage(){
         var shape:egret.Shape = new egret.Shape;
@@ -137,12 +140,34 @@ class GameBody extends egret.Sprite{
         }
         this.checkFun();
     }
+    private addBingo() {
+        if( this.bingos[0] )
+        for(let k=0;k<this.bingos[0].length;k++) {
+            if(this.bingos[0][k]){
+                console.log("游戏结束")
+                return false;
+            }
+        }
+        for(let i = 0;i<this.row;i++) {
+            let arrs = [];
+            for(let j = 0;j<1;j++) {
+                let ran = this.ran(0,5)
+                let bingo:Bingo = new Bingo(i,j,ran,{i, j});
+                this.addChild(bingo);
+                arrs.push(bingo);
+            }
+            this.bingos.push(arrs);
+        }
+        this.checkFun();
+    }
     private checkFun() {
         this.checkBingos();
         if(this.clears.length ===0)
                 return;
         this.clearAll();
-        this.updataGame();
+        setTimeout(()=>{
+            this.updataGame();            
+        },1000)
     }
     private ran(end:number, start:number) {
 		return Math.floor(Math.random()*(end-start)+start)
