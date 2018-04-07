@@ -19,6 +19,11 @@ var GameBody = (function (_super) {
         _this.row = 2;
         _this.col = 10;
         _this.clears = [];
+        // 事件锁，需控制的事件完成后才能继续进行
+        _this.lock = true;
+        _this.clickLock = false;
+        // 游戏是否结束
+        _this.game = true;
         // 交换栈
         _this.stackArr = [];
         // 产生新的bingos
@@ -37,7 +42,6 @@ var GameBody = (function (_super) {
     }
     /* 事件捕捉 */
     GameBody.prototype.mouseDown = function (ev) {
-        var _this = this;
         var x = Math.floor(ev.stageX / GameBody.childW);
         var y = Math.floor((ev.stageY - this.y) / GameBody.childH);
         if (this.lock)
@@ -50,10 +54,6 @@ var GameBody = (function (_super) {
                     this.stackArr[0].chooseBingo();
                     this.bingos[x][y].chooseBingo();
                     this.stackArr.length = 0;
-                    this.lock = true;
-                    setTimeout(function () {
-                        _this.lock = false;
-                    }, 630);
                 }
                 else {
                     this.stackArr[0].removeChoosed();
@@ -126,6 +126,21 @@ var GameBody = (function (_super) {
     GameBody.prototype.drawDoors = function () {
         // this.addImage();
         this.drawBingo();
+        this.addBingosFn();
+    };
+    GameBody.prototype.addBingosFn = function () {
+        var _this = this;
+        console.log(this.lock);
+        if (!this.game)
+            return;
+        if (this.lock) {
+            setTimeout(function () {
+                _this.addBingosFn();
+            }, 5000);
+            return;
+        }
+        this.addBingo();
+        this.addBingosFn();
     };
     GameBody.prototype.addImage = function () {
         var shape = new egret.Shape;
@@ -153,6 +168,7 @@ var GameBody = (function (_super) {
             for (var k = 0; k < this.bingos[0].length; k++) {
                 if (this.bingos[0][k]) {
                     console.log("游戏结束");
+                    this.game = false;
                     // return false;
                 }
             }
@@ -189,9 +205,7 @@ var GameBody = (function (_super) {
         var _this = this;
         this.checkBingos();
         if (this.clears.length === 0) {
-            setTimeout(function () {
-                _this.addBingo();
-            }, 3000);
+            this.lock = false;
             return;
         }
         this.clearAll();

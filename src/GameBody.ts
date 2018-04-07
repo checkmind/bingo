@@ -9,9 +9,12 @@ class GameBody extends egret.Sprite{
     private col = 10;
     private clears = [];
     // 事件锁，需控制的事件完成后才能继续进行
-    private lock;
+    private lock:Boolean=true;
+    private clickLock:Boolean = false;
     static childW:number = 90;
     static childH:number = 90;
+    // 游戏是否结束
+    private game = true;
     private a;
     // 交换栈
     private stackArr = [];
@@ -44,10 +47,7 @@ class GameBody extends egret.Sprite{
                    this.stackArr[0].chooseBingo();
                    this.bingos[x][y].chooseBingo();
                    this.stackArr.length = 0;
-                   this.lock = true;
-                   setTimeout(()=>{
-                       this.lock = false;
-                   },630)
+                   
                } else {
                    this.stackArr[0].removeChoosed();
                    this.stackArr.length = 0;
@@ -115,6 +115,22 @@ class GameBody extends egret.Sprite{
     private drawDoors(){
        // this.addImage();
         this.drawBingo();
+        this.addBingosFn();
+    }
+    private addBingosFn() {
+        console.log(this.lock)
+        if(!this.game)
+            return;
+        if(this.lock){
+            setTimeout(()=>{
+                this.addBingosFn();
+            },5000)
+            return;
+        }
+        
+        this.addBingo();   
+        this.addBingosFn();
+
     }
     private addImage(){
         var shape:egret.Shape = new egret.Shape;
@@ -142,6 +158,7 @@ class GameBody extends egret.Sprite{
         for(let k=0;k<this.bingos[0].length;k++) {
             if(this.bingos[0][k]){
                 console.log("游戏结束")
+                this.game = false;
                // return false;
             }
         }
@@ -175,9 +192,7 @@ class GameBody extends egret.Sprite{
     private checkFun() {
         this.checkBingos();
         if(this.clears.length ===0){
-            setTimeout(()=>{
-                this.addBingo();   
-            },3000)
+            this.lock = false;
             return;
         }
         this.clearAll();
