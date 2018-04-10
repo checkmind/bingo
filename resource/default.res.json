@@ -1,16 +1,11 @@
 {
 	"groups": [
 		{
-			"keys": "bg_jpg,egret_icon_png,description_json,2_png,3_png,4_png,5_png,1_png,6_png,blackhole_png,button_png",
+			"keys": "egret_icon_png,description_json,2_png,3_png,4_png,5_png,1_png,6_png,blackhole_png,button_png,button2_png,starLand_png,npc_png,black2_png,boom_png",
 			"name": "preload"
 		}
 	],
 	"resources": [
-		{
-			"name": "bg_jpg",
-			"type": "image",
-			"url": "assets/bg.jpg"
-		},
 		{
 			"name": "egret_icon_png",
 			"type": "image",
@@ -60,6 +55,31 @@
 			"name": "button_png",
 			"type": "image",
 			"url": "assets/button.png"
+		},
+		{
+			"name": "button2_png",
+			"type": "image",
+			"url": "assets/button.png"
+		},
+		{
+			"name": "starLand_png",
+			"type": "image",
+			"url": "assets/starLand.png"
+		},
+		{
+			"name": "npc_png",
+			"type": "image",
+			"url": "assets/npc.png"
+		},
+		{
+			"name": "black2_png",
+			"type": "image",
+			"url": "assets/black2.png"
+		},
+		{
+			"name": "boom_png",
+			"type": "image",
+			"url": "assets/boom.png"
 		}
 	]
 }
