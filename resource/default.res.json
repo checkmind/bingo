@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "bg_jpg,egret_icon_png,description_json,2_png,3_png,4_png,5_png,1_png,6_png,blackhole_png",
+			"keys": "bg_jpg,egret_icon_png,description_json,2_png,3_png,4_png,5_png,1_png,6_png,blackhole_png,button_png",
 			"name": "preload"
 		}
 	],
@@ -55,6 +55,11 @@
 			"name": "blackhole_png",
 			"type": "image",
 			"url": "assets/blackhole.png"
+		},
+		{
+			"name": "button_png",
+			"type": "image",
+			"url": "assets/button.png"
 		}
 	]
 }

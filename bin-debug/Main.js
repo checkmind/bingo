@@ -155,8 +155,10 @@ var Main = (function (_super) {
         var stageH = this.stage.stageHeight;
         sky.width = stageW;
         sky.height = stageH;
-        var gameBody = new GameBody(stageW, stageH);
-        this.addChild(gameBody);
+        // var gameBody:GameBody = new GameBody(stageW,stageH);
+        // this.addChild(gameBody)
+        var entryGame = new EntryGame(stageW, stageH);
+        this.addChild(entryGame);
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。

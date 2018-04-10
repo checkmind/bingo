@@ -115,23 +115,8 @@ class GameBody extends egret.Sprite{
     private drawDoors(){
        // this.addImage();
         this.drawBingo();
-        this.addBingosFn();
     }
-    private addBingosFn() {
-        console.log(this.lock)
-        if(!this.game)
-            return;
-        if(this.lock){
-            setTimeout(()=>{
-                this.addBingosFn();
-            },5000)
-            return;
-        }
-        
-        this.addBingo();   
-        this.addBingosFn();
-
-    }
+    
     private addImage(){
         var shape:egret.Shape = new egret.Shape;
         shape.graphics.beginFill(0x000000,.5)
@@ -175,7 +160,6 @@ class GameBody extends egret.Sprite{
         let x,y;
         this.newBingos.map((val,index)=> {
             x = index;
-            console.log(x);
             let bottomCoord = this.getMyBottom(x,0)
             if(bottomCoord){
                 y = bottomCoord.j;
@@ -321,7 +305,10 @@ class GameBody extends egret.Sprite{
                         // let ran = this.ran(0,5)
                         // let bingo:Bingo = new Bingo(i-1,j,ran,{i, j});
                         // this.addChild(bingo);
-						// now[j] = bingo                       
+						// now[j] = bingo     
+                        console.log(i,j);
+                        this.createNewBingos(i,j);      
+                        continue;            
                     }
                 // 当前有方块，记录下坐标
 				} else {
@@ -334,7 +321,25 @@ class GameBody extends egret.Sprite{
             this.checkFun();
         },1000)
     }
-
+    /*
+     这列已经为空了，直接创建新的bingos。然后移动到对应位置
+    **/
+    private createNewBingos(i:number,j:number) {
+        let arr = [];
+        // for(let n = 0;n<=j;n++) {
+        //     let ran = this.ran(0,5)
+        //     let bingo:Bingo = new Bingo(i,n-j-1,ran,{i, n});
+        //     this.addChild(bingo);
+        //     bingo.moveToBottom(n);
+        //     this.bingos[i][j] = bingo;
+        // }
+        let ran = this.ran(0,5)
+        let bingo:Bingo = new Bingo(i,-1,ran,{i, j});
+        this.addChild(bingo);
+        bingo.moveToBottom(j);
+        this.bingos[i][j] = bingo;
+        
+    }
     /* 得到上级方块 */
     private getMyTop(i,j) {
 

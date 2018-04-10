@@ -126,21 +126,6 @@ var GameBody = (function (_super) {
     GameBody.prototype.drawDoors = function () {
         // this.addImage();
         this.drawBingo();
-        this.addBingosFn();
-    };
-    GameBody.prototype.addBingosFn = function () {
-        var _this = this;
-        console.log(this.lock);
-        if (!this.game)
-            return;
-        if (this.lock) {
-            setTimeout(function () {
-                _this.addBingosFn();
-            }, 5000);
-            return;
-        }
-        this.addBingo();
-        this.addBingosFn();
     };
     GameBody.prototype.addImage = function () {
         var shape = new egret.Shape;
@@ -186,7 +171,6 @@ var GameBody = (function (_super) {
         var x, y;
         this.newBingos.map(function (val, index) {
             x = index;
-            console.log(x);
             var bottomCoord = _this.getMyBottom(x, 0);
             if (bottomCoord) {
                 y = bottomCoord.j;
@@ -334,7 +318,10 @@ var GameBody = (function (_super) {
                         // let ran = this.ran(0,5)
                         // let bingo:Bingo = new Bingo(i-1,j,ran,{i, j});
                         // this.addChild(bingo);
-                        // now[j] = bingo                       
+                        // now[j] = bingo     
+                        console.log(i, j);
+                        this.createNewBingos(i, j);
+                        continue;
                     }
                     // 当前有方块，记录下坐标
                 }
@@ -345,6 +332,24 @@ var GameBody = (function (_super) {
         setTimeout(function () {
             _this.checkFun();
         }, 1000);
+    };
+    /*
+     这列已经为空了，直接创建新的bingos。然后移动到对应位置
+    **/
+    GameBody.prototype.createNewBingos = function (i, j) {
+        var arr = [];
+        // for(let n = 0;n<=j;n++) {
+        //     let ran = this.ran(0,5)
+        //     let bingo:Bingo = new Bingo(i,n-j-1,ran,{i, n});
+        //     this.addChild(bingo);
+        //     bingo.moveToBottom(n);
+        //     this.bingos[i][j] = bingo;
+        // }
+        var ran = this.ran(0, 5);
+        var bingo = new Bingo(i, -1, ran, { i: i, j: j });
+        this.addChild(bingo);
+        bingo.moveToBottom(j);
+        this.bingos[i][j] = bingo;
     };
     /* 得到上级方块 */
     GameBody.prototype.getMyTop = function (i, j) {
