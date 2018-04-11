@@ -133,6 +133,7 @@ var Main = (function (_super) {
                         return [4 /*yield*/, RES.loadGroup("preload", 0, loadingView)];
                     case 2:
                         _a.sent();
+                        console.log("加载完成");
                         this.stage.removeChild(loadingView);
                         return [3 /*break*/, 4];
                     case 3:
@@ -162,10 +163,10 @@ var Main = (function (_super) {
         this.addChild(shape);
         sky.width = stageW;
         sky.height = stageH;
-        var gameBody = new GameBody(stageW, stageH);
-        this.addChild(gameBody);
-        // var entryGame:EntryGame = new EntryGame(stageW,stageH);
-        // this.addChild(entryGame)
+        // var gameBody:GameBody = new GameBody(stageW,stageH);
+        // this.addChild(gameBody)
+        var entryGame = new EntryGame(stageW, stageH);
+        this.addChild(entryGame);
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
@@ -180,4 +181,3 @@ var Main = (function (_super) {
     return Main;
 }(egret.DisplayObjectContainer));
 __reflect(Main.prototype, "Main");
-//# sourceMappingURL=Main.js.map

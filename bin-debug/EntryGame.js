@@ -98,14 +98,14 @@ var EntryGame = (function (_super) {
         var _loop_1 = function (i) {
             var button = new eui.Button();
             button.skinName = "../resource/skins/ButtonMore.exml";
-            button.label = labelText[i];
-            button.width = 300;
-            button.y = i * 80 + this_1.height / 2;
-            button.rotation = 10 + i * 2;
-            this_1.addChild(button);
             button.addEventListener(eui.UIEvent.COMPLETE, function () {
                 console.log(button);
                 button.x = _this.width / 2;
+                button.label = labelText[i];
+                button.width = 300;
+                button.y = i * 80 + _this.height / 2;
+                button.rotation = 10 + i * 2;
+                _this.addChild(button);
             }, this_1);
         };
         var this_1 = this;
@@ -126,4 +126,3 @@ var EntryGame = (function (_super) {
     return EntryGame;
 }(egret.Sprite));
 __reflect(EntryGame.prototype, "EntryGame");
-//# sourceMappingURL=EntryGame.js.map

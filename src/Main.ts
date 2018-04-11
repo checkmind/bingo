@@ -78,6 +78,7 @@ class Main extends egret.DisplayObjectContainer {
             this.stage.addChild(loadingView);
             await RES.loadConfig("resource/default.res.json", "resource/");
             await RES.loadGroup("preload", 0, loadingView);
+            console.log("加载完成")
             this.stage.removeChild(loadingView);
         }
         catch (e) {
@@ -106,10 +107,10 @@ class Main extends egret.DisplayObjectContainer {
 
         sky.width = stageW;
         sky.height = stageH;
-        var gameBody:GameBody = new GameBody(stageW,stageH);
-        this.addChild(gameBody)
-        // var entryGame:EntryGame = new EntryGame(stageW,stageH);
-        // this.addChild(entryGame)
+        // var gameBody:GameBody = new GameBody(stageW,stageH);
+        // this.addChild(gameBody)
+        var entryGame:EntryGame = new EntryGame(stageW,stageH);
+        this.addChild(entryGame)
 
         
     }

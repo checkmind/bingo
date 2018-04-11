@@ -91,14 +91,15 @@ class EntryGame extends egret.Sprite{
         for(let i = 0;i<skins.length;i++) {
             let button = new eui.Button();
             button.skinName = `../resource/skins/ButtonMore.exml`;
-            button.label = labelText[i];
-            button.width = 300;
-            button.y = i * 80 + this.height/2;
-            button.rotation = 10+i*2;
-            this.addChild(button);
+            
             button.addEventListener(eui.UIEvent.COMPLETE,()=>{
                 console.log(button)
                 button.x = this.width/2;
+                button.label = labelText[i];
+                button.width = 300;
+                button.y = i * 80 + this.height/2;
+                button.rotation = 10+i*2;
+                this.addChild(button);
             },this)
      }  
     }
