@@ -26,9 +26,21 @@ var Bingo = (function (_super) {
         return _this;
     }
     Bingo.prototype.drawDoors = function () {
+        this.addRect();
         this.addImage();
         //this.addText();
         //this.addBlackHole();
+    };
+    Bingo.prototype.addRect = function () {
+        // var shape:egret.Shape = new egret.Shape();
+        // shape.graphics.beginFill(this.colors[this.type])
+        // shape.graphics.drawRect(0, 0, this.width,this.height);
+        // shape.graphics.endFill();
+        // this.addChild(shape);
+        this.img = this.createBitmapByName("rect_png");
+        this.img.width = this.width;
+        this.img.height = this.height;
+        this.addChild(this.img);
     };
     Bingo.prototype.addImage = function () {
         // var shape:egret.Shape = new egret.Shape();

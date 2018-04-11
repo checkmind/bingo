@@ -23,27 +23,38 @@ var EntryGame = (function (_super) {
         return _this;
     }
     EntryGame.prototype.addImage = function () {
-        var shape = new egret.Shape;
-        shape.graphics.beginFill(0x000000, 1);
-        shape.graphics.lineStyle(1, 0x000000);
-        shape.graphics.drawRect(0, 0, this.width - this.x, this.height);
-        shape.graphics.endFill();
-        this.addChild(shape);
         var sky = this.createBitmapByName("bg_png", this.width, this.height);
         //this.addChild(sky);
         sky.width = this.width;
         sky.height = this.height;
         this.addStarLand();
-        this.addTitleImg();
+        this.addBlackHead();
         this.addBoom();
+        this.addTitle();
         this.addNPC();
         this.meau();
     };
     EntryGame.prototype.addNPC = function () {
+        var _this = this;
         var sky = this.createBitmapByName("npc_png", this.width - 50, (this.width - 50) / 1.12);
         this.addChild(sky);
         sky.x = -150;
         sky.y = this.height - sky.height / 1.2;
+        var fn = function () {
+            egret.Tween.get(sky)
+                .to({ y: _this.height - sky.height / 1.5 }, 2000, egret.Ease.sineIn).call(fn2);
+        };
+        var fn2 = function () {
+            egret.Tween.get(sky)
+                .to({ y: _this.height - sky.height / 1.2 }, 2000, egret.Ease.sineIn).call(fn);
+        };
+        fn();
+    };
+    EntryGame.prototype.addTitle = function () {
+        var sky = this.createBitmapByName("title_png", 500, 500);
+        this.addChild(sky);
+        sky.x = this.width / 2 - 300;
+        sky.y = 90;
     };
     EntryGame.prototype.addBoom = function () {
         var sky = this.createBitmapByName("boom_png", this.width - 50, (this.width - 50) / 0.736);
@@ -53,8 +64,8 @@ var EntryGame = (function (_super) {
         sky.scaleX = 0.8;
         sky.scaleY = 0.8;
     };
-    EntryGame.prototype.addTitleImg = function () {
-        var sky = this.createBitmapByName("black2_png", 480, 679);
+    EntryGame.prototype.addBlackHead = function () {
+        var sky = this.createBitmapByName("black2_png", 480, 485);
         this.addChild(sky);
         var funcChange = function () {
             sky.rotation += 1 * iDirection;

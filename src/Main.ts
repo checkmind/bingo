@@ -96,13 +96,20 @@ class Main extends egret.DisplayObjectContainer {
         this.addChild(sky);
         let stageW = this.stage.stageWidth;
         let stageH = this.stage.stageHeight;
-        
+        /* 背景色设置 */
+        var shape:egret.Shape = new egret.Shape;
+        shape.graphics.beginFill(0x000000,1)
+        shape.graphics.lineStyle(1,0x000000) 
+        shape.graphics.drawRect(0, 0, stageW,stageH);
+        shape.graphics.endFill();
+        this.addChild(shape);
+
         sky.width = stageW;
         sky.height = stageH;
-        // var gameBody:GameBody = new GameBody(stageW,stageH);
-        // this.addChild(gameBody)
-        var entryGame:EntryGame = new EntryGame(stageW,stageH);
-        this.addChild(entryGame)
+        var gameBody:GameBody = new GameBody(stageW,stageH);
+        this.addChild(gameBody)
+        // var entryGame:EntryGame = new EntryGame(stageW,stageH);
+        // this.addChild(entryGame)
 
         
     }

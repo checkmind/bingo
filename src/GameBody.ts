@@ -113,13 +113,13 @@ class GameBody extends egret.Sprite{
     }
    
     private drawDoors(){
-       // this.addImage();
+        //this.addImage();
         this.drawBingo();
     }
     
     private addImage(){
         var shape:egret.Shape = new egret.Shape;
-        shape.graphics.beginFill(0x000000,.5)
+        shape.graphics.beginFill(0x000000,1)
         shape.graphics.lineStyle(1,0x000000) 
         shape.graphics.drawRect(0, 0, this.width-this.x,this.height);
         shape.graphics.endFill();
@@ -292,7 +292,8 @@ class GameBody extends egret.Sprite{
     private updataGame() {
         for(let i = 0;i<this.bingos.length;i++) {
 			let now = this.bingos[i]
-            for(let j = this.col-1;j>0;j--) {
+            let num = undefined; //这个参数记录当前j，辅助计算createNewBingos的下降距离
+            for(let j = this.col-1;j>=0;j--) {
 				// 当前没有方块，去上级拿
 				if( !now[j] ) {
                     let topBingo = this.getMyTop(i,j-1) 
@@ -301,13 +302,21 @@ class GameBody extends egret.Sprite{
                         this.deleteBingos(topBingo)
                         this.bingos[i][j]  = topBingo;
 					}
-					else{
-                        // let ran = this.ran(0,5)
-                        // let bingo:Bingo = new Bingo(i-1,j,ran,{i, j});
-                        // this.addChild(bingo);
-						// now[j] = bingo     
-                        console.log(i,j);
-                        this.createNewBingos(i,j);      
+					else{  
+                        if(isNaN(num)) {
+                            num = j;
+                            this.createNewBingos(i,j,1);
+                        // 如果num是数字，说明前面有num下来.
+                        } else {
+                            // 这列第一个需要重新产生的
+                            if(num===j)
+                                this.createNewBingos(i,j,1);
+                            else {
+                                console.log(j,num,j-num+1)
+                                this.createNewBingos(i,j,num-j+1);
+                            }
+                        }
+                        
                         continue;            
                     }
                 // 当前有方块，记录下坐标
@@ -315,6 +324,7 @@ class GameBody extends egret.Sprite{
                     
                 }
 			}
+            num = undefined;
 		}
 
         setTimeout(()=>{
@@ -324,7 +334,7 @@ class GameBody extends egret.Sprite{
     /*
      这列已经为空了，直接创建新的bingos。然后移动到对应位置
     **/
-    private createNewBingos(i:number,j:number) {
+    private createNewBingos(i:number,j:number,set:number) {
         let arr = [];
         // for(let n = 0;n<=j;n++) {
         //     let ran = this.ran(0,5)
@@ -334,7 +344,7 @@ class GameBody extends egret.Sprite{
         //     this.bingos[i][j] = bingo;
         // }
         let ran = this.ran(0,5)
-        let bingo:Bingo = new Bingo(i,-1,ran,{i, j});
+        let bingo:Bingo = new Bingo(i,-set,ran,{i, j});
         this.addChild(bingo);
         bingo.moveToBottom(j);
         this.bingos[i][j] = bingo;

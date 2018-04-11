@@ -20,9 +20,21 @@ class Bingo extends egret.Sprite{
         
     }
     private drawDoors(){
+        this.addRect();
         this.addImage();
         //this.addText();
         //this.addBlackHole();
+    }
+    private addRect(){
+        // var shape:egret.Shape = new egret.Shape();
+        // shape.graphics.beginFill(this.colors[this.type])
+        // shape.graphics.drawRect(0, 0, this.width,this.height);
+        // shape.graphics.endFill();
+        // this.addChild(shape);
+        this.img = this.createBitmapByName("rect_png");
+        this.img.width = this.width;
+        this.img.height = this.height;
+        this.addChild(this.img);
     }
     private addImage(){
         // var shape:egret.Shape = new egret.Shape();

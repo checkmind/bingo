@@ -124,12 +124,12 @@ var GameBody = (function (_super) {
         }, 1000);
     };
     GameBody.prototype.drawDoors = function () {
-        // this.addImage();
+        //this.addImage();
         this.drawBingo();
     };
     GameBody.prototype.addImage = function () {
         var shape = new egret.Shape;
-        shape.graphics.beginFill(0x000000, .5);
+        shape.graphics.beginFill(0x000000, 1);
         shape.graphics.lineStyle(1, 0x000000);
         shape.graphics.drawRect(0, 0, this.width - this.x, this.height);
         shape.graphics.endFill();
@@ -305,7 +305,8 @@ var GameBody = (function (_super) {
         var _this = this;
         for (var i = 0; i < this.bingos.length; i++) {
             var now = this.bingos[i];
-            for (var j = this.col - 1; j > 0; j--) {
+            var num = undefined; //这个参数记录当前j，辅助计算createNewBingos的下降距离
+            for (var j = this.col - 1; j >= 0; j--) {
                 // 当前没有方块，去上级拿
                 if (!now[j]) {
                     var topBingo = this.getMyTop(i, j - 1);
@@ -315,12 +316,20 @@ var GameBody = (function (_super) {
                         this.bingos[i][j] = topBingo;
                     }
                     else {
-                        // let ran = this.ran(0,5)
-                        // let bingo:Bingo = new Bingo(i-1,j,ran,{i, j});
-                        // this.addChild(bingo);
-                        // now[j] = bingo     
-                        console.log(i, j);
-                        this.createNewBingos(i, j);
+                        if (isNaN(num)) {
+                            num = j;
+                            this.createNewBingos(i, j, 1);
+                            // 如果num是数字，说明前面有num下来.
+                        }
+                        else {
+                            // 这列第一个需要重新产生的
+                            if (num === j)
+                                this.createNewBingos(i, j, 1);
+                            else {
+                                console.log(j, num, j - num + 1);
+                                this.createNewBingos(i, j, num - j + 1);
+                            }
+                        }
                         continue;
                     }
                     // 当前有方块，记录下坐标
@@ -328,6 +337,7 @@ var GameBody = (function (_super) {
                 else {
                 }
             }
+            num = undefined;
         }
         setTimeout(function () {
             _this.checkFun();
@@ -336,7 +346,7 @@ var GameBody = (function (_super) {
     /*
      这列已经为空了，直接创建新的bingos。然后移动到对应位置
     **/
-    GameBody.prototype.createNewBingos = function (i, j) {
+    GameBody.prototype.createNewBingos = function (i, j, set) {
         var arr = [];
         // for(let n = 0;n<=j;n++) {
         //     let ran = this.ran(0,5)
@@ -346,7 +356,7 @@ var GameBody = (function (_super) {
         //     this.bingos[i][j] = bingo;
         // }
         var ran = this.ran(0, 5);
-        var bingo = new Bingo(i, -1, ran, { i: i, j: j });
+        var bingo = new Bingo(i, -set, ran, { i: i, j: j });
         this.addChild(bingo);
         bingo.moveToBottom(j);
         this.bingos[i][j] = bingo;

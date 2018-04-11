@@ -153,12 +153,19 @@ var Main = (function (_super) {
         this.addChild(sky);
         var stageW = this.stage.stageWidth;
         var stageH = this.stage.stageHeight;
+        /* 背景色设置 */
+        var shape = new egret.Shape;
+        shape.graphics.beginFill(0x000000, 1);
+        shape.graphics.lineStyle(1, 0x000000);
+        shape.graphics.drawRect(0, 0, stageW, stageH);
+        shape.graphics.endFill();
+        this.addChild(shape);
         sky.width = stageW;
         sky.height = stageH;
-        // var gameBody:GameBody = new GameBody(stageW,stageH);
-        // this.addChild(gameBody)
-        var entryGame = new EntryGame(stageW, stageH);
-        this.addChild(entryGame);
+        var gameBody = new GameBody(stageW, stageH);
+        this.addChild(gameBody);
+        // var entryGame:EntryGame = new EntryGame(stageW,stageH);
+        // this.addChild(entryGame)
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。

@@ -16,19 +16,14 @@ class EntryGame extends egret.Sprite{
     }
   
     private addImage(){
-        var shape:egret.Shape = new egret.Shape;
-        shape.graphics.beginFill(0x000000,1)
-        shape.graphics.lineStyle(1,0x000000) 
-        shape.graphics.drawRect(0, 0, this.width-this.x,this.height);
-        shape.graphics.endFill();
-        this.addChild(shape);
         let sky = this.createBitmapByName("bg_png",this.width,this.height);
         //this.addChild(sky);
         sky.width = this.width;
         sky.height = this.height;
         this.addStarLand();
-        this.addTitleImg();
+        this.addBlackHead();
         this.addBoom();
+        this.addTitle();
         this.addNPC();
         this.meau();
     }
@@ -37,6 +32,21 @@ class EntryGame extends egret.Sprite{
         this.addChild(sky);
         sky.x = -150;
         sky.y = this.height - sky.height/1.2;
+        var fn = ()=> {
+            egret.Tween.get(sky)
+            .to( {y:this.height - sky.height/1.5}, 2000, egret.Ease.sineIn ).call(fn2);
+        }
+        var fn2 = ()=> {
+            egret.Tween.get(sky)
+            .to( {y:this.height - sky.height/1.2}, 2000, egret.Ease.sineIn ).call(fn);
+        }
+        fn();
+    }
+    private addTitle() {
+        let sky = this.createBitmapByName("title_png",500,500);
+        this.addChild(sky);
+        sky.x = this.width/2-300;
+        sky.y = 90;
     }
     private addBoom() {
         let sky = this.createBitmapByName("boom_png",this.width-50,(this.width-50)/0.736);
@@ -46,8 +56,8 @@ class EntryGame extends egret.Sprite{
         sky.scaleX = 0.8;
         sky.scaleY = 0.8;
     }
-    private addTitleImg() {
-        let sky = this.createBitmapByName("black2_png",480,679);
+    private addBlackHead() {
+        let sky = this.createBitmapByName("black2_png",480,485);
         this.addChild(sky);
         var funcChange = ():void=>{
             sky.rotation += 1 * iDirection;
