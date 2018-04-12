@@ -26,7 +26,8 @@ class EntryGame extends egret.Sprite{
         this.addBoom();
         this.addTitle();
         this.addNPC();
-        this.meau();
+        var theme = new eui.Theme( "resource/default.thm.json", this.stage );
+        theme.addEventListener( eui.UIEvent.COMPLETE, this.meau, this );
     }
     private addNPC() {
         let sky = this.createBitmapByName("npc_png",this.width-50,(this.width-50)/1.12);
@@ -91,7 +92,6 @@ class EntryGame extends egret.Sprite{
         var labelText = ['关卡模式','无尽模式','漫游说明','游戏帮助']
         for(let i = 0;i<skins.length;i++) {
             let button = new eui.Button();
-            button.skinName = `../resource/skins/ButtonMore.exml`;
             button.touchEnabled = true;
             console.log(button)
             button.x = this.width/2;
@@ -102,11 +102,8 @@ class EntryGame extends egret.Sprite{
             button.enabled = true;
             this.addChild(button);
             button.addEventListener(eui.UIEvent.COMPLETE,()=>{
-                
                 button.addEventListener(egret.TouchEvent.TOUCH_TAP,this.bindClickFn,this);
             },this)
-            
-            
      }  
     }
     /* 给按钮绑定事件 */

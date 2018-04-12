@@ -33,7 +33,8 @@ var EntryGame = (function (_super) {
         this.addBoom();
         this.addTitle();
         this.addNPC();
-        this.meau();
+        var theme = new eui.Theme("resource/default.thm.json", this.stage);
+        theme.addEventListener(eui.UIEvent.COMPLETE, this.meau, this);
     };
     EntryGame.prototype.addNPC = function () {
         var _this = this;
@@ -98,7 +99,6 @@ var EntryGame = (function (_super) {
         var labelText = ['关卡模式', '无尽模式', '漫游说明', '游戏帮助'];
         var _loop_1 = function (i) {
             var button = new eui.Button();
-            button.skinName = "../resource/skins/ButtonMore.exml";
             button.touchEnabled = true;
             console.log(button);
             button.x = this_1.width / 2;
