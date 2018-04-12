@@ -30,7 +30,7 @@
 class Main extends egret.DisplayObjectContainer {
 
     public bingo:Bingo;
-
+    public gameBody:GameBody;
     public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -107,10 +107,10 @@ class Main extends egret.DisplayObjectContainer {
 
         sky.width = stageW;
         sky.height = stageH;
-        // var gameBody:GameBody = new GameBody(stageW,stageH);
+        this.gameBody = new GameBody(stageW,stageH);
         // this.addChild(gameBody)
-        var entryGame:EntryGame = new EntryGame(stageW,stageH);
-        this.addChild(entryGame)
+        // var entryGame:EntryGame = new EntryGame(stageW,stageH,this);
+        // this.addChild(entryGame)
 
         
     }

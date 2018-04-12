@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?> 
 <e:Skin class="skins.ButtonSkin" states="up,down,disabled" minHeight="50" minWidth="100" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing"> 
-    <e:Image width="252.69" height="67.67" scale9Grid="1,3,8,8" alpha.disabled="0.5"
+    <e:Image id='button' width="252.69" height="67.67" scale9Grid="1,3,8,8" alpha.disabled="0.5"
             
              source.down="resource/assets/button.png" left="0" top="0" source="resource/assets/button.png" anchorOffsetX="0" anchorOffsetY="0"/>
 	<e:Label id="labelDisplay" top="11" bottom="5" left="3" right="13" size="30" fontFamily="Arial" verticalAlign="middle" textAlign="center" text="漫游说明" textColor.down="0xfffcfc" size.down="35"/>
- 
- 
- 
 </e:Skin>

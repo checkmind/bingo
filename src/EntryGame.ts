@@ -4,13 +4,14 @@ class EntryGame extends egret.Sprite{
     public width:number;
     public height:number;
     private image:egret.Bitmap = new egret.Bitmap();
-
-    public constructor(width,height){
+    private parents;
+    public constructor(width,height,parent){
         super();
         this.x = 0;
         this.y = 0;
         this.width = width;
         this.height = height;
+        this.parents = parent;
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addImage,this);
         
     }
@@ -25,7 +26,17 @@ class EntryGame extends egret.Sprite{
         this.addBoom();
         this.addTitle();
         this.addNPC();
-        this.meau();
+       // this.meau();
+       console.log("隐藏掉了")
+        var button = new eui.Button();
+        button.width = 100;
+        button.height = 40;
+        button.label = "确定";
+        button.skinName = "../resource/skins/ButtonMore.exml";
+        this.addChild(button);
+        button.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+            console.log("点击")
+        },this);
     }
     private addNPC() {
         let sky = this.createBitmapByName("npc_png",this.width-50,(this.width-50)/1.12);
@@ -91,17 +102,29 @@ class EntryGame extends egret.Sprite{
         for(let i = 0;i<skins.length;i++) {
             let button = new eui.Button();
             button.skinName = `../resource/skins/ButtonMore.exml`;
-            
+            button.touchEnabled = true;
+            console.log(button)
+            button.x = this.width/2;
+            button.label = labelText[i];
+            button.width = 300;
+            button.y = i * 80 + this.height/2;
+            button.rotation = 10+i*2;
+            button.enabled = true;
+            this.addChild(button);
             button.addEventListener(eui.UIEvent.COMPLETE,()=>{
-                console.log(button)
-                button.x = this.width/2;
-                button.label = labelText[i];
-                button.width = 300;
-                button.y = i * 80 + this.height/2;
-                button.rotation = 10+i*2;
-                this.addChild(button);
+                
+                button.addEventListener(egret.TouchEvent.TOUCH_TAP,this.bindClickFn,this);
             },this)
+            
+            
      }  
+    }
+    /* 给按钮绑定事件 */
+    private bindClickFn() {
+        console.log("点击按钮")
+        this.parents.removeChild(this);
+        this.parents.addChild(this.parents.gameBody)
+
     }
     private createBitmapByName(name: string,width:any,height:any) {
         let result = new egret.Bitmap();
