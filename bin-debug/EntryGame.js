@@ -12,13 +12,14 @@ r.prototype = e.prototype, t.prototype = new r();
 **/
 var EntryGame = (function (_super) {
     __extends(EntryGame, _super);
-    function EntryGame(width, height) {
+    function EntryGame(width, height, parent) {
         var _this = _super.call(this) || this;
         _this.image = new egret.Bitmap();
         _this.x = 0;
         _this.y = 0;
         _this.width = width;
         _this.height = height;
+        _this.parents = parent;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.addImage, _this);
         return _this;
     }
@@ -98,20 +99,29 @@ var EntryGame = (function (_super) {
         var _loop_1 = function (i) {
             var button = new eui.Button();
             button.skinName = "../resource/skins/ButtonMore.exml";
+            button.touchEnabled = true;
+            console.log(button);
+            button.x = this_1.width / 2;
+            button.label = labelText[i];
+            button.width = 300;
+            button.y = i * 80 + this_1.height / 2;
+            button.rotation = 10 + i * 2;
+            button.enabled = true;
+            this_1.addChild(button);
             button.addEventListener(eui.UIEvent.COMPLETE, function () {
-                console.log(button);
-                button.x = _this.width / 2;
-                button.label = labelText[i];
-                button.width = 300;
-                button.y = i * 80 + _this.height / 2;
-                button.rotation = 10 + i * 2;
-                _this.addChild(button);
+                button.addEventListener(egret.TouchEvent.TOUCH_TAP, _this.bindClickFn, _this);
             }, this_1);
         };
         var this_1 = this;
         for (var i = 0; i < skins.length; i++) {
             _loop_1(i);
         }
+    };
+    /* 给按钮绑定事件 */
+    EntryGame.prototype.bindClickFn = function () {
+        console.log("点击按钮");
+        this.parents.removeChild(this);
+        this.parents.addChild(this.parents.gameBody);
     };
     EntryGame.prototype.createBitmapByName = function (name, width, height) {
         var result = new egret.Bitmap();
@@ -126,3 +136,4 @@ var EntryGame = (function (_super) {
     return EntryGame;
 }(egret.Sprite));
 __reflect(EntryGame.prototype, "EntryGame");
+//# sourceMappingURL=EntryGame.js.map

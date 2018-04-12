@@ -26,17 +26,7 @@ class EntryGame extends egret.Sprite{
         this.addBoom();
         this.addTitle();
         this.addNPC();
-       // this.meau();
-       console.log("隐藏掉了")
-        var button = new eui.Button();
-        button.width = 100;
-        button.height = 40;
-        button.label = "确定";
-        button.skinName = "../resource/skins/ButtonMore.exml";
-        this.addChild(button);
-        button.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
-            console.log("点击")
-        },this);
+        this.meau();
     }
     private addNPC() {
         let sky = this.createBitmapByName("npc_png",this.width-50,(this.width-50)/1.12);

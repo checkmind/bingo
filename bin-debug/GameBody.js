@@ -410,3 +410,4 @@ var GameBody = (function (_super) {
     return GameBody;
 }(egret.Sprite));
 __reflect(GameBody.prototype, "GameBody");
+//# sourceMappingURL=GameBody.js.map

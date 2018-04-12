@@ -163,9 +163,9 @@ var Main = (function (_super) {
         this.addChild(shape);
         sky.width = stageW;
         sky.height = stageH;
-        // var gameBody:GameBody = new GameBody(stageW,stageH);
-        // this.addChild(gameBody)
-        var entryGame = new EntryGame(stageW, stageH);
+        this.gameBody = new GameBody(stageW, stageH);
+        // this.addChild(this.gameBody)
+        var entryGame = new EntryGame(stageW, stageH, this);
         this.addChild(entryGame);
     };
     /**
@@ -181,3 +181,4 @@ var Main = (function (_super) {
     return Main;
 }(egret.DisplayObjectContainer));
 __reflect(Main.prototype, "Main");
+//# sourceMappingURL=Main.js.map
