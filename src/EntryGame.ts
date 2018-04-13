@@ -19,6 +19,7 @@ class EntryGame extends egret.Sprite{
     private addImage(){
         let sky = this.createBitmapByName("bg_png",this.width,this.height);
         //this.addChild(sky);
+        console.log("add all")
         sky.width = this.width;
         sky.height = this.height;
         this.addStarLand();
@@ -26,8 +27,7 @@ class EntryGame extends egret.Sprite{
         this.addBoom();
         this.addTitle();
         this.addNPC();
-        var theme = new eui.Theme( "resource/default.thm.json", this.stage );
-        theme.addEventListener( eui.UIEvent.COMPLETE, this.meau, this );
+        this.meau();
     }
     private addNPC() {
         let sky = this.createBitmapByName("npc_png",this.width-50,(this.width-50)/1.12);
@@ -101,9 +101,7 @@ class EntryGame extends egret.Sprite{
             button.rotation = 10+i*2;
             button.enabled = true;
             this.addChild(button);
-            button.addEventListener(eui.UIEvent.COMPLETE,()=>{
-                button.addEventListener(egret.TouchEvent.TOUCH_TAP,this.bindClickFn,this);
-            },this)
+            button.addEventListener(egret.TouchEvent.TOUCH_TAP,this.bindClickFn,this);
      }  
     }
     /* 给按钮绑定事件 */

@@ -26,6 +26,7 @@ var EntryGame = (function (_super) {
     EntryGame.prototype.addImage = function () {
         var sky = this.createBitmapByName("bg_png", this.width, this.height);
         //this.addChild(sky);
+        console.log("add all");
         sky.width = this.width;
         sky.height = this.height;
         this.addStarLand();
@@ -33,8 +34,7 @@ var EntryGame = (function (_super) {
         this.addBoom();
         this.addTitle();
         this.addNPC();
-        var theme = new eui.Theme("resource/default.thm.json", this.stage);
-        theme.addEventListener(eui.UIEvent.COMPLETE, this.meau, this);
+        this.meau();
     };
     EntryGame.prototype.addNPC = function () {
         var _this = this;
@@ -94,27 +94,20 @@ var EntryGame = (function (_super) {
         sky.y = this.height - sky.height * 1.5;
     };
     EntryGame.prototype.meau = function () {
-        var _this = this;
         var skins = ['ButtonModel1', 'ButtonModel2', 'ButtonMore', 'ButtonHelp'];
         var labelText = ['关卡模式', '无尽模式', '漫游说明', '游戏帮助'];
-        var _loop_1 = function (i) {
+        for (var i = 0; i < skins.length; i++) {
             var button = new eui.Button();
             button.touchEnabled = true;
             console.log(button);
-            button.x = this_1.width / 2;
+            button.x = this.width / 2;
             button.label = labelText[i];
             button.width = 300;
-            button.y = i * 80 + this_1.height / 2;
+            button.y = i * 80 + this.height / 2;
             button.rotation = 10 + i * 2;
             button.enabled = true;
-            this_1.addChild(button);
-            button.addEventListener(eui.UIEvent.COMPLETE, function () {
-                button.addEventListener(egret.TouchEvent.TOUCH_TAP, _this.bindClickFn, _this);
-            }, this_1);
-        };
-        var this_1 = this;
-        for (var i = 0; i < skins.length; i++) {
-            _loop_1(i);
+            this.addChild(button);
+            button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.bindClickFn, this);
         }
     };
     /* 给按钮绑定事件 */

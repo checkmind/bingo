@@ -13,6 +13,9 @@ class GameBody extends egret.Sprite{
     private clickLock:Boolean = false;
     static childW:number = 90;
     static childH:number = 90;
+    // 分数
+    private myScore:number = 0;
+    private myScoreLabel;
     // 游戏是否结束
     private game = true;
     private a;
@@ -283,10 +286,29 @@ class GameBody extends egret.Sprite{
             let j = +val.split(",")[1]
             if(this.bingos[i] && this.bingos[i][j]) {
                 this.bingos[i][j].killSelf();
+                this.myScore += 50;
+                this.updataScroe();
                 delete this.bingos[i][j];
             }  
         })
         this.clears.length = 0;
+    }
+    /* 更新成绩 */
+    private updataScroe() {
+        console.log("更新成绩")
+        if(this.myScoreLabel){
+            console.log(this.myScoreLabel);
+            this.myScoreLabel.text = this.myScore;
+            return;
+        }
+        this.myScoreLabel = new eui.Label();
+        this.myScoreLabel.x = 20;
+        this.myScoreLabel.y = -100;
+        this.myScoreLabel.size = 35;//设置文本字号
+        this.myScoreLabel.bold = true;
+        this.myScoreLabel.text = this.myScore;
+        this.myScoreLabel.enabled = true;
+        this.addChild(this.myScoreLabel);
     }
     /* 更新函数 */
     private updataGame() {

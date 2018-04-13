@@ -22,6 +22,8 @@ var GameBody = (function (_super) {
         // 事件锁，需控制的事件完成后才能继续进行
         _this.lock = true;
         _this.clickLock = false;
+        // 分数
+        _this.myScore = 0;
         // 游戏是否结束
         _this.game = true;
         // 交换栈
@@ -295,10 +297,29 @@ var GameBody = (function (_super) {
             var j = +val.split(",")[1];
             if (_this.bingos[i] && _this.bingos[i][j]) {
                 _this.bingos[i][j].killSelf();
+                _this.myScore += 50;
+                _this.updataScroe();
                 delete _this.bingos[i][j];
             }
         });
         this.clears.length = 0;
+    };
+    /* 更新成绩 */
+    GameBody.prototype.updataScroe = function () {
+        console.log("更新成绩");
+        if (this.myScoreLabel) {
+            console.log(this.myScoreLabel);
+            this.myScoreLabel.text = this.myScore;
+            return;
+        }
+        this.myScoreLabel = new eui.Label();
+        this.myScoreLabel.x = 20;
+        this.myScoreLabel.y = -100;
+        this.myScoreLabel.size = 35; //设置文本字号
+        this.myScoreLabel.bold = true;
+        this.myScoreLabel.text = this.myScore;
+        this.myScoreLabel.enabled = true;
+        this.addChild(this.myScoreLabel);
     };
     /* 更新函数 */
     GameBody.prototype.updataGame = function () {
