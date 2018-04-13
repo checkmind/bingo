@@ -50,7 +50,6 @@ class GameBody extends egret.Sprite{
                    this.stackArr[0].chooseBingo();
                    this.bingos[x][y].chooseBingo();
                    this.stackArr.length = 0;
-                   
                } else {
                    this.stackArr[0].removeChoosed();
                    this.stackArr.length = 0;
@@ -73,15 +72,12 @@ class GameBody extends egret.Sprite{
         if( x ===1 && y === 0 ) {
             // 一在二的右边
             if(coord_1.x - coord_2.x > 0) {
-                object_1.moveToDirection(4)
-                object_2.moveToDirection(2)
-                this.changeObj(object_1,object_2)
+                this.changeObj(object_1,object_2,4,2)
                 return true;
             // 一在二的左边
             } else {
-                object_1.moveToDirection(2)
-                object_2.moveToDirection(4)
-                this.changeObj(object_1,object_2)
+
+                this.changeObj(object_1,object_2,2,4)
                 return true;
             }
         }
@@ -89,30 +85,35 @@ class GameBody extends egret.Sprite{
         if( y===1 && x ===0 ) {
             // 一在二的下边
             if(coord_1.y - coord_2.y > 0) {
-                object_1.moveToDirection(1)
-                object_2.moveToDirection(3)
-                this.changeObj(object_1,object_2)
+                this.changeObj(object_1,object_2,1,3)
                 return true;
             // 一在二的上边
             } else {
-                object_1.moveToDirection(3)
-                object_2.moveToDirection(1)
-                this.changeObj(object_1,object_2)
+                this.changeObj(object_1,object_2,3,1)
                 return true;
             }
         }
         return false;
     }
-    // 交换两个对象 direction是方向 1 2 3 4对应上右下左
-    private changeObj(object_1,object_2) {
+    // 交换两个对象 direction是方向 1 2 3 4对应上右下左 onoff 是否做监测
+    private changeObj(object_1,object_2,dir_1,dir_2,onoff?) {
+        this.lock = true;
         let coord_1 = this.getObjSet(object_1);
         let coord_2 = this.getObjSet(object_2);
         let obj = this.bingos[coord_1.x][coord_1.y];
         this.bingos[coord_1.x][coord_1.y] = this.bingos[coord_2.x][coord_2.y] 
         this.bingos[coord_2.x][coord_2.y] = obj;
-        setTimeout(()=>{
-             this.checkFun();            
-        },1000)
+        let p1 = object_1.moveToDirection(dir_1)
+        let p2 = object_2.moveToDirection(dir_2)
+        if(onoff){
+            this.lock = false;
+            return;
+        }
+        Promise.all([p1,p2]).then(()=>{
+            if(!this.checkFun() && !GameConfig.canChange) {
+                this.changeObj(object_2,object_1,dir_1,dir_2,true)  
+            }
+        })
     }
    
     private drawDoors(){
@@ -145,7 +146,6 @@ class GameBody extends egret.Sprite{
         if( this.bingos[0] )
         for(let k=0;k<this.bingos[0].length;k++) {
             if(this.bingos[0][k]){
-                console.log("游戏结束")
                 this.game = false;
                // return false;
             }
@@ -176,16 +176,16 @@ class GameBody extends egret.Sprite{
         this.newBingos.length = 0;
         this.checkFun();
     }
-    private checkFun() {
+    private  checkFun() {
         this.checkBingos();
         if(this.clears.length ===0){
             this.lock = false;
-            return;
+            return false;
         }
-        this.clearAll();
-        setTimeout(()=>{
-            this.updataGame();            
-        },1000)
+        this.clearAll(()=>{
+            this.updataGame();
+        });
+        return true;
     }
     private ran(end:number, start:number) {
 		return Math.floor(Math.random()*(end-start)+start)
@@ -280,24 +280,26 @@ class GameBody extends egret.Sprite{
         this.clears.push(string);
     }
     /* 清除函数 */
-    private clearAll() {
+     private clearAll(fn) {
+        let pros = [];
         this.clears.map((val)=>{
             let i = +val.split(",")[0]
             let j = +val.split(",")[1]
             if(this.bingos[i] && this.bingos[i][j]) {
-                this.bingos[i][j].killSelf();
+                pros.push(this.bingos[i][j].killSelf());
                 this.myScore += 50;
-                this.updataScroe();
                 delete this.bingos[i][j];
             }  
         })
-        this.clears.length = 0;
+        this.clears.length = 0;        
+        return Promise.all(pros).then(()=>{
+            fn();
+            this.updataScroe();
+        })
     }
     /* 更新成绩 */
     private updataScroe() {
-        console.log("更新成绩")
         if(this.myScoreLabel){
-            console.log(this.myScoreLabel);
             this.myScoreLabel.text = this.myScore;
             return;
         }
@@ -334,7 +336,6 @@ class GameBody extends egret.Sprite{
                             if(num===j)
                                 this.createNewBingos(i,j,1);
                             else {
-                                console.log(j,num,j-num+1)
                                 this.createNewBingos(i,j,num-j+1);
                             }
                         }

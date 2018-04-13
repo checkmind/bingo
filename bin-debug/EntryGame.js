@@ -112,9 +112,7 @@ var EntryGame = (function (_super) {
     };
     /* 给按钮绑定事件 */
     EntryGame.prototype.bindClickFn = function () {
-        console.log("点击按钮");
-        this.parents.removeChild(this);
-        this.parents.addChild(this.parents.gameBody);
+        PageBus.gotoPage(1);
     };
     EntryGame.prototype.createBitmapByName = function (name, width, height) {
         var result = new egret.Bitmap();

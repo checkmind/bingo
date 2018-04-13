@@ -32,11 +32,6 @@ var Bingo = (function (_super) {
         //this.addBlackHole();
     };
     Bingo.prototype.addRect = function () {
-        // var shape:egret.Shape = new egret.Shape();
-        // shape.graphics.beginFill(this.colors[this.type])
-        // shape.graphics.drawRect(0, 0, this.width,this.height);
-        // shape.graphics.endFill();
-        // this.addChild(shape);
         this.img = this.createBitmapByName("rect_png");
         this.img.width = this.width;
         this.img.height = this.height;
@@ -91,30 +86,37 @@ var Bingo = (function (_super) {
     };
     Bingo.prototype.killSelf = function () {
         var _this = this;
-        this.addBlackHole(function () {
-            _this.$parent.removeChild(_this);
+        return new Promise(function (resolve) {
+            _this.addBlackHole(function () {
+                _this.$parent.removeChild(_this);
+                resolve();
+            });
         });
     };
     // 交换位置
     Bingo.prototype.moveToDirection = function (direction) {
+        var _this = this;
         var that = this;
-        var fn = function () {
-            that.removeChoosed();
-        };
-        switch (direction) {
-            case 1:
-                egret.Tween.get(this).to({ x: this.x, y: this.y - this.height }, 600, egret.Ease.sineIn).call(fn);
-                break;
-            case 2:
-                egret.Tween.get(this).to({ x: this.x + this.width, y: this.y }, 600, egret.Ease.sineIn).call(fn);
-                break;
-            case 3:
-                egret.Tween.get(this).to({ x: this.x, y: this.y + this.height }, 600, egret.Ease.sineIn).call(fn);
-                break;
-            default:
-                egret.Tween.get(this).to({ x: this.x - this.width, y: this.y }, 600, egret.Ease.sineIn).call(fn);
-                break;
-        }
+        return new Promise(function (resolve) {
+            var fn = function () {
+                that.removeChoosed();
+                resolve(true);
+            };
+            switch (direction) {
+                case 1:
+                    egret.Tween.get(_this).to({ x: _this.x, y: _this.y - _this.height }, 600, egret.Ease.sineIn).call(fn);
+                    break;
+                case 2:
+                    egret.Tween.get(_this).to({ x: _this.x + _this.width, y: _this.y }, 600, egret.Ease.sineIn).call(fn);
+                    break;
+                case 3:
+                    egret.Tween.get(_this).to({ x: _this.x, y: _this.y + _this.height }, 600, egret.Ease.sineIn).call(fn);
+                    break;
+                default:
+                    egret.Tween.get(_this).to({ x: _this.x - _this.width, y: _this.y }, 600, egret.Ease.sineIn).call(fn);
+                    break;
+            }
+        });
     };
     Bingo.prototype.moveToBottom = function (j) {
         /*** 本示例关键代码段开始 ***/

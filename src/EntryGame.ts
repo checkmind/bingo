@@ -106,10 +106,7 @@ class EntryGame extends egret.Sprite{
     }
     /* 给按钮绑定事件 */
     private bindClickFn() {
-        console.log("点击按钮")
-        this.parents.removeChild(this);
-        this.parents.addChild(this.parents.gameBody)
-
+        PageBus.gotoPage(1);
     }
     private createBitmapByName(name: string,width:any,height:any) {
         let result = new egret.Bitmap();

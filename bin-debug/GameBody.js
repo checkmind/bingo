@@ -81,16 +81,12 @@ var GameBody = (function (_super) {
         if (x === 1 && y === 0) {
             // 一在二的右边
             if (coord_1.x - coord_2.x > 0) {
-                object_1.moveToDirection(4);
-                object_2.moveToDirection(2);
-                this.changeObj(object_1, object_2);
+                this.changeObj(object_1, object_2, 4, 2);
                 return true;
                 // 一在二的左边
             }
             else {
-                object_1.moveToDirection(2);
-                object_2.moveToDirection(4);
-                this.changeObj(object_1, object_2);
+                this.changeObj(object_1, object_2, 2, 4);
                 return true;
             }
         }
@@ -98,32 +94,37 @@ var GameBody = (function (_super) {
         if (y === 1 && x === 0) {
             // 一在二的下边
             if (coord_1.y - coord_2.y > 0) {
-                object_1.moveToDirection(1);
-                object_2.moveToDirection(3);
-                this.changeObj(object_1, object_2);
+                this.changeObj(object_1, object_2, 1, 3);
                 return true;
                 // 一在二的上边
             }
             else {
-                object_1.moveToDirection(3);
-                object_2.moveToDirection(1);
-                this.changeObj(object_1, object_2);
+                this.changeObj(object_1, object_2, 3, 1);
                 return true;
             }
         }
         return false;
     };
-    // 交换两个对象 direction是方向 1 2 3 4对应上右下左
-    GameBody.prototype.changeObj = function (object_1, object_2) {
+    // 交换两个对象 direction是方向 1 2 3 4对应上右下左 onoff 是否做监测
+    GameBody.prototype.changeObj = function (object_1, object_2, dir_1, dir_2, onoff) {
         var _this = this;
+        this.lock = true;
         var coord_1 = this.getObjSet(object_1);
         var coord_2 = this.getObjSet(object_2);
         var obj = this.bingos[coord_1.x][coord_1.y];
         this.bingos[coord_1.x][coord_1.y] = this.bingos[coord_2.x][coord_2.y];
         this.bingos[coord_2.x][coord_2.y] = obj;
-        setTimeout(function () {
-            _this.checkFun();
-        }, 1000);
+        var p1 = object_1.moveToDirection(dir_1);
+        var p2 = object_2.moveToDirection(dir_2);
+        if (onoff) {
+            this.lock = false;
+            return;
+        }
+        Promise.all([p1, p2]).then(function () {
+            if (!_this.checkFun() && !GameConfig.canChange) {
+                _this.changeObj(object_2, object_1, dir_1, dir_2, true);
+            }
+        });
     };
     GameBody.prototype.drawDoors = function () {
         //this.addImage();
@@ -154,7 +155,6 @@ var GameBody = (function (_super) {
         if (this.bingos[0])
             for (var k = 0; k < this.bingos[0].length; k++) {
                 if (this.bingos[0][k]) {
-                    console.log("游戏结束");
                     this.game = false;
                     // return false;
                 }
@@ -192,12 +192,12 @@ var GameBody = (function (_super) {
         this.checkBingos();
         if (this.clears.length === 0) {
             this.lock = false;
-            return;
+            return false;
         }
-        this.clearAll();
-        setTimeout(function () {
+        this.clearAll(function () {
             _this.updataGame();
-        }, 1000);
+        });
+        return true;
     };
     GameBody.prototype.ran = function (end, start) {
         return Math.floor(Math.random() * (end - start) + start);
@@ -290,25 +290,27 @@ var GameBody = (function (_super) {
         this.clears.push(string);
     };
     /* 清除函数 */
-    GameBody.prototype.clearAll = function () {
+    GameBody.prototype.clearAll = function (fn) {
         var _this = this;
+        var pros = [];
         this.clears.map(function (val) {
             var i = +val.split(",")[0];
             var j = +val.split(",")[1];
             if (_this.bingos[i] && _this.bingos[i][j]) {
-                _this.bingos[i][j].killSelf();
+                pros.push(_this.bingos[i][j].killSelf());
                 _this.myScore += 50;
-                _this.updataScroe();
                 delete _this.bingos[i][j];
             }
         });
         this.clears.length = 0;
+        return Promise.all(pros).then(function () {
+            fn();
+            _this.updataScroe();
+        });
     };
     /* 更新成绩 */
     GameBody.prototype.updataScroe = function () {
-        console.log("更新成绩");
         if (this.myScoreLabel) {
-            console.log(this.myScoreLabel);
             this.myScoreLabel.text = this.myScore;
             return;
         }
@@ -347,7 +349,6 @@ var GameBody = (function (_super) {
                             if (num === j)
                                 this.createNewBingos(i, j, 1);
                             else {
-                                console.log(j, num, j - num + 1);
                                 this.createNewBingos(i, j, num - j + 1);
                             }
                         }

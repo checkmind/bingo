@@ -26,11 +26,6 @@ class Bingo extends egret.Sprite{
         //this.addBlackHole();
     }
     private addRect(){
-        // var shape:egret.Shape = new egret.Shape();
-        // shape.graphics.beginFill(this.colors[this.type])
-        // shape.graphics.drawRect(0, 0, this.width,this.height);
-        // shape.graphics.endFill();
-        // this.addChild(shape);
         this.img = this.createBitmapByName("rect_png");
         this.img.width = this.width;
         this.img.height = this.height;
@@ -86,31 +81,39 @@ class Bingo extends egret.Sprite{
         this.addChild(text);        
     }
     public killSelf() {
-        this.addBlackHole(()=>{
-            this.$parent.removeChild(this);            
+        return new Promise((resolve)=>{
+            this.addBlackHole(()=>{
+                this.$parent.removeChild(this);
+                resolve();            
+            })
         })
     }
     // 交换位置
     public moveToDirection(direction) {
 
         let that = this;
-        let fn = () => {
-            that.removeChoosed();
-        }
-        switch(direction) {
-            case 1:
-                egret.Tween.get( this ).to( {x:this.x,y:this.y-this.height}, 600, egret.Ease.sineIn ).call(fn);
-                break;
-            case 2:
-                egret.Tween.get( this ).to( {x:this.x+this.width,y:this.y}, 600, egret.Ease.sineIn ).call(fn);
-                break;
-            case 3:
-                egret.Tween.get( this ).to( {x:this.x,y:this.y+this.height}, 600, egret.Ease.sineIn ).call(fn);
-                break;
-            default:
-                egret.Tween.get( this ).to( {x:this.x-this.width,y:this.y}, 600, egret.Ease.sineIn ).call(fn);
-                break;
-        }
+        
+        return new Promise((resolve)=>{
+            let fn = () => {
+                that.removeChoosed();
+                resolve(true);
+            }
+            switch(direction) {
+                case 1:
+                    egret.Tween.get( this ).to( {x:this.x,y:this.y-this.height}, 600, egret.Ease.sineIn ).call(fn);
+                    break;
+                case 2:
+                    egret.Tween.get( this ).to( {x:this.x+this.width,y:this.y}, 600, egret.Ease.sineIn ).call(fn);
+                    break;
+                case 3:
+                    egret.Tween.get( this ).to( {x:this.x,y:this.y+this.height}, 600, egret.Ease.sineIn ).call(fn);
+                    break;
+                default:
+                    egret.Tween.get( this ).to( {x:this.x-this.width,y:this.y}, 600, egret.Ease.sineIn ).call(fn);
+                    break;
+            }
+        });
+        
 
     }
 

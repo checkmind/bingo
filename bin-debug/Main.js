@@ -182,7 +182,12 @@ var Main = (function (_super) {
         this.gameBody = new GameBody(stageW, stageH);
         //this.addChild(this.gameBody)
         var entryGame = new EntryGame(stageW, stageH, this);
-        this.addChild(entryGame);
+        //this.addChild(entryGame)
+        var gameTax = new GameTax(stageW, stageH, this);
+        this.addChild(gameTax);
+        PageBus.init(this);
+        PageBus.pushPage(entryGame);
+        PageBus.pushPage(this.gameBody);
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
