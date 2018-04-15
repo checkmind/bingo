@@ -1,115 +1,165 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,2_png,3_png,4_png,5_png,1_png,6_png,blackhole_png,button_png,button2_png,starLand_png,npc_png,black2_png,boom_png,black22_png,boom2_png,npc2_png,starLand2_png,title_png,rect_png,tax_png",
+			"keys": "description_json,2_png,3_png,4_png,5_png,1_png,6_png,blackhole_png,button_png,button2_png,starLand_png,npc_png,black2_png,boom_png,black22_png,back_1_png,boom2_png,npc2_png,starLand2_png,title_png,rect_png,tax_png,7_png,8_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,hit_png,name_png,back_png",
 			"name": "preload"
 		}
 	],
 	"resources": [
 		{
-			"name": "description_json",
+			"url": "config/description.json",
 			"type": "json",
-			"url": "config/description.json"
+			"name": "description_json"
 		},
 		{
-			"name": "2_png",
+			"url": "assets/2.png",
 			"type": "image",
-			"url": "assets/2.png"
+			"name": "2_png"
 		},
 		{
-			"name": "3_png",
+			"url": "assets/3.png",
 			"type": "image",
-			"url": "assets/3.png"
+			"name": "3_png"
 		},
 		{
-			"name": "4_png",
+			"url": "assets/4.png",
 			"type": "image",
-			"url": "assets/4.png"
+			"name": "4_png"
 		},
 		{
-			"name": "5_png",
+			"url": "assets/5.png",
 			"type": "image",
-			"url": "assets/5.png"
+			"name": "5_png"
 		},
 		{
-			"name": "1_png",
+			"url": "assets/1.png",
 			"type": "image",
-			"url": "assets/1.png"
+			"name": "1_png"
 		},
 		{
-			"name": "6_png",
+			"url": "assets/6.png",
 			"type": "image",
-			"url": "assets/6.png"
+			"name": "6_png"
 		},
 		{
-			"name": "blackhole_png",
+			"url": "assets/blackhole.png",
 			"type": "image",
-			"url": "assets/blackhole.png"
+			"name": "blackhole_png"
 		},
 		{
-			"name": "button_png",
+			"url": "assets/button.png",
 			"type": "image",
-			"url": "assets/button.png"
+			"name": "button_png"
 		},
 		{
-			"name": "button2_png",
+			"url": "assets/button.png",
 			"type": "image",
-			"url": "assets/button.png"
+			"name": "button2_png"
 		},
 		{
-			"name": "starLand_png",
+			"url": "assets/starLand.png",
 			"type": "image",
-			"url": "assets/starLand.png"
+			"name": "starLand_png"
 		},
 		{
-			"name": "npc_png",
+			"url": "assets/npc.png",
 			"type": "image",
-			"url": "assets/npc.png"
+			"name": "npc_png"
 		},
 		{
-			"name": "black2_png",
+			"url": "assets/npc_1.png",
 			"type": "image",
-			"url": "assets/black2.png"
+			"name": "npc_1_png"
 		},
 		{
-			"name": "boom_png",
+			"url": "assets/black2.png",
 			"type": "image",
-			"url": "assets/boom.png"
+			"name": "black2_png"
 		},
 		{
-			"name": "black22_png",
+			"url": "assets/boom.png",
 			"type": "image",
-			"url": "assets/black2.png"
+			"name": "boom_png"
 		},
 		{
-			"name": "boom2_png",
+			"url": "assets/black2.png",
 			"type": "image",
-			"url": "assets/boom.png"
+			"name": "black22_png"
 		},
 		{
-			"name": "npc2_png",
+			"url": "assets/back_1.png",
 			"type": "image",
-			"url": "assets/npc.png"
+			"name": "back_1_png"
 		},
 		{
-			"name": "starLand2_png",
+			"url": "assets/boom.png",
 			"type": "image",
-			"url": "assets/starLand.png"
+			"name": "boom2_png"
 		},
 		{
-			"name": "title_png",
+			"url": "assets/npc.png",
 			"type": "image",
-			"url": "assets/title.png"
+			"name": "npc2_png"
 		},
 		{
-			"name": "rect_png",
+			"url": "assets/starLand.png",
 			"type": "image",
-			"url": "assets/rect.png"
+			"name": "starLand2_png"
 		},
 		{
-			"name": "tax_png",
+			"url": "assets/title.png",
 			"type": "image",
-			"url": "assets/tax.png"
+			"name": "title_png"
+		},
+		{
+			"url": "assets/rect.png",
+			"type": "image",
+			"name": "rect_png"
+		},
+		{
+			"url": "assets/tax.png",
+			"type": "image",
+			"name": "tax_png"
+		},
+		{
+			"url": "assets/7.png",
+			"type": "image",
+			"name": "7_png"
+		},
+		{
+			"url": "assets/8.png",
+			"type": "image",
+			"name": "8_png"
+		},
+		{
+			"url": "assets/starts/newParticle.png",
+			"type": "image",
+			"name": "newParticle_png"
+		},
+		{
+			"url": "assets/starts/newParticle.json",
+			"type": "json",
+			"name": "newParticle_json"
+		},
+		{
+			"name": "npc_2_png",
+			"type": "image",
+			"url": "assets/npc_2.png"
+		},
+		{
+			"name": "hit_png",
+			"type": "image",
+			"url": "assets/hit.png"
+		},
+		{
+			"name": "name_png",
+			"type": "image",
+			"url": "assets/name.png"
+		},
+		{
+			"name": "back_png",
+			"type": "image",
+			"url": "assets/back.png"
 		}
 	]
 }

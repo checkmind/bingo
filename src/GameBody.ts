@@ -10,11 +10,12 @@ class GameBody extends egret.Sprite{
     private clears = [];
     // 事件锁，需控制的事件完成后才能继续进行
     private lock:Boolean=true;
+    private loack_2:Boolean = false;
     private clickLock:Boolean = false;
     static childW:number = 90;
     static childH:number = 90;
     // 分数
-    private myScore:number = 0;
+    
     private myScoreLabel;
     // 游戏是否结束
     private game = true;
@@ -23,24 +24,29 @@ class GameBody extends egret.Sprite{
     private stackArr = [];
     // 产生新的bingos
     private newBingos = [];
-    public constructor(width,height){
+    // 游戏信息
+    private gameInf
+    public constructor(width,height,gameInf){
         super();
-        this.x = 0;
-        this.y = 200;
         this.width = width;
+        
+        GameBody.childH = GameBody.childW =  (this.width - 100) / GameConfig.row;
+        this.row = GameConfig.row;
+        this.col = GameConfig.col;
+        this.gameInf = gameInf;
+        //this.x = (this.width - this.row*GameBody.childH) / 2
+        this.x = 50;
+        this.y = (height-GameConfig.col*GameBody.childH)/2;
         this.height = height-this.y;
-        this.row = Math.floor(this.width / GameBody.childW)
-        this.col = Math.floor(this.height/ GameBody.childH)
-        this.x = (this.width - this.row*GameBody.childH) / 2
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawDoors,this);
         this.touchEnabled = true;
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.mouseDown, this);
     }
     /* 事件捕捉 */
     private mouseDown(ev) {
-        let x =  Math.floor(ev.stageX/GameBody.childW);
+        let x =  Math.floor((ev.stageX-this.x)/GameBody.childW);
         let y = Math.floor((ev.stageY-this.y)/GameBody.childH);
-        if(this.lock)
+        if(this.lock||this.loack_2)
             return;
         if(this.exitObj(this.bingos,x,y)){
            this.bingos[x][y].chooseBingo();
@@ -97,7 +103,7 @@ class GameBody extends egret.Sprite{
     }
     // 交换两个对象 direction是方向 1 2 3 4对应上右下左 onoff 是否做监测
     private changeObj(object_1,object_2,dir_1,dir_2,onoff?) {
-        this.lock = true;
+        this.loack_2 = true;
         let coord_1 = this.getObjSet(object_1);
         let coord_2 = this.getObjSet(object_2);
         let obj = this.bingos[coord_1.x][coord_1.y];
@@ -105,42 +111,55 @@ class GameBody extends egret.Sprite{
         this.bingos[coord_2.x][coord_2.y] = obj;
         let p1 = object_1.moveToDirection(dir_1)
         let p2 = object_2.moveToDirection(dir_2)
-        if(onoff){
-            this.lock = false;
-            return;
-        }
+        
         Promise.all([p1,p2]).then(()=>{
-            if(!this.checkFun() && !GameConfig.canChange) {
+            if(!onoff && !this.checkFun() && !GameConfig.canChange) {
                 this.changeObj(object_2,object_1,dir_1,dir_2,true)  
+                return;
             }
+            this.loack_2 = false;
+            this.gameInf.myStepNow++;
+           // this.gameInf.updataStep();
         })
     }
    
     private drawDoors(){
-        //this.addImage();
+        this.addBack();
         this.drawBingo();
+        this.gameInf.updataScroe();
+       // this.gameInf.updataStep();
+        this.addMask();
     }
-    
-    private addImage(){
+    private addBack() {
+        /* 背景色设置 */
         var shape:egret.Shape = new egret.Shape;
-        shape.graphics.beginFill(0x000000,1)
+        shape.graphics.beginFill(0x000000,.7)
         shape.graphics.lineStyle(1,0x000000) 
-        shape.graphics.drawRect(0, 0, this.width-this.x,this.height);
+        shape.graphics.drawRect(0, 0, this.width-100,this.row*GameBody.childH);
         shape.graphics.endFill();
         this.addChild(shape);
     }
+    private addMask() {
+        //画一个遮罩正方形
+        var circle:egret.Shape = new egret.Shape();
+        circle.graphics.beginFill(0x0000ff);
+        circle.graphics.drawRect(this.x,this.y,this.width-100,this.row*GameBody.childH);
+        circle.graphics.endFill();
+        this.$parent.addChild(circle);
+        this.mask = circle;
+    }
+
     private drawBingo() {
         for(let i = 0;i<this.row;i++) {
             let arrs = [];
             for(let j = 0;j<this.col;j++) {
-                let ran = this.ran(0,5)
-                let bingo:Bingo = new Bingo(i,j,ran,{i, j});
-                this.addChild(bingo);
-                arrs.push(bingo);
+                
+                arrs.push(null);
             }
             this.bingos.push(arrs);
         }
-        this.checkFun();
+        //this.checkFun();
+        this.updataGame();    
     }
     private addBingo() {
         if( this.bingos[0] )
@@ -152,7 +171,7 @@ class GameBody extends egret.Sprite{
         }
         for(let i = 0;i<this.row;i++) {
                 let ran = this.ran(0,5)
-                let bingo:Bingo = new Bingo(i,-1,ran,{i, j:0});
+                let bingo:Bingo = new Bingo(i,-1,ran,this);
                 this.addChild(bingo);
                 this.newBingos.push(bingo);            
         }
@@ -176,18 +195,20 @@ class GameBody extends egret.Sprite{
         this.newBingos.length = 0;
         this.checkFun();
     }
-    private  checkFun() {
+    private checkFun() {
         this.checkBingos();
         if(this.clears.length ===0){
             this.lock = false;
             return false;
         }
+        this.lock = true;
         this.clearAll(()=>{
             this.updataGame();
         });
         return true;
     }
     private ran(end:number, start:number) {
+        start = GameConfig.bingosMax;
 		return Math.floor(Math.random()*(end-start)+start)
     }
     /* 检测是否能消除 */
@@ -287,31 +308,17 @@ class GameBody extends egret.Sprite{
             let j = +val.split(",")[1]
             if(this.bingos[i] && this.bingos[i][j]) {
                 pros.push(this.bingos[i][j].killSelf());
-                this.myScore += 50;
+                this.gameInf.myScore += 50;
                 delete this.bingos[i][j];
             }  
         })
         this.clears.length = 0;        
         return Promise.all(pros).then(()=>{
             fn();
-            this.updataScroe();
+            this.gameInf.updataScroe();
         })
     }
-    /* 更新成绩 */
-    private updataScroe() {
-        if(this.myScoreLabel){
-            this.myScoreLabel.text = this.myScore;
-            return;
-        }
-        this.myScoreLabel = new eui.Label();
-        this.myScoreLabel.x = 20;
-        this.myScoreLabel.y = -100;
-        this.myScoreLabel.size = 35;//设置文本字号
-        this.myScoreLabel.bold = true;
-        this.myScoreLabel.text = this.myScore;
-        this.myScoreLabel.enabled = true;
-        this.addChild(this.myScoreLabel);
-    }
+    
     /* 更新函数 */
     private updataGame() {
         for(let i = 0;i<this.bingos.length;i++) {
@@ -367,7 +374,7 @@ class GameBody extends egret.Sprite{
         //     this.bingos[i][j] = bingo;
         // }
         let ran = this.ran(0,5)
-        let bingo:Bingo = new Bingo(i,-set,ran,{i, j});
+        let bingo:Bingo = new Bingo(i,-set,ran,this);
         this.addChild(bingo);
         bingo.moveToBottom(j);
         this.bingos[i][j] = bingo;

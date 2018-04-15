@@ -1,7 +1,7 @@
 /* 
 **/
 class PageBus{
-    static pages = [];
+    static pages = {};
     // 页面包含对象
     static contain;
     static nowPage;
@@ -12,23 +12,20 @@ class PageBus{
         console.log(contain)
         PageBus.contain = contain;
     }
-    static pushPage(page) {
-        let had;
-        PageBus.pages.map((val,index)=>{
-            if(val === page)
-                had = true;
-        })
-        if( had )
+    static pushPage(Obj:{router:string,page:any}) {
+        console.log(PageBus.pages,Obj);
+        if(PageBus.pages[Obj.router])
             return;
-        PageBus.pages.push(page)
-        //PageBus.nowPage = page;
+        PageBus.pages[Obj.router] = Obj;
     }
-    static gotoPage(index) {
+    static gotoPage(router) {
         if(!PageBus.nowPage) {
-            PageBus.nowPage = PageBus.pages[0];
+            console.log(PageBus.pages['index'])
+            PageBus.nowPage = PageBus.pages['index'];
         }
         console.log(PageBus.contain,PageBus.nowPage)
-        PageBus.contain.removeChild(PageBus.nowPage);
-        PageBus.contain.addChild(PageBus.pages[index]);
+        PageBus.contain.removeChild(PageBus.nowPage['page']);
+        PageBus.contain.addChild(PageBus.pages[router]['page']);
+        PageBus.nowPage = PageBus.pages[router]
     }
 }

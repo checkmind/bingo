@@ -10,26 +10,23 @@ var PageBus = (function () {
         console.log(contain);
         PageBus.contain = contain;
     };
-    PageBus.pushPage = function (page) {
-        var had;
-        PageBus.pages.map(function (val, index) {
-            if (val === page)
-                had = true;
-        });
-        if (had)
+    PageBus.pushPage = function (Obj) {
+        console.log(PageBus.pages, Obj);
+        if (PageBus.pages[Obj.router])
             return;
-        PageBus.pages.push(page);
-        //PageBus.nowPage = page;
+        PageBus.pages[Obj.router] = Obj;
     };
-    PageBus.gotoPage = function (index) {
+    PageBus.gotoPage = function (router) {
         if (!PageBus.nowPage) {
-            PageBus.nowPage = PageBus.pages[0];
+            console.log(PageBus.pages['index']);
+            PageBus.nowPage = PageBus.pages['index'];
         }
         console.log(PageBus.contain, PageBus.nowPage);
-        PageBus.contain.removeChild(PageBus.nowPage);
-        PageBus.contain.addChild(PageBus.pages[index]);
+        PageBus.contain.removeChild(PageBus.nowPage['page']);
+        PageBus.contain.addChild(PageBus.pages[router]['page']);
+        PageBus.nowPage = PageBus.pages[router];
     };
-    PageBus.pages = [];
+    PageBus.pages = {};
     return PageBus;
 }());
 __reflect(PageBus.prototype, "PageBus");

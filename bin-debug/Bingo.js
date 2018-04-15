@@ -12,7 +12,7 @@ r.prototype = e.prototype, t.prototype = new r();
 **/
 var Bingo = (function (_super) {
     __extends(Bingo, _super);
-    function Bingo(x, y, type, coord) {
+    function Bingo(x, y, type, parent) {
         var _this = _super.call(this) || this;
         _this.width = GameBody.childW;
         _this.height = GameBody.childH;
@@ -20,7 +20,7 @@ var Bingo = (function (_super) {
         _this.colors = [0x1ca5fc, 0x295c9d, 0x990000, 0x7f0000];
         _this.x = x * (_this.width);
         _this.y = y * (_this.height);
-        _this.coord = coord;
+        _this.parent = parent;
         _this.type = type;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.drawDoors, _this);
         return _this;
@@ -38,11 +38,6 @@ var Bingo = (function (_super) {
         this.addChild(this.img);
     };
     Bingo.prototype.addImage = function () {
-        // var shape:egret.Shape = new egret.Shape();
-        // shape.graphics.beginFill(this.colors[this.type])
-        // shape.graphics.drawRect(0, 0, this.width,this.height);
-        // shape.graphics.endFill();
-        // this.addChild(shape);
         this.img = this.createBitmapByName((this.type + 1) + "_png");
         this.img.width = this.width;
         this.img.height = this.height;
@@ -79,7 +74,6 @@ var Bingo = (function (_super) {
     Bingo.prototype.addText = function () {
         var text = new egret.TextField();
         // text.text = this.type;
-        text.text = this.coord.i + '' + this.coord.j;
         text.x = this.width / 2 - text.textWidth / 2;
         text.y = this.height / 2 - text.textHeight / 2;
         this.addChild(text);

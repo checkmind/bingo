@@ -30,8 +30,6 @@
 class Main extends eui.UILayer {
 
     public bingo:Bingo;
-    public gameBody:GameBody;
-    
     protected createChildren(): void {
         super.createChildren();
 
@@ -116,16 +114,21 @@ class Main extends eui.UILayer {
 
         sky.width = stageW;
         sky.height = stageH;
-        this.gameBody = new GameBody(stageW,stageH);
-        //this.addChild(this.gameBody)
+        let pageTax = new TaxPage(stageW,stageH);
+        //this.addChild(pageTax)
         var entryGame:EntryGame = new EntryGame(stageW,stageH,this);
-        //this.addChild(entryGame)
+        this.addChild(entryGame)
         let gameTax = new GameTax(stageW,stageH,this);
-        this.addChild(gameTax)
+        //this.addChild(gameTax)
 
         PageBus.init(this);
-        PageBus.pushPage(entryGame);
-        PageBus.pushPage(this.gameBody);
+        /* 放入路由 */
+        // 主页面
+        PageBus.pushPage({page:entryGame,router:'index'});
+        // 关卡页面
+        PageBus.pushPage({page:pageTax,router:'pageTax'});
+        // 关卡游戏页面
+        PageBus.pushPage({page:gameTax,router:'gameTax'});
     }
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。

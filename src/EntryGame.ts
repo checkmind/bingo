@@ -22,25 +22,25 @@ class EntryGame extends egret.Sprite{
         console.log("add all")
         sky.width = this.width;
         sky.height = this.height;
-        this.addStarLand();
         this.addBlackHead();
         this.addBoom();
         this.addTitle();
         this.addNPC();
+        this.addStarLand();
         this.meau();
     }
     private addNPC() {
-        let sky = this.createBitmapByName("npc_png",this.width-50,(this.width-50)/1.12);
+        let sky = this.createBitmapByName("npc_1_png",256,282);
         this.addChild(sky);
-        sky.x = -150;
-        sky.y = this.height - sky.height/1.2;
+        sky.x = 100;
+        sky.y = this.height - sky.height/0.75;
         var fn = ()=> {
             egret.Tween.get(sky)
-            .to( {y:this.height - sky.height/1.5}, 2000, egret.Ease.sineIn ).call(fn2);
+            .to( {y:this.height - sky.height/0.7}, 3000, egret.Ease.sineIn ).call(fn2);
         }
         var fn2 = ()=> {
             egret.Tween.get(sky)
-            .to( {y:this.height - sky.height/1.2}, 2000, egret.Ease.sineIn ).call(fn);
+            .to( {y:this.height - sky.height/0.75}, 3000, egret.Ease.sineIn ).call(fn);
         }
         fn();
     }
@@ -89,7 +89,7 @@ class EntryGame extends egret.Sprite{
     }
     private meau() {
         var skins = ['ButtonModel1','ButtonModel2','ButtonMore','ButtonHelp']
-        var labelText = ['关卡模式','无尽模式','漫游说明','游戏帮助']
+        var labelText = ['剧情模式','无尽模式','道具说明','游戏帮助']
         for(let i = 0;i<skins.length;i++) {
             let button = new eui.Button();
             button.touchEnabled = true;
@@ -101,12 +101,25 @@ class EntryGame extends egret.Sprite{
             button.rotation = 10+i*2;
             button.enabled = true;
             this.addChild(button);
-            button.addEventListener(egret.TouchEvent.TOUCH_TAP,this.bindClickFn,this);
-     }  
+            button.addEventListener(egret.TouchEvent.TOUCH_TAP,()=>{
+                this.bindClickFn(i);
+            },this,false,i);
+        }  
     }
     /* 给按钮绑定事件 */
-    private bindClickFn() {
-        PageBus.gotoPage(1);
+    private bindClickFn(i) {
+        
+        switch(i) {
+            case 0:
+                PageBus.gotoPage("gameTax");
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            default:
+                return;
+        }
     }
     private createBitmapByName(name: string,width:any,height:any) {
         let result = new egret.Bitmap();

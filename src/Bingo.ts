@@ -5,16 +5,16 @@ class Bingo extends egret.Sprite{
     public height:number = GameBody.childH;
     private image:egret.Bitmap = new egret.Bitmap();
     public type
-    public coord
+    public parent
     public colors = [0x1ca5fc,0x295c9d,0x990000,0x7f0000]
     private choosed
     private borderShape:egret.Shape
     public img
-    public constructor(x,y,type,coord){
+    public constructor(x,y,type,parent){
         super();
         this.x = x*(this.width);
         this.y = y*(this.height);
-        this.coord = coord
+        this.parent = parent
         this.type = type;
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawDoors,this);
         
@@ -32,11 +32,6 @@ class Bingo extends egret.Sprite{
         this.addChild(this.img);
     }
     private addImage(){
-        // var shape:egret.Shape = new egret.Shape();
-        // shape.graphics.beginFill(this.colors[this.type])
-        // shape.graphics.drawRect(0, 0, this.width,this.height);
-        // shape.graphics.endFill();
-        // this.addChild(shape);
         this.img = this.createBitmapByName((this.type+1)+"_png");
         this.img.width = this.width;
         this.img.height = this.height;
@@ -75,7 +70,6 @@ class Bingo extends egret.Sprite{
     private addText() {
         var text:egret.TextField = new egret.TextField();
         // text.text = this.type;
-        text.text = this.coord.i+''+this.coord.j;
         text.x = this.width/2 - text.textWidth/2;
         text.y = this.height/2 -text.textHeight/2;
         this.addChild(text);        

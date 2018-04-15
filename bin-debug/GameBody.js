@@ -12,7 +12,7 @@ r.prototype = e.prototype, t.prototype = new r();
 **/
 var GameBody = (function (_super) {
     __extends(GameBody, _super);
-    function GameBody(width, height) {
+    function GameBody(width, height, gameInf) {
         var _this = _super.call(this) || this;
         _this.image = new egret.Bitmap();
         _this.bingos = [];
@@ -21,22 +21,23 @@ var GameBody = (function (_super) {
         _this.clears = [];
         // 事件锁，需控制的事件完成后才能继续进行
         _this.lock = true;
+        _this.loack_2 = false;
         _this.clickLock = false;
-        // 分数
-        _this.myScore = 0;
         // 游戏是否结束
         _this.game = true;
         // 交换栈
         _this.stackArr = [];
         // 产生新的bingos
         _this.newBingos = [];
-        _this.x = 0;
-        _this.y = 200;
         _this.width = width;
+        GameBody.childH = GameBody.childW = (_this.width - 100) / GameConfig.row;
+        _this.row = GameConfig.row;
+        _this.col = GameConfig.col;
+        _this.gameInf = gameInf;
+        //this.x = (this.width - this.row*GameBody.childH) / 2
+        _this.x = 50;
+        _this.y = (height - GameConfig.col * GameBody.childH) / 2;
         _this.height = height - _this.y;
-        _this.row = Math.floor(_this.width / GameBody.childW);
-        _this.col = Math.floor(_this.height / GameBody.childH);
-        _this.x = (_this.width - _this.row * GameBody.childH) / 2;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.drawDoors, _this);
         _this.touchEnabled = true;
         _this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, _this.mouseDown, _this);
@@ -44,9 +45,9 @@ var GameBody = (function (_super) {
     }
     /* 事件捕捉 */
     GameBody.prototype.mouseDown = function (ev) {
-        var x = Math.floor(ev.stageX / GameBody.childW);
+        var x = Math.floor((ev.stageX - this.x) / GameBody.childW);
         var y = Math.floor((ev.stageY - this.y) / GameBody.childH);
-        if (this.lock)
+        if (this.lock || this.loack_2)
             return;
         if (this.exitObj(this.bingos, x, y)) {
             this.bingos[x][y].chooseBingo();
@@ -108,7 +109,7 @@ var GameBody = (function (_super) {
     // 交换两个对象 direction是方向 1 2 3 4对应上右下左 onoff 是否做监测
     GameBody.prototype.changeObj = function (object_1, object_2, dir_1, dir_2, onoff) {
         var _this = this;
-        this.lock = true;
+        this.loack_2 = true;
         var coord_1 = this.getObjSet(object_1);
         var coord_2 = this.getObjSet(object_2);
         var obj = this.bingos[coord_1.x][coord_1.y];
@@ -116,40 +117,51 @@ var GameBody = (function (_super) {
         this.bingos[coord_2.x][coord_2.y] = obj;
         var p1 = object_1.moveToDirection(dir_1);
         var p2 = object_2.moveToDirection(dir_2);
-        if (onoff) {
-            this.lock = false;
-            return;
-        }
         Promise.all([p1, p2]).then(function () {
-            if (!_this.checkFun() && !GameConfig.canChange) {
+            if (!onoff && !_this.checkFun() && !GameConfig.canChange) {
                 _this.changeObj(object_2, object_1, dir_1, dir_2, true);
+                return;
             }
+            _this.loack_2 = false;
+            _this.gameInf.myStepNow++;
+            // this.gameInf.updataStep();
         });
     };
     GameBody.prototype.drawDoors = function () {
-        //this.addImage();
+        this.addBack();
         this.drawBingo();
+        this.gameInf.updataScroe();
+        // this.gameInf.updataStep();
+        this.addMask();
     };
-    GameBody.prototype.addImage = function () {
+    GameBody.prototype.addBack = function () {
+        /* 背景色设置 */
         var shape = new egret.Shape;
-        shape.graphics.beginFill(0x000000, 1);
+        shape.graphics.beginFill(0x000000, .7);
         shape.graphics.lineStyle(1, 0x000000);
-        shape.graphics.drawRect(0, 0, this.width - this.x, this.height);
+        shape.graphics.drawRect(0, 0, this.width - 100, this.row * GameBody.childH);
         shape.graphics.endFill();
         this.addChild(shape);
+    };
+    GameBody.prototype.addMask = function () {
+        //画一个遮罩正方形
+        var circle = new egret.Shape();
+        circle.graphics.beginFill(0x0000ff);
+        circle.graphics.drawRect(this.x, this.y, this.width - 100, this.row * GameBody.childH);
+        circle.graphics.endFill();
+        this.$parent.addChild(circle);
+        this.mask = circle;
     };
     GameBody.prototype.drawBingo = function () {
         for (var i = 0; i < this.row; i++) {
             var arrs = [];
             for (var j = 0; j < this.col; j++) {
-                var ran = this.ran(0, 5);
-                var bingo = new Bingo(i, j, ran, { i: i, j: j });
-                this.addChild(bingo);
-                arrs.push(bingo);
+                arrs.push(null);
             }
             this.bingos.push(arrs);
         }
-        this.checkFun();
+        //this.checkFun();
+        this.updataGame();
     };
     GameBody.prototype.addBingo = function () {
         if (this.bingos[0])
@@ -161,7 +173,7 @@ var GameBody = (function (_super) {
             }
         for (var i = 0; i < this.row; i++) {
             var ran = this.ran(0, 5);
-            var bingo = new Bingo(i, -1, ran, { i: i, j: 0 });
+            var bingo = new Bingo(i, -1, ran, this);
             this.addChild(bingo);
             this.newBingos.push(bingo);
         }
@@ -194,12 +206,14 @@ var GameBody = (function (_super) {
             this.lock = false;
             return false;
         }
+        this.lock = true;
         this.clearAll(function () {
             _this.updataGame();
         });
         return true;
     };
     GameBody.prototype.ran = function (end, start) {
+        start = GameConfig.bingosMax;
         return Math.floor(Math.random() * (end - start) + start);
     };
     /* 检测是否能消除 */
@@ -298,30 +312,15 @@ var GameBody = (function (_super) {
             var j = +val.split(",")[1];
             if (_this.bingos[i] && _this.bingos[i][j]) {
                 pros.push(_this.bingos[i][j].killSelf());
-                _this.myScore += 50;
+                _this.gameInf.myScore += 50;
                 delete _this.bingos[i][j];
             }
         });
         this.clears.length = 0;
         return Promise.all(pros).then(function () {
             fn();
-            _this.updataScroe();
+            _this.gameInf.updataScroe();
         });
-    };
-    /* 更新成绩 */
-    GameBody.prototype.updataScroe = function () {
-        if (this.myScoreLabel) {
-            this.myScoreLabel.text = this.myScore;
-            return;
-        }
-        this.myScoreLabel = new eui.Label();
-        this.myScoreLabel.x = 20;
-        this.myScoreLabel.y = -100;
-        this.myScoreLabel.size = 35; //设置文本字号
-        this.myScoreLabel.bold = true;
-        this.myScoreLabel.text = this.myScore;
-        this.myScoreLabel.enabled = true;
-        this.addChild(this.myScoreLabel);
     };
     /* 更新函数 */
     GameBody.prototype.updataGame = function () {
@@ -378,7 +377,7 @@ var GameBody = (function (_super) {
         //     this.bingos[i][j] = bingo;
         // }
         var ran = this.ran(0, 5);
-        var bingo = new Bingo(i, -set, ran, { i: i, j: j });
+        var bingo = new Bingo(i, -set, ran, this);
         this.addChild(bingo);
         bingo.moveToBottom(j);
         this.bingos[i][j] = bingo;

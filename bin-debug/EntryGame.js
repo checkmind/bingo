@@ -29,26 +29,26 @@ var EntryGame = (function (_super) {
         console.log("add all");
         sky.width = this.width;
         sky.height = this.height;
-        this.addStarLand();
         this.addBlackHead();
         this.addBoom();
         this.addTitle();
         this.addNPC();
+        this.addStarLand();
         this.meau();
     };
     EntryGame.prototype.addNPC = function () {
         var _this = this;
-        var sky = this.createBitmapByName("npc_png", this.width - 50, (this.width - 50) / 1.12);
+        var sky = this.createBitmapByName("npc_1_png", 256, 282);
         this.addChild(sky);
-        sky.x = -150;
-        sky.y = this.height - sky.height / 1.2;
+        sky.x = 100;
+        sky.y = this.height - sky.height / 0.75;
         var fn = function () {
             egret.Tween.get(sky)
-                .to({ y: _this.height - sky.height / 1.5 }, 2000, egret.Ease.sineIn).call(fn2);
+                .to({ y: _this.height - sky.height / 0.7 }, 3000, egret.Ease.sineIn).call(fn2);
         };
         var fn2 = function () {
             egret.Tween.get(sky)
-                .to({ y: _this.height - sky.height / 1.2 }, 2000, egret.Ease.sineIn).call(fn);
+                .to({ y: _this.height - sky.height / 0.75 }, 3000, egret.Ease.sineIn).call(fn);
         };
         fn();
     };
@@ -94,25 +94,42 @@ var EntryGame = (function (_super) {
         sky.y = this.height - sky.height * 1.5;
     };
     EntryGame.prototype.meau = function () {
+        var _this = this;
         var skins = ['ButtonModel1', 'ButtonModel2', 'ButtonMore', 'ButtonHelp'];
-        var labelText = ['关卡模式', '无尽模式', '漫游说明', '游戏帮助'];
-        for (var i = 0; i < skins.length; i++) {
+        var labelText = ['剧情模式', '无尽模式', '道具说明', '游戏帮助'];
+        var _loop_1 = function (i) {
             var button = new eui.Button();
             button.touchEnabled = true;
             console.log(button);
-            button.x = this.width / 2;
+            button.x = this_1.width / 2;
             button.label = labelText[i];
             button.width = 300;
-            button.y = i * 80 + this.height / 2;
+            button.y = i * 80 + this_1.height / 2;
             button.rotation = 10 + i * 2;
             button.enabled = true;
-            this.addChild(button);
-            button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.bindClickFn, this);
+            this_1.addChild(button);
+            button.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                _this.bindClickFn(i);
+            }, this_1, false, i);
+        };
+        var this_1 = this;
+        for (var i = 0; i < skins.length; i++) {
+            _loop_1(i);
         }
     };
     /* 给按钮绑定事件 */
-    EntryGame.prototype.bindClickFn = function () {
-        PageBus.gotoPage(1);
+    EntryGame.prototype.bindClickFn = function (i) {
+        switch (i) {
+            case 0:
+                PageBus.gotoPage("gameTax");
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            default:
+                return;
+        }
     };
     EntryGame.prototype.createBitmapByName = function (name, width, height) {
         var result = new egret.Bitmap();

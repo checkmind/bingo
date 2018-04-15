@@ -25,26 +25,16 @@ var GameTax = (function (_super) {
         return _this;
     }
     GameTax.prototype.addImage = function () {
-        var sky = this.createBitmapByName("bg_png", this.width, this.height);
-        //this.addChild(sky);
-        console.log("add all");
-        sky.width = this.width;
-        sky.height = this.height;
-        this.meau();
+        this.addBack();
+        this.addGroup();
     };
-    GameTax.prototype.meau = function () {
-        var skins = ['ButtonModel1', 'ButtonModel2', 'ButtonMore', 'ButtonHelp'];
-        var labelText = ['关卡模式', '无尽模式', '漫游说明', '游戏帮助'];
-        var button = new eui.Image();
-        button.touchEnabled = true;
-        button.width = 300;
-        button.height = 300;
-        this.addChild(button);
-        //button.addEventListener(egret.TouchEvent.TOUCH_TAP,this.bindClickFn,this);
+    GameTax.prototype.addGroup = function () {
+        var gameGroup = new GameGroup(this.width, this.height, this);
+        this.addChild(gameGroup);
     };
-    /* 给按钮绑定事件 */
-    GameTax.prototype.bindClickFn = function () {
-        PageBus.gotoPage(1);
+    GameTax.prototype.addBack = function () {
+        var sky = this.createBitmapByName("back_1_png", 432 * 2, 704 * 2);
+        this.addChild(sky);
     };
     GameTax.prototype.createBitmapByName = function (name, width, height) {
         var result = new egret.Bitmap();
