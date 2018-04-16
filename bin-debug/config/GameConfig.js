@@ -9,8 +9,8 @@ var GameConfig = (function () {
     /* 即使不能消除也能交换顺序 */
     GameConfig.canChange = false;
     /* 消除的行列 */
-    GameConfig.row = 7;
-    GameConfig.col = 7;
+    GameConfig.row = 4;
+    GameConfig.col = 4;
     /* 当前步数 */
     GameConfig.stepOnoff = true;
     GameConfig.maxStep = 20;

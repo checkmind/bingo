@@ -19,7 +19,6 @@ class EntryGame extends egret.Sprite{
     private addImage(){
         let sky = this.createBitmapByName("bg_png",this.width,this.height);
         //this.addChild(sky);
-        console.log("add all")
         sky.width = this.width;
         sky.height = this.height;
         this.addBlackHead();
@@ -93,7 +92,6 @@ class EntryGame extends egret.Sprite{
         for(let i = 0;i<skins.length;i++) {
             let button = new eui.Button();
             button.touchEnabled = true;
-            console.log(button)
             button.x = this.width/2;
             button.label = labelText[i];
             button.width = 300;

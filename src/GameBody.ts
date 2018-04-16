@@ -199,6 +199,7 @@ class GameBody extends egret.Sprite{
         this.checkBingos();
         if(this.clears.length ===0){
             this.lock = false;
+            this.checkGameOver();
             return false;
         }
         this.lock = true;
@@ -358,15 +359,15 @@ class GameBody extends egret.Sprite{
 		}
         setTimeout(()=>{
             this.checkFun();
-            if(this.clears.length===0)
-                this.checkGameOver();
         },1000)
     }
+
     /* 檢查游戲是否真的結束 */
     private checkGameOver() {
         // 這邊簡單記錄一下bingos
+        if(!this.cloneBingos())
+            console.log("游戏结束了");
         
-        console.log(this.cloneBingos());
     }
     private cloneBingos() {
         let arr = [];
@@ -374,15 +375,117 @@ class GameBody extends egret.Sprite{
         for(let i = 0;i<bingos.length;i++) {
             let arr_1 = [];
             for(let j = 0;j<bingos[i].length;j++) {
-                console.log(bingos[i][j]);
-                arr_1.push({
-                    type: bingos[i][j].type
-                })
+                let type = bingos[i][j].type
+                if(this.checkLineExis(i,j))
+                    return true;
+                // arr_1.push({
+                //     type: bingos[i][j].type
+                // })
             }
             arr.push(arr_1);
         }
-        return arr;
+        return false;
     }
+    private checkRightBottom(x,y) {
+        let bingos = this.bingos;
+        // 首先检测和右边交换能不能消除 
+        let exit_l_1 = this.exitObj(bingos,x+2,y)
+        let exit_l_2 = this.exitObj(bingos,x+3,y)
+        if(exit_l_1 && exit_l_2) {
+            if(bingos[x][y].type === bingos[x+2][y].type === bingos[x+3][y].type)
+                return true;
+        }
+        // 再检测和下面交换能不能消除
+        let exit_r_1 = this.exitObj(bingos,x,y+2)
+        let exit_r_2 = this.exitObj(bingos,x,y+3)
+        if(exit_r_1 && exit_r_2) {
+            if(bingos[x][y].type === bingos[x][y+2].type === bingos[x][y+3].type)
+                return true;
+        }
+        return false;
+    }
+    // 检查一行内三个对象是否存在 direction 对应0 1 2 3 上右下左
+    private checkLineExis(i,j) {
+        console.log(i,j);
+        /* 这个是向下i，j对象向下交换后的横坐标线 */
+        let arr_1 = [{
+            i: i-2,
+            j: j+1
+        },{
+            i: i-1,
+            j: j+1
+        },{i,j},{
+            i: i+1,
+            j: j+1
+        },{
+            i: i+2,
+            j: j+1
+        }]
+        /* 这个是向下i，j对象向下交换后的纵坐标线 */
+        let arr_2 = 
+        [{ i,j},{
+            i:i,
+            j:j+2
+        },{
+            i:i,
+            j:j+3
+        }]
+        /* 这个是向右i，j对象交换后的横坐标线 */
+        let arr_3 = [{
+            i:i+1,
+            j:j-2
+        },{
+            i:i+1,
+            j:j-1
+        },{i,j},{
+            i:i+1,
+            j:j+1
+        },{
+            i:i+1,
+            j:j+2
+        }]
+        /* 这个是向右i，j对象交换后的纵坐标线 */
+        let arr_4 = [{
+            i,j
+        },{
+            i:i+2,
+            j
+        },{
+            i:i+3,
+            j
+        }]
+        let checkType = arr=>{
+            let now,
+                add = 1,
+                can = false;
+            arr.map((val,index)=>{
+                let {i,j} = val;
+                
+                let exitObj = this.exitObj(this.bingos,i,j);
+                if(index!==0) {
+                    if(exitObj && now===this.bingos[i][j].type)
+                        add++;
+                    else
+                        add = 1;
+                }
+                now = exitObj ? this.bingos[i][j].type:null;
+                if(add>=3)
+                    can = true;
+            })
+            return can;
+        }
+
+        if(checkType(arr_1))
+            return true;
+        if(checkType(arr_2))
+            return true;
+        if(checkType(arr_3))
+            return true;
+        if(checkType(arr_4))
+            return true;
+        return false;
+    }
+    /************* 检查游戏函数ending************* */
     /*
      这列已经为空了，直接创建新的bingos。然后移动到对应位置
     **/

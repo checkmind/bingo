@@ -4,8 +4,8 @@ class GameConfig{
     /* 即使不能消除也能交换顺序 */
     static canChange = false;
     /* 消除的行列 */
-    static row = 7;
-    static col = 7;
+    static row = 4;
+    static col = 4;
     /* 当前步数 */
     static stepOnoff = true;
     static maxStep = 20;  

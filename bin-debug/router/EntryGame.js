@@ -26,7 +26,6 @@ var EntryGame = (function (_super) {
     EntryGame.prototype.addImage = function () {
         var sky = this.createBitmapByName("bg_png", this.width, this.height);
         //this.addChild(sky);
-        console.log("add all");
         sky.width = this.width;
         sky.height = this.height;
         this.addBlackHead();
@@ -100,7 +99,6 @@ var EntryGame = (function (_super) {
         var _loop_1 = function (i) {
             var button = new eui.Button();
             button.touchEnabled = true;
-            console.log(button);
             button.x = this_1.width / 2;
             button.label = labelText[i];
             button.width = 300;
