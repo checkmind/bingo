@@ -362,20 +362,35 @@ var GameBody = (function (_super) {
         }
         setTimeout(function () {
             _this.checkFun();
+            if (_this.clears.length === 0)
+                _this.checkGameOver();
         }, 1000);
+    };
+    /* 檢查游戲是否真的結束 */
+    GameBody.prototype.checkGameOver = function () {
+        // 這邊簡單記錄一下bingos
+        console.log(this.cloneBingos());
+    };
+    GameBody.prototype.cloneBingos = function () {
+        var arr = [];
+        var bingos = this.bingos;
+        for (var i = 0; i < bingos.length; i++) {
+            var arr_1 = [];
+            for (var j = 0; j < bingos[i].length; j++) {
+                console.log(bingos[i][j]);
+                arr_1.push({
+                    type: bingos[i][j].type
+                });
+            }
+            arr.push(arr_1);
+        }
+        return arr;
     };
     /*
      这列已经为空了，直接创建新的bingos。然后移动到对应位置
     **/
     GameBody.prototype.createNewBingos = function (i, j, set) {
         var arr = [];
-        // for(let n = 0;n<=j;n++) {
-        //     let ran = this.ran(0,5)
-        //     let bingo:Bingo = new Bingo(i,n-j-1,ran,{i, n});
-        //     this.addChild(bingo);
-        //     bingo.moveToBottom(n);
-        //     this.bingos[i][j] = bingo;
-        // }
         var ran = this.ran(0, 5);
         var bingo = new Bingo(i, -set, ran, this);
         this.addChild(bingo);
