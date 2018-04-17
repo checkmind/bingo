@@ -18,6 +18,7 @@ var PageBus = (function () {
         if (!PageBus.nowPage) {
             PageBus.nowPage = PageBus.pages['index'];
         }
+        PageBus.nowPage['page'].removeChildren();
         PageBus.contain.removeChild(PageBus.nowPage['page']);
         PageBus.contain.addChild(PageBus.pages[router]['page']);
         PageBus.nowPage = PageBus.pages[router];

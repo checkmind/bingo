@@ -42,6 +42,7 @@ class GameBody extends egret.Sprite{
         this.touchEnabled = true;
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.mouseDown, this);
     }
+
     /* 事件捕捉 */
     private mouseDown(ev) {
         let x =  Math.floor((ev.stageX-this.x)/GameBody.childW);
