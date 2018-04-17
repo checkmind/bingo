@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<e:Skin class="skins.TalkSkin" minHeight="50" minWidth="100" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*" width="50" height="50">
+	<w:Declarations>
+		<tween:TweenGroup id="my">
+			<tween:TweenItem target="{image_2}">
+				<tween:Wait duration="250"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object x="{0}" y="{-5}"/>
+					</tween:props>
+				</tween:Set>
+			</tween:TweenItem>
+		</tween:TweenGroup>
+	</w:Declarations>
+	<e:Image id="image_2" width="50" height="50" scale9Grid="1,3,8,8" left="0" anchorOffsetX="0" anchorOffsetY="0" source="resource/assets/shuffle.png" y="-4"/>
+	<e:Image id="image_1" width="50" height="50" scale9Grid="1,3,8,8" left="-1" anchorOffsetX="0" anchorOffsetY="0" source="resource/assets/rect_2.png" y="1" locked="true"/>
+</e:Skin>

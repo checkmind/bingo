@@ -26,10 +26,11 @@ class GameBody extends egret.Sprite{
     private newBingos = [];
     // 游戏信息
     private gameInf
-    public constructor(width,height,gameInf){
+    private parents;
+    public constructor(width,height,gameInf,parents){
         super();
         this.width = width;
-        
+        this.parents = parents;
         GameBody.childH = GameBody.childW =  (this.width - 100) / GameConfig.row;
         this.row = GameConfig.row;
         this.col = GameConfig.col;
@@ -366,8 +367,10 @@ class GameBody extends egret.Sprite{
     /* 檢查游戲是否真的結束 */
     private checkGameOver() {
         // 這邊簡單記錄一下bingos
-        if(!this.cloneBingos())
-            console.log("游戏结束了");
+        if(!this.cloneBingos()){
+            console.log("游戏结束了")
+            this.parents.gameOver();
+        }
         
     }
     private cloneBingos() {

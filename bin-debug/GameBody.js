@@ -12,7 +12,7 @@ r.prototype = e.prototype, t.prototype = new r();
 **/
 var GameBody = (function (_super) {
     __extends(GameBody, _super);
-    function GameBody(width, height, gameInf) {
+    function GameBody(width, height, gameInf, parents) {
         var _this = _super.call(this) || this;
         _this.image = new egret.Bitmap();
         _this.bingos = [];
@@ -30,6 +30,7 @@ var GameBody = (function (_super) {
         // 产生新的bingos
         _this.newBingos = [];
         _this.width = width;
+        _this.parents = parents;
         GameBody.childH = GameBody.childW = (_this.width - 100) / GameConfig.row;
         _this.row = GameConfig.row;
         _this.col = GameConfig.col;
@@ -368,8 +369,10 @@ var GameBody = (function (_super) {
     /* 檢查游戲是否真的結束 */
     GameBody.prototype.checkGameOver = function () {
         // 這邊簡單記錄一下bingos
-        if (!this.cloneBingos())
+        if (!this.cloneBingos()) {
             console.log("游戏结束了");
+            this.parents.gameOver();
+        }
     };
     GameBody.prototype.cloneBingos = function () {
         var arr = [];

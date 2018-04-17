@@ -22,7 +22,6 @@ var TalkContent = (function (_super) {
         _this.width = width;
         _this.height = height;
         _this.parents = parents;
-        _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.addImage, _this);
         _this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, _this.mouseDown, _this);
         return _this;
     }
@@ -30,6 +29,9 @@ var TalkContent = (function (_super) {
         this.nowWords++;
         var arr = GameConfig.npcTalk[GameConfig.nowTax];
         this.showWhich(arr[this.nowWords]);
+    };
+    TalkContent.prototype.init = function () {
+        this.addEventListener(egret.Event.ADDED_TO_STAGE, this.addImage, this);
     };
     TalkContent.prototype.addImage = function () {
         // this.addBack();
@@ -49,6 +51,7 @@ var TalkContent = (function (_super) {
     TalkContent.prototype.showWhich = function (obj) {
         if (!obj) {
             this.parents.beginGame();
+            this.removeChildren();
             return;
         }
         if (obj.type !== 1) {

@@ -43,12 +43,20 @@ class TaxPage extends egret.Sprite{
     }
     
     private addGameBody() {
-       this.gameBody = new GameBody(this.width,this.height,this.gameInf);
+       this.gameBody = new GameBody(this.width,this.height,this.gameInf,this);
        this.addChild(this.gameBody)  
     }
     private addTalk() {
        this.talkContent = new TalkContent(this.width,this.height,this);
+       this.talkContent.init();
        this.addChild(this.talkContent)  
+    }
+    private gameOver() {
+        this.addChild(this.talkContent)
+        this.talkContent.showWhich({
+            type:1,
+            text:'失败了？没事儿，再来一次'
+        })
     }
     private beginGame() {
         this.removeChild(this.talkContent);

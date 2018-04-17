@@ -44,12 +44,20 @@ var TaxPage = (function (_super) {
         // system.scaleX = system.scaleY = 1.5;
     };
     TaxPage.prototype.addGameBody = function () {
-        this.gameBody = new GameBody(this.width, this.height, this.gameInf);
+        this.gameBody = new GameBody(this.width, this.height, this.gameInf, this);
         this.addChild(this.gameBody);
     };
     TaxPage.prototype.addTalk = function () {
         this.talkContent = new TalkContent(this.width, this.height, this);
+        this.talkContent.init();
         this.addChild(this.talkContent);
+    };
+    TaxPage.prototype.gameOver = function () {
+        this.addChild(this.talkContent);
+        this.talkContent.showWhich({
+            type: 1,
+            text: '失败了？没事儿，再来一次'
+        });
     };
     TaxPage.prototype.beginGame = function () {
         this.removeChild(this.talkContent);

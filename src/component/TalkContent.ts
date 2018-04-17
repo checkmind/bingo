@@ -18,13 +18,15 @@ class TalkContent extends egret.Sprite{
         this.width = width;
         this.height = height;
         this.parents = parents;
-        this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addImage,this);
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.mouseDown, this);
     }
     private mouseDown() {
         this.nowWords++;
         let arr = GameConfig.npcTalk[GameConfig.nowTax]
         this.showWhich(arr[this.nowWords]);
+    }
+    public init() {
+        this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addImage,this);
     }
     private addImage(){
        // this.addBack();
@@ -44,9 +46,10 @@ class TalkContent extends egret.Sprite{
         this.addChild(shape);
     }
 
-    private showWhich(obj:{type:number,text:string}) {
+    public showWhich(obj:{type:number,text:string}) {
         if(!obj) {
             this.parents.beginGame();
+            this.removeChildren();
             return;
         }
         if(obj.type!==1) {
