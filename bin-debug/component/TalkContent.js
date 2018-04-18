@@ -31,11 +31,14 @@ var TalkContent = (function (_super) {
         this.showWhich(arr[this.nowWords]);
     };
     TalkContent.prototype.init = function () {
+        console.log("调用了init");
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.addImage, this);
     };
     TalkContent.prototype.addImage = function () {
         // this.addBack();
+        console.log("调用了初始show");
         this.showWhich(GameConfig.npcTalk[GameConfig.nowTax][this.nowWords]);
+        this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.addImage, this);
     };
     TalkContent.prototype.addGameBody = function () {
     };
@@ -49,9 +52,13 @@ var TalkContent = (function (_super) {
         this.addChild(shape);
     };
     TalkContent.prototype.showWhich = function (obj) {
+        console.log("传值是");
+        console.log(obj);
         if (!obj) {
             this.parents.beginGame();
             this.removeChildren();
+            if (this.$parent)
+                this.parents.removeChild(this);
             return;
         }
         if (obj.type !== 1) {

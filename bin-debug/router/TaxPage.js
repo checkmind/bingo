@@ -50,9 +50,12 @@ var TaxPage = (function (_super) {
     TaxPage.prototype.addTalk = function () {
         this.talkContent = new TalkContent(this.width, this.height, this);
         this.talkContent.init();
+        console.log("调用了adtalk");
         this.addChild(this.talkContent);
     };
     TaxPage.prototype.gameOver = function () {
+        console.log("游戏结束");
+        this.removeChild(this.gameBody);
         this.addChild(this.talkContent);
         this.talkContent.showWhich({
             type: 1,

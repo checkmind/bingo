@@ -6,6 +6,14 @@ class GameConfig{
     /* 消除的行列 */
     static row = 4;
     static col = 4;
+    /* 当前状态 
+    * state :
+    *   0 游戏还未开始
+    *   1 游戏开始
+    *   2 游戏结束
+    *   3 游戏成功
+    **/
+    static state = 0;
     /* 当前步数 */
     static stepOnoff = true;
     static maxStep = 20;  
@@ -57,7 +65,21 @@ class GameConfig{
             text: '（思索一会儿......）先别说了，前面的全息屏幕熟悉吧，将相同的星球聚集在一起，让我看看你的实力吧。'
         },]
         ]
+    static failWords = ['失败了？没关系再来一次！？','除了实力还需要运气','宇宙的熵越来越高了，降熵的速度都赶不上增熵了！','运用你的智慧......']
     static nowTax = 0;
+    static taxConfig = [{
+        row: 4,
+        col: 4,
+    },{
+        row: 5,
+        col: 5,
+    },{
+        row: 6,
+        col: 6,
+    },{
+        row: 7,
+        col: 7,
+    },];
     public constructor(){
         
     }

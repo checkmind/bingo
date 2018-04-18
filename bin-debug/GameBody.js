@@ -391,24 +391,6 @@ var GameBody = (function (_super) {
         }
         return false;
     };
-    GameBody.prototype.checkRightBottom = function (x, y) {
-        var bingos = this.bingos;
-        // 首先检测和右边交换能不能消除 
-        var exit_l_1 = this.exitObj(bingos, x + 2, y);
-        var exit_l_2 = this.exitObj(bingos, x + 3, y);
-        if (exit_l_1 && exit_l_2) {
-            if (bingos[x][y].type === bingos[x + 2][y].type === bingos[x + 3][y].type)
-                return true;
-        }
-        // 再检测和下面交换能不能消除
-        var exit_r_1 = this.exitObj(bingos, x, y + 2);
-        var exit_r_2 = this.exitObj(bingos, x, y + 3);
-        if (exit_r_1 && exit_r_2) {
-            if (bingos[x][y].type === bingos[x][y + 2].type === bingos[x][y + 3].type)
-                return true;
-        }
-        return false;
-    };
     // 检查一行内三个对象是否存在 direction 对应0 1 2 3 上右下左
     GameBody.prototype.checkLineExis = function (i, j) {
         var _this = this;

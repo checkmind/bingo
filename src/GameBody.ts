@@ -32,8 +32,8 @@ class GameBody extends egret.Sprite{
         this.width = width;
         this.parents = parents;
         GameBody.childH = GameBody.childW =  (this.width - 100) / GameConfig.row;
-        this.row = GameConfig.row;
-        this.col = GameConfig.col;
+        this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
+        this.col = GameConfig.taxConfig[GameConfig.nowTax].col;
         this.gameInf = gameInf;
         //this.x = (this.width - this.row*GameBody.childH) / 2
         this.x = 50;
@@ -390,24 +390,7 @@ class GameBody extends egret.Sprite{
         }
         return false;
     }
-    private checkRightBottom(x,y) {
-        let bingos = this.bingos;
-        // 首先检测和右边交换能不能消除 
-        let exit_l_1 = this.exitObj(bingos,x+2,y)
-        let exit_l_2 = this.exitObj(bingos,x+3,y)
-        if(exit_l_1 && exit_l_2) {
-            if(bingos[x][y].type === bingos[x+2][y].type === bingos[x+3][y].type)
-                return true;
-        }
-        // 再检测和下面交换能不能消除
-        let exit_r_1 = this.exitObj(bingos,x,y+2)
-        let exit_r_2 = this.exitObj(bingos,x,y+3)
-        if(exit_r_1 && exit_r_2) {
-            if(bingos[x][y].type === bingos[x][y+2].type === bingos[x][y+3].type)
-                return true;
-        }
-        return false;
-    }
+
     // 检查一行内三个对象是否存在 direction 对应0 1 2 3 上右下左
     private checkLineExis(i,j) {
         console.log(i,j);
@@ -500,7 +483,6 @@ class GameBody extends egret.Sprite{
         this.addChild(bingo);
         bingo.moveToBottom(j);
         this.bingos[i][j] = bingo;
-        
     }
     /* 得到上级方块 */
     private getMyTop(i,j) {
