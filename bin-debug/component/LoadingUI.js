@@ -50,6 +50,16 @@ var LoadingUI = (function (_super) {
         this.textField.width = 480;
         this.textField.height = 100;
         this.textField.textAlign = "center";
+        // #a31818
+    };
+    LoadingUI.prototype.addTaxNum = function () {
+        this.progress = new TaxButton();
+        this.progress.skinName = "resource/eui_skins/TitleSkin.exml";
+        this.progress.label2 = '第' + GameConfig.taxArr[GameConfig.nowTax] + '宇宙';
+        this.progress.label = '熵值：0';
+        // this.progress.x =(this.width - this.taxNum.width)-50;
+        this.progress.y = 5;
+        this.addChild(this.progress);
     };
     LoadingUI.prototype.onProgress = function (current, total) {
         this.textField.text = "Loading..." + current + "/" + total;

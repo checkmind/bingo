@@ -73,12 +73,28 @@ class GameConfig{
     },{
         row: 5,
         col: 5,
+        // 从下到上 宇宙会黑掉，这个是黑掉的时间
+        darkTime: 60
     },{
         row: 6,
         col: 6,
+        // 最顶层放稀有星球 稀有星球需到底部
+        uncommon: 4 
     },{
         row: 7,
         col: 7,
+        // 十字陷阱，必须把同等星球放到规定的地方，这个允许来回挪动
+        matrix: [],
+    },{
+        row: 7,
+        col: 7,
+        // 每隔五秒钟没消除操作就失败 允许来回挪动 如果没有能消除的就打乱
+        matrix: [],
+    },{
+        row: 7,
+        col: 7,
+        // 每隔五秒钟星球会随机变化
+        matrix: [],
     },];
     public constructor(){
         

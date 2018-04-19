@@ -32,8 +32,8 @@ var GameBody = (function (_super) {
         _this.width = width;
         _this.parents = parents;
         GameBody.childH = GameBody.childW = (_this.width - 100) / GameConfig.row;
-        _this.row = GameConfig.row;
-        _this.col = GameConfig.col;
+        _this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
+        _this.col = GameConfig.taxConfig[GameConfig.nowTax].col;
         _this.gameInf = gameInf;
         //this.x = (this.width - this.row*GameBody.childH) / 2
         _this.x = 50;

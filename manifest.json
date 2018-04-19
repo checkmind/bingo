@@ -12,6 +12,7 @@
 		"bin-debug/component/GameInf.js",
 		"bin-debug/pageBus.js",
 		"bin-debug/Platform.js",
+		"bin-debug/button/Progress.js",
 		"bin-debug/button/stateButton.js",
 		"bin-debug/button/TalkButton.js",
 		"bin-debug/component/Bingo.js",

@@ -11,6 +11,14 @@ var GameConfig = (function () {
     /* 消除的行列 */
     GameConfig.row = 4;
     GameConfig.col = 4;
+    /* 当前状态
+    * state :
+    *   0 游戏还未开始
+    *   1 游戏开始
+    *   2 游戏结束
+    *   3 游戏成功
+    **/
+    GameConfig.state = 0;
     /* 当前步数 */
     GameConfig.stepOnoff = true;
     GameConfig.maxStep = 20;
@@ -62,7 +70,37 @@ var GameConfig = (function () {
                 text: '（思索一会儿......）先别说了，前面的全息屏幕熟悉吧，将相同的星球聚集在一起，让我看看你的实力吧。'
             },]
     ];
+    GameConfig.failWords = ['失败了？没关系再来一次！？', '除了实力还需要运气', '宇宙的熵越来越高了，降熵的速度都赶不上增熵了！', '运用你的智慧......'];
     GameConfig.nowTax = 0;
+    GameConfig.taxConfig = [{
+            row: 4,
+            col: 4,
+        }, {
+            row: 5,
+            col: 5,
+            // 从下到上 宇宙会黑掉，这个是黑掉的时间
+            darkTime: 60
+        }, {
+            row: 6,
+            col: 6,
+            // 最顶层放稀有星球 稀有星球需到底部
+            uncommon: 4
+        }, {
+            row: 7,
+            col: 7,
+            // 十字陷阱，必须把同等星球放到规定的地方，这个允许来回挪动
+            matrix: [],
+        }, {
+            row: 7,
+            col: 7,
+            // 每隔五秒钟没消除操作就失败 允许来回挪动 如果没有能消除的就打乱
+            matrix: [],
+        }, {
+            row: 7,
+            col: 7,
+            // 每隔五秒钟星球会随机变化
+            matrix: [],
+        },];
     return GameConfig;
 }());
 __reflect(GameConfig.prototype, "GameConfig");

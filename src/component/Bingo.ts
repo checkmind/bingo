@@ -5,7 +5,7 @@ class Bingo extends egret.Sprite{
     public height:number = GameBody.childH;
     private image:egret.Bitmap = new egret.Bitmap();
     public type
-    public parent
+    public parents
     public colors = [0x1ca5fc,0x295c9d,0x990000,0x7f0000]
     private choosed
     private borderShape:egret.Shape
@@ -14,7 +14,7 @@ class Bingo extends egret.Sprite{
         super();
         this.x = x*(this.width);
         this.y = y*(this.height);
-        this.parent = parent
+        this.parents = parent
         this.type = type;
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawDoors,this);
         

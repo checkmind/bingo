@@ -1,11 +1,21 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,2_png,3_png,4_png,5_png,1_png,6_png,blackhole_png,button_png,button2_png,starLand_png,black2_png,boom_png,black22_png,back_1_png,boom2_png,starLand2_png,title_png,rect_png,tax_png,7_png,8_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,hit_png,name_png,back_png,shuffle_png,rect_2_png,name2_png,cir_png",
+			"keys": "description_json,progress_png,bar_png,2_png,3_png,4_png,5_png,1_png,6_png,blackhole_png,button_png,button2_png,starLand_png,black2_png,boom_png,black22_png,back_1_png,boom2_png,starLand2_png,title_png,rect_png,tax_png,7_png,8_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,hit_png,name_png,back_png,shuffle_png,rect_2_png,name2_png,cir_png",
 			"name": "preload"
 		}
 	],
 	"resources": [
+		{
+			"name": "progress_png",
+			"type": "image",
+			"url": "assets/progress.png"
+		},
+		{
+			"name": "bar_png",
+			"type": "image",
+			"url": "assets/bar.png"
+		},
 		{
 			"url": "config/description.json",
 			"type": "json",

@@ -20,7 +20,7 @@ var Bingo = (function (_super) {
         _this.colors = [0x1ca5fc, 0x295c9d, 0x990000, 0x7f0000];
         _this.x = x * (_this.width);
         _this.y = y * (_this.height);
-        _this.parent = parent;
+        _this.parents = parent;
         _this.type = type;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.drawDoors, _this);
         return _this;
