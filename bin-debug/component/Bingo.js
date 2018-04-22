@@ -38,7 +38,12 @@ var Bingo = (function (_super) {
         this.addChild(this.img);
     };
     Bingo.prototype.addImage = function () {
-        this.img = this.createBitmapByName((this.type + 1) + "_png");
+        if (this.type >= 100) {
+            this.img = this.createBitmapByName("100_png");
+        }
+        else {
+            this.img = this.createBitmapByName((this.type + 1) + "_png");
+        }
         this.img.width = this.width;
         this.img.height = this.height;
         this.addChild(this.img);

@@ -1,20 +1,20 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,progress_png,bar_png,2_png,3_png,4_png,5_png,1_png,6_png,blackhole_png,button_png,button2_png,starLand_png,black2_png,boom_png,black22_png,back_1_png,boom2_png,starLand2_png,title_png,rect_png,tax_png,7_png,8_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,hit_png,name_png,back_png,shuffle_png,rect_2_png,name2_png,cir_png",
+			"keys": "description_json,progress_png,bar_png,2_png,3_png,4_png,5_png,1_png,6_png,blackhole_png,button_png,black2_png,boom_png,back_1_png,starLand2_png,title_png,rect_png,tax_png,7_png,8_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,hit_png,name_png,back_png,shuffle_png,rect_2_png,name2_png,cir_png,100_png",
 			"name": "preload"
 		}
 	],
 	"resources": [
 		{
-			"name": "progress_png",
+			"url": "assets/progress.png",
 			"type": "image",
-			"url": "assets/progress.png"
+			"name": "progress_png"
 		},
 		{
-			"name": "bar_png",
+			"url": "assets/bar.png",
 			"type": "image",
-			"url": "assets/bar.png"
+			"name": "bar_png"
 		},
 		{
 			"url": "config/description.json",
@@ -62,16 +62,6 @@
 			"name": "button_png"
 		},
 		{
-			"url": "assets/button.png",
-			"type": "image",
-			"name": "button2_png"
-		},
-		{
-			"url": "assets/starLand.png",
-			"type": "image",
-			"name": "starLand_png"
-		},
-		{
 			"url": "assets/npc_1.png",
 			"type": "image",
 			"name": "npc_1_png"
@@ -87,19 +77,9 @@
 			"name": "boom_png"
 		},
 		{
-			"url": "assets/black2.png",
-			"type": "image",
-			"name": "black22_png"
-		},
-		{
 			"url": "assets/back_1.png",
 			"type": "image",
 			"name": "back_1_png"
-		},
-		{
-			"url": "assets/boom.png",
-			"type": "image",
-			"name": "boom2_png"
 		},
 		{
 			"url": "assets/starLand.png",
@@ -142,44 +122,49 @@
 			"name": "newParticle_json"
 		},
 		{
-			"name": "npc_2_png",
+			"url": "assets/npc_2.png",
 			"type": "image",
-			"url": "assets/npc_2.png"
+			"name": "npc_2_png"
 		},
 		{
-			"name": "hit_png",
+			"url": "assets/hit.png",
 			"type": "image",
-			"url": "assets/hit.png"
+			"name": "hit_png"
 		},
 		{
-			"name": "name_png",
+			"url": "assets/name.png",
 			"type": "image",
-			"url": "assets/name.png"
+			"name": "name_png"
 		},
 		{
-			"name": "back_png",
+			"url": "assets/back.png",
 			"type": "image",
-			"url": "assets/back.png"
+			"name": "back_png"
 		},
 		{
-			"name": "shuffle_png",
+			"url": "assets/shuffle.png",
 			"type": "image",
-			"url": "assets/shuffle.png"
+			"name": "shuffle_png"
 		},
 		{
-			"name": "rect_2_png",
+			"url": "assets/rect_2.png",
 			"type": "image",
-			"url": "assets/rect_2.png"
+			"name": "rect_2_png"
 		},
 		{
-			"name": "name2_png",
+			"url": "name.png",
 			"type": "image",
-			"url": "name.png"
+			"name": "name2_png"
 		},
 		{
-			"name": "cir_png",
+			"url": "assets/cir.png",
 			"type": "image",
-			"url": "assets/cir.png"
+			"name": "cir_png"
+		},
+		{
+			"url": "assets/100.png",
+			"type": "image",
+			"name": "100_png"
 		}
 	]
 }

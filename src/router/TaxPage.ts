@@ -24,8 +24,11 @@ class TaxPage extends egret.Sprite{
         
         this.addStar();
         this.addGameInf();
-        
         this.addTalk();
+        this.success = ()=>{
+            this.removeChild(this.talkContent);
+            this.addGameBody();
+        }
     }
     // private system:particle.ParticleSystem;
     // private systemLeaf:particle.ParticleSystem;
@@ -49,19 +52,34 @@ class TaxPage extends egret.Sprite{
     private addTalk() {
        this.talkContent = new TalkContent(this.width,this.height,this);
        this.talkContent.init();
-       console.log("调用了adtalk");
        this.addChild(this.talkContent)  
     }
+    private passTax() {
+        GameConfig.nowTax++;
+        this.addChild(this.talkContent)
+        this.talkContent.showWhich({
+            type:1,
+            text:'真厉害，竟然通关了，果然没选错人'
+        })
+        this.success = ()=>{
+            this.removeChildren();
+            this.addImage();
+        }
+    }
     private gameOver() {
-        console.log("游戏结束")
-        this.removeChild(this.gameBody);
         this.addChild(this.talkContent)
         this.talkContent.showWhich({
             type:1,
             text:'失败了？没事儿，再来一次'
         })
+        this.success = ()=>{
+            this.removeChild(this.talkContent);
+            this.addGameBody();
+        }
     }
-    private beginGame() {
+
+    // 点击完对话后的场景
+    private success() {
         this.removeChild(this.talkContent);
         this.addGameBody();
     }

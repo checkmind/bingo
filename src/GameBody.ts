@@ -31,19 +31,22 @@ class GameBody extends egret.Sprite{
         super();
         this.width = width;
         this.parents = parents;
-        GameBody.childH = GameBody.childW =  (this.width - 100) / GameConfig.row;
+        GameBody.childH = GameBody.childW =  (this.width - 100) / GameConfig.taxConfig[GameConfig.nowTax].row;
         this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
         this.col = GameConfig.taxConfig[GameConfig.nowTax].col;
         this.gameInf = gameInf;
         //this.x = (this.width - this.row*GameBody.childH) / 2
         this.x = 50;
-        this.y = (height-GameConfig.col*GameBody.childH)/2;
-        this.height = height-this.y;
+        this.height = this.col*GameBody.childH
+        this.y = (height/2 - this.height/2);
+        //this.y = 100;
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawDoors,this);
         this.touchEnabled = true;
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.mouseDown, this);
     }
-
+    private initWinnerConfig() {
+        let type = GameConfig.taxConfig[GameConfig.nowTax].checkType
+    }
     /* 事件捕捉 */
     private mouseDown(ev) {
         let x =  Math.floor((ev.stageX-this.x)/GameBody.childW);
@@ -137,7 +140,7 @@ class GameBody extends egret.Sprite{
         var shape:egret.Shape = new egret.Shape;
         shape.graphics.beginFill(0x000000,.7)
         shape.graphics.lineStyle(1,0x000000) 
-        shape.graphics.drawRect(0, 0, this.width-100,this.row*GameBody.childH);
+        shape.graphics.drawRect(0, 0, this.width-100,this.col*GameBody.childH);
         shape.graphics.endFill();
         this.addChild(shape);
     }
@@ -145,7 +148,7 @@ class GameBody extends egret.Sprite{
         //画一个遮罩正方形
         var circle:egret.Shape = new egret.Shape();
         circle.graphics.beginFill(0x0000ff);
-        circle.graphics.drawRect(this.x,this.y,this.width-100,this.row*GameBody.childH);
+        circle.graphics.drawRect(this.x,this.y,this.width-100,this.col*GameBody.childH);
         circle.graphics.endFill();
         this.$parent.addChild(circle);
         this.mask = circle;
@@ -201,6 +204,7 @@ class GameBody extends egret.Sprite{
         this.checkBingos();
         if(this.clears.length ===0){
             this.lock = false;
+            console.log("监测是否结束")
             this.checkGameOver();
             return false;
         }
@@ -231,6 +235,8 @@ class GameBody extends egret.Sprite{
         } = coord
         let obj = this.bingos[x][y]
         let type = obj.type;
+        if(type>=100)
+            return;
         if(!direction) {
             /* 检测四个方向 */
             if(this.exitObj(this.bingos,x,y-1) &&this.bingos[x][y-1].type===type) {
@@ -364,12 +370,12 @@ class GameBody extends egret.Sprite{
         },1000)
     }
 
-    /* 檢查游戲是否真的結束 */
+    /* 檢查游戲是否真的結束包括时间、熵值、无解 */
     private checkGameOver() {
         // 這邊簡單記錄一下bingos
         if(!this.cloneBingos()){
-            console.log("游戏结束了")
-            this.parents.gameOver();
+            console.log("可以清除")
+            this.parents.passTax();
         }
         
     }
@@ -393,7 +399,6 @@ class GameBody extends egret.Sprite{
 
     // 检查一行内三个对象是否存在 direction 对应0 1 2 3 上右下左
     private checkLineExis(i,j) {
-        console.log(i,j);
         /* 这个是向下i，j对象向下交换后的横坐标线 */
         let arr_1 = [{
             i: i-2,
@@ -450,7 +455,8 @@ class GameBody extends egret.Sprite{
                 
                 let exitObj = this.exitObj(this.bingos,i,j);
                 if(index!==0) {
-                    if(exitObj && now===this.bingos[i][j].type)
+                    // now属于不能被消除的100
+                    if(exitObj && now<100 && now===this.bingos[i][j].type)
                         add++;
                     else
                         add = 1;
@@ -476,9 +482,19 @@ class GameBody extends egret.Sprite{
     /*
      这列已经为空了，直接创建新的bingos。然后移动到对应位置
     **/
+    private maxUncommon = 0;
     private createNewBingos(i:number,j:number,set:number) {
         let arr = [];
         let ran = this.ran(0,5)
+        // config类型
+        let config = GameConfig.taxConfig[GameConfig.nowTax]
+        if(config.checkType=== 'uncommon'&&ran===3) {
+            if(this.maxUncommon<config['uncommon']) {
+                ran = 100;
+                this.maxUncommon++;
+            }
+        }
+        // 注释
         let bingo:Bingo = new Bingo(i,-set,ran,this);
         this.addChild(bingo);
         bingo.moveToBottom(j);

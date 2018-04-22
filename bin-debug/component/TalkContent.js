@@ -55,7 +55,7 @@ var TalkContent = (function (_super) {
         console.log("传值是");
         console.log(obj);
         if (!obj) {
-            this.parents.beginGame();
+            this.parents.success();
             this.removeChildren();
             if (this.$parent)
                 this.parents.removeChild(this);

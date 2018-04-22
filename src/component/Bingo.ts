@@ -32,7 +32,11 @@ class Bingo extends egret.Sprite{
         this.addChild(this.img);
     }
     private addImage(){
-        this.img = this.createBitmapByName((this.type+1)+"_png");
+        if(this.type>=100) {
+            this.img = this.createBitmapByName("100_png");            
+        } else {
+            this.img = this.createBitmapByName((this.type+1)+"_png");    
+        }
         this.img.width = this.width;
         this.img.height = this.height;
         this.addChild(this.img);

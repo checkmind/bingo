@@ -25,9 +25,14 @@ var TaxPage = (function (_super) {
     }
     TaxPage.prototype.addImage = function () {
         //this.addBack();
+        var _this = this;
         this.addStar();
         this.addGameInf();
         this.addTalk();
+        this.success = function () {
+            _this.removeChild(_this.talkContent);
+            _this.addGameBody();
+        };
     };
     // private system:particle.ParticleSystem;
     // private systemLeaf:particle.ParticleSystem;
@@ -50,19 +55,35 @@ var TaxPage = (function (_super) {
     TaxPage.prototype.addTalk = function () {
         this.talkContent = new TalkContent(this.width, this.height, this);
         this.talkContent.init();
-        console.log("调用了adtalk");
         this.addChild(this.talkContent);
     };
+    TaxPage.prototype.passTax = function () {
+        var _this = this;
+        GameConfig.nowTax++;
+        this.addChild(this.talkContent);
+        this.talkContent.showWhich({
+            type: 1,
+            text: '真厉害，竟然通关了，果然没选错人'
+        });
+        this.success = function () {
+            _this.removeChildren();
+            _this.addImage();
+        };
+    };
     TaxPage.prototype.gameOver = function () {
-        console.log("游戏结束");
-        this.removeChild(this.gameBody);
+        var _this = this;
         this.addChild(this.talkContent);
         this.talkContent.showWhich({
             type: 1,
             text: '失败了？没事儿，再来一次'
         });
+        this.success = function () {
+            _this.removeChild(_this.talkContent);
+            _this.addGameBody();
+        };
     };
-    TaxPage.prototype.beginGame = function () {
+    // 点击完对话后的场景
+    TaxPage.prototype.success = function () {
         this.removeChild(this.talkContent);
         this.addGameBody();
     };

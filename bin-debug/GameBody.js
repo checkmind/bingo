@@ -29,21 +29,30 @@ var GameBody = (function (_super) {
         _this.stackArr = [];
         // 产生新的bingos
         _this.newBingos = [];
+        /************* 检查游戏函数ending************* */
+        /*
+         这列已经为空了，直接创建新的bingos。然后移动到对应位置
+        **/
+        _this.maxUncommon = 0;
         _this.width = width;
         _this.parents = parents;
-        GameBody.childH = GameBody.childW = (_this.width - 100) / GameConfig.row;
+        GameBody.childH = GameBody.childW = (_this.width - 100) / GameConfig.taxConfig[GameConfig.nowTax].row;
         _this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
         _this.col = GameConfig.taxConfig[GameConfig.nowTax].col;
         _this.gameInf = gameInf;
         //this.x = (this.width - this.row*GameBody.childH) / 2
         _this.x = 50;
-        _this.y = (height - GameConfig.col * GameBody.childH) / 2;
-        _this.height = height - _this.y;
+        _this.height = _this.col * GameBody.childH;
+        _this.y = (height / 2 - _this.height / 2);
+        //this.y = 100;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.drawDoors, _this);
         _this.touchEnabled = true;
         _this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, _this.mouseDown, _this);
         return _this;
     }
+    GameBody.prototype.initWinnerConfig = function () {
+        var type = GameConfig.taxConfig[GameConfig.nowTax].checkType;
+    };
     /* 事件捕捉 */
     GameBody.prototype.mouseDown = function (ev) {
         var x = Math.floor((ev.stageX - this.x) / GameBody.childW);
@@ -140,7 +149,7 @@ var GameBody = (function (_super) {
         var shape = new egret.Shape;
         shape.graphics.beginFill(0x000000, .7);
         shape.graphics.lineStyle(1, 0x000000);
-        shape.graphics.drawRect(0, 0, this.width - 100, this.row * GameBody.childH);
+        shape.graphics.drawRect(0, 0, this.width - 100, this.col * GameBody.childH);
         shape.graphics.endFill();
         this.addChild(shape);
     };
@@ -148,7 +157,7 @@ var GameBody = (function (_super) {
         //画一个遮罩正方形
         var circle = new egret.Shape();
         circle.graphics.beginFill(0x0000ff);
-        circle.graphics.drawRect(this.x, this.y, this.width - 100, this.row * GameBody.childH);
+        circle.graphics.drawRect(this.x, this.y, this.width - 100, this.col * GameBody.childH);
         circle.graphics.endFill();
         this.$parent.addChild(circle);
         this.mask = circle;
@@ -205,6 +214,7 @@ var GameBody = (function (_super) {
         this.checkBingos();
         if (this.clears.length === 0) {
             this.lock = false;
+            console.log("监测是否结束");
             this.checkGameOver();
             return false;
         }
@@ -233,6 +243,8 @@ var GameBody = (function (_super) {
         var x = coord.x, y = coord.y;
         var obj = this.bingos[x][y];
         var type = obj.type;
+        if (type >= 100)
+            return;
         if (!direction) {
             /* 检测四个方向 */
             if (this.exitObj(this.bingos, x, y - 1) && this.bingos[x][y - 1].type === type) {
@@ -366,12 +378,12 @@ var GameBody = (function (_super) {
             _this.checkFun();
         }, 1000);
     };
-    /* 檢查游戲是否真的結束 */
+    /* 檢查游戲是否真的結束包括时间、熵值、无解 */
     GameBody.prototype.checkGameOver = function () {
         // 這邊簡單記錄一下bingos
         if (!this.cloneBingos()) {
-            console.log("游戏结束了");
-            this.parents.gameOver();
+            console.log("可以清除");
+            this.parents.passTax();
         }
     };
     GameBody.prototype.cloneBingos = function () {
@@ -394,7 +406,6 @@ var GameBody = (function (_super) {
     // 检查一行内三个对象是否存在 direction 对应0 1 2 3 上右下左
     GameBody.prototype.checkLineExis = function (i, j) {
         var _this = this;
-        console.log(i, j);
         /* 这个是向下i，j对象向下交换后的横坐标线 */
         var arr_1 = [{
                 i: i - 2,
@@ -447,7 +458,8 @@ var GameBody = (function (_super) {
                 var i = val.i, j = val.j;
                 var exitObj = _this.exitObj(_this.bingos, i, j);
                 if (index !== 0) {
-                    if (exitObj && now === _this.bingos[i][j].type)
+                    // now属于不能被消除的100
+                    if (exitObj && now < 100 && now === _this.bingos[i][j].type)
                         add++;
                     else
                         add = 1;
@@ -468,13 +480,18 @@ var GameBody = (function (_super) {
             return true;
         return false;
     };
-    /************* 检查游戏函数ending************* */
-    /*
-     这列已经为空了，直接创建新的bingos。然后移动到对应位置
-    **/
     GameBody.prototype.createNewBingos = function (i, j, set) {
         var arr = [];
         var ran = this.ran(0, 5);
+        // config类型
+        var config = GameConfig.taxConfig[GameConfig.nowTax];
+        if (config.checkType === 'uncommon' && ran === 3) {
+            if (this.maxUncommon < config['uncommon']) {
+                ran = 100;
+                this.maxUncommon++;
+            }
+        }
+        // 注释
         var bingo = new Bingo(i, -set, ran, this);
         this.addChild(bingo);
         bingo.moveToBottom(j);

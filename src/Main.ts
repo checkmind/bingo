@@ -63,8 +63,6 @@ class Main extends eui.UILayer {
         const result = await RES.getResAsync("description_json")
         await platform.login();
         const userInfo = await platform.getUserInfo();
-        console.log(userInfo);
-
     }
 
     private async loadResource() {
@@ -115,9 +113,9 @@ class Main extends eui.UILayer {
         sky.width = stageW;
         sky.height = stageH;
         let pageTax = new TaxPage(stageW,stageH);
-        //this.addChild(pageTax)
+        this.addChild(pageTax)
         var entryGame:EntryGame = new EntryGame(stageW,stageH,this);
-        this.addChild(entryGame)
+        //this.addChild(entryGame)
         let gameTax = new GameTax(stageW,stageH,this);
         //this.addChild(gameTax)
 
