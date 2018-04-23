@@ -104,7 +104,13 @@ var Main = (function (_super) {
                     case 0: return [4 /*yield*/, this.loadResource()];
                     case 1:
                         _a.sent();
-                        this.createGameScene();
+                        try {
+                            this.createGameScene();
+                        }
+                        catch (e) {
+                            console.log(e);
+                            console.log("创建场景出错");
+                        }
                         return [4 /*yield*/, RES.getResAsync("description_json")];
                     case 2:
                         result = _a.sent();

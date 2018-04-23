@@ -5,11 +5,12 @@
 		"libs/modules/eui/eui.js",
 		"libs/modules/assetsmanager/assetsmanager.js",
 		"libs/modules/tween/tween.js",
-		"libs/modules/promise/promise.js"
+		"libs/modules/promise/promise.js",
+		"libs/modules/particle/particle.js"
 	],
 	"game": [
-		"bin-debug/GameBody.js",
 		"bin-debug/Main.js",
+		"bin-debug/component/GameInf.js",
 		"bin-debug/pageBus.js",
 		"bin-debug/Platform.js",
 		"bin-debug/button/Progress.js",
@@ -17,7 +18,7 @@
 		"bin-debug/button/TalkButton.js",
 		"bin-debug/component/Bingo.js",
 		"bin-debug/component/GameGroup.js",
-		"bin-debug/component/GameInf.js",
+		"bin-debug/GameBody.js",
 		"bin-debug/component/LoadingUI.js",
 		"bin-debug/component/TalkContent.js",
 		"bin-debug/config/GameConfig.js",

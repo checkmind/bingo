@@ -29,6 +29,10 @@
     },
     {
       "name": "promise"
-    }
+    },
+		{
+			"name": "particle",
+			"path": "C:/Users/admin/Desktop/game/particle/libsrc"
+		}
   ]
 }

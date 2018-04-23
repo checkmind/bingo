@@ -1,51 +1,60 @@
 {
-"texture":"newParticle.png",
-"speed":200
-,"emitter":{"x":526,"y":84}
-,"maxRadiusVariance":30
-,"endBlueVariance":0
-,"startGreenVariance":0
-,"minRadius":20
-,"lifespanVariance":700
-,"maxRadius":100
-,"minRadiusVariance":10
-,"startSize":49.9
-,"emitterType":0
-,"rotatePerSecond":30
-,"startSizeVariance":20
-,"endAlphaVariance":0
-,"endRedVariance":0
-,"endSizeVariance":5
-,"emitAngle":130
-,"rotatePerSecondVariance":10
-,"endGreen":255
-,"emitAngleVariance":0
-,"startAlpha":0.9411764705882353
-,"startRotation":0
-,"startBlueVariance":0
-,"startRotationVariance":0
-,"startBlue":255
-,"endAlpha":1
-,"endRotation":0
-,"startRedVariance":0
-,"endRotationVariance":0
-,"engGreenVariance":0
-,"startAlphaVariance":0
-,"gravity":{"x":-510,"y":530}
-,"speedVariance":0
-,"maxParticles":20
-,"startRed":255
-,"emitterVariance":{"x":107,"y":45}
-,"endBlue":255
-,"startGreen":255
-,"blendFactorSource":"one"
-,"radialAcceleration":0
-,"blendFactorDestination":"oneMinusSourceAlpha"
-,"endSize":10
-,"radialAccelerationVariance":0
-,"duration":-1
-,"endRed":255
-,"tangentialAcceleration":0
-,"lifespan":10000
-,"tangentialAccelerationVariance":0
+    "texture": "newParticle.png", 
+    "speed": 200, 
+    "emitter": {
+        "x": 526, 
+        "y": 84
+    }, 
+    "maxRadiusVariance": 30, 
+    "endBlueVariance": 0, 
+    "startGreenVariance": 0, 
+    "minRadius": 20, 
+    "lifespanVariance": 700, 
+    "maxRadius": 100, 
+    "minRadiusVariance": 10, 
+    "startSize": 49.9, 
+    "emitterType": 0, 
+    "rotatePerSecond": 30, 
+    "startSizeVariance": 20, 
+    "endAlphaVariance": 0, 
+    "endRedVariance": 0, 
+    "endSizeVariance": 5, 
+    "emitAngle": 130, 
+    "rotatePerSecondVariance": 10, 
+    "endGreen": 255, 
+    "emitAngleVariance": 0, 
+    "startAlpha": 0.9411764705882353, 
+    "startRotation": 0, 
+    "startBlueVariance": 0, 
+    "startRotationVariance": 0, 
+    "startBlue": 255, 
+    "endAlpha": 1, 
+    "endRotation": 0, 
+    "startRedVariance": 0, 
+    "endRotationVariance": 0, 
+    "engGreenVariance": 0, 
+    "startAlphaVariance": 0, 
+    "gravity": {
+        "x": -510, 
+        "y": 530
+    }, 
+    "speedVariance": 0, 
+    "maxParticles": 20, 
+    "startRed": 255, 
+    "emitterVariance": {
+        "x": 107, 
+        "y": 45
+    }, 
+    "endBlue": 255, 
+    "startGreen": 255, 
+    "blendFactorSource": "one", 
+    "radialAcceleration": 0, 
+    "blendFactorDestination": "oneMinusSourceAlpha", 
+    "endSize": 10, 
+    "radialAccelerationVariance": 0, 
+    "duration": -1, 
+    "endRed": 255, 
+    "tangentialAcceleration": 0, 
+    "lifespan": 10000, 
+    "tangentialAccelerationVariance": 0
 }

@@ -59,7 +59,12 @@ class Main extends eui.UILayer {
 
     private async runGame() {
         await this.loadResource()
-        this.createGameScene();
+        try{
+            this.createGameScene();            
+        } catch(e){
+            console.log(e)
+            console.log("创建场景出错")
+        }
         const result = await RES.getResAsync("description_json")
         await platform.login();
         const userInfo = await platform.getUserInfo();
