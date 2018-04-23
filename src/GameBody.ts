@@ -14,6 +14,7 @@ class GameBody extends egret.Sprite{
     private clickLock:Boolean = false;
     static childW:number = 90;
     static childH:number = 90;
+    private padding = 50;
     // 分数
     
     private myScoreLabel;
@@ -31,12 +32,13 @@ class GameBody extends egret.Sprite{
         super();
         this.width = width;
         this.parents = parents;
-        GameBody.childH = GameBody.childW =  (this.width - 100) / GameConfig.taxConfig[GameConfig.nowTax].row;
+
+        GameBody.childH = GameBody.childW =  (this.width - this.padding) / GameConfig.taxConfig[GameConfig.nowTax].row;
         this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
         this.col = GameConfig.taxConfig[GameConfig.nowTax].col;
         this.gameInf = gameInf;
         //this.x = (this.width - this.row*GameBody.childH) / 2
-        this.x = 50;
+        this.x = this.padding/2;
         this.height = this.col*GameBody.childH
         this.y = (height/2 - this.height/2);
         //this.y = 100;
@@ -140,7 +142,7 @@ class GameBody extends egret.Sprite{
         var shape:egret.Shape = new egret.Shape;
         shape.graphics.beginFill(0x000000,.7)
         shape.graphics.lineStyle(1,0x000000) 
-        shape.graphics.drawRect(0, 0, this.width-100,this.col*GameBody.childH);
+        shape.graphics.drawRect(0, 0, this.width-this.padding,this.col*GameBody.childH);
         shape.graphics.endFill();
         this.addChild(shape);
     }
@@ -148,7 +150,7 @@ class GameBody extends egret.Sprite{
         //画一个遮罩正方形
         var circle:egret.Shape = new egret.Shape();
         circle.graphics.beginFill(0x0000ff);
-        circle.graphics.drawRect(this.x,this.y,this.width-100,this.col*GameBody.childH);
+        circle.graphics.drawRect(this.x,this.y,this.width-this.padding,this.col*GameBody.childH);
         circle.graphics.endFill();
         this.$parent.addChild(circle);
         this.mask = circle;
@@ -374,7 +376,10 @@ class GameBody extends egret.Sprite{
     private checkGameOver() {
         // 這邊簡單記錄一下bingos
         if(!this.cloneBingos()){
-            console.log("可以清除")
+            console.log("失败了")
+            this.parents.gameOver();
+        }
+        if(this.gameInf.myScore>=GameConfig.taxConfig[GameConfig.nowTax].myScore) {
             this.parents.passTax();
         }
         

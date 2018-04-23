@@ -39,13 +39,13 @@ var TaxPage = (function (_super) {
             _this.removeChild(_this.talkContent);
             _this.addGameBody();
         };
+        var system = new particle.GravityParticleSystem(RES.getRes("newParticle_png"), RES.getRes("newParticle_json"));
+        this.addChild(system);
+        system.start();
     };
     TaxPage.prototype.addStar = function () {
         var sky = this.createBitmapByName("back_1_png", 432 * 2, 704 * 2);
         this.addChild(sky);
-        var system = new particle.GravityParticleSystem(RES.getRes("newParticle_png"), RES.getRes("newParticle_json"));
-        this.addChild(system);
-        system.start();
         // system.y = this.stage.$stageHeight / 2;
         // system.x = this.stage.stageWidth / 2;
         // system.emitterX = 0;
@@ -83,6 +83,7 @@ var TaxPage = (function (_super) {
         });
         this.success = function () {
             _this.removeChild(_this.talkContent);
+            _this.removeChild(_this.gameBody);
             _this.addGameBody();
         };
     };

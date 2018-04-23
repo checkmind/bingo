@@ -23,6 +23,7 @@ var GameBody = (function (_super) {
         _this.lock = true;
         _this.loack_2 = false;
         _this.clickLock = false;
+        _this.padding = 50;
         // 游戏是否结束
         _this.game = true;
         // 交换栈
@@ -36,12 +37,12 @@ var GameBody = (function (_super) {
         _this.maxUncommon = 0;
         _this.width = width;
         _this.parents = parents;
-        GameBody.childH = GameBody.childW = (_this.width - 100) / GameConfig.taxConfig[GameConfig.nowTax].row;
+        GameBody.childH = GameBody.childW = (_this.width - _this.padding) / GameConfig.taxConfig[GameConfig.nowTax].row;
         _this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
         _this.col = GameConfig.taxConfig[GameConfig.nowTax].col;
         _this.gameInf = gameInf;
         //this.x = (this.width - this.row*GameBody.childH) / 2
-        _this.x = 50;
+        _this.x = _this.padding / 2;
         _this.height = _this.col * GameBody.childH;
         _this.y = (height / 2 - _this.height / 2);
         //this.y = 100;
@@ -149,7 +150,7 @@ var GameBody = (function (_super) {
         var shape = new egret.Shape;
         shape.graphics.beginFill(0x000000, .7);
         shape.graphics.lineStyle(1, 0x000000);
-        shape.graphics.drawRect(0, 0, this.width - 100, this.col * GameBody.childH);
+        shape.graphics.drawRect(0, 0, this.width - this.padding, this.col * GameBody.childH);
         shape.graphics.endFill();
         this.addChild(shape);
     };
@@ -157,7 +158,7 @@ var GameBody = (function (_super) {
         //画一个遮罩正方形
         var circle = new egret.Shape();
         circle.graphics.beginFill(0x0000ff);
-        circle.graphics.drawRect(this.x, this.y, this.width - 100, this.col * GameBody.childH);
+        circle.graphics.drawRect(this.x, this.y, this.width - this.padding, this.col * GameBody.childH);
         circle.graphics.endFill();
         this.$parent.addChild(circle);
         this.mask = circle;
@@ -382,7 +383,10 @@ var GameBody = (function (_super) {
     GameBody.prototype.checkGameOver = function () {
         // 這邊簡單記錄一下bingos
         if (!this.cloneBingos()) {
-            console.log("可以清除");
+            console.log("失败了");
+            this.parents.gameOver();
+        }
+        if (this.gameInf.myScore >= GameConfig.taxConfig[GameConfig.nowTax].myScore) {
             this.parents.passTax();
         }
     };

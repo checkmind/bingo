@@ -807,7 +807,6 @@ var particle;
             this.$nativeNode.setCustomData(configArray);
         };
         GravityParticleSystem.prototype.parseConfig = function (config) {
-            console.log(config)
             if (egret.nativeRender) {
                 this._emitterX = getValue(config.emitter.x);
                 this._emitterY = getValue(config.emitter.y);

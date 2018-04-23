@@ -18,7 +18,10 @@ class TaxPage extends egret.Sprite{
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addImage,this);
         
     }
-  
+    
+    private system:particle.ParticleSystem;
+    private systemLeaf:particle.ParticleSystem;
+
     private addImage(){
         //this.addBack();
         try{
@@ -34,15 +37,15 @@ class TaxPage extends egret.Sprite{
             this.removeChild(this.talkContent);
             this.addGameBody();
         }
-    }
-    private system:particle.ParticleSystem;
-    private systemLeaf:particle.ParticleSystem;
-    private addStar() {
-        let sky = this.createBitmapByName("back_1_png",432*2,704*2);
-        this.addChild(sky);
         var system = new particle.GravityParticleSystem(RES.getRes("newParticle_png"), RES.getRes("newParticle_json"));
         this.addChild(system);
         system.start();
+    }
+    
+    private addStar() {
+        let sky = this.createBitmapByName("back_1_png",432*2,704*2);
+        this.addChild(sky);
+        
         // system.y = this.stage.$stageHeight / 2;
         // system.x = this.stage.stageWidth / 2;
         // system.emitterX = 0;
@@ -79,6 +82,7 @@ class TaxPage extends egret.Sprite{
         })
         this.success = ()=>{
             this.removeChild(this.talkContent);
+            this.removeChild(this.gameBody)
             this.addGameBody();
         }
     }
