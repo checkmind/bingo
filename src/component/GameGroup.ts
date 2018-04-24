@@ -32,12 +32,12 @@ class GameGroup extends eui.Group{
 
     private meau(num) {
         var button = new TaxButton();
-        button.skinName="resource/eui_skins/ImageSkin.exml" //假设Button.exml在resource文件夹下。
+        button.skinName="resource/eui_skins/toastSkin.exml" //假设Button.exml在resource文件夹下。
         button.label = `第${GameConfig.taxArr[num]}宇宙`;
         button.label2 = `  ${GameConfig.taxLabel[num]}`;
-        button.width = 274;
-        button.height = 344;
-        button.x = button.width*num;
+        button.width = 226;
+        button.height = 345;
+        button.x = (button.width+40)*num;
         button.y = (this.height - button.height) / 2;
         button.addEventListener(egret.TouchEvent.TOUCH_TAP,this.bindClickFn,this);
         this.group.addChild(button);

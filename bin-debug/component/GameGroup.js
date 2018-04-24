@@ -32,12 +32,12 @@ var GameGroup = (function (_super) {
     };
     GameGroup.prototype.meau = function (num) {
         var button = new TaxButton();
-        button.skinName = "resource/eui_skins/ImageSkin.exml"; //假设Button.exml在resource文件夹下。
+        button.skinName = "resource/eui_skins/toastSkin.exml"; //假设Button.exml在resource文件夹下。
         button.label = "\u7B2C" + GameConfig.taxArr[num] + "\u5B87\u5B99";
         button.label2 = "  " + GameConfig.taxLabel[num];
-        button.width = 274;
-        button.height = 344;
-        button.x = button.width * num;
+        button.width = 226;
+        button.height = 345;
+        button.x = (button.width + 40) * num;
         button.y = (this.height - button.height) / 2;
         button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.bindClickFn, this);
         this.group.addChild(button);
