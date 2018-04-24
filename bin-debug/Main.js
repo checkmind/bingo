@@ -185,9 +185,9 @@ var Main = (function (_super) {
         sky.width = stageW;
         sky.height = stageH;
         var pageTax = new TaxPage(stageW, stageH);
-        this.addChild(pageTax);
+        //this.addChild(pageTax)
         var entryGame = new EntryGame(stageW, stageH, this);
-        //this.addChild(entryGame)
+        this.addChild(entryGame);
         var gameTax = new GameTax(stageW, stageH, this);
         //this.addChild(gameTax)
         PageBus.init(this);
