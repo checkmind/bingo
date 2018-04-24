@@ -410,52 +410,19 @@ var GameBody = (function (_super) {
     // 检查一行内三个对象是否存在 direction 对应0 1 2 3 上右下左
     GameBody.prototype.checkLineExis = function (i, j) {
         var _this = this;
-        /* 这个是向下i，j对象向下交换后的横坐标线 */
-        var arr_1 = [{
-                i: i - 2,
-                j: j + 1
-            }, {
-                i: i - 1,
-                j: j + 1
-            }, { i: i, j: j }, {
-                i: i + 1,
-                j: j + 1
-            }, {
-                i: i + 2,
-                j: j + 1
-            }];
-        /* 这个是向下i，j对象向下交换后的纵坐标线 */
-        var arr_2 = [{ i: i, j: j }, {
-                i: i,
-                j: j + 2
-            }, {
-                i: i,
-                j: j + 3
-            }];
-        /* 这个是向右i，j对象交换后的横坐标线 */
-        var arr_3 = [{
-                i: i + 1,
-                j: j - 2
-            }, {
-                i: i + 1,
-                j: j - 1
-            }, { i: i, j: j }, {
-                i: i + 1,
-                j: j + 1
-            }, {
-                i: i + 1,
-                j: j + 2
-            }];
-        /* 这个是向右i，j对象交换后的纵坐标线 */
-        var arr_4 = [{
-                i: i, j: j
-            }, {
-                i: i + 2,
-                j: j
-            }, {
-                i: i + 3,
-                j: j
-            }];
+        // 以下是根目录的地图编辑器生成
+        var AllCoord = [
+            // 向下交换后检测数组
+            [{ i: i - 2, j: j + 1 }, { i: i - 1, j: j + 1 }, { i: i, j: j }, { i: i + 1, j: j + 1 }, { i: i + 2, j: j + 1 }],
+            [{ i: i - 2, j: j }, { i: i - 1, j: j }, { i: i, j: j + 1 }, { i: i + 1, j: j }, { i: i + 2, j: j }],
+            [{ i: i, j: j - 2 }, { i: i, j: j - 1 }, { i: i, j: j + 1 }],
+            [{ i: i, j: j }, { i: i, j: j + 2 }, { i: i, j: j + 3 }],
+            // 向右交换
+            [{ i: i, j: j - 2 }, { i: i, j: j - 1 }, { i: i + 1, j: j }, { i: i, j: j + 1 }, { i: i, j: j + 2 }],
+            [{ i: i + 1, j: j - 2 }, { i: i + 1, j: j - 1 }, { i: i, j: j }, { i: i + 1, j: j + 1 }, { i: i + 1, j: j + 2 }],
+            [{ i: i - 2, j: j }, { i: i - 1, j: j }, { i: i + 1, j: j }],
+            [{ i: i, j: j }, { i: i + 2, j: j }, { i: i + 3, j: j }]
+        ];
         var checkType = function (arr) {
             var now, add = 1, can = false;
             arr.map(function (val, index) {
@@ -474,14 +441,10 @@ var GameBody = (function (_super) {
             });
             return can;
         };
-        if (checkType(arr_1))
-            return true;
-        if (checkType(arr_2))
-            return true;
-        if (checkType(arr_3))
-            return true;
-        if (checkType(arr_4))
-            return true;
+        for (var num = 0; num < AllCoord.length; num++) {
+            if (checkType(AllCoord[num]))
+                return true;
+        }
         return false;
     };
     GameBody.prototype.createNewBingos = function (i, j, set) {

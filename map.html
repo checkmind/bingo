@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>坐标生成器</title>
+</head>
+<style type="text/css">
+	body {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	td {
+		border:1px solid black;
+	}
+	#maps {
+		
+	}
+</style>
+<body>
+	<table id="maps"></table>
+	<button onclick="fn()">生成</button>
+	<button onclick="fn2()">去引号</button>
+</body>
+<script type="text/javascript">
+	let maps = document.getElementById('maps')
+	let tr = ''
+	let str = ''
+	let all = ''
+	for(i = 0;i<10;i++) {
+		str = ''
+		for(j=0;j<10;j++) {
+			str+=`<td data-indexi="${i}" data-indexj="${j}">${i} ${j}</td>`;
+		}
+		all+=`<tr>${str}</tr>`;
+	}
+	maps.innerHTML = all;
+	let td = document.getElementsByTagName('td');
+	let nowi,nowj;
+	let isfirst = true;
+	let arr = [];
+	for(let i = 0;i<td.length;i++) {
+		
+		(function(){
+			td[i].onclick = function(ev) {
+					let indexj = this.getAttribute('data-indexj')
+					let indexi = this.getAttribute('data-indexi')
+					this.style.background = 'red'
+					if(isfirst === true) {
+						nowi = indexi;
+						nowj = indexj;
+						isfirst = false;
+						return;
+					}
+					let one = -(nowi-indexi) 
+					let tow = -(nowj-indexj)
+					if(one>0)
+						one = `+${one}`
+					if(one==0)
+						one = ''
+					if(tow==0)
+						tow = ''
+					if(tow>0)
+							tow = `+${tow}`
+					arr.push({
+						i: `i${tow}`,
+						j: `j${one}`
+					})
+			}	
+		})();
+	}
+	function fn(){
+
+		console.log(JSON.stringify(arr));
+	}
+	function fn2(){
+		let arrs = JSON.stringify(arr)
+		arrs.replace(/\"/,'');
+		arrs = arrs.split('"').join("");
+		console.log(arrs)
+	}
+	
+</script>
+</html>
