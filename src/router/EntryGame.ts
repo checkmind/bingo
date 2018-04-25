@@ -49,13 +49,19 @@ class EntryGame extends egret.Sprite{
         sky.x = this.width/2-300;
         sky.y = 90;
     }
+    private system:particle.ParticleSystem;
+    private systemLeaf:particle.ParticleSystem;
     private addBoom() {
-        let sky = this.createBitmapByName("boom_png",this.width-50,(this.width-50)/0.736);
-        this.addChild(sky);
-        sky.x = 150;
-        sky.y = 40;
-        sky.scaleX = 0.8;
-        sky.scaleY = 0.8;
+        var system = new particle.GravityParticleSystem(RES.getRes("newParticle2_png"), RES.getRes("newParticle2_json"));
+        this.addChild(system);
+        system.start();
+        // let sky = this.createBitmapByName("boom_png",this.width-50,(this.width-50)/0.736);
+        // this.addChild(sky);
+        // sky.x = 150;
+        // sky.y = 40;
+        // sky.scaleX = 0.8;
+        // sky.scaleY = 0.8;
+        
     }
     private addBlackHead() {
         let sky = this.createBitmapByName("black2_png",480,485);
@@ -94,9 +100,10 @@ class EntryGame extends egret.Sprite{
             button.touchEnabled = true;
             button.x = this.width/2;
             button.label = labelText[i];
-            button.width = 300;
-            button.y = i * 80 + this.height/2;
-            button.rotation = 10+i*2;
+            button.width = 236;
+            button.height = 81;
+            button.y = i * 90 + this.height/2;
+            //button.rotation = 10+i*2;
             button.enabled = true;
             this.addChild(button);
             button.addEventListener(egret.TouchEvent.TOUCH_TAP,()=>{

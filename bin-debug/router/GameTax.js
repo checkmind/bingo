@@ -27,6 +27,7 @@ var GameTax = (function (_super) {
     GameTax.prototype.addImage = function () {
         this.addBack();
         this.addGroup();
+        this.addReturn();
     };
     GameTax.prototype.addGroup = function () {
         var gameGroup = new GameGroup(this.width, this.height, this);
@@ -34,6 +35,16 @@ var GameTax = (function (_super) {
     };
     GameTax.prototype.addBack = function () {
         var sky = this.createBitmapByName("back_1_png", 432 * 2, 704 * 2);
+        this.addChild(sky);
+    };
+    GameTax.prototype.addReturn = function () {
+        var sky = this.createBitmapByName("back_png", 40, 40);
+        sky.x = 20;
+        sky.y = 50;
+        sky.touchEnabled = true;
+        sky.addEventListener('touchEnd', function () {
+            PageBus.gotoPage('index');
+        }, this);
         this.addChild(sky);
     };
     GameTax.prototype.createBitmapByName = function (name, width, height) {

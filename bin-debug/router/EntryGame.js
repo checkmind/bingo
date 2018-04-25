@@ -58,12 +58,15 @@ var EntryGame = (function (_super) {
         sky.y = 90;
     };
     EntryGame.prototype.addBoom = function () {
-        var sky = this.createBitmapByName("boom_png", this.width - 50, (this.width - 50) / 0.736);
-        this.addChild(sky);
-        sky.x = 150;
-        sky.y = 40;
-        sky.scaleX = 0.8;
-        sky.scaleY = 0.8;
+        var system = new particle.GravityParticleSystem(RES.getRes("newParticle2_png"), RES.getRes("newParticle2_json"));
+        this.addChild(system);
+        system.start();
+        // let sky = this.createBitmapByName("boom_png",this.width-50,(this.width-50)/0.736);
+        // this.addChild(sky);
+        // sky.x = 150;
+        // sky.y = 40;
+        // sky.scaleX = 0.8;
+        // sky.scaleY = 0.8;
     };
     EntryGame.prototype.addBlackHead = function () {
         var sky = this.createBitmapByName("black2_png", 480, 485);
@@ -101,9 +104,10 @@ var EntryGame = (function (_super) {
             button.touchEnabled = true;
             button.x = this_1.width / 2;
             button.label = labelText[i];
-            button.width = 300;
-            button.y = i * 80 + this_1.height / 2;
-            button.rotation = 10 + i * 2;
+            button.width = 236;
+            button.height = 81;
+            button.y = i * 90 + this_1.height / 2;
+            //button.rotation = 10+i*2;
             button.enabled = true;
             this_1.addChild(button);
             button.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {

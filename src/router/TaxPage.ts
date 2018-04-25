@@ -26,12 +26,10 @@ class TaxPage extends egret.Sprite{
         //this.addBack();
         try{
         this.addStar();
-            
         } catch(e){
             console.log("报错")
             console.log(e)
         }
-        this.addGameInf();
         this.addTalk();
         this.success = ()=>{
             this.removeChild(this.talkContent);
@@ -40,10 +38,11 @@ class TaxPage extends egret.Sprite{
         var system = new particle.GravityParticleSystem(RES.getRes("newParticle_png"), RES.getRes("newParticle_json"));
         this.addChild(system);
         system.start();
+        this.addGameInf();
     }
     
     private addStar() {
-        let sky = this.createBitmapByName("back_1_png",432*2,704*2);
+        let sky = this.createBitmapByName("back_1_png",this.width,this.height);
         this.addChild(sky);
         
         // system.y = this.stage.$stageHeight / 2;
@@ -63,12 +62,19 @@ class TaxPage extends egret.Sprite{
        this.addChild(this.talkContent)  
     }
     private passTax() {
+        
         GameConfig.nowTax++;
         this.addChild(this.talkContent)
         this.talkContent.showWhich({
             type:1,
             text:'真厉害，竟然通关了，果然没选错人'
         })
+        if(GameConfig.nowTax>=1) {
+            this.success = ()=>{
+                PageBus.gotoPage("gameTax");
+            }
+           return;
+        }
         this.success = ()=>{
             this.removeChildren();
             this.addImage();

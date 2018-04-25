@@ -20,6 +20,7 @@ class GameTax extends egret.Sprite{
     private addImage(){
         this.addBack();
         this.addGroup();
+        this.addReturn();
     }
     private addGroup() {
        let gameGroup = new GameGroup(this.width,this.height,this);
@@ -31,7 +32,16 @@ class GameTax extends egret.Sprite{
         let sky = this.createBitmapByName("back_1_png",432*2,704*2);
         this.addChild(sky);
     }
-
+    private addReturn() { 
+        let sky = this.createBitmapByName("back_png",40,40);
+        sky.x = 20;
+        sky.y = 50;
+        sky.touchEnabled = true;
+        sky.addEventListener('touchEnd',()=>{
+            PageBus.gotoPage('index');
+        },this);
+        this.addChild(sky);
+    }
     private createBitmapByName(name: string,width:any,height:any) {
         let result = new egret.Bitmap();
         let texture: egret.Texture = RES.getRes(name);

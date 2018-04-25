@@ -24,6 +24,7 @@ var GameBody = (function (_super) {
         _this.loack_2 = false;
         _this.clickLock = false;
         _this.padding = 50;
+        _this.bingoType = 4;
         // 游戏是否结束
         _this.game = true;
         // 交换栈
@@ -40,11 +41,12 @@ var GameBody = (function (_super) {
         GameBody.childH = GameBody.childW = (_this.width - _this.padding) / GameConfig.taxConfig[GameConfig.nowTax].row;
         _this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
         _this.col = GameConfig.taxConfig[GameConfig.nowTax].col;
+        _this.bingoType = GameConfig.taxConfig[GameConfig.nowTax].bingoType;
         _this.gameInf = gameInf;
         //this.x = (this.width - this.row*GameBody.childH) / 2
         _this.x = _this.padding / 2;
         _this.height = _this.col * GameBody.childH;
-        _this.y = (height / 2 - _this.height / 2);
+        _this.y = 200;
         //this.y = 100;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.drawDoors, _this);
         _this.touchEnabled = true;
@@ -139,7 +141,7 @@ var GameBody = (function (_super) {
         });
     };
     GameBody.prototype.drawDoors = function () {
-        this.addBack();
+        //this.addBack();
         this.drawBingo();
         this.gameInf.updataScroe();
         // this.gameInf.updataStep();
@@ -183,7 +185,7 @@ var GameBody = (function (_super) {
                 }
             }
         for (var i = 0; i < this.row; i++) {
-            var ran = this.ran(0, 5);
+            var ran = this.ran();
             var bingo = new Bingo(i, -1, ran, this);
             this.addChild(bingo);
             this.newBingos.push(bingo);
@@ -225,8 +227,9 @@ var GameBody = (function (_super) {
         });
         return true;
     };
-    GameBody.prototype.ran = function (end, start) {
-        start = GameConfig.bingosMax;
+    GameBody.prototype.ran = function () {
+        var end = 0;
+        var start = this.bingoType;
         return Math.floor(Math.random() * (end - start) + start);
     };
     /* 检测是否能消除 */
@@ -449,7 +452,7 @@ var GameBody = (function (_super) {
     };
     GameBody.prototype.createNewBingos = function (i, j, set) {
         var arr = [];
-        var ran = this.ran(0, 5);
+        var ran = this.ran();
         // config类型
         var config = GameConfig.taxConfig[GameConfig.nowTax];
         if (config.checkType === 'uncommon' && ran === 3) {

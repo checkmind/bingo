@@ -33,7 +33,6 @@ var TaxPage = (function (_super) {
             console.log("报错");
             console.log(e);
         }
-        this.addGameInf();
         this.addTalk();
         this.success = function () {
             _this.removeChild(_this.talkContent);
@@ -42,9 +41,10 @@ var TaxPage = (function (_super) {
         var system = new particle.GravityParticleSystem(RES.getRes("newParticle_png"), RES.getRes("newParticle_json"));
         this.addChild(system);
         system.start();
+        this.addGameInf();
     };
     TaxPage.prototype.addStar = function () {
-        var sky = this.createBitmapByName("back_1_png", 432 * 2, 704 * 2);
+        var sky = this.createBitmapByName("back_1_png", this.width, this.height);
         this.addChild(sky);
         // system.y = this.stage.$stageHeight / 2;
         // system.x = this.stage.stageWidth / 2;
@@ -69,6 +69,12 @@ var TaxPage = (function (_super) {
             type: 1,
             text: '真厉害，竟然通关了，果然没选错人'
         });
+        if (GameConfig.nowTax >= 1) {
+            this.success = function () {
+                PageBus.gotoPage("gameTax");
+            };
+            return;
+        }
         this.success = function () {
             _this.removeChildren();
             _this.addImage();

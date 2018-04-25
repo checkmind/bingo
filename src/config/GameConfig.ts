@@ -109,12 +109,14 @@ class GameConfig{
     static failWords = ['失败了？没关系再来一次！？','除了实力还需要运气','宇宙的熵越来越高了，降熵的速度都赶不上增熵了！','运用你的智慧......']
     static nowTax = 0;
     static taxConfig = [{
-        row: 5,
-        col: 5,
+        row: 10,
+        col: 10,
         checkType: 'uncommon',
-        myScore: 1000
+        myScore: 1000,
+        // 类型
+        bingoType: 5,
         // 最顶层放稀有星球 稀有星球需到底部
-        //uncommon: 4 
+        uncommon: 4 
     },{
         row: 5,
         col: 5,
@@ -122,47 +124,54 @@ class GameConfig{
         //uncommon: 4,
         // 从下到上 宇宙会黑掉，这个是黑掉的时间
         darkTime: 60,
-        myScore: 2000
+        myScore: 2000,
+        bingoType: 4
     },{
         row: 6,
         checkType: 'uncommon',
         col: 6,
-        myScore: 3000
+        myScore: 3000,
+        bingoType: 4
     },{
         row: 7,
         checkType: 'uncommon',
         col: 7,
         // 十字陷阱，必须把同等星球放到规定的地方，这个允许来回挪动
         matrix: [],
-        myScore: 4000
+        myScore: 4000,
+        bingoType: 4
     },{
         row: 7,
         checkType: 'uncommon',
         col: 7,
         // 每隔五秒钟没消除操作就失败 允许来回挪动 如果没有能消除的就打乱
         matrix: [],
-        myScore: 5000
+        myScore: 5000,
+        bingoType: 4
     },{
         row: 8,
         checkType: 'uncommon',
         col: 8,
         // 每隔五秒钟星球会随机变化
         matrix: [],
-        myScore: 6000
+        myScore: 6000,
+        bingoType: 4
     },{
         row: 8,
         checkType: 'uncommon',
         col: 9,
         // 每隔五秒钟星球会随机变化
         matrix: [],
-        myScore: 7000
+        myScore: 7000,
+        bingoType: 4
     },{
         row: 8,
         checkType: 'uncommon',
         col: 10,
         // 每隔五秒钟星球会随机变化
         matrix: [],
-        myScore: 8000
+        myScore: 8000,
+        bingoType: 4
     },];
     static generatorBingos() {
 

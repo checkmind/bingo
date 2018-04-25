@@ -29,9 +29,14 @@ var GameInf = (function (_super) {
     }
     GameInf.prototype.addImage = function () {
         this.addTaxNum();
-        this.addBack();
         this.updataScroe();
         //this.updataStep();
+        this.addBack();
+        this.addTimer();
+    };
+    GameInf.prototype.addTimer = function () {
+        var time = new Timer();
+        this.addChild(time);
     };
     GameInf.prototype.addBack = function () {
         var _this = this;

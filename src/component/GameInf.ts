@@ -26,9 +26,14 @@ class GameInf extends egret.Sprite{
   
     private addImage(){
         this.addTaxNum();
-        this.addBack();
         this.updataScroe();
         //this.updataStep();
+        this.addBack();
+        this.addTimer();
+    }
+    private addTimer() {
+        let time = new Timer();
+        this.addChild(time);
     }
     private addBack() { 
         let sky = this.createBitmapByName("back_png",40,40);

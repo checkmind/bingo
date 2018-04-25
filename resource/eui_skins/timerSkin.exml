@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<e:Skin class="skins.ButtonSkin" states="up,down,disabled" minHeight="50" minWidth="100" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="236" height="81"> 
+    <e:Image id='button' width="236" height="81" scale9Grid="1,3,8,8" alpha.disabled="0.5"
+            
+             source.down="resource/assets/button.png" left="0" top="0" source="resource/assets/timer.png" anchorOffsetX="0" anchorOffsetY="0"/>
+	<e:Label id="labelDisplay" top="-1" bottom="1" left="1" right="-1" size="30" fontFamily="Arial" verticalAlign="middle" textAlign="center" text="60 : 59" textColor.down="0xfffcfc" size.down="35" width="236" height="81" blendMode="add" strokeColor="0xb72424"/>
+</e:Skin>

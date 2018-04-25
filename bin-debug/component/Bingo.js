@@ -26,16 +26,16 @@ var Bingo = (function (_super) {
         return _this;
     }
     Bingo.prototype.drawDoors = function () {
-        this.addRect();
+        //this.addRect();
         this.addImage();
         //this.addText();
         //this.addBlackHole();
     };
     Bingo.prototype.addRect = function () {
-        this.img = this.createBitmapByName("rect_png");
-        this.img.width = this.width;
-        this.img.height = this.height;
-        this.addChild(this.img);
+        this.rect = this.createBitmapByName("rect_png");
+        this.rect.width = this.width;
+        this.rect.height = this.height;
+        this.addChild(this.rect);
     };
     Bingo.prototype.addImage = function () {
         if (this.type >= 100) {
@@ -128,17 +128,19 @@ var Bingo = (function (_super) {
             this.removeChoosed();
             return;
         }
-        this.borderShape = new egret.Shape();
-        this.borderShape.graphics.lineStyle(2, 0xffffff);
-        this.borderShape.graphics.drawRect(0, 0, this.width, this.height);
-        this.borderShape.graphics.endFill();
-        this.addChild(this.borderShape);
+        // this.borderShape = new egret.Shape()
+        // this.borderShape.graphics.lineStyle(2, 0xffffff);
+        // this.borderShape.graphics.drawRect(0, 0, this.width,this.height);
+        // this.borderShape.graphics.endFill();
+        // this.addChild(this.borderShape);
+        this.addRect();
         this.choosed = true;
     };
     Bingo.prototype.removeChoosed = function () {
         if (!this.choosed)
             return;
-        this.removeChild(this.borderShape);
+        if (this.rect.$parent)
+            this.removeChild(this.rect);
         this.choosed = false;
     };
     return Bingo;

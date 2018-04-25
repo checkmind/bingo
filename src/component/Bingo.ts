@@ -10,6 +10,7 @@ class Bingo extends egret.Sprite{
     private choosed
     private borderShape:egret.Shape
     public img
+    public rect
     public constructor(x,y,type,parent){
         super();
         this.x = x*(this.width);
@@ -20,16 +21,16 @@ class Bingo extends egret.Sprite{
         
     }
     private drawDoors(){
-        this.addRect();
+        //this.addRect();
         this.addImage();
         //this.addText();
         //this.addBlackHole();
     }
     private addRect(){
-        this.img = this.createBitmapByName("rect_png");
-        this.img.width = this.width;
-        this.img.height = this.height;
-        this.addChild(this.img);
+        this.rect = this.createBitmapByName("rect_png");
+        this.rect.width = this.width;
+        this.rect.height = this.height;
+        this.addChild(this.rect);
     }
     private addImage(){
         if(this.type>=100) {
@@ -126,17 +127,19 @@ class Bingo extends egret.Sprite{
             this.removeChoosed();
             return;
         }
-        this.borderShape = new egret.Shape()
-        this.borderShape.graphics.lineStyle(2, 0xffffff);
-        this.borderShape.graphics.drawRect(0, 0, this.width,this.height);
-        this.borderShape.graphics.endFill();
-        this.addChild(this.borderShape);
+        // this.borderShape = new egret.Shape()
+        // this.borderShape.graphics.lineStyle(2, 0xffffff);
+        // this.borderShape.graphics.drawRect(0, 0, this.width,this.height);
+        // this.borderShape.graphics.endFill();
+        // this.addChild(this.borderShape);
+        this.addRect();
         this.choosed = true;
     }
     public removeChoosed() {
         if( !this.choosed )
             return;
-        this.removeChild(this.borderShape)
+        if(this.rect.$parent)
+            this.removeChild(this.rect)
         this.choosed = false;
     }
 }

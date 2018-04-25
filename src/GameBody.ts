@@ -15,6 +15,7 @@ class GameBody extends egret.Sprite{
     static childW:number = 90;
     static childH:number = 90;
     private padding = 50;
+    private bingoType = 4;
     // 分数
     
     private myScoreLabel;
@@ -32,15 +33,17 @@ class GameBody extends egret.Sprite{
         super();
         this.width = width;
         this.parents = parents;
-
         GameBody.childH = GameBody.childW =  (this.width - this.padding) / GameConfig.taxConfig[GameConfig.nowTax].row;
+        
         this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
         this.col = GameConfig.taxConfig[GameConfig.nowTax].col;
+        this.bingoType = GameConfig.taxConfig[GameConfig.nowTax].bingoType;    
+
         this.gameInf = gameInf;
         //this.x = (this.width - this.row*GameBody.childH) / 2
         this.x = this.padding/2;
         this.height = this.col*GameBody.childH
-        this.y = (height/2 - this.height/2);
+        this.y = 200;
         //this.y = 100;
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawDoors,this);
         this.touchEnabled = true;
@@ -131,7 +134,7 @@ class GameBody extends egret.Sprite{
     }
    
     private drawDoors(){
-        this.addBack();
+        //this.addBack();
         this.drawBingo();
         this.gameInf.updataScroe();
        // this.gameInf.updataStep();
@@ -177,7 +180,7 @@ class GameBody extends egret.Sprite{
             }
         }
         for(let i = 0;i<this.row;i++) {
-                let ran = this.ran(0,5)
+                let ran = this.ran()
                 let bingo:Bingo = new Bingo(i,-1,ran,this);
                 this.addChild(bingo);
                 this.newBingos.push(bingo);            
@@ -216,8 +219,9 @@ class GameBody extends egret.Sprite{
         });
         return true;
     }
-    private ran(end:number, start:number) {
-        start = GameConfig.bingosMax;
+    private ran() {
+        let end = 0;
+        let start = this.bingoType;
 		return Math.floor(Math.random()*(end-start)+start)
     }
     /* 检测是否能消除 */
@@ -453,7 +457,7 @@ class GameBody extends egret.Sprite{
     private maxUncommon = 0;
     private createNewBingos(i:number,j:number,set:number) {
         let arr = [];
-        let ran = this.ran(0,5)
+        let ran = this.ran()
         // config类型
         let config = GameConfig.taxConfig[GameConfig.nowTax]
         if(config.checkType=== 'uncommon'&&ran===3) {
