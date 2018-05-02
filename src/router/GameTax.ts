@@ -29,8 +29,17 @@ class GameTax extends egret.Sprite{
 
    
     private addBack() { 
-        let sky = this.createBitmapByName("back_1_png",432*2,704*2);
+        let sky = this.createBitmapByName("back_1_png",this.width,this.width*1.78);
         this.addChild(sky);
+        var fn = ()=> {
+            egret.Tween.get(sky)
+        .to( {y:-100}, 4*6000, egret.Ease.sineIn ).call(fn2);
+        }
+        var fn2 = ()=> {
+            egret.Tween.get(sky)
+        .to( {y:0}, 4*6000, egret.Ease.sineIn ).call(fn);
+        }
+        fn();
     }
     private addReturn() { 
         let sky = this.createBitmapByName("back_png",40,40);

@@ -24,14 +24,14 @@ var GameConfig = (function () {
     /* 星球种类 */
     GameConfig.bingosMax = 8;
     GameConfig.taxArr = ['一', '二', '三', '四', '五', '六', '七', '八'];
-    GameConfig.taxLabel = ['第一宇宙很强的',
-        '第一宇宙很强的',
-        '第一宇宙很强的',
-        '第一宇宙很强的',
-        '第一宇宙很强的',
-        '第一宇宙很强的',
-        '第一宇宙很强的',
-        '第一宇宙很强的'];
+    GameConfig.taxLabel = ['第一宇宙是平淡无奇的宇宙，你可以很容易的通关',
+        '暂未解锁',
+        '暂未解锁',
+        '暂未解锁',
+        '暂未解锁',
+        '暂未解锁',
+        '暂未解锁',
+        '暂未解锁'];
     /* npc台词 */
     GameConfig.npcTalk = [
         // 第一关
@@ -117,8 +117,8 @@ var GameConfig = (function () {
     GameConfig.failWords = ['失败了？没关系再来一次！？', '除了实力还需要运气', '宇宙的熵越来越高了，降熵的速度都赶不上增熵了！', '运用你的智慧......'];
     GameConfig.nowTax = 0;
     GameConfig.taxConfig = [{
-            row: 10,
-            col: 10,
+            row: 5,
+            col: 5,
             checkType: 'uncommon',
             myScore: 1000,
             // 类型

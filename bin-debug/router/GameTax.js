@@ -34,8 +34,17 @@ var GameTax = (function (_super) {
         this.addChild(gameGroup);
     };
     GameTax.prototype.addBack = function () {
-        var sky = this.createBitmapByName("back_1_png", 432 * 2, 704 * 2);
+        var sky = this.createBitmapByName("back_1_png", this.width, this.width * 1.78);
         this.addChild(sky);
+        var fn = function () {
+            egret.Tween.get(sky)
+                .to({ y: -100 }, 4 * 6000, egret.Ease.sineIn).call(fn2);
+        };
+        var fn2 = function () {
+            egret.Tween.get(sky)
+                .to({ y: 0 }, 4 * 6000, egret.Ease.sineIn).call(fn);
+        };
+        fn();
     };
     GameTax.prototype.addReturn = function () {
         var sky = this.createBitmapByName("back_png", 40, 40);

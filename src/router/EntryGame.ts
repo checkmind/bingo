@@ -94,7 +94,7 @@ class EntryGame extends egret.Sprite{
     }
     private meau() {
         var skins = ['ButtonModel1','ButtonModel2','ButtonMore','ButtonHelp']
-        var labelText = ['剧情模式','无尽模式','道具说明','游戏帮助']
+        var labelText = ['剧情模式','无尽模式','游戏帮助','退出游戏']
         for(let i = 0;i<skins.length;i++) {
             let button = new eui.Button();
             button.touchEnabled = true;

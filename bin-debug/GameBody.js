@@ -325,6 +325,9 @@ var GameBody = (function (_super) {
     GameBody.prototype.clearAll = function (fn) {
         var _this = this;
         var pros = [];
+        if (this.clears.length !== 0) {
+            platform.playClearMusic();
+        }
         this.clears.map(function (val) {
             var i = +val.split(",")[0];
             var j = +val.split(",")[1];

@@ -62,6 +62,7 @@ var LoadingUI = (function (_super) {
         this.addChild(this.progress);
     };
     LoadingUI.prototype.onProgress = function (current, total) {
+        console.log(current, total);
         this.textField.text = "Loading..." + current + "/" + total;
     };
     return LoadingUI;

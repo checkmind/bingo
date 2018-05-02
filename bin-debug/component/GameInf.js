@@ -32,7 +32,7 @@ var GameInf = (function (_super) {
         this.updataScroe();
         //this.updataStep();
         this.addBack();
-        this.addTimer();
+        //this.addTimer();
     };
     GameInf.prototype.addTimer = function () {
         var time = new Timer();

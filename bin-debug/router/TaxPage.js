@@ -44,13 +44,19 @@ var TaxPage = (function (_super) {
         this.addGameInf();
     };
     TaxPage.prototype.addStar = function () {
-        var sky = this.createBitmapByName("back_1_png", this.width, this.height);
+        var imgHeight = this.width * 1.78;
+        var top = imgHeight - this.height;
+        var sky = this.createBitmapByName("back_1_png", this.width, imgHeight);
         this.addChild(sky);
-        // system.y = this.stage.$stageHeight / 2;
-        // system.x = this.stage.stageWidth / 2;
-        // system.emitterX = 0;
-        // system.emitterY = 0;
-        // system.scaleX = system.scaleY = 1.5;
+        var fn = function () {
+            egret.Tween.get(sky)
+                .to({ y: -top }, 8 * 6000, egret.Ease.sineIn).call(fn2);
+        };
+        var fn2 = function () {
+            egret.Tween.get(sky)
+                .to({ y: 0 }, 8 * 6000, egret.Ease.sineIn).call(fn);
+        };
+        fn();
     };
     TaxPage.prototype.addGameBody = function () {
         this.gameBody = new GameBody(this.width, this.height, this.gameInf, this);

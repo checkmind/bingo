@@ -214,6 +214,7 @@ class GameBody extends egret.Sprite{
             return false;
         }
         this.lock = true;
+        
         this.clearAll(()=>{
             this.updataGame();
         });
@@ -318,6 +319,9 @@ class GameBody extends egret.Sprite{
     /* 清除函数 */
      private clearAll(fn) {
         let pros = [];
+        if(this.clears.length!==0) {
+            platform.playClearMusic();
+        }
         this.clears.map((val)=>{
             let i = +val.split(",")[0]
             let j = +val.split(",")[1]

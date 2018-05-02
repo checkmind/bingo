@@ -33,8 +33,8 @@ class GameGroup extends eui.Group{
     private meau(num) {
         var button = new TaxButton();
         button.skinName="resource/eui_skins/toastSkin.exml" //假设Button.exml在resource文件夹下。
-        button.label = `第${GameConfig.taxArr[num]}宇宙`;
-        button.label2 = `  ${GameConfig.taxLabel[num]}`;
+        button.label2 = `第${GameConfig.taxArr[num]}宇宙`;
+        button.label = `  ${GameConfig.taxLabel[num]}`;
         button.width = 226;
         button.height = 345;
         button.x = (button.width+40)*num;

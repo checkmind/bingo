@@ -53,6 +53,27 @@ var DebugPlatform = (function () {
             });
         });
     };
+    DebugPlatform.prototype.shareAppMessage = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    DebugPlatform.prototype.createInnerAudioContext = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    DebugPlatform.prototype.playClearMusic = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
     return DebugPlatform;
 }());
 __reflect(DebugPlatform.prototype, "DebugPlatform", ["Platform"]);

@@ -42,14 +42,20 @@ class TaxPage extends egret.Sprite{
     }
     
     private addStar() {
-        let sky = this.createBitmapByName("back_1_png",this.width,this.height);
+        let imgHeight = this.width*1.78;
+        let top = imgHeight - this.height;
+        let sky = this.createBitmapByName("back_1_png",this.width,imgHeight);
         this.addChild(sky);
-        
-        // system.y = this.stage.$stageHeight / 2;
-        // system.x = this.stage.stageWidth / 2;
-        // system.emitterX = 0;
-        // system.emitterY = 0;
-        // system.scaleX = system.scaleY = 1.5;
+
+        var fn = ()=> {
+            egret.Tween.get(sky)
+        .to( {y:-top}, 8*6000, egret.Ease.sineIn ).call(fn2);
+        }
+        var fn2 = ()=> {
+            egret.Tween.get(sky)
+        .to( {y:0}, 8*6000, egret.Ease.sineIn ).call(fn);
+        }
+        fn();
     }
     
     private addGameBody() {

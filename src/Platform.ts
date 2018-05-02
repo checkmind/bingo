@@ -9,7 +9,10 @@ declare interface Platform {
     getUserInfo(): Promise<any>;
 
     login(): Promise<any>
+    
+    createInnerAudioContext() :Promise<any>   
 
+    playClearMusic() :Promise<any>
 }
 
 class DebugPlatform implements Platform {
@@ -18,6 +21,15 @@ class DebugPlatform implements Platform {
     }
     async login() {
 
+    }
+    async shareAppMessage() {
+
+    }
+    async createInnerAudioContext () {
+    
+    }
+    async playClearMusic() {
+        
     }
 }
 

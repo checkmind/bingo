@@ -29,7 +29,7 @@ class GameInf extends egret.Sprite{
         this.updataScroe();
         //this.updataStep();
         this.addBack();
-        this.addTimer();
+        //this.addTimer();
     }
     private addTimer() {
         let time = new Timer();

@@ -68,6 +68,7 @@ class Main extends eui.UILayer {
         const result = await RES.getResAsync("description_json")
         await platform.login();
         const userInfo = await platform.getUserInfo();
+        platform.createInnerAudioContext();
     }
 
     private async loadResource() {
@@ -75,9 +76,15 @@ class Main extends eui.UILayer {
             const loadingView = new LoadingUI();
             this.stage.addChild(loadingView);
             await RES.loadConfig("resource/default.res.json", "resource/");
+            console.log("loading 1")
             await this.loadTheme();
-            await RES.loadGroup("preload", 0, loadingView);
+            console.log("loading 2")
+        
+            let it = await RES.loadGroup("preload", 0, loadingView);                
+
+            console.log("loading 3")
             this.stage.removeChild(loadingView);
+            console.log("oading 4")
         }
         catch (e) {
             console.error(e);

@@ -1,21 +1,11 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,progress_png,bar_png,2_png,3_png,4_png,5_png,1_png,6_png,blackhole_png,button_png,black2_png,boom_png,back_1_png,starLand2_png,title_png,rect_png,tax_png,7_png,8_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,hit_png,name_png,back_png,shuffle_png,rect_2_png,name2_png,cir_png,100_png,1002_png,starLand_png,toast_png,newParticle2_png,newParticle2_json,timer_png",
+			"keys": "description_json,2_png,3_png,4_png,5_png,1_png,6_png,blackhole_png,button_png,black2_png,boom_png,title_png,rect_png,7_png,8_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,hit_png,back_png,shuffle_png,rect_2_png,cir_png,100_png,starLand_png,toast_png,newParticle2_png,newParticle2_json,back_1_png",
 			"name": "preload"
 		}
 	],
 	"resources": [
-		{
-			"url": "assets/progress.png",
-			"type": "image",
-			"name": "progress_png"
-		},
-		{
-			"url": "assets/bar.png",
-			"type": "image",
-			"name": "bar_png"
-		},
 		{
 			"url": "config/description.json",
 			"type": "json",
@@ -82,16 +72,6 @@
 			"name": "boom_png"
 		},
 		{
-			"url": "assets/back_1.png",
-			"type": "image",
-			"name": "back_1_png"
-		},
-		{
-			"url": "assets/starLand.png",
-			"type": "image",
-			"name": "starLand2_png"
-		},
-		{
 			"url": "assets/title.png",
 			"type": "image",
 			"name": "title_png"
@@ -100,11 +80,6 @@
 			"url": "assets/rect.png",
 			"type": "image",
 			"name": "rect_png"
-		},
-		{
-			"url": "assets/tax.png",
-			"type": "image",
-			"name": "tax_png"
 		},
 		{
 			"url": "assets/7.png",
@@ -137,11 +112,6 @@
 			"name": "hit_png"
 		},
 		{
-			"url": "assets/name.png",
-			"type": "image",
-			"name": "name_png"
-		},
-		{
 			"url": "assets/back.png",
 			"type": "image",
 			"name": "back_png"
@@ -157,11 +127,6 @@
 			"name": "rect_2_png"
 		},
 		{
-			"url": "name.png",
-			"type": "image",
-			"name": "name2_png"
-		},
-		{
 			"url": "assets/cir.png",
 			"type": "image",
 			"name": "cir_png"
@@ -172,29 +137,24 @@
 			"name": "100_png"
 		},
 		{
-			"url": "assets/100.png",
-			"type": "image",
-			"name": "1002_png"
-		},
-		{
 			"url": "assets/toast.png",
 			"type": "image",
 			"name": "toast_png"
 		},
 		{
-			"name": "newParticle2_png",
+			"url": "assets/starts2/newParticle.png",
 			"type": "image",
-			"url": "assets/starts2/newParticle.png"
+			"name": "newParticle2_png"
 		},
 		{
-			"name": "newParticle2_json",
+			"url": "assets/starts2/newParticle.json",
 			"type": "json",
-			"url": "assets/starts2/newParticle.json"
+			"name": "newParticle2_json"
 		},
 		{
-			"name": "timer_png",
+			"url": "assets/back_1.png",
 			"type": "image",
-			"url": "assets/timer.png"
+			"name": "back_1_png"
 		}
 	]
 }
