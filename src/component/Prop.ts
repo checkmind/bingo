@@ -24,7 +24,7 @@ class Prop extends egret.Sprite{
         this.addChild(hit);
     }   
     private async createBitmapByName(name: string) {
-        let url = "C:/Users/duhao/Desktop/game/bingo/resource/assets/"+name;
+        let url = "https://raw.githubusercontent.com/checkmind/bingo/master/resource/assets/"+name;
          var image = new eui.Image();
          egret.ImageLoader.crossOrigin = "anonymous"
          image.source = url;
