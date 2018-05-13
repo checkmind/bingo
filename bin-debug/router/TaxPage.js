@@ -33,7 +33,6 @@ var TaxPage = (function (_super) {
             console.log("报错");
             console.log(e);
         }
-        this.addTalk();
         this.success = function () {
             _this.removeChild(_this.talkContent);
             _this.addGameBody();
@@ -42,6 +41,7 @@ var TaxPage = (function (_super) {
         this.addChild(system);
         system.start();
         this.addGameInf();
+        this.addTalk();
     };
     TaxPage.prototype.addStar = function () {
         var imgHeight = this.width * 1.78;

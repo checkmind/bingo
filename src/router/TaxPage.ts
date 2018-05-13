@@ -30,7 +30,7 @@ class TaxPage extends egret.Sprite{
             console.log("报错")
             console.log(e)
         }
-        this.addTalk();
+        
         this.success = ()=>{
             this.removeChild(this.talkContent);
             this.addGameBody();
@@ -39,6 +39,7 @@ class TaxPage extends egret.Sprite{
         this.addChild(system);
         system.start();
         this.addGameInf();
+        this.addTalk();
     }
     
     private addStar() {

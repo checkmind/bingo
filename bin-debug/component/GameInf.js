@@ -22,7 +22,7 @@ var GameInf = (function (_super) {
         _this.x = 0;
         _this.y = 0;
         _this.width = width;
-        _this.height = height;
+        _this.heights = height;
         _this.parents = parent;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.addImage, _this);
         return _this;
@@ -33,10 +33,11 @@ var GameInf = (function (_super) {
         //this.updataStep();
         this.addBack();
         //this.addTimer();
-        this.addProps();
+        this.addProps(0);
+        this.addProps(1);
     };
-    GameInf.prototype.addProps = function () {
-        var props = new Prop(this.x, this.y, 0, this);
+    GameInf.prototype.addProps = function (type) {
+        var props = new Prop(20 + 60 * type, this.heights / 2 - 80, type, this);
         this.addChild(props);
     };
     GameInf.prototype.addTimer = function () {

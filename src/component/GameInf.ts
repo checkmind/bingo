@@ -3,7 +3,7 @@
 **/
 class GameInf extends egret.Sprite{
     public width:number;
-    public height:number;
+    public heights:number;
     private image:egret.Bitmap = new egret.Bitmap();
     private parents;
     private myScore:number = 0;
@@ -18,7 +18,7 @@ class GameInf extends egret.Sprite{
         this.x = 0;
         this.y = 0;
         this.width = width;
-        this.height = height;
+        this.heights = height;
         this.parents = parent;
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addImage,this);
         
@@ -30,10 +30,12 @@ class GameInf extends egret.Sprite{
         //this.updataStep();
         this.addBack();
         //this.addTimer();
-        this.addProps();
+        this.addProps(0);
+        this.addProps(1);
     }
-    private addProps() {
-        let props = new Prop(this.x,this.y,0,this);
+    private addProps(type) {
+        
+        let props = new Prop(20+60*type,this.heights/2-80,type,this);
         this.addChild(props);
     }
     private addTimer() {
