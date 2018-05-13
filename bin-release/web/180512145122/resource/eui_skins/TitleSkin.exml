@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<e:Skin class="skins.TalkSkin" minHeight="50" minWidth="100" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*" width="335" height="137">
+	<w:Declarations>
+		<tween:TweenGroup id="rotate">
+			<tween:TweenItem target="{button2}">
+				<tween:Wait duration="100"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object rotation="{20}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="100"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object rotation="{40}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="100"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object rotation="{60}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="100"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object rotation="{80}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="100"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object rotation="{100}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="100"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object rotation="{120}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="100"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object rotation="{140}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="100"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object rotation="{160}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="100"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object rotation="{180}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="100"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object rotation="{200}"/>
+					</tween:props>
+				</tween:Set>
+			</tween:TweenItem>
+		</tween:TweenGroup>
+	</w:Declarations>
+	<e:Label id="labelDisplay2" size="20" fontFamily="KaiTi" verticalAlign="middle" text="第一宇宙" anchorOffsetX="0" anchorOffsetY="0" wordWrap="true" bold="true" background="false" backgroundColor="0xe5e3e3" strokeColor="0xfcf9f9" alpha="1" lineSpacing="8" y="55" x="30" textColor="0xf4e8e8" width="117.4" height="30.57" textAlign="center"/>
+    <e:Label id="labelDisplay" size="22" fontFamily="KaiTi" verticalAlign="middle" text="熵值：10" anchorOffsetX="0" anchorOffsetY="0" wordWrap="true" bold="true" background="false" backgroundColor="0xe5e3e3" strokeColor="0xfcf9f9" alpha="1" lineSpacing="8" y="46" x="164" textColor="0xf4e8e8" width="149.4" height="43" textAlign="center"/>
+
+	<e:Image id="button" width="335.36" height="143" scale9Grid="1,3,8,8" left="0" anchorOffsetX="0" anchorOffsetY="0" source="resource/assets/name.png" y="-2"/>
+	<e:Image id="button2" width="139" height="139" scale9Grid="1,3,8,8" left="11" anchorOffsetX="0" anchorOffsetY="0" source="resource/assets/cir.png" horizontalCenter="-80" verticalCenter="2"/>
+</e:Skin>

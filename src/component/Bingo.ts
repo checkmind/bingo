@@ -26,29 +26,32 @@ class Bingo extends egret.Sprite{
         //this.addText();
         //this.addBlackHole();
     }
-    private addRect(){
-        this.rect = this.createBitmapByName("rect_png");
+    private async addRect(){
+        this.rect =await this.createBitmapByName("rect.png");
         this.rect.width = this.width;
         this.rect.height = this.height;
         this.addChild(this.rect);
     }
-    private addImage(){
+    private async addImage(){
         if(this.type>=100) {
-            this.img = this.createBitmapByName("100_png");            
+            this.img =await this.createBitmapByName("100.png");            
         } else {
-            this.img = this.createBitmapByName((this.type+1)+"_png");    
+            this.img =await this.createBitmapByName((this.type+1)+".png");    
         }
         this.img.width = this.width;
         this.img.height = this.height;
         this.addChild(this.img);
     }
-    private addBlackHole(fn) {
+    private async addBlackHole(fn) {
         this.removeChild(this.img)
-        let sky = this.createBitmapByName("blackhole_png");
+        let sky:any = await this.createBitmapByName("blackhole.png");
+        console.log("设置宽度高度")
         sky.width = this.width;
         sky.height = this.height;
+        console.log("设置原点")
         sky.anchorOffsetX = this.width/2
         sky.anchorOffsetY = this.width/2
+        console.log("设置x")
         sky.x = sky.width/2;
         sky.y = sky.width/2;
         var funcChange = ():void=>{
@@ -66,11 +69,16 @@ class Bingo extends egret.Sprite{
         egret.Tween.get( sky, { onChange:funcChange, onChangeObj:sky } )
             .to( {}, 1000, egret.Ease.sineIn ).call(fn);
     }
-    private createBitmapByName(name: string) {
-        let result = new egret.Bitmap();
-        let texture: egret.Texture = RES.getRes(name);
-        result.texture = texture;
-        return result;
+    private async createBitmapByName(name: string) {
+        let url = "https://raw.githubusercontent.com/checkmind/bingo/master/resource/assets/"+name;
+         var image = new eui.Image();
+         egret.ImageLoader.crossOrigin = "anonymous"
+         image.source = url;
+         return image;
+    }
+   
+    private onAddToStage( evt:egret.Event ) {
+        
     }
     private addText() {
         var text:egret.TextField = new egret.TextField();

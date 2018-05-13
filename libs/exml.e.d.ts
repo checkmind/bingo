@@ -7,10 +7,6 @@ declare module skins{
 	}
 }
 declare module skins{
-	class ProgressSkin extends eui.Skin{
-	}
-}
-declare module skins{
 	class TalkSkin extends eui.Skin{
 	}
 }

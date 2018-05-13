@@ -33,6 +33,11 @@ var GameInf = (function (_super) {
         //this.updataStep();
         this.addBack();
         //this.addTimer();
+        this.addProps();
+    };
+    GameInf.prototype.addProps = function () {
+        var props = new Prop(this.x, this.y, 0, this);
+        this.addChild(props);
     };
     GameInf.prototype.addTimer = function () {
         var time = new Timer();

@@ -8,8 +8,6 @@
 	"exmls": [
 		"resource/eui_skins/ButtonSkin.exml",
 		"resource/eui_skins/ImageSkin.exml",
-		"resource/eui_skins/progross.exml",
-		"resource/eui_skins/skillSkin.exml",
 		"resource/eui_skins/TalkSkin.exml",
 		"resource/eui_skins/TalkSkin2.exml",
 		"resource/eui_skins/TextSkin.exml",

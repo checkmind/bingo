@@ -30,6 +30,11 @@ class GameInf extends egret.Sprite{
         //this.updataStep();
         this.addBack();
         //this.addTimer();
+        this.addProps();
+    }
+    private addProps() {
+        let props = new Prop(this.x,this.y,0,this);
+        this.addChild(props);
     }
     private addTimer() {
         let time = new Timer();
