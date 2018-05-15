@@ -198,12 +198,18 @@ class GameBody extends egret.Sprite{
         this.mask = circle;
     }
     // 阴影
-    private addBlackShape() {
-        let circle:egret.Shape = new egret.Shape();
-        circle.graphics.beginFill(0x555555);
-        circle.graphics.drawRect(this.x,this.y,this.width-this.padding,this.col*GameBody.childH);
-        circle.graphics.endFill();
-        this.addChild(circle)
+    private async addBlackShape() {
+      let img = await this.createBitmapByName("alen.png")
+      img.width = 100
+      img.height = 100
+      this.addChild(img)
+    }
+    private async createBitmapByName(name: string) {
+        let url = "https://raw.githubusercontent.com/checkmind/bingo/master/resource/assets/"+name;
+        var image = new eui.Image();
+        egret.ImageLoader.crossOrigin = "anonymous"
+        image.source = url;
+        return image;
     }
     private drawBingo() {
         for(let i = 0;i<this.row;i++) {
