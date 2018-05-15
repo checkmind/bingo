@@ -63,6 +63,10 @@ var GameBody = (function (_super) {
         if (this.lock || this.loack_2)
             return;
         if (this.exitObj(this.bingos, x, y)) {
+            if (GameConfig.helper !== 0) {
+                this.useHlper(x, y);
+                return;
+            }
             this.bingos[x][y].chooseBingo();
             // 栈里面已经有bingo了
             if (this.stackArr[0] && this.stackArr[0] !== this.bingos[x][y]) {
@@ -84,6 +88,41 @@ var GameBody = (function (_super) {
                 this.stackArr.push(this.bingos[x][y]);
             }
         }
+    };
+    GameBody.prototype.useHlper = function (x, y) {
+        switch (GameConfig.helper) {
+            // 清除所有
+            case 1:
+                this.clearHelper(x, y);
+                break;
+            case 2:
+                break;
+            default:
+                break;
+        }
+        this.checkFun();
+        GameConfig.helper = 0;
+    };
+    GameBody.prototype.clearHelper = function (x, y) {
+        console.log("清除xy周围的星球");
+        console.log(x, y);
+        this.bingos[x][y].type = 20;
+        this.bingos.map(function (val, j) {
+            return val.map(function (val2, i) {
+                if (Math.abs(x - j) === 1 && Math.abs(y - i) <= 1) {
+                    console.log(i, j);
+                    val2.type = 20;
+                    console.log(val2.type);
+                }
+                if (Math.abs(y - i) === 1 && Math.abs(x - j) <= 1) {
+                    console.log(i, j);
+                    val2.type = 20;
+                    console.log(val2.type);
+                }
+                return val2;
+            });
+        });
+        console.log(this.bingos);
     };
     // 判断是否可以交换
     GameBody.prototype.checkChange = function (object_1, object_2) {
@@ -136,8 +175,7 @@ var GameBody = (function (_super) {
                 return;
             }
             _this.loack_2 = false;
-            _this.gameInf.myStepNow++;
-            // this.gameInf.updataStep();
+            _this.gameInf.updataStep();
         });
     };
     GameBody.prototype.drawDoors = function () {
@@ -146,6 +184,7 @@ var GameBody = (function (_super) {
         this.gameInf.updataScroe();
         // this.gameInf.updataStep();
         this.addMask();
+        this.addBlackShape();
     };
     GameBody.prototype.addBack = function () {
         /* 背景色设置 */
@@ -164,6 +203,14 @@ var GameBody = (function (_super) {
         circle.graphics.endFill();
         this.$parent.addChild(circle);
         this.mask = circle;
+    };
+    // 阴影
+    GameBody.prototype.addBlackShape = function () {
+        var circle = new egret.Shape();
+        circle.graphics.beginFill(0x555555);
+        circle.graphics.drawRect(this.x, this.y, this.width - this.padding, this.col * GameBody.childH);
+        circle.graphics.endFill();
+        this.addChild(circle);
     };
     GameBody.prototype.drawBingo = function () {
         for (var i = 0; i < this.row; i++) {

@@ -7,7 +7,7 @@ class GameGroup extends eui.Group{
     private image:egret.Bitmap = new egret.Bitmap();
     private parents;
     private group;
-    private myScroller;
+    private myScroller:eui.Scroller;
     public constructor(width,height,parent){
         super();
         this.x = 0;
@@ -17,9 +17,6 @@ class GameGroup extends eui.Group{
         this.parents = parent;
         this.group = new eui.Group();
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addImage,this);
-        
-        
-        
     }
   
     private addImage(){
@@ -33,15 +30,15 @@ class GameGroup extends eui.Group{
     private meau(num) {
         var button = new TaxButton();
         button.skinName="resource/eui_skins/toastSkin.exml" //假设Button.exml在resource文件夹下。
-        button.label2 = `第${GameConfig.taxArr[num]}宇宙`;
-        button.label = `  ${GameConfig.taxLabel[num]}`;
-        button.width = 226;
-        button.height = 345;
-        button.x = (button.width+40)*num;
+        button.label2 = `第${TalkConfig.taxArr[num]}宇宙`;
+        button.label = `  ${TalkConfig.taxLabel[num]}`;
+        button.width = 226*2;
+        button.height = 345*2;
+        button.x = (button.width+80)*num;
         button.y = (this.height - button.height) / 2;
         button.addEventListener(egret.TouchEvent.TOUCH_TAP,this.bindClickFn,this);
         this.group.addChild(button);
-        if(num<=GameConfig.nowTax)
+        if(num<=GameConfig.maxTax)
             return;
         let colorMatrix = [
             0.3,0.6,0,0,0,
@@ -54,18 +51,26 @@ class GameGroup extends eui.Group{
     }
     private addScroll() {
         this.myScroller = new eui.Scroller();
+        this.myScroller
         //注意位置和尺寸的设置是在Scroller上面，而不是容器上面
         this.myScroller.width = this.width;
         this.myScroller.height = this.height;
+        
         this.myScroller.viewport = this.group;
         this.addChild(this.myScroller);
+        let nowSet = (226*2+80)*GameConfig.maxTax - (this.width/2-226)
+        this.myScroller.viewport.scrollH = GameConfig.maxTax==0?0:nowSet;
     
     }
     /* 给按钮绑定事件 */
     private bindClickFn(ev) {
-        let x =  Math.floor((ev.stageX-this.x+this.myScroller.viewport.scrollH)/274);
-        let y = Math.floor((ev.stageY-this.y)/344);
-        if(y!=1 || x > GameConfig.nowTax)
+        let x =  Math.floor((ev.stageX-this.x+this.myScroller.viewport.scrollH)/(452+80));
+        //let y = Math.floor((ev.stageY-this.y)/(344*2));
+        console.log(ev.stageY,this.y+345*2,this.y);
+        let buttonY = (this.height - 345*2) / 2
+        if(ev.stageY<=this.y||ev.stageY>=buttonY+345*2)
+            return;
+        if(x > GameConfig.maxTax)
             return;
         GameConfig.nowTax = x;
         PageBus.gotoPage("pageTax");

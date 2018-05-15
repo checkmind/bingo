@@ -7,7 +7,7 @@ class TaxPage extends egret.Sprite{
     private image:egret.Bitmap = new egret.Bitmap();
     private parents;
     private gameBody;
-    private gameInf;
+    private gameInf:GameInf;
     private talkContent;
     public constructor(width,height){
         super();
@@ -63,20 +63,25 @@ class TaxPage extends egret.Sprite{
        this.gameBody = new GameBody(this.width,this.height,this.gameInf,this);
        this.addChild(this.gameBody)  
     }
+   
     private addTalk() {
        this.talkContent = new TalkContent(this.width,this.height,this);
        this.talkContent.init();
        this.addChild(this.talkContent)  
     }
     private passTax() {
-        
-        GameConfig.nowTax++;
+        if(GameConfig.nowTax===GameConfig.maxTax){
+            GameConfig.maxTax++;
+            GameConfig.nowTax = GameConfig.maxTax
+        }
+
         this.addChild(this.talkContent)
         this.talkContent.showWhich({
             type:1,
             text:'真厉害，竟然通关了，果然没选错人'
         })
-        if(GameConfig.nowTax>=1) {
+        
+        if(GameConfig.maxTax>=1) {
             this.success = ()=>{
                 PageBus.gotoPage("gameTax");
             }
@@ -96,6 +101,7 @@ class TaxPage extends egret.Sprite{
         this.success = ()=>{
             this.removeChild(this.talkContent);
             this.removeChild(this.gameBody)
+            this.gameInf.resetInf();
             this.addGameBody();
         }
     }
@@ -106,12 +112,12 @@ class TaxPage extends egret.Sprite{
         this.addGameBody();
     }
     private addGameInf() {
-       this.gameInf = new GameInf(this.width,this.height);
+       this.gameInf = new GameInf(this.width,this.height,this);
        this.addChild(this.gameInf)
        this.gameInf.backToPage = 'gameTax';
     }
     public updataStep() {
-        this.gameInf.updataStep();
+       // this.gameInf.updataStep();
     }
 
 

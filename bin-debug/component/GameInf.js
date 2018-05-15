@@ -13,17 +13,17 @@ r.prototype = e.prototype, t.prototype = new r();
 **/
 var GameInf = (function (_super) {
     __extends(GameInf, _super);
-    function GameInf(width, height) {
+    function GameInf(width, height, parent) {
         var _this = _super.call(this) || this;
         _this.image = new egret.Bitmap();
         _this.myScore = 0;
-        _this.myStepNow = 0;
         _this.backToPage = '';
         _this.x = 0;
         _this.y = 0;
         _this.width = width;
         _this.heights = height;
         _this.parents = parent;
+        _this.maxStep = GameConfig.taxConfig[GameConfig.nowTax].step;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.addImage, _this);
         return _this;
     }
@@ -33,16 +33,35 @@ var GameInf = (function (_super) {
         //this.updataStep();
         this.addBack();
         //this.addTimer();
+        this.addStep();
         this.addProps(0);
         this.addProps(1);
+        this.addProps(2);
+    };
+    // 重置各种 游戏信息
+    GameInf.prototype.resetInf = function () {
+        this.myScore = 0;
+        this.updataScroe();
+        //  this.Timer.time = 60;
+        //  this.Timer.resetTime();
+        this.StepClass.resetStep();
     };
     GameInf.prototype.addProps = function (type) {
         var props = new Prop(20 + 60 * type, this.heights / 2 - 80, type, this);
         this.addChild(props);
     };
     GameInf.prototype.addTimer = function () {
-        var time = new Timer();
-        this.addChild(time);
+        this.Timer = new Timer(this.width - 250, this.heights - 150, this);
+        this.addChild(this.Timer);
+    };
+    GameInf.prototype.addStep = function () {
+        this.StepClass = new StepClass(this.width - 250, this.heights - 150, this);
+        this.addChild(this.StepClass);
+        this.StepClass.changeStep(this.maxStep);
+    };
+    GameInf.prototype.gameOver = function () {
+        console.log("gameover");
+        this.parents.gameOver();
     };
     GameInf.prototype.addBack = function () {
         var _this = this;
@@ -60,7 +79,7 @@ var GameInf = (function (_super) {
         this.taxNum.skinName = "resource/eui_skins/TitleSkin.exml";
         this.taxNum.label2 = '第' + GameConfig.taxArr[GameConfig.nowTax] + '宇宙';
         this.taxNum.label = '熵值：0';
-        this.taxNum.x = (this.width - this.taxNum.width) - 50;
+        this.taxNum.x = (this.width - this.taxNum.width) - 100;
         this.taxNum.y = 5;
         this.addChild(this.taxNum);
     };
@@ -69,22 +88,10 @@ var GameInf = (function (_super) {
         this.taxNum.label = "\u71B5\u503C\uFF1A" + this.myScore;
     };
     /* 更新步数 */
-    // private updataStep() {
-    //     if(!GameConfig.stepOnoff)
-    //         return;
-    //     if(this.myStep){
-    //         this.myStep.text = `剩余步数：${GameConfig.maxStep - this.myStepNow}`;
-    //         return;
-    //     }
-    //     this.myStep = new eui.Label();
-    //     this.myStep.x = this.myScoreLabel.width+100;
-    //     this.myStep.y = 20;
-    //     this.myStep.size = 35;//设置文本字号
-    //     this.myStep.bold = true;
-    //     this.myStep.text = `剩余步数：${GameConfig.maxStep - this.myStepNow}`;
-    //     this.myStep.enabled = true;
-    //     this.addChild(this.myStep);
-    // }
+    GameInf.prototype.updataStep = function () {
+        this.maxStep--;
+        this.StepClass.changeStep(this.maxStep);
+    };
     GameInf.prototype.createBitmapByName = function (name, width, height) {
         var result = new egret.Bitmap();
         var texture = RES.getRes(name);

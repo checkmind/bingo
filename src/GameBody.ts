@@ -59,6 +59,10 @@ class GameBody extends egret.Sprite{
         if(this.lock||this.loack_2)
             return;
         if(this.exitObj(this.bingos,x,y)){
+           if(GameConfig.helper!==0) {
+               this.useHlper(x,y);
+               return;
+           }
            this.bingos[x][y].chooseBingo();
            // 栈里面已经有bingo了
            if(this.stackArr[0] && this.stackArr[0]!==this.bingos[x][y]) {
@@ -77,6 +81,41 @@ class GameBody extends egret.Sprite{
                this.stackArr.push(this.bingos[x][y])
            }
         }
+    }
+    private useHlper(x,y) {
+        switch(GameConfig.helper){
+            // 清除所有
+            case 1:
+                this.clearHelper(x,y);
+                break;
+            case 2:
+                break;
+            default:
+                break;
+        }
+        this.checkFun();
+        GameConfig.helper = 0;
+    }
+    private clearHelper(x,y) {
+        console.log("清除xy周围的星球")
+        console.log(x,y);
+        this.bingos[x][y].type = 20
+        this.bingos.map((val,j)=>{
+            return val.map((val2,i)=>{
+                if(Math.abs(x-j)===1&&Math.abs(y-i)<=1){
+                    console.log(i,j);
+                    val2.type = 20
+                    console.log(val2.type)
+                }
+                if(Math.abs(y-i)===1&&Math.abs(x-j)<=1){
+                    console.log(i,j);
+                    val2.type = 20
+                    console.log(val2.type)
+                }
+                return val2;
+            })
+        })
+        console.log(this.bingos);
     }
     // 判断是否可以交换
     private checkChange(object_1,object_2) {
@@ -128,8 +167,7 @@ class GameBody extends egret.Sprite{
                 return;
             }
             this.loack_2 = false;
-            this.gameInf.myStepNow++;
-           // this.gameInf.updataStep();
+            this.gameInf.updataStep();
         })
     }
    
@@ -139,6 +177,7 @@ class GameBody extends egret.Sprite{
         this.gameInf.updataScroe();
        // this.gameInf.updataStep();
         this.addMask();
+        this.addBlackShape();
     }
     private addBack() {
         /* 背景色设置 */
@@ -158,7 +197,14 @@ class GameBody extends egret.Sprite{
         this.$parent.addChild(circle);
         this.mask = circle;
     }
-
+    // 阴影
+    private addBlackShape() {
+        let circle:egret.Shape = new egret.Shape();
+        circle.graphics.beginFill(0x555555);
+        circle.graphics.drawRect(this.x,this.y,this.width-this.padding,this.col*GameBody.childH);
+        circle.graphics.endFill();
+        this.addChild(circle)
+    }
     private drawBingo() {
         for(let i = 0;i<this.row;i++) {
             let arrs = [];

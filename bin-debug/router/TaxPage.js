@@ -69,13 +69,16 @@ var TaxPage = (function (_super) {
     };
     TaxPage.prototype.passTax = function () {
         var _this = this;
-        GameConfig.nowTax++;
+        if (GameConfig.nowTax === GameConfig.maxTax) {
+            GameConfig.maxTax++;
+            GameConfig.nowTax = GameConfig.maxTax;
+        }
         this.addChild(this.talkContent);
         this.talkContent.showWhich({
             type: 1,
             text: '真厉害，竟然通关了，果然没选错人'
         });
-        if (GameConfig.nowTax >= 1) {
+        if (GameConfig.maxTax >= 1) {
             this.success = function () {
                 PageBus.gotoPage("gameTax");
             };
@@ -96,6 +99,7 @@ var TaxPage = (function (_super) {
         this.success = function () {
             _this.removeChild(_this.talkContent);
             _this.removeChild(_this.gameBody);
+            _this.gameInf.resetInf();
             _this.addGameBody();
         };
     };
@@ -105,12 +109,12 @@ var TaxPage = (function (_super) {
         this.addGameBody();
     };
     TaxPage.prototype.addGameInf = function () {
-        this.gameInf = new GameInf(this.width, this.height);
+        this.gameInf = new GameInf(this.width, this.height, this);
         this.addChild(this.gameInf);
         this.gameInf.backToPage = 'gameTax';
     };
     TaxPage.prototype.updataStep = function () {
-        this.gameInf.updataStep();
+        // this.gameInf.updataStep();
     };
     TaxPage.prototype.createBitmapByName = function (name, width, height) {
         var result = new egret.Bitmap();
