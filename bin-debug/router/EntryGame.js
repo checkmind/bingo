@@ -67,6 +67,7 @@ var EntryGame = (function (_super) {
         // sky.y = 40;
         // sky.scaleX = 0.8;
         // sky.scaleY = 0.8;
+        system.y = 200;
     };
     EntryGame.prototype.addBlackHead = function () {
         var sky = this.createBitmapByName("black2_png", 480, 485);

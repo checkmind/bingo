@@ -32,30 +32,41 @@ var GameInf = (function (_super) {
         this.updataScroe();
         //this.updataStep();
         this.addBack();
-        //this.addTimer();
+        this.addTimer();
         this.addStep();
-        this.addProps(0);
-        this.addProps(1);
-        this.addProps(2);
+        this.addProps();
     };
     // 重置各种 游戏信息
     GameInf.prototype.resetInf = function () {
         this.myScore = 0;
         this.updataScroe();
-        //  this.Timer.time = 60;
-        //  this.Timer.resetTime();
-        this.StepClass.resetStep();
+        if (GameConfig.taxConfig[GameConfig.nowTax].time != 0)
+            this.Timer.resetTime();
+        if (GameConfig.taxConfig[GameConfig.nowTax].step != 0)
+            this.StepClass.resetStep();
     };
-    GameInf.prototype.addProps = function (type) {
-        var props = new Prop(20 + 60 * type, this.heights / 2 - 80, type, this);
-        this.addChild(props);
+    GameInf.prototype.addProps = function () {
+        var maxType = GameConfig.helperArr.length;
+        console.log(this.width / 2);
+        // 整个盒子的宽度是  
+        var moveX = this.width / 4 - 100 * maxType / 4 - 20;
+        console.log(moveX);
+        for (var type = 0; type < maxType; type++) {
+            var props = new Prop(moveX + 60 * type, (790 + 40) / 2, type, this);
+            this.addChild(props);
+        }
     };
     GameInf.prototype.addTimer = function () {
-        this.Timer = new Timer(this.width - 250, this.heights - 150, this);
+        if (GameConfig.taxConfig[GameConfig.nowTax].time === 0)
+            return;
+        this.Timer = new Timer(this.width, this.heights, this.width, this.height, this);
         this.addChild(this.Timer);
     };
     GameInf.prototype.addStep = function () {
-        this.StepClass = new StepClass(this.width - 250, this.heights - 150, this);
+        // 关卡不用限定步数
+        if (this.maxStep === 0)
+            return;
+        this.StepClass = new StepClass(this.width, this.heights, this.width, this.height, this);
         this.addChild(this.StepClass);
         this.StepClass.changeStep(this.maxStep);
     };

@@ -8,7 +8,7 @@ class Prop extends egret.Sprite{
     public type
     public parents
     private choosed
-    private arr = ['hit','shuffle','foot']
+    private arr = ['1','hit','foot','shuffle']
     private text:egret.TextField
     public constructor(x,y,type,parents){
         super();
@@ -16,6 +16,7 @@ class Prop extends egret.Sprite{
         this.y = y;
         this.parents = parents
         this.type = type
+        console.log("type")
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawProps,this);
     }
     private async drawProps(){

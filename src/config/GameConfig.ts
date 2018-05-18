@@ -1,8 +1,13 @@
 /* 
 **/
 class GameConfig{
+    //static domainUrl = 'http://cangnanshi.com/bingo/'
+    static domainUrl = 'https://raw.githubusercontent.com/checkmind/bingo/master/resource/assets/'
     /* 即使不能消除也能交换顺序 */
     static canChange = false;
+    // GameBody 占据的y和高度
+    static GameBodyY = 0;
+    static GameBodyH = 0;
     /* 当前状态 
     * state :
     *   0 游戏还未开始
@@ -17,7 +22,7 @@ class GameConfig{
     static stepOnoff = true;
     static maxStep = 20;  
     /* 道具数目 */
-    static helperArr = [10,3,4];
+    static helperArr = [10,3,4,5];
     /* 星球种类 */
     static bingosMax = 8;
     static taxArr = ['一','二','三','四','五','六','七','八'];
@@ -25,9 +30,10 @@ class GameConfig{
     static nowTax = 0;
     // 当前最强关卡
     static maxTax = 0;
+    // 第一关限定步数
     static taxConfig = [{
-        row: 5,
-        col: 5,
+        row: 3,
+        col: 3,
         checkType: 'uncommon',
         // 目标分数
         myScore: 2000,
@@ -39,18 +45,19 @@ class GameConfig{
         bingoType: 5,
         // 最顶层放稀有星球 稀有星球需到底部
         uncommon: 5
+    // 第二关限定时间
     },{
         row: 5,
         col: 5,
         checkType: 'uncommon',
         //uncommon: 4,
         // 从下到上 宇宙会黑掉，这个是黑掉的时间
-        darkTime: 60,
+        darkTime: 10,
         myScore: 3800,
         bingoType: 4,
-        step: 25,
+        step: 0,
         // 限定时间 为0不限定
-        time: 0,
+        time: 10,
     },{
         row: 6,
         checkType: 'uncommon',

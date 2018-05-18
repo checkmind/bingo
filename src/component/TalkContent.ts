@@ -26,13 +26,11 @@ class TalkContent extends egret.Sprite{
         this.showWhich(arr[this.nowWords]);
     }
     public init() {
-        console.log("调用了init")
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addImage,this);
         
     }
     private addImage(){
        // this.addBack();
-      console.log("调用了初始show")
       this.showWhich(TalkConfig.npcTalk[GameConfig.nowTax][this.nowWords]);
       this.removeEventListener(egret.Event.ADDED_TO_STAGE,this.addImage,this);
     }
@@ -51,8 +49,6 @@ class TalkContent extends egret.Sprite{
     }
 
     public showWhich(obj:{type:number,text:string}) {
-        console.log("传值是")
-        console.log(obj)
         if(!obj) {
             this.parents.success();
             this.removeChildren();
@@ -82,7 +78,6 @@ class TalkContent extends egret.Sprite{
     private addNpc_2(words:string) {
         this.clearNpc();
         if(this.npc_2) {
-            console.log(this.addNpc_2)
             this.npc_2.label = words;
             this.addChild(this.npc_2);
             return;

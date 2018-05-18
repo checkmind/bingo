@@ -61,6 +61,7 @@ var TaxPage = (function (_super) {
     TaxPage.prototype.addGameBody = function () {
         this.gameBody = new GameBody(this.width, this.height, this.gameInf, this);
         this.addChild(this.gameBody);
+        this.addMonster();
     };
     TaxPage.prototype.addTalk = function () {
         this.talkContent = new TalkContent(this.width, this.height, this);
@@ -99,9 +100,17 @@ var TaxPage = (function (_super) {
         this.success = function () {
             _this.removeChild(_this.talkContent);
             _this.removeChild(_this.gameBody);
-            _this.gameInf.resetInf();
+            _this.removeChild(_this.gameInf);
+            _this.removeChild(_this.monsterClass);
+            _this.addGameInf();
             _this.addGameBody();
         };
+    };
+    TaxPage.prototype.addMonster = function () {
+        this.monsterClass = new MonsterClass(this.gameBody.x, this.gameBody.y, this.gameBody.width, this.gameBody.height);
+        // 放到顶部
+        this.addChild(this.monsterClass);
+        this.setChildIndex(this.monsterClass, 99999);
     };
     // 点击完对话后的场景
     TaxPage.prototype.success = function () {

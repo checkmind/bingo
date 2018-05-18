@@ -126,11 +126,13 @@ var GameBody = (function (_super) {
     };
     GameBody.prototype.useHlper = function (x, y) {
         switch (GameConfig.helper) {
-            // 清除所有
+            // 清除相同的所有类别
             case 1:
-                this.clearHelper(x, y);
+                this.clearCommonBingo(x, y);
                 break;
+            // 清除九宫格 
             case 2:
+                this.clearHelper(x, y);
                 break;
             default:
                 break;
@@ -138,26 +140,35 @@ var GameBody = (function (_super) {
         this.checkFun();
         GameConfig.helper = 0;
     };
+    // 道具1
     GameBody.prototype.clearHelper = function (x, y) {
-        console.log("清除xy周围的星球");
-        console.log(x, y);
-        this.bingos[x][y].type = 20;
+        var _this = this;
+        this.saveClears(x + "," + y);
         this.bingos.map(function (val, j) {
             return val.map(function (val2, i) {
                 if (Math.abs(x - j) === 1 && Math.abs(y - i) <= 1) {
-                    console.log(i, j);
-                    val2.type = 20;
-                    console.log(val2.type);
+                    _this.saveClears(j + "," + i);
                 }
                 if (Math.abs(y - i) === 1 && Math.abs(x - j) <= 1) {
-                    console.log(i, j);
-                    val2.type = 20;
-                    console.log(val2.type);
+                    _this.saveClears(j + "," + i);
                 }
                 return val2;
             });
         });
-        console.log(this.bingos);
+    };
+    // 道具2
+    GameBody.prototype.clearCommonBingo = function (x, y) {
+        var _this = this;
+        this.saveClears(x + "," + y);
+        var type = this.bingos[x][y].type;
+        this.bingos.map(function (val, j) {
+            return val.map(function (val2, i) {
+                if (_this.bingos[j][i].type === type) {
+                    _this.saveClears(j + "," + i);
+                }
+                return val2;
+            });
+        });
     };
     // 判断是否可以交换
     GameBody.prototype.checkChange = function (object_1, object_2) {
@@ -219,7 +230,7 @@ var GameBody = (function (_super) {
         this.gameInf.updataScroe();
         // this.gameInf.updataStep();
         this.addMask();
-        this.addBlackShape();
+        //this.addBlackShape();
     };
     GameBody.prototype.addBack = function () {
         /* 背景色设置 */
@@ -239,28 +250,11 @@ var GameBody = (function (_super) {
         this.$parent.addChild(circle);
         this.mask = circle;
     };
-    // 阴影
-    GameBody.prototype.addBlackShape = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var img;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.createBitmapByName("alen.png")];
-                    case 1:
-                        img = _a.sent();
-                        img.width = 100;
-                        img.height = 100;
-                        this.addChild(img);
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
     GameBody.prototype.createBitmapByName = function (name) {
         return __awaiter(this, void 0, void 0, function () {
             var url, image;
             return __generator(this, function (_a) {
-                url = "https://raw.githubusercontent.com/checkmind/bingo/master/resource/assets/" + name;
+                url = GameConfig.domainUrl + name;
                 image = new eui.Image();
                 egret.ImageLoader.crossOrigin = "anonymous";
                 image.source = url;
@@ -320,7 +314,6 @@ var GameBody = (function (_super) {
         this.checkBingos();
         if (this.clears.length === 0) {
             this.lock = false;
-            console.log("监测是否结束");
             this.checkGameOver();
             return false;
         }
@@ -492,7 +485,6 @@ var GameBody = (function (_super) {
     GameBody.prototype.checkGameOver = function () {
         // 這邊簡單記錄一下bingos
         if (!this.cloneBingos()) {
-            console.log("失败了");
             this.parents.gameOver();
         }
         if (this.gameInf.myScore >= GameConfig.taxConfig[GameConfig.nowTax].myScore) {

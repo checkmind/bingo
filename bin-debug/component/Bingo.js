@@ -151,7 +151,7 @@ var Bingo = (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             var url, image;
             return __generator(this, function (_a) {
-                url = "https://raw.githubusercontent.com/checkmind/bingo/master/resource/assets/" + name;
+                url = GameConfig.domainUrl + name;
                 image = new eui.Image();
                 egret.ImageLoader.crossOrigin = "anonymous";
                 image.source = url;

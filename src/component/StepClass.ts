@@ -6,19 +6,17 @@ class StepClass extends eui.Group{
     public height:number;
     private image:egret.Bitmap = new egret.Bitmap();
     private parents;
-    private group;
     private myScroller;
     public step = 0;
     private timer;
     private taxNum;
-    public constructor(x,y,parents){
+    public constructor(x,y,width,height,parents){
         super();
-        this.x = x;
-        this.y = y;
+        this.x = width/2-236/2;
+        this.y = y-100;
         this.step = GameConfig.taxConfig[GameConfig.nowTax].step;
 
         this.parents = parents;
-        this.group = new eui.Group();
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addImage,this);
     }
     private addImage(){

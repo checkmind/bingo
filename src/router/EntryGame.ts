@@ -61,7 +61,7 @@ class EntryGame extends egret.Sprite{
         // sky.y = 40;
         // sky.scaleX = 0.8;
         // sky.scaleY = 0.8;
-        
+        system.y = 200;
     }
     private addBlackHead() {
         let sky = this.createBitmapByName("black2_png",480,485);

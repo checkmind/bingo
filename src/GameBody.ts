@@ -44,6 +44,7 @@ class GameBody extends egret.Sprite{
         this.x = this.padding/2;
         this.height = this.col*GameBody.childH
         this.y = 200;
+        
         //this.y = 100;
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawDoors,this);
         this.touchEnabled = true;
@@ -84,11 +85,13 @@ class GameBody extends egret.Sprite{
     }
     private useHlper(x,y) {
         switch(GameConfig.helper){
-            // 清除所有
+            // 清除相同的所有类别
             case 1:
-                this.clearHelper(x,y);
+                this.clearCommonBingo(x,y);
                 break;
+            // 清除九宫格 
             case 2:
+                this.clearHelper(x,y);
                 break;
             default:
                 break;
@@ -96,26 +99,33 @@ class GameBody extends egret.Sprite{
         this.checkFun();
         GameConfig.helper = 0;
     }
+    // 道具1
     private clearHelper(x,y) {
-        console.log("清除xy周围的星球")
-        console.log(x,y);
-        this.bingos[x][y].type = 20
+        this.saveClears(x+`,`+y)
         this.bingos.map((val,j)=>{
             return val.map((val2,i)=>{
                 if(Math.abs(x-j)===1&&Math.abs(y-i)<=1){
-                    console.log(i,j);
-                    val2.type = 20
-                    console.log(val2.type)
+                    this.saveClears(j+`,`+i)
                 }
                 if(Math.abs(y-i)===1&&Math.abs(x-j)<=1){
-                    console.log(i,j);
-                    val2.type = 20
-                    console.log(val2.type)
+                    this.saveClears(j+`,`+i)
                 }
                 return val2;
             })
         })
-        console.log(this.bingos);
+    }
+    // 道具2
+    private clearCommonBingo(x,y) {
+        this.saveClears(x+`,`+y)
+        let type = this.bingos[x][y].type
+        this.bingos.map((val,j)=>{
+            return val.map((val2,i)=>{
+                if(this.bingos[j][i].type=== type){
+                    this.saveClears(j+`,`+i)
+                }
+                return val2;
+            })
+        })
     }
     // 判断是否可以交换
     private checkChange(object_1,object_2) {
@@ -177,8 +187,9 @@ class GameBody extends egret.Sprite{
         this.gameInf.updataScroe();
        // this.gameInf.updataStep();
         this.addMask();
-        this.addBlackShape();
+        //this.addBlackShape();
     }
+    
     private addBack() {
         /* 背景色设置 */
         var shape:egret.Shape = new egret.Shape;
@@ -197,15 +208,9 @@ class GameBody extends egret.Sprite{
         this.$parent.addChild(circle);
         this.mask = circle;
     }
-    // 阴影
-    private async addBlackShape() {
-      let img = await this.createBitmapByName("alen.png")
-      img.width = 100
-      img.height = 100
-      this.addChild(img)
-    }
+    
     private async createBitmapByName(name: string) {
-        let url = "https://raw.githubusercontent.com/checkmind/bingo/master/resource/assets/"+name;
+        let url = GameConfig.domainUrl+name;
         var image = new eui.Image();
         egret.ImageLoader.crossOrigin = "anonymous"
         image.source = url;
@@ -261,7 +266,6 @@ class GameBody extends egret.Sprite{
         this.checkBingos();
         if(this.clears.length ===0){
             this.lock = false;
-            console.log("监测是否结束")
             this.checkGameOver();
             return false;
         }
@@ -436,7 +440,6 @@ class GameBody extends egret.Sprite{
     private checkGameOver() {
         // 這邊簡單記錄一下bingos
         if(!this.cloneBingos()){
-            console.log("失败了")
             this.parents.gameOver();
         }
         if(this.gameInf.myScore>=GameConfig.taxConfig[GameConfig.nowTax].myScore) {

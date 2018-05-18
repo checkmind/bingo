@@ -70,7 +70,7 @@ class Bingo extends egret.Sprite{
             .to( {}, 1000, egret.Ease.sineIn ).call(fn);
     }
     private async createBitmapByName(name: string) {
-        let url = "https://raw.githubusercontent.com/checkmind/bingo/master/resource/assets/"+name;
+        let url =  GameConfig.domainUrl+name;
          var image = new eui.Image();
          egret.ImageLoader.crossOrigin = "anonymous"
          image.source = url;

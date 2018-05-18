@@ -9,6 +9,7 @@ class TaxPage extends egret.Sprite{
     private gameBody;
     private gameInf:GameInf;
     private talkContent;
+    private monsterClass:MonsterClass;
     public constructor(width,height){
         super();
         this.x = 0;
@@ -62,6 +63,7 @@ class TaxPage extends egret.Sprite{
     private addGameBody() {
        this.gameBody = new GameBody(this.width,this.height,this.gameInf,this);
        this.addChild(this.gameBody)  
+       this.addMonster();
     }
    
     private addTalk() {
@@ -101,11 +103,18 @@ class TaxPage extends egret.Sprite{
         this.success = ()=>{
             this.removeChild(this.talkContent);
             this.removeChild(this.gameBody)
-            this.gameInf.resetInf();
+            this.removeChild(this.gameInf)    
+            this.removeChild(this.monsterClass)     
+            this.addGameInf();   
             this.addGameBody();
         }
     }
-
+    private addMonster(){
+        this.monsterClass = new MonsterClass(this.gameBody.x,this.gameBody.y,this.gameBody.width,this.gameBody.height);
+        // 放到顶部
+        this.addChild(this.monsterClass)
+        this.setChildIndex(this.monsterClass, 99999);
+    }
     // 点击完对话后的场景
     private success() {
         this.removeChild(this.talkContent);
