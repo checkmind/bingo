@@ -8,7 +8,7 @@ class Prop extends egret.Sprite{
     public type
     public parents
     private choosed
-    private arr = ['1','hit','foot','shuffle']
+    private arr = ['1','hit','foot','change']
     private text:egret.TextField
     public constructor(x,y,type,parents){
         super();
