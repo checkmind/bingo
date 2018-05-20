@@ -27,7 +27,11 @@ var TalkContent = (function (_super) {
     }
     TalkContent.prototype.mouseDown = function () {
         this.nowWords++;
-        var arr = TalkConfig.npcTalk[GameConfig.nowTax];
+        var arr;
+        if (GameConfig.nowTax != -1)
+            arr = TalkConfig.npcTalk[GameConfig.nowTax];
+        else
+            arr = TalkConfig.talkInfinite;
         this.showWhich(arr[this.nowWords]);
     };
     TalkContent.prototype.init = function () {
@@ -35,7 +39,10 @@ var TalkContent = (function (_super) {
     };
     TalkContent.prototype.addImage = function () {
         // this.addBack();
-        this.showWhich(TalkConfig.npcTalk[GameConfig.nowTax][this.nowWords]);
+        if (GameConfig.nowTax != -1)
+            this.showWhich(TalkConfig.npcTalk[GameConfig.nowTax][this.nowWords]);
+        else
+            this.showWhich(TalkConfig.talkInfinite[this.nowWords]);
         this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.addImage, this);
     };
     TalkContent.prototype.addGameBody = function () {

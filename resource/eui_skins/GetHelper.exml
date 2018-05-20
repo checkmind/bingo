@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<e:Skin class="skins.GetHelper" states="up,down,disabled" minHeight="50" minWidth="100" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="331" height="419" width.down="250">
+	<e:Image id="button1" width="330" height="420" scale9Grid="1,3,8,8" alpha.disabled="0.5" source.down="resource/assets/helpBack.png" top="0" source="resource/assets/helpBack.png" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="-1.5" width.down="250" height.down="363" y.down="0" horizontalCenter.down="0" top.down="0"/> 
+	<e:Image id="button2" width="119" height="40" scale9Grid="1,3,8,8" alpha.disabled="0.5" source.down="resource/assets/ok.png" top="338" source="resource/assets/ok.png" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="1" width.down="127.93" height.down="43" horizontalCenter.down="2" top.down="284"/>	        
+
+	<e:Image id="button3" width="100" height="100" scale9Grid="1,3,8,8" alpha.disabled="0.5" source.down="resource/assets/rect_2.png" top="113" source="resource/assets/rect_2.png" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="-1.5" horizontalCenter.down="-2" top.down="42"/>	    
+    <e:Label id="labelDisplay" top="39" bottom="338" left="85" right="82" size="20" fontFamily="Arial" verticalAlign="middle" textAlign="center" text="二向箔" textColor.down="0xfffcfc" size.down="20" width="236" height="81" blendMode="add" strokeColor="0xb72424" anchorOffsetY="0" left.down="23" right.down="23" top.down="142" bottom.down="160" anchorOffsetX.down="0" anchorOffsetX="0"/>
+    <e:Label id="labelDisplay2" top="202" bottom="70" left="31" right="28" size="20" fontFamily="Arial" verticalAlign="middle" textAlign="center" text="对选中星球及其周围星球进行降维打击" textColor.down="0xfffcfc" size.down="20" width="236" height="81" blendMode="add" strokeColor="0xb72424" anchorOffsetY="0" anchorOffsetX.down="0" left.down="33" right.down="33" top.down="197" bottom.down="85" anchorOffsetX="0"/>
+    
+</e:Skin>

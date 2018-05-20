@@ -71,7 +71,8 @@ class GameGroup extends eui.Group{
         if(ev.stageY<=this.y||ev.stageY>=buttonY+345*2)
             return;
         if(x > GameConfig.maxTax)
-            return;
+            return;    
+        platform.playButtonMusic();
         GameConfig.nowTax = x;
         PageBus.gotoPage("pageTax");
     }

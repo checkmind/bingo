@@ -74,6 +74,13 @@ var DebugPlatform = (function () {
             });
         });
     };
+    DebugPlatform.prototype.playButtonMusic = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
     return DebugPlatform;
 }());
 __reflect(DebugPlatform.prototype, "DebugPlatform", ["Platform"]);

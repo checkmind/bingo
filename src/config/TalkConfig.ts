@@ -11,6 +11,14 @@ class TalkConfig{
                        '暂未解锁',
                        '暂未解锁'];
     /* npc台词 */
+    static talkInfinite = [{
+        type: 1,
+        text: '这里是无尽模式，人品与技术的双重考验，当你的人品足够高时，也许会得到一些小道具哦'
+    },{
+        type: 1,
+        text: '开始吧'
+    }]
+    
     static npcTalk = [
         // 第一关
         [{

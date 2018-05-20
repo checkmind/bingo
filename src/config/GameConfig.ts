@@ -2,7 +2,7 @@
 **/
 class GameConfig{
     //static domainUrl = 'http://cangnanshi.com/bingo/'
-    static domainUrl = 'https://raw.githubusercontent.com/checkmind/bingo/master/resource/assets/'
+    static domainUrl = 'https://qqqdu.oss-cn-beijing.aliyuncs.com/bingo/'
     /* 即使不能消除也能交换顺序 */
     static canChange = false;
     // GameBody 占据的y和高度
@@ -23,17 +23,23 @@ class GameConfig{
     static maxStep = 20;  
     /* 道具数目 */
     static helperArr = [10,3,4,5];
+    static helperSrc = ['1','hit','foot','change']
     /* 星球种类 */
     static bingosMax = 8;
     static taxArr = ['一','二','三','四','五','六','七','八'];
+    // 无限模式初始化时间
+    static infiniteTime = 60;
+    static infiniteRow = 7;
+    static infiniteCol = 7;
+    static infiniteBingoType = 7;
     // 当前关卡
-    static nowTax = 0;
+    static nowTax = -1;
     // 当前最强关卡
     static maxTax = 0;
     // 第一关限定步数
     static taxConfig = [{
-        row: 3,
-        col: 3,
+        row: 4,
+        col: 4,
         checkType: 'uncommon',
         // 目标分数
         myScore: 2000,
@@ -42,9 +48,9 @@ class GameConfig{
         // 限定时间 为0不限定
         time: 0,
         // 类型
-        bingoType: 5,
+        bingoType: 4,
         // 最顶层放稀有星球 稀有星球需到底部
-        uncommon: 5
+        uncommon: 0
     // 第二关限定时间
     },{
         row: 5,
@@ -125,6 +131,15 @@ class GameConfig{
     },];
     static generatorBingos() {
 
+    }
+    static async createBitmapByName(name: string) {
+        let url = GameConfig.domainUrl+name;
+        console.log(url)
+         var image = new eui.Image();
+         egret.ImageLoader.crossOrigin = "anonymous"
+         image.source = url;
+         console.log("source")
+         return image;
     }
     public constructor(){
         

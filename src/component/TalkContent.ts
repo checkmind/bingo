@@ -22,7 +22,11 @@ class TalkContent extends egret.Sprite{
     }
     private mouseDown() {
         this.nowWords++;
-        let arr = TalkConfig.npcTalk[GameConfig.nowTax]
+        let arr
+        if(GameConfig.nowTax!=-1)
+            arr = TalkConfig.npcTalk[GameConfig.nowTax]
+        else 
+            arr = TalkConfig.talkInfinite
         this.showWhich(arr[this.nowWords]);
     }
     public init() {
@@ -31,7 +35,10 @@ class TalkContent extends egret.Sprite{
     }
     private addImage(){
        // this.addBack();
-      this.showWhich(TalkConfig.npcTalk[GameConfig.nowTax][this.nowWords]);
+       if(GameConfig.nowTax!=-1)
+        this.showWhich(TalkConfig.npcTalk[GameConfig.nowTax][this.nowWords]);
+      else 
+        this.showWhich(TalkConfig.talkInfinite[this.nowWords]);      
       this.removeEventListener(egret.Event.ADDED_TO_STAGE,this.addImage,this);
     }
     

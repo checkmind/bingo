@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,blackhole_png,button_png,black2_png,boom_png,title_png,rect_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,back_png,rect_2_png,cir_png,starLand_png,toast_png,newParticle2_png,newParticle2_json,back_1_png",
+			"keys": "description_json,button_png,black2_png,boom_png,title_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,back_png,rect_2_png,cir_png,starLand_png,toast_png,newParticle2_png,newParticle2_json,back_1_png,ok_png,helpBack_png,ballParticle_json,ballParticle_png,firePot_png",
 			"name": "preload"
 		}
 	],
@@ -15,11 +15,6 @@
 			"url": "assets/starLand.png",
 			"type": "image",
 			"name": "starLand_png"
-		},
-		{
-			"url": "assets/blackhole.png",
-			"type": "image",
-			"name": "blackhole_png"
 		},
 		{
 			"url": "assets/button.png",
@@ -45,11 +40,6 @@
 			"url": "assets/title.png",
 			"type": "image",
 			"name": "title_png"
-		},
-		{
-			"url": "assets/rect.png",
-			"type": "image",
-			"name": "rect_png"
 		},
 		{
 			"url": "assets/starts/newParticle.png",
@@ -100,6 +90,31 @@
 			"url": "assets/back_1.png",
 			"type": "image",
 			"name": "back_1_png"
+		},
+		{
+			"url": "assets/ok.png",
+			"type": "image",
+			"name": "ok_png"
+		},
+		{
+			"url": "assets/helpBack.png",
+			"type": "image",
+			"name": "helpBack_png"
+		},
+		{
+			"url": "assets/particle3/ballParticle.json",
+			"type": "json",
+			"name": "ballParticle_json"
+		},
+		{
+			"url": "assets/particle3/ballParticle.png",
+			"type": "image",
+			"name": "ballParticle_png"
+		},
+		{
+			"url": "assets/particle3/firePot.png",
+			"type": "image",
+			"name": "firePot_png"
 		}
 	]
 }

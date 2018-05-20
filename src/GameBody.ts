@@ -33,12 +33,18 @@ class GameBody extends egret.Sprite{
         super();
         this.width = width;
         this.parents = parents;
-        GameBody.childH = GameBody.childW =  (this.width - this.padding) / GameConfig.taxConfig[GameConfig.nowTax].row;
         
-        this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
-        this.col = GameConfig.taxConfig[GameConfig.nowTax].col;
-        this.bingoType = GameConfig.taxConfig[GameConfig.nowTax].bingoType;    
-
+        if(GameConfig.nowTax!==-1){
+            GameBody.childH = GameBody.childW =  (this.width - this.padding) / GameConfig.taxConfig[GameConfig.nowTax].row;
+            this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
+            this.col = GameConfig.taxConfig[GameConfig.nowTax].col;
+            this.bingoType = GameConfig.taxConfig[GameConfig.nowTax].bingoType;    
+        } else {
+            GameBody.childH = GameBody.childW =  (this.width - this.padding) / GameConfig.infiniteRow;
+            this.row = GameConfig.infiniteRow
+            this.col = GameConfig.infiniteCol
+            this.bingoType = GameConfig.infiniteBingoType
+        }
         this.gameInf = gameInf;
         //this.x = (this.width - this.row*GameBody.childH) / 2
         this.x = this.padding/2;
@@ -84,6 +90,16 @@ class GameBody extends egret.Sprite{
         }
     }
     private useHlper(x,y) {
+        console.log("使用helper")
+        console.log(GameConfig.helper)
+        if(GameConfig.helperArr[GameConfig.helper-1]===0) {
+            GameConfig.helper = 0;
+            return;
+        } 
+        
+        if(GameConfig.helperArr[GameConfig.helper-1]>=1)
+            GameConfig.helperArr[GameConfig.helper-1] -= 1
+        this.gameInf.propsArr[GameConfig.helper-1].setNum();
         switch(GameConfig.helper){
             // 清除相同的所有类别
             case 1:
@@ -207,14 +223,6 @@ class GameBody extends egret.Sprite{
         circle.graphics.endFill();
         this.$parent.addChild(circle);
         this.mask = circle;
-    }
-    
-    private async createBitmapByName(name: string) {
-        let url = GameConfig.domainUrl+name;
-        var image = new eui.Image();
-        egret.ImageLoader.crossOrigin = "anonymous"
-        image.source = url;
-        return image;
     }
     private drawBingo() {
         for(let i = 0;i<this.row;i++) {
@@ -442,7 +450,7 @@ class GameBody extends egret.Sprite{
         if(!this.cloneBingos()){
             this.parents.gameOver();
         }
-        if(this.gameInf.myScore>=GameConfig.taxConfig[GameConfig.nowTax].myScore) {
+        if(GameConfig.nowTax!==-1 && this.gameInf.myScore>=GameConfig.taxConfig[GameConfig.nowTax].myScore) {
             this.parents.passTax();
         }
         
@@ -519,7 +527,7 @@ class GameBody extends egret.Sprite{
         let ran = this.ran()
         // config类型
         let config = GameConfig.taxConfig[GameConfig.nowTax]
-        if(config.checkType=== 'uncommon'&&ran===3) {
+        if(GameConfig.nowTax!==-1 && config.checkType=== 'uncommon'&&ran===3) {
             if(this.maxUncommon<config['uncommon']) {
                 ran = 100;
                 this.maxUncommon++;

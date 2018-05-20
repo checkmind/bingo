@@ -190,11 +190,10 @@ var Main = (function (_super) {
         sky.width = stageW;
         sky.height = stageH;
         var pageTax = new TaxPage(stageW, stageH);
-        //this.addChild(pageTax)
         var entryGame = new EntryGame(stageW, stageH, this);
-        this.addChild(entryGame);
         var gameTax = new GameTax(stageW, stageH, this);
-        //this.addChild(gameTax)
+        var taxInfinite = new TaxInfinite(stageW, stageH);
+        this.addChild(entryGame);
         PageBus.init(this);
         /* 放入路由 */
         // 主页面
@@ -203,6 +202,8 @@ var Main = (function (_super) {
         PageBus.pushPage({ page: pageTax, router: 'pageTax' });
         // 关卡游戏页面
         PageBus.pushPage({ page: gameTax, router: 'gameTax' });
+        // 无限模式
+        PageBus.pushPage({ page: taxInfinite, router: 'infinite' });
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。

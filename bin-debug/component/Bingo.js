@@ -73,7 +73,7 @@ var Bingo = (function (_super) {
                 switch (_b.label) {
                     case 0:
                         _a = this;
-                        return [4 /*yield*/, this.createBitmapByName("rect.png")];
+                        return [4 /*yield*/, GameConfig.createBitmapByName("rect.png")];
                     case 1:
                         _a.rect = _b.sent();
                         this.rect.width = this.width;
@@ -92,13 +92,13 @@ var Bingo = (function (_super) {
                     case 0:
                         if (!(this.type >= 100)) return [3 /*break*/, 2];
                         _a = this;
-                        return [4 /*yield*/, this.createBitmapByName("100.png")];
+                        return [4 /*yield*/, GameConfig.createBitmapByName("100.png")];
                     case 1:
                         _a.img = _c.sent();
                         return [3 /*break*/, 4];
                     case 2:
                         _b = this;
-                        return [4 /*yield*/, this.createBitmapByName((this.type + 1) + ".png")];
+                        return [4 /*yield*/, GameConfig.createBitmapByName((this.type + 1) + ".png")];
                     case 3:
                         _b.img = _c.sent();
                         _c.label = 4;
@@ -118,16 +118,13 @@ var Bingo = (function (_super) {
                 switch (_a.label) {
                     case 0:
                         this.removeChild(this.img);
-                        return [4 /*yield*/, this.createBitmapByName("blackhole.png")];
+                        return [4 /*yield*/, GameConfig.createBitmapByName("blackhole.png")];
                     case 1:
                         sky = _a.sent();
-                        console.log("设置宽度高度");
                         sky.width = this.width;
                         sky.height = this.height;
-                        console.log("设置原点");
                         sky.anchorOffsetX = this.width / 2;
                         sky.anchorOffsetY = this.width / 2;
-                        console.log("设置x");
                         sky.x = sky.width / 2;
                         sky.y = sky.width / 2;
                         funcChange = function () {
@@ -144,18 +141,6 @@ var Bingo = (function (_super) {
                             .to({}, 1000, egret.Ease.sineIn).call(fn);
                         return [2 /*return*/];
                 }
-            });
-        });
-    };
-    Bingo.prototype.createBitmapByName = function (name) {
-        return __awaiter(this, void 0, void 0, function () {
-            var url, image;
-            return __generator(this, function (_a) {
-                url = GameConfig.domainUrl + name;
-                image = new eui.Image();
-                egret.ImageLoader.crossOrigin = "anonymous";
-                image.source = url;
-                return [2 /*return*/, image];
             });
         });
     };

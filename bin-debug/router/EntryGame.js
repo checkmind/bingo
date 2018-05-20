@@ -99,7 +99,7 @@ var EntryGame = (function (_super) {
     EntryGame.prototype.meau = function () {
         var _this = this;
         var skins = ['ButtonModel1', 'ButtonModel2', 'ButtonMore', 'ButtonHelp'];
-        var labelText = ['剧情模式', '无尽模式', '游戏帮助', '退出游戏'];
+        var labelText = ['剧情模式', '无尽模式', '排行榜', '道具说明'];
         var _loop_1 = function (i) {
             var button = new eui.Button();
             button.touchEnabled = true;
@@ -113,6 +113,7 @@ var EntryGame = (function (_super) {
             this_1.addChild(button);
             button.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                 _this.bindClickFn(i);
+                platform.playButtonMusic();
             }, this_1, false, i);
         };
         var this_1 = this;
@@ -122,11 +123,14 @@ var EntryGame = (function (_super) {
     };
     /* 给按钮绑定事件 */
     EntryGame.prototype.bindClickFn = function (i) {
+        console.log(i);
         switch (i) {
             case 0:
                 PageBus.gotoPage("gameTax");
                 break;
             case 1:
+                GameConfig.nowTax = -1;
+                PageBus.gotoPage("infinite");
                 break;
             case 2:
                 break;

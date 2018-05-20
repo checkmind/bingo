@@ -13,8 +13,9 @@ declare interface Platform {
     createInnerAudioContext() :Promise<any>   
 
     playClearMusic() :Promise<any>
-}
 
+    playButtonMusic() :Promise<any>
+}
 class DebugPlatform implements Platform {
     async getUserInfo() {
         return { nickName: "username" }
@@ -26,10 +27,19 @@ class DebugPlatform implements Platform {
 
     }
     async createInnerAudioContext () {
-    
+    //   let music =  wx.createInnerAudioContext()
+    //   music.src = 'http://cangnanshi.com/bingo/music.mp3'
+    //   music.play();
     }
     async playClearMusic() {
-        
+    //   let music =  wx.createInnerAudioContext()
+    //   music.src = 'http://cangnanshi.com/bingo/clear.mp3'
+    //   music.play();
+    }
+    async playButtonMusic() {
+    //   let music =  wx.createInnerAudioContext()
+    //   music.src = 'http://cangnanshi.com/bingo/button.mp3'
+    //   music.play();
     }
 }
 

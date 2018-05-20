@@ -8,7 +8,6 @@ class Prop extends egret.Sprite{
     public type
     public parents
     private choosed
-    private arr = ['1','hit','foot','change']
     private text:egret.TextField
     public constructor(x,y,type,parents){
         super();
@@ -19,10 +18,11 @@ class Prop extends egret.Sprite{
         console.log("type")
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawProps,this);
     }
+    
     private async drawProps(){
         let sprite = new egret.Sprite();
-        var rect = await this.createBitmapByName('rect_2.png')
-        var hit = await this.createBitmapByName(`${this.arr[this.type]}.png`);
+        var rect = await GameConfig.createBitmapByName('rect_2.png')
+        var hit = await GameConfig.createBitmapByName(`${GameConfig.helperSrc[this.type]}.png`);
         rect.height = rect.width = hit.width = hit.height = 100
         sprite.addChild(rect);
         sprite.addChild(hit);
@@ -46,16 +46,17 @@ class Prop extends egret.Sprite{
         this.addEventListener("touchEnd",()=>{
             // 有道具正在使用
             if(GameConfig.helper!=0)
-                return;
+                return;    
+            platform.playButtonMusic();
+            GameConfig.helper = this.type+1;
             this.setNum();
             console.log("更改了type"+this.type)
         },this)
         this.addFilter();
     }   
-    private setNum() {
-        GameConfig.helper = this.type+1;
-        if(GameConfig.helperArr[this.type]>=1)
-            GameConfig.helperArr[this.type] -= 1 
+    public setNum() {
+        console.log("setNum")
+        console.log(GameConfig.helper)
         this.text.text = '' + GameConfig.helperArr[this.type]
         this.addFilter();
     }
@@ -71,12 +72,5 @@ class Prop extends egret.Sprite{
         ];
         var colorFlilter = new egret.ColorMatrixFilter(colorMatrix);
         this.filters = [colorFlilter];
-    }
-    private async createBitmapByName(name: string) {
-        let url = "https://raw.githubusercontent.com/checkmind/bingo/master/resource/assets/"+name;
-         var image = new eui.Image();
-         egret.ImageLoader.crossOrigin = "anonymous"
-         image.source = url;
-         return image;
     }
 }

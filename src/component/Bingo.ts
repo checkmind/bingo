@@ -27,16 +27,16 @@ class Bingo extends egret.Sprite{
         //this.addBlackHole();
     }
     private async addRect(){
-        this.rect =await this.createBitmapByName("rect.png");
+        this.rect =await GameConfig.createBitmapByName("rect.png");
         this.rect.width = this.width;
         this.rect.height = this.height;
         this.addChild(this.rect);
     }
     private async addImage(){
         if(this.type>=100) {
-            this.img =await this.createBitmapByName("100.png");            
+            this.img =await GameConfig.createBitmapByName("100.png");            
         } else {
-            this.img =await this.createBitmapByName((this.type+1)+".png");    
+            this.img =await GameConfig.createBitmapByName((this.type+1)+".png");    
         }
         this.img.width = this.width;
         this.img.height = this.height;
@@ -44,14 +44,11 @@ class Bingo extends egret.Sprite{
     }
     private async addBlackHole(fn) {
         this.removeChild(this.img)
-        let sky:any = await this.createBitmapByName("blackhole.png");
-        console.log("设置宽度高度")
+        let sky:any = await GameConfig.createBitmapByName("blackhole.png");
         sky.width = this.width;
         sky.height = this.height;
-        console.log("设置原点")
         sky.anchorOffsetX = this.width/2
         sky.anchorOffsetY = this.width/2
-        console.log("设置x")
         sky.x = sky.width/2;
         sky.y = sky.width/2;
         var funcChange = ():void=>{
@@ -69,13 +66,7 @@ class Bingo extends egret.Sprite{
         egret.Tween.get( sky, { onChange:funcChange, onChangeObj:sky } )
             .to( {}, 1000, egret.Ease.sineIn ).call(fn);
     }
-    private async createBitmapByName(name: string) {
-        let url =  GameConfig.domainUrl+name;
-         var image = new eui.Image();
-         egret.ImageLoader.crossOrigin = "anonymous"
-         image.source = url;
-         return image;
-    }
+   
    
     private onAddToStage( evt:egret.Event ) {
         

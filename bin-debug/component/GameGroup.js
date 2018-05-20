@@ -73,6 +73,7 @@ var GameGroup = (function (_super) {
             return;
         if (x > GameConfig.maxTax)
             return;
+        platform.playButtonMusic();
         GameConfig.nowTax = x;
         PageBus.gotoPage("pageTax");
     };
