@@ -37,4 +37,3 @@ var Progress = (function (_super) {
     return Progress;
 }(eui.Component));
 __reflect(Progress.prototype, "Progress");
-//# sourceMappingURL=Progress.js.map

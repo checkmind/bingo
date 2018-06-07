@@ -116,4 +116,3 @@ var TalkContent = (function (_super) {
     return TalkContent;
 }(egret.Sprite));
 __reflect(TalkContent.prototype, "TalkContent");
-//# sourceMappingURL=TalkContent.js.map

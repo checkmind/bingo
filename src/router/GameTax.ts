@@ -17,10 +17,10 @@ class GameTax extends egret.Sprite{
         
     }
   
-    private addImage(){
-        this.addBack();
+    private async addImage(){
+        await this.addBack();
         this.addGroup();
-        this.addReturn();
+        this.addReturn();        
     }
     private addGroup() {
        let gameGroup = new GameGroup(this.width,this.height,this);
@@ -28,8 +28,10 @@ class GameTax extends egret.Sprite{
     }
 
    
-    private addBack() { 
-        let sky = this.createBitmapByName("back_1_png",this.width,this.width*1.78);
+    private async addBack() { 
+        let sky = await GameConfig.createBitmapByName("back_1.png");
+        sky.width = this.width;
+        sky.height = this.width*1.78;
         this.addChild(sky);
         var fn = ()=> {
             egret.Tween.get(sky)
@@ -41,8 +43,9 @@ class GameTax extends egret.Sprite{
         }
         fn();
     }
-    private addReturn() { 
-        let sky = this.createBitmapByName("back_png",40,40);
+    private async addReturn() { 
+        let sky = await GameConfig.createBitmapByName("back.png");
+        sky.width = sky.height = 40;
         sky.x = 20;
         sky.y = 50;
         sky.touchEnabled = true;

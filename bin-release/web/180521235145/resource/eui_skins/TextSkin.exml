@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<e:Skin class="skins.TextSkin" minHeight="50" minWidth="100" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing"> 
+    <e:Label id="labelDisplay" top="11" bottom="5" left="3" right="13" size="40" fontFamily="Arial" verticalAlign="middle" textAlign="center" text="5465445464564" />
+</e:Skin>

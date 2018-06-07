@@ -15,18 +15,116 @@ class EntryGame extends egret.Sprite{
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addImage,this);
         
     }
-  
-    private addImage(){
-        let sky = this.createBitmapByName("bg_png",this.width,this.height);
-        //this.addChild(sky);
-        sky.width = this.width;
-        sky.height = this.height;
-        this.addBlackHead();
+    private bitmap;
+    private async addImage(){
+        await this.addBlackHead();
         this.addBoom();
-        this.addTitle();
+        await this.addTitle();
         this.addNPC();
-        this.addStarLand();
+        await this.addStarLand();
         this.meau();
+        //this.createGameScene();
+    }
+    /**
+     * 排行榜关闭按钮
+     */
+    private btnClose: eui.Button;
+
+    /**
+     * 创建场景界面
+     * Create scene interface
+     */
+    protected createGameScene(): void {
+
+        this.btnClose = new eui.Button();
+        this.btnClose.label = "btnClose!";
+        this.btnClose.y = 35;
+        this.btnClose.horizontalCenter = 0;
+        this.addChild(this.btnClose);
+        this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
+
+        // /**
+        //  * 当前按钮会退出小游戏线程
+        //  */
+        // let close = new eui.Button();
+        // close.y = 135;
+        // close.label = '退出';
+        // this.addChild(close);
+
+        // close.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+        //     wx.exitMiniProgram({
+        //         success: (res) => {
+        //             console.log('退出成功', res);
+        //         },
+        //         fail: (err) => {
+        //             console.log('退出失败', err);
+        //         },
+        //         complete: (res) => {
+
+        //         }
+        //     })
+        // }, this);
+
+        this.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
+            console.log('输出主域点击事件');
+        }, this)
+    }
+
+    private isdisplay = false;
+
+    /**
+     * 排行榜遮罩，为了避免点击开放数据域影响到主域，在主域中建立一个遮罩层级来屏蔽点击事件.</br>
+     * 根据自己的需求来设置遮罩的 alpha 值 0~1.</br>
+     * 
+     */
+    private rankingListMask: egret.Shape;
+    /**
+     * 点击按钮
+     * Click the button
+     */
+    private onButtonClick() {
+        let openDataContext = wx.getOpenDataContext();
+        if (this.isdisplay) {
+            this.bitmap.parent && this.bitmap.parent.removeChild(this.bitmap);
+            this.rankingListMask.parent && this.rankingListMask.parent.removeChild(this.rankingListMask);
+            this.isdisplay = false;
+        } else {
+            //处理遮罩，避免开放数据域事件影响主域。
+            this.rankingListMask = new egret.Shape();
+            this.rankingListMask.graphics.beginFill(0x000000, 1);
+            this.rankingListMask.graphics.drawRect(0, 0, this.stage.width, this.stage.height);
+            this.rankingListMask.graphics.endFill();
+            this.rankingListMask.alpha = 0.5;
+            this.rankingListMask.touchEnabled = true;
+            this.addChild(this.rankingListMask);
+
+            //简单实现，打开这关闭使用一个按钮。
+            //this.addChild(this.btnClose);
+            //主要示例代码开始
+            const bitmapdata = new egret.BitmapData(window["sharedCanvas"]);
+            bitmapdata.$deleteSource = false;
+            const texture = new egret.Texture();
+            texture._setBitmapData(bitmapdata);
+            this.bitmap = new egret.Bitmap(texture);
+            this.bitmap.width = this.stage.stageWidth;
+            this.bitmap.height = this.stage.stageHeight;
+            this.addChild(this.bitmap);
+
+            egret.startTick((timeStarmp: number) => {
+                egret.WebGLUtils.deleteWebGLTexture(bitmapdata.webGLTexture);
+                bitmapdata.webGLTexture = null;
+                return false;
+            }, this);
+            //主要示例代码结束            
+            this.isdisplay = true;
+        }
+        //发送消息
+        console.log("发送消息")
+        openDataContext.postMessage({
+            isDisplay: this.isdisplay,
+            text: 'hello',
+            year: (new Date()).getFullYear()
+        });
     }
     private addNPC() {
         let sky = this.createBitmapByName("npc_1_png",256,282);
@@ -43,8 +141,9 @@ class EntryGame extends egret.Sprite{
         }
         fn();
     }
-    private addTitle() {
-        let sky = this.createBitmapByName("title_png",500,500);
+    private async addTitle() {
+        let sky = await GameConfig.createBitmapByName("title.png");
+        sky.width = sky.height = 500;
         this.addChild(sky);
         sky.x = this.width/2-300;
         sky.y = 90;
@@ -63,8 +162,10 @@ class EntryGame extends egret.Sprite{
         // sky.scaleY = 0.8;
         system.y = 200;
     }
-    private addBlackHead() {
-        let sky = this.createBitmapByName("black2_png",480,485);
+    private async addBlackHead() {
+        let sky =await GameConfig.createBitmapByName("black2.png");
+        sky.width = 480;
+        sky.height = 485;
         this.addChild(sky);
         var funcChange = ():void=>{
             sky.rotation += 1 * iDirection;
@@ -84,10 +185,11 @@ class EntryGame extends egret.Sprite{
         
         
     }
-    private addStarLand() {
-        let sky = this.createBitmapByName("starLand_png",this.width,null);
-        this.addChild(sky);
+    private async addStarLand() {
+        let sky =await GameConfig.createBitmapByName("starLand.png");
         sky.width = this.width;
+        sky.height = this.width/1.812;
+        this.addChild(sky);
         sky.scaleY = 1.5;
         sky.scaleX = 1.5;
         sky.y =  this.height - sky.height*1.5;
@@ -124,6 +226,7 @@ class EntryGame extends egret.Sprite{
                 PageBus.gotoPage("infinite")
                 break;
             case 2:
+                this.onButtonClick();
                 break;
             default:
                 return;

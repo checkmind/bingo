@@ -29,11 +29,11 @@ class GameInf extends egret.Sprite{
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addImage,this);
     }
   
-    private addImage(){
+    private async addImage(){
         this.addTaxNum();
         this.updataScroe();
         //this.updataStep();
-        this.addBack();
+        await this.addBack();
         this.addTimer();
         this.addStep();
         this.addProps();
@@ -123,8 +123,9 @@ class GameInf extends egret.Sprite{
         console.log("gameover");
         this.parents.gameOver();
     }
-    private addBack() { 
-        let sky = this.createBitmapByName("back_png",40,40);
+    private async addBack() { 
+        let sky =await GameConfig.createBitmapByName("back.png");
+        sky.width = sky.height = 40;
         sky.x = 20;
         sky.y = 50;
         sky.touchEnabled = true;
@@ -155,15 +156,5 @@ class GameInf extends egret.Sprite{
             return;
         this.maxStep--;
         this.StepClass&&this.StepClass.changeStep(this.maxStep);
-    }
-    private createBitmapByName(name: string,width:any,height:any) {
-        let result = new egret.Bitmap();
-        let texture: egret.Texture = RES.getRes(name);
-        result.texture = texture;
-        if(width)
-            result.width = width;
-        if(height)
-            result.height = height;
-        return result;
     }
 }

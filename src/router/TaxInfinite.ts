@@ -22,15 +22,9 @@ class TaxInfinite extends egret.Sprite{
     private system:particle.ParticleSystem;
     private systemLeaf:particle.ParticleSystem;
 
-    private addImage(){
+    private async addImage(){
         //this.addBack();
-        try{
-        this.addStar();
-        } catch(e){
-            console.log("报错")
-            console.log(e)
-        }
-        
+        await this.addStar();
         this.success = ()=>{
             this.removeChild(this.talkContent);
             this.addGameBody();
@@ -42,10 +36,12 @@ class TaxInfinite extends egret.Sprite{
         this.addTalk();
     }
     
-    private addStar() {
+    private async addStar() {
         let imgHeight = this.width*1.78;
         let top = imgHeight - this.height;
-        let sky = this.createBitmapByName("back_1_png",this.width,imgHeight);
+        let sky = await GameConfig.createBitmapByName("back_1.png");
+        sky.width = this.width;
+        sky.height = imgHeight;
         this.addChild(sky);
 
         var fn = ()=> {
@@ -126,17 +122,5 @@ class TaxInfinite extends egret.Sprite{
     }
     public updataStep() {
        // this.gameInf.updataStep();
-    }
-
-
-    private createBitmapByName(name: string,width:any,height:any) {
-        let result = new egret.Bitmap();
-        let texture: egret.Texture = RES.getRes(name);
-        result.texture = texture;
-        if(width)
-            result.width = width;
-        if(height)
-            result.height = height;
-        return result;
     }
 }

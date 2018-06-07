@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,button_png,black2_png,boom_png,title_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,back_png,rect_2_png,cir_png,starLand_png,toast_png,newParticle2_png,newParticle2_json,back_1_png,ok_png,helpBack_png,ballParticle_json,ballParticle_png,firePot_png",
+			"keys": "description_json,button_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,cir_png,toast_png,newParticle2_png,newParticle2_json,ok_png,helpBack_png",
 			"name": "preload"
 		}
 	],
@@ -12,11 +12,6 @@
 			"name": "description_json"
 		},
 		{
-			"url": "assets/starLand.png",
-			"type": "image",
-			"name": "starLand_png"
-		},
-		{
 			"url": "assets/button.png",
 			"type": "image",
 			"name": "button_png"
@@ -25,21 +20,6 @@
 			"url": "assets/npc_1.png",
 			"type": "image",
 			"name": "npc_1_png"
-		},
-		{
-			"url": "assets/black2.png",
-			"type": "image",
-			"name": "black2_png"
-		},
-		{
-			"url": "assets/boom.png",
-			"type": "image",
-			"name": "boom_png"
-		},
-		{
-			"url": "assets/title.png",
-			"type": "image",
-			"name": "title_png"
 		},
 		{
 			"url": "assets/starts/newParticle.png",
@@ -55,16 +35,6 @@
 			"url": "assets/npc_2.png",
 			"type": "image",
 			"name": "npc_2_png"
-		},
-		{
-			"url": "assets/back.png",
-			"type": "image",
-			"name": "back_png"
-		},
-		{
-			"url": "assets/rect_2.png",
-			"type": "image",
-			"name": "rect_2_png"
 		},
 		{
 			"url": "assets/cir.png",
@@ -87,11 +57,6 @@
 			"name": "newParticle2_json"
 		},
 		{
-			"url": "assets/back_1.png",
-			"type": "image",
-			"name": "back_1_png"
-		},
-		{
 			"url": "assets/ok.png",
 			"type": "image",
 			"name": "ok_png"
@@ -100,21 +65,7 @@
 			"url": "assets/helpBack.png",
 			"type": "image",
 			"name": "helpBack_png"
-		},
-		{
-			"url": "assets/particle3/ballParticle.json",
-			"type": "json",
-			"name": "ballParticle_json"
-		},
-		{
-			"url": "assets/particle3/ballParticle.png",
-			"type": "image",
-			"name": "ballParticle_png"
-		},
-		{
-			"url": "assets/particle3/firePot.png",
-			"type": "image",
-			"name": "firePot_png"
 		}
 	]
 }
+

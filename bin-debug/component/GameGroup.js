@@ -90,4 +90,3 @@ var GameGroup = (function (_super) {
     return GameGroup;
 }(eui.Group));
 __reflect(GameGroup.prototype, "GameGroup");
-//# sourceMappingURL=GameGroup.js.map

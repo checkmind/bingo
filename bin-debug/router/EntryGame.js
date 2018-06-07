@@ -8,6 +8,41 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 /*
 **/
 var EntryGame = (function (_super) {
@@ -15,6 +50,7 @@ var EntryGame = (function (_super) {
     function EntryGame(width, height, parent) {
         var _this = _super.call(this) || this;
         _this.image = new egret.Bitmap();
+        _this.isdisplay = false;
         _this.x = 0;
         _this.y = 0;
         _this.width = width;
@@ -24,16 +60,106 @@ var EntryGame = (function (_super) {
         return _this;
     }
     EntryGame.prototype.addImage = function () {
-        var sky = this.createBitmapByName("bg_png", this.width, this.height);
-        //this.addChild(sky);
-        sky.width = this.width;
-        sky.height = this.height;
-        this.addBlackHead();
-        this.addBoom();
-        this.addTitle();
-        this.addNPC();
-        this.addStarLand();
-        this.meau();
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.addBlackHead()];
+                    case 1:
+                        _a.sent();
+                        this.addBoom();
+                        return [4 /*yield*/, this.addTitle()];
+                    case 2:
+                        _a.sent();
+                        this.addNPC();
+                        return [4 /*yield*/, this.addStarLand()];
+                    case 3:
+                        _a.sent();
+                        this.meau();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 创建场景界面
+     * Create scene interface
+     */
+    EntryGame.prototype.createGameScene = function () {
+        this.btnClose = new eui.Button();
+        this.btnClose.label = "btnClose!";
+        this.btnClose.y = 35;
+        this.btnClose.horizontalCenter = 0;
+        this.addChild(this.btnClose);
+        this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
+        // /**
+        //  * 当前按钮会退出小游戏线程
+        //  */
+        // let close = new eui.Button();
+        // close.y = 135;
+        // close.label = '退出';
+        // this.addChild(close);
+        // close.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+        //     wx.exitMiniProgram({
+        //         success: (res) => {
+        //             console.log('退出成功', res);
+        //         },
+        //         fail: (err) => {
+        //             console.log('退出失败', err);
+        //         },
+        //         complete: (res) => {
+        //         }
+        //     })
+        // }, this);
+        this.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
+            console.log('输出主域点击事件');
+        }, this);
+    };
+    /**
+     * 点击按钮
+     * Click the button
+     */
+    EntryGame.prototype.onButtonClick = function () {
+        var openDataContext = wx.getOpenDataContext();
+        if (this.isdisplay) {
+            this.bitmap.parent && this.bitmap.parent.removeChild(this.bitmap);
+            this.rankingListMask.parent && this.rankingListMask.parent.removeChild(this.rankingListMask);
+            this.isdisplay = false;
+        }
+        else {
+            //处理遮罩，避免开放数据域事件影响主域。
+            this.rankingListMask = new egret.Shape();
+            this.rankingListMask.graphics.beginFill(0x000000, 1);
+            this.rankingListMask.graphics.drawRect(0, 0, this.stage.width, this.stage.height);
+            this.rankingListMask.graphics.endFill();
+            this.rankingListMask.alpha = 0.5;
+            this.rankingListMask.touchEnabled = true;
+            this.addChild(this.rankingListMask);
+            //简单实现，打开这关闭使用一个按钮。
+            //this.addChild(this.btnClose);
+            //主要示例代码开始
+            var bitmapdata_1 = new egret.BitmapData(window["sharedCanvas"]);
+            bitmapdata_1.$deleteSource = false;
+            var texture = new egret.Texture();
+            texture._setBitmapData(bitmapdata_1);
+            this.bitmap = new egret.Bitmap(texture);
+            this.bitmap.width = this.stage.stageWidth;
+            this.bitmap.height = this.stage.stageHeight;
+            this.addChild(this.bitmap);
+            egret.startTick(function (timeStarmp) {
+                egret.WebGLUtils.deleteWebGLTexture(bitmapdata_1.webGLTexture);
+                bitmapdata_1.webGLTexture = null;
+                return false;
+            }, this);
+            //主要示例代码结束            
+            this.isdisplay = true;
+        }
+        //发送消息
+        console.log("发送消息");
+        openDataContext.postMessage({
+            isDisplay: this.isdisplay,
+            text: 'hello',
+            year: (new Date()).getFullYear()
+        });
     };
     EntryGame.prototype.addNPC = function () {
         var _this = this;
@@ -52,10 +178,21 @@ var EntryGame = (function (_super) {
         fn();
     };
     EntryGame.prototype.addTitle = function () {
-        var sky = this.createBitmapByName("title_png", 500, 500);
-        this.addChild(sky);
-        sky.x = this.width / 2 - 300;
-        sky.y = 90;
+        return __awaiter(this, void 0, void 0, function () {
+            var sky;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, GameConfig.createBitmapByName("title.png")];
+                    case 1:
+                        sky = _a.sent();
+                        sky.width = sky.height = 500;
+                        this.addChild(sky);
+                        sky.x = this.width / 2 - 300;
+                        sky.y = 90;
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     EntryGame.prototype.addBoom = function () {
         var system = new particle.GravityParticleSystem(RES.getRes("newParticle2_png"), RES.getRes("newParticle2_json"));
@@ -70,31 +207,54 @@ var EntryGame = (function (_super) {
         system.y = 200;
     };
     EntryGame.prototype.addBlackHead = function () {
-        var sky = this.createBitmapByName("black2_png", 480, 485);
-        this.addChild(sky);
-        var funcChange = function () {
-            sky.rotation += 1 * iDirection;
-        };
-        var iDirection = 1;
-        //egret.Tween.get( sky ).to( {width:0,height:0}, 600, egret.Ease.sineIn )
-        sky.x = this.width / 2 - sky.width / 1.5;
-        sky.y = 40;
-        sky.anchorOffsetX = sky.width / 2;
-        sky.anchorOffsetY = sky.height / 2;
-        this.addChild(sky);
-        var fn = function () {
-            egret.Tween.get(sky, { onChange: funcChange, onChangeObj: sky })
-                .to({}, 20000, egret.Ease.sineIn).call(fn);
-        };
-        fn();
+        return __awaiter(this, void 0, void 0, function () {
+            var sky, funcChange, iDirection, fn;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, GameConfig.createBitmapByName("black2.png")];
+                    case 1:
+                        sky = _a.sent();
+                        sky.width = 480;
+                        sky.height = 485;
+                        this.addChild(sky);
+                        funcChange = function () {
+                            sky.rotation += 1 * iDirection;
+                        };
+                        iDirection = 1;
+                        //egret.Tween.get( sky ).to( {width:0,height:0}, 600, egret.Ease.sineIn )
+                        sky.x = this.width / 2 - sky.width / 1.5;
+                        sky.y = 40;
+                        sky.anchorOffsetX = sky.width / 2;
+                        sky.anchorOffsetY = sky.height / 2;
+                        this.addChild(sky);
+                        fn = function () {
+                            egret.Tween.get(sky, { onChange: funcChange, onChangeObj: sky })
+                                .to({}, 20000, egret.Ease.sineIn).call(fn);
+                        };
+                        fn();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     EntryGame.prototype.addStarLand = function () {
-        var sky = this.createBitmapByName("starLand_png", this.width, null);
-        this.addChild(sky);
-        sky.width = this.width;
-        sky.scaleY = 1.5;
-        sky.scaleX = 1.5;
-        sky.y = this.height - sky.height * 1.5;
+        return __awaiter(this, void 0, void 0, function () {
+            var sky;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, GameConfig.createBitmapByName("starLand.png")];
+                    case 1:
+                        sky = _a.sent();
+                        sky.width = this.width;
+                        sky.height = this.width / 1.812;
+                        this.addChild(sky);
+                        sky.scaleY = 1.5;
+                        sky.scaleX = 1.5;
+                        sky.y = this.height - sky.height * 1.5;
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     EntryGame.prototype.meau = function () {
         var _this = this;
@@ -133,6 +293,7 @@ var EntryGame = (function (_super) {
                 PageBus.gotoPage("infinite");
                 break;
             case 2:
+                this.onButtonClick();
                 break;
             default:
                 return;
@@ -151,4 +312,3 @@ var EntryGame = (function (_super) {
     return EntryGame;
 }(egret.Sprite));
 __reflect(EntryGame.prototype, "EntryGame");
-//# sourceMappingURL=EntryGame.js.map

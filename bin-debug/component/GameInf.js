@@ -68,14 +68,24 @@ var GameInf = (function (_super) {
         return _this;
     }
     GameInf.prototype.addImage = function () {
-        this.addTaxNum();
-        this.updataScroe();
-        //this.updataStep();
-        this.addBack();
-        this.addTimer();
-        this.addStep();
-        this.addProps();
-        //this.getProps(2);
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.addTaxNum();
+                        this.updataScroe();
+                        //this.updataStep();
+                        return [4 /*yield*/, this.addBack()];
+                    case 1:
+                        //this.updataStep();
+                        _a.sent();
+                        this.addTimer();
+                        this.addStep();
+                        this.addProps();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     // 重置各种 游戏信息
     GameInf.prototype.resetInf = function () {
@@ -168,15 +178,26 @@ var GameInf = (function (_super) {
         this.parents.gameOver();
     };
     GameInf.prototype.addBack = function () {
-        var _this = this;
-        var sky = this.createBitmapByName("back_png", 40, 40);
-        sky.x = 20;
-        sky.y = 50;
-        sky.touchEnabled = true;
-        sky.addEventListener('touchEnd', function () {
-            PageBus.gotoPage(_this.backToPage);
-        }, this);
-        this.addChild(sky);
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var sky;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, GameConfig.createBitmapByName("back.png")];
+                    case 1:
+                        sky = _a.sent();
+                        sky.width = sky.height = 40;
+                        sky.x = 20;
+                        sky.y = 50;
+                        sky.touchEnabled = true;
+                        sky.addEventListener('touchEnd', function () {
+                            PageBus.gotoPage(_this.backToPage);
+                        }, this);
+                        this.addChild(sky);
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     GameInf.prototype.addTaxNum = function () {
         this.taxNum = new TaxButton();
@@ -201,17 +222,6 @@ var GameInf = (function (_super) {
         this.maxStep--;
         this.StepClass && this.StepClass.changeStep(this.maxStep);
     };
-    GameInf.prototype.createBitmapByName = function (name, width, height) {
-        var result = new egret.Bitmap();
-        var texture = RES.getRes(name);
-        result.texture = texture;
-        if (width)
-            result.width = width;
-        if (height)
-            result.height = height;
-        return result;
-    };
     return GameInf;
 }(egret.Sprite));
 __reflect(GameInf.prototype, "GameInf");
-//# sourceMappingURL=GameInf.js.map

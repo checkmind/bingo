@@ -9,8 +9,8 @@
 		"libs/modules/particle/particle.js"
 	],
 	"game": [
+		"bin-debug/component/Prop.js",
 		"bin-debug/GameBody.js",
-		"bin-debug/Main.js",
 		"bin-debug/pageBus.js",
 		"bin-debug/Platform.js",
 		"bin-debug/button/Progress.js",
@@ -21,7 +21,7 @@
 		"bin-debug/component/GameInf.js",
 		"bin-debug/component/LoadingUI.js",
 		"bin-debug/component/monsterClass.js",
-		"bin-debug/component/Prop.js",
+		"bin-debug/Main.js",
 		"bin-debug/component/StepClass.js",
 		"bin-debug/component/TalkContent.js",
 		"bin-debug/component/Timer.js",
