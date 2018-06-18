@@ -67,7 +67,6 @@ var GameGroup = (function (_super) {
     GameGroup.prototype.bindClickFn = function (ev) {
         var x = Math.floor((ev.stageX - this.x + this.myScroller.viewport.scrollH) / (452 + 80));
         //let y = Math.floor((ev.stageY-this.y)/(344*2));
-        console.log(ev.stageY, this.y + 345 * 2, this.y);
         var buttonY = (this.height - 345 * 2) / 2;
         if (ev.stageY <= this.y || ev.stageY >= buttonY + 345 * 2)
             return;
@@ -76,6 +75,7 @@ var GameGroup = (function (_super) {
         platform.playButtonMusic();
         GameConfig.nowTax = x;
         PageBus.gotoPage("pageTax");
+        GameConfig.state = 1;
     };
     GameGroup.prototype.createBitmapByName = function (name, width, height) {
         var result = new egret.Bitmap();
@@ -90,3 +90,4 @@ var GameGroup = (function (_super) {
     return GameGroup;
 }(eui.Group));
 __reflect(GameGroup.prototype, "GameGroup");
+//# sourceMappingURL=GameGroup.js.map

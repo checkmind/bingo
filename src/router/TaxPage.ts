@@ -60,7 +60,10 @@ class TaxPage extends egret.Sprite{
     private addGameBody() {
        this.gameBody = new GameBody(this.width,this.height,this.gameInf,this);
        this.addChild(this.gameBody)  
-       this.addMonster();
+       console.log("关卡怪物")
+       console.log(GameConfig.taxConfig[GameConfig.nowTax]["monster"])
+       if(GameConfig.taxConfig[GameConfig.nowTax]["monster"])
+         this.addMonster();
     }
    
     private addTalk() {
@@ -93,6 +96,7 @@ class TaxPage extends egret.Sprite{
     }
     private gameOver() {
         this.addChild(this.talkContent)
+        GameConfig.state = 2;
         this.talkContent.showWhich({
             type:1,
             text:'失败了？没事儿，再来一次'
@@ -101,7 +105,8 @@ class TaxPage extends egret.Sprite{
             this.removeChild(this.talkContent);
             this.removeChild(this.gameBody)
             this.removeChild(this.gameInf)    
-            this.removeChild(this.monsterClass)     
+            this.removeChild(this.monsterClass)
+            GameConfig.state = 1;
             this.addGameInf();   
             this.addGameBody();
         }

@@ -59,12 +59,9 @@ class Main extends eui.UILayer {
 
     private async runGame() {
         await this.loadResource()
-        try{
-            this.createGameScene();            
-        } catch(e){
-            console.log(e)
-            console.log("创建场景出错")
-        }
+    
+        this.createGameScene();            
+       
         const result = await RES.getResAsync("description_json")
         await platform.login();
         const userInfo = await platform.getUserInfo();
@@ -114,6 +111,8 @@ class Main extends eui.UILayer {
         this.addChild(sky);
         let stageW = this.stage.stageWidth;
         let stageH = this.stage.stageHeight;
+        /* 得到道具数据 */
+        GameConfig.initHelpArr();
         /* 背景色设置 */
         var shape:egret.Shape = new egret.Shape;
         shape.graphics.beginFill(0x000000,1)

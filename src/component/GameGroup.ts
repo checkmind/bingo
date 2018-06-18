@@ -66,7 +66,6 @@ class GameGroup extends eui.Group{
     private bindClickFn(ev) {
         let x =  Math.floor((ev.stageX-this.x+this.myScroller.viewport.scrollH)/(452+80));
         //let y = Math.floor((ev.stageY-this.y)/(344*2));
-        console.log(ev.stageY,this.y+345*2,this.y);
         let buttonY = (this.height - 345*2) / 2
         if(ev.stageY<=this.y||ev.stageY>=buttonY+345*2)
             return;
@@ -75,6 +74,7 @@ class GameGroup extends eui.Group{
         platform.playButtonMusic();
         GameConfig.nowTax = x;
         PageBus.gotoPage("pageTax");
+        GameConfig.state = 1;
     }
     private createBitmapByName(name: string,width:any,height:any) {
         let result = new egret.Bitmap();

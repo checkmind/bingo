@@ -104,13 +104,7 @@ var Main = (function (_super) {
                     case 0: return [4 /*yield*/, this.loadResource()];
                     case 1:
                         _a.sent();
-                        try {
-                            this.createGameScene();
-                        }
-                        catch (e) {
-                            console.log(e);
-                            console.log("创建场景出错");
-                        }
+                        this.createGameScene();
                         return [4 /*yield*/, RES.getResAsync("description_json")];
                     case 2:
                         result = _a.sent();
@@ -180,6 +174,8 @@ var Main = (function (_super) {
         this.addChild(sky);
         var stageW = this.stage.stageWidth;
         var stageH = this.stage.stageHeight;
+        /* 得到道具数据 */
+        GameConfig.initHelpArr();
         /* 背景色设置 */
         var shape = new egret.Shape;
         shape.graphics.beginFill(0x000000, 1);
@@ -218,3 +214,4 @@ var Main = (function (_super) {
     return Main;
 }(eui.UILayer));
 __reflect(Main.prototype, "Main");
+//# sourceMappingURL=Main.js.map

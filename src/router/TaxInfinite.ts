@@ -58,7 +58,7 @@ class TaxInfinite extends egret.Sprite{
     private addGameBody() {
        this.gameBody = new GameBody(this.width,this.height,this.gameInf,this);
        this.addChild(this.gameBody)  
-       this.addMonster();
+       //this.addMonster();
     }
    
     private addTalk() {

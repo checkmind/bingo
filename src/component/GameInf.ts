@@ -53,6 +53,10 @@ class GameInf extends egret.Sprite{
             this.StepClass.resetStep();
     }
     private hadProps = true;
+    // 随机生成道具
+    public productHelper() {
+
+    }
     // 得到道具
     public async getProps(type) {
         if(!this.hadProps) {
@@ -63,7 +67,6 @@ class GameInf extends egret.Sprite{
         shape.graphics.beginFill(0x333, 0.5);
         shape.graphics.drawRect(0,0,this.width,this.height+100);
         shape.graphics.endFill();
-        
 
         this.hadProps = false;
         let img = GameConfig.helperSrc[type];
@@ -95,10 +98,8 @@ class GameInf extends egret.Sprite{
     private addProps() {
 
         let maxType= GameConfig.helperArr.length;
-        console.log(this.width/2);
         // 整个盒子的宽度是  
         let moveX = this.width/4 - 100*maxType/4 - 20
-        console.log(moveX)
         for(let type = 0;type<maxType;type++) {
           let props = new Prop(moveX+60*type,(790+40)/2,type,this);
           this.propsArr.push(props);
@@ -120,7 +121,6 @@ class GameInf extends egret.Sprite{
         this.StepClass.changeStep(this.maxStep);
     }
     private gameOver() {
-        console.log("gameover");
         this.parents.gameOver();
     }
     private async addBack() { 
@@ -131,6 +131,7 @@ class GameInf extends egret.Sprite{
         sky.touchEnabled = true;
         sky.addEventListener('touchEnd',()=>{
             PageBus.gotoPage(this.backToPage);
+            GameConfig.state = 0;
         },this);
         this.addChild(sky);
     }

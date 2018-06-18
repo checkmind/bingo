@@ -20,7 +20,7 @@ class MonsterClass extends egret.Sprite{
 
     // 阴影
     private async addBlackShape() {
-      this.img = await this.createBitmapByName("alen.png")
+      this.img = await this.createBitmapByName("monster.gif")
       this.img.width = 100
       this.img.height = 100
       // 深度放到最大
@@ -30,8 +30,10 @@ class MonsterClass extends egret.Sprite{
       this.moveRandom();
     }
     private moveRandom() {
-        
         let fn = ()=>{
+            if(GameConfig.state ===0 || GameConfig.state ===2) {
+                return;
+            }
             let random = Math.floor(Math.random()*1000)*2;
             egret.Tween
             .get(this.img)

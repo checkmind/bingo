@@ -27,3 +27,4 @@ var PageBus = (function () {
     return PageBus;
 }());
 __reflect(PageBus.prototype, "PageBus");
+//# sourceMappingURL=pageBus.js.map

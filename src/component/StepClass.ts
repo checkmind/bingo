@@ -27,8 +27,6 @@ class StepClass extends eui.Group{
         this.addChild(this.taxNum);
     }
     public resetStep() {
-        console.log(GameConfig.nowTax);
-        console.log(GameConfig.taxConfig[GameConfig.nowTax].step)
        this.step = GameConfig.taxConfig[GameConfig.nowTax].step;
     }
     public changeStep(step) {

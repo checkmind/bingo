@@ -115,7 +115,10 @@ var TaxPage = (function (_super) {
     TaxPage.prototype.addGameBody = function () {
         this.gameBody = new GameBody(this.width, this.height, this.gameInf, this);
         this.addChild(this.gameBody);
-        this.addMonster();
+        console.log("关卡怪物");
+        console.log(GameConfig.taxConfig[GameConfig.nowTax]["monster"]);
+        if (GameConfig.taxConfig[GameConfig.nowTax]["monster"])
+            this.addMonster();
     };
     TaxPage.prototype.addTalk = function () {
         this.talkContent = new TalkContent(this.width, this.height, this);
@@ -147,6 +150,7 @@ var TaxPage = (function (_super) {
     TaxPage.prototype.gameOver = function () {
         var _this = this;
         this.addChild(this.talkContent);
+        GameConfig.state = 2;
         this.talkContent.showWhich({
             type: 1,
             text: '失败了？没事儿，再来一次'
@@ -156,6 +160,7 @@ var TaxPage = (function (_super) {
             _this.removeChild(_this.gameBody);
             _this.removeChild(_this.gameInf);
             _this.removeChild(_this.monsterClass);
+            GameConfig.state = 1;
             _this.addGameInf();
             _this.addGameBody();
         };
@@ -182,3 +187,4 @@ var TaxPage = (function (_super) {
     return TaxPage;
 }(egret.Sprite));
 __reflect(TaxPage.prototype, "TaxPage");
+//# sourceMappingURL=TaxPage.js.map

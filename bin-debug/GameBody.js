@@ -98,8 +98,6 @@ var GameBody = (function (_super) {
         }
     };
     GameBody.prototype.useHlper = function (x, y) {
-        console.log("使用helper");
-        console.log(GameConfig.helper);
         if (GameConfig.helperArr[GameConfig.helper - 1] === 0) {
             GameConfig.helper = 0;
             return;
@@ -213,6 +211,8 @@ var GameBody = (function (_super) {
         // this.gameInf.updataStep();
         this.addMask();
         //this.addBlackShape();
+        this.addDark();
+        this.addType();
     };
     GameBody.prototype.addBack = function () {
         /* 背景色设置 */
@@ -231,6 +231,41 @@ var GameBody = (function (_super) {
         circle.graphics.endFill();
         this.$parent.addChild(circle);
         this.mask = circle;
+    };
+    // 星球变暗色 每隔三秒遍历一次
+    GameBody.prototype.addDark = function () {
+        var _this = this;
+        if (!GameConfig.taxConfig[GameConfig.nowTax]["darkTime"]) {
+            return;
+        }
+        var timer = setInterval(function () {
+            if (GameConfig.state == 2 || GameConfig.state == 0) {
+                clearInterval(timer);
+            }
+            _this.bingos.forEach(function (val) {
+                val.forEach(function (val2) {
+                    val2.beDark();
+                });
+            });
+        }, 5000);
+    };
+    // 星球变成其他类型
+    GameBody.prototype.addType = function () {
+        var _this = this;
+        if (!GameConfig.taxConfig[GameConfig.nowTax]["changeTime"]) {
+            return;
+        }
+        var timer = setInterval(function () {
+            if (GameConfig.state == 2 || GameConfig.state == 0) {
+                clearInterval(timer);
+            }
+            _this.bingos.forEach(function (val) {
+                val.forEach(function (val2) {
+                    if (Math.floor(Math.random() * 10) === 2)
+                        val2.beType(_this.ran());
+                });
+            });
+        }, 5000);
     };
     GameBody.prototype.drawBingo = function () {
         for (var i = 0; i < this.row; i++) {
@@ -403,6 +438,10 @@ var GameBody = (function (_super) {
                 delete _this.bingos[i][j];
             }
         });
+        // 如果当前消除的个数大于7，则有几率触发道具生成
+        if (this.clears.length >= 7 && GameConfig.nowTax === -1) {
+            this.gameInf.productHelper();
+        }
         this.clears.length = 0;
         return Promise.all(pros).then(function () {
             fn();
@@ -412,6 +451,10 @@ var GameBody = (function (_super) {
     /* 更新函数 */
     GameBody.prototype.updataGame = function () {
         var _this = this;
+        // 游戏结束
+        if (GameConfig.state == 2 || GameConfig.state == 0) {
+            return;
+        }
         for (var i = 0; i < this.bingos.length; i++) {
             var now = this.bingos[i];
             var num = undefined; //这个参数记录当前j，辅助计算createNewBingos的下降距离
@@ -584,3 +627,4 @@ var GameBody = (function (_super) {
     return GameBody;
 }(egret.Sprite));
 __reflect(GameBody.prototype, "GameBody");
+//# sourceMappingURL=GameBody.js.map

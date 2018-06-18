@@ -100,6 +100,9 @@ var GameInf = (function (_super) {
         if (GameConfig.taxConfig[GameConfig.nowTax].step != 0)
             this.StepClass.resetStep();
     };
+    // 随机生成道具
+    GameInf.prototype.productHelper = function () {
+    };
     // 得到道具
     GameInf.prototype.getProps = function (type) {
         return __awaiter(this, void 0, void 0, function () {
@@ -149,10 +152,8 @@ var GameInf = (function (_super) {
     };
     GameInf.prototype.addProps = function () {
         var maxType = GameConfig.helperArr.length;
-        console.log(this.width / 2);
         // 整个盒子的宽度是  
         var moveX = this.width / 4 - 100 * maxType / 4 - 20;
-        console.log(moveX);
         for (var type = 0; type < maxType; type++) {
             var props = new Prop(moveX + 60 * type, (790 + 40) / 2, type, this);
             this.propsArr.push(props);
@@ -174,7 +175,6 @@ var GameInf = (function (_super) {
         this.StepClass.changeStep(this.maxStep);
     };
     GameInf.prototype.gameOver = function () {
-        console.log("gameover");
         this.parents.gameOver();
     };
     GameInf.prototype.addBack = function () {
@@ -192,6 +192,7 @@ var GameInf = (function (_super) {
                         sky.touchEnabled = true;
                         sky.addEventListener('touchEnd', function () {
                             PageBus.gotoPage(_this.backToPage);
+                            GameConfig.state = 0;
                         }, this);
                         this.addChild(sky);
                         return [2 /*return*/];
@@ -225,3 +226,4 @@ var GameInf = (function (_super) {
     return GameInf;
 }(egret.Sprite));
 __reflect(GameInf.prototype, "GameInf");
+//# sourceMappingURL=GameInf.js.map

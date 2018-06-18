@@ -115,50 +115,133 @@ var EntryGame = (function (_super) {
         }, this);
     };
     /**
+     * 关闭按钮和分享按钮
+    */
+    EntryGame.prototype.drawButton = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var _a, _b, _c;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        _a = this;
+                        return [4 /*yield*/, GameConfig.createBitmapByName("share.png")];
+                    case 1:
+                        _a.shareButton = _d.sent();
+                        //this.addChild(this.shareButton);
+                        this.shareButton.width = 207;
+                        this.shareButton.height = 80;
+                        this.shareButton.x = 20;
+                        this.shareButton.y = this.height - this.shareButton.height - 20;
+                        this.shareButton.addEventListener("touchEnd", function () {
+                            wx.shareAppMessage({
+                                title: "大夏天的，来消除几颗星球吧",
+                                imageUrl: '',
+                                query: '22',
+                                success: function () {
+                                },
+                                fail: function () {
+                                },
+                                complete: function () {
+                                }
+                            });
+                        });
+                        _b = this;
+                        return [4 /*yield*/, GameConfig.createBitmapByName("share.png")];
+                    case 2:
+                        _b.shareMyCirle = _d.sent();
+                        //this.addChild(this.shareMyCirle);
+                        this.shareMyCirle.width = 207;
+                        this.shareMyCirle.height = 80;
+                        this.shareMyCirle.x = this.width - this.shareMyCirle.width - 20;
+                        this.shareMyCirle.y = this.height - this.shareMyCirle.height - 20;
+                        this.shareMyCirle.addEventListener("touchEnd", function () {
+                            wx.shareAppMessage({
+                                title: "大夏天的，来消除几颗星球吧",
+                                imageUrl: '',
+                                query: '22',
+                                success: function () {
+                                },
+                                fail: function () {
+                                },
+                                complete: function () {
+                                }
+                            });
+                        });
+                        _c = this;
+                        return [4 /*yield*/, GameConfig.createBitmapByName("close.png")];
+                    case 3:
+                        _c.closeButton = _d.sent();
+                        this.closeButton.width = 80;
+                        this.closeButton.height = 80;
+                        this.closeButton.x = this.width / 2 - this.closeButton.width / 2;
+                        this.closeButton.y = this.height - this.closeButton.height - 20;
+                        this.closeButton.addEventListener('touchEnd', function () {
+                            _this.isdisplay = true;
+                            _this.onButtonClick();
+                        }, this);
+                        this.addChild(this.closeButton);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
      * 点击按钮
      * Click the button
      */
     EntryGame.prototype.onButtonClick = function () {
-        var openDataContext = wx.getOpenDataContext();
-        if (this.isdisplay) {
-            this.bitmap.parent && this.bitmap.parent.removeChild(this.bitmap);
-            this.rankingListMask.parent && this.rankingListMask.parent.removeChild(this.rankingListMask);
-            this.isdisplay = false;
-        }
-        else {
-            //处理遮罩，避免开放数据域事件影响主域。
-            this.rankingListMask = new egret.Shape();
-            this.rankingListMask.graphics.beginFill(0x000000, 1);
-            this.rankingListMask.graphics.drawRect(0, 0, this.stage.width, this.stage.height);
-            this.rankingListMask.graphics.endFill();
-            this.rankingListMask.alpha = 0.5;
-            this.rankingListMask.touchEnabled = true;
-            this.addChild(this.rankingListMask);
-            //简单实现，打开这关闭使用一个按钮。
-            //this.addChild(this.btnClose);
-            //主要示例代码开始
-            var bitmapdata_1 = new egret.BitmapData(window["sharedCanvas"]);
-            bitmapdata_1.$deleteSource = false;
-            var texture = new egret.Texture();
-            texture._setBitmapData(bitmapdata_1);
-            this.bitmap = new egret.Bitmap(texture);
-            this.bitmap.width = this.stage.stageWidth;
-            this.bitmap.height = this.stage.stageHeight;
-            this.addChild(this.bitmap);
-            egret.startTick(function (timeStarmp) {
-                egret.WebGLUtils.deleteWebGLTexture(bitmapdata_1.webGLTexture);
-                bitmapdata_1.webGLTexture = null;
-                return false;
-            }, this);
-            //主要示例代码结束            
-            this.isdisplay = true;
-        }
-        //发送消息
-        console.log("发送消息");
-        openDataContext.postMessage({
-            isDisplay: this.isdisplay,
-            text: 'hello',
-            year: (new Date()).getFullYear()
+        return __awaiter(this, void 0, void 0, function () {
+            var openDataContext, bitmapdata_1, texture;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        openDataContext = wx.getOpenDataContext();
+                        if (!this.isdisplay) return [3 /*break*/, 1];
+                        this.bitmap.parent && this.bitmap.parent.removeChild(this.bitmap);
+                        this.rankingListMask.parent && this.rankingListMask.parent.removeChild(this.rankingListMask);
+                        this.isdisplay = false;
+                        this.removeChild(this.closeButton);
+                        return [3 /*break*/, 3];
+                    case 1:
+                        // 增加关闭按钮和分享按钮
+                        //处理遮罩，避免开放数据域事件影响主域。
+                        this.rankingListMask = new egret.Shape();
+                        this.rankingListMask.graphics.beginFill(0x000000, 1);
+                        this.rankingListMask.graphics.drawRect(0, 0, this.stage.width, this.stage.height);
+                        this.rankingListMask.graphics.endFill();
+                        this.rankingListMask.alpha = 0.5;
+                        this.rankingListMask.touchEnabled = true;
+                        this.addChild(this.rankingListMask);
+                        openDataContext.postMessage({
+                            text: 'refresh',
+                            year: (new Date()).getFullYear()
+                        });
+                        return [4 /*yield*/, this.drawButton()];
+                    case 2:
+                        _a.sent();
+                        bitmapdata_1 = new egret.BitmapData(window["sharedCanvas"]);
+                        bitmapdata_1.$deleteSource = false;
+                        texture = new egret.Texture();
+                        texture._setBitmapData(bitmapdata_1);
+                        this.bitmap = new egret.Bitmap(texture);
+                        this.bitmap.width = this.stage.stageWidth;
+                        this.bitmap.height = this.stage.stageHeight;
+                        this.addChild(this.bitmap);
+                        egret.startTick(function (timeStarmp) {
+                            egret.WebGLUtils.deleteWebGLTexture(bitmapdata_1.webGLTexture);
+                            bitmapdata_1.webGLTexture = null;
+                            return false;
+                        }, this);
+                        //主要示例代码结束            
+                        this.isdisplay = true;
+                        _a.label = 3;
+                    case 3:
+                        //发送消息
+                        console.log("发送消息");
+                        return [2 /*return*/];
+                }
+            });
         });
     };
     EntryGame.prototype.addNPC = function () {
@@ -281,6 +364,14 @@ var EntryGame = (function (_super) {
             _loop_1(i);
         }
     };
+    EntryGame.prototype.saveData = function () {
+        var openDataContext = wx.getOpenDataContext();
+        openDataContext.postMessage({
+            array: [1, 23],
+            type: 'save',
+            year: (new Date()).getFullYear()
+        });
+    };
     /* 给按钮绑定事件 */
     EntryGame.prototype.bindClickFn = function (i) {
         console.log(i);
@@ -294,6 +385,10 @@ var EntryGame = (function (_super) {
                 break;
             case 2:
                 this.onButtonClick();
+                break;
+            case 3:
+                //this.saveData();
+                GameConfig.setHelpArr(1, 0);
                 break;
             default:
                 return;
@@ -312,3 +407,4 @@ var EntryGame = (function (_super) {
     return EntryGame;
 }(egret.Sprite));
 __reflect(EntryGame.prototype, "EntryGame");
+//# sourceMappingURL=EntryGame.js.map

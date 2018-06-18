@@ -50,20 +50,18 @@ class Prop extends egret.Sprite{
             platform.playButtonMusic();
             GameConfig.helper = this.type+1;
             this.setNum();
-            console.log("更改了type"+this.type)
         },this)
         this.addFilter();
     }   
     public setNum() {
-        console.log("setNum")
-        console.log(GameConfig.helper)
         this.text.text = '' + GameConfig.helperArr[this.type]
         this.addFilter();
     }
     private addFilter() {
-        if(GameConfig.helperArr[this.type]>0)
+        if(GameConfig.helperArr[this.type]>0){
+            this.filters = null;
             return;
-        console.log("增加滤镜")
+        }
         let colorMatrix = [
             0.3,0.6,0,0,0,
             0.3,0.6,0,0,0,

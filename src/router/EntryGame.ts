@@ -78,17 +78,81 @@ class EntryGame extends egret.Sprite{
      * 
      */
     private rankingListMask: egret.Shape;
+    private shareButton;
+    private shareMyCirle;
+    private closeButton;
+    /** 
+     * 关闭按钮和分享按钮
+    */
+    private async drawButton() {
+        this.shareButton = await GameConfig.createBitmapByName("share.png");
+        //this.addChild(this.shareButton);
+        this.shareButton.width = 207;
+        this.shareButton.height = 80;
+        this.shareButton.x = 20;
+        this.shareButton.y = this.height - this.shareButton.height - 20;
+        this.shareButton.addEventListener("touchEnd",()=>{
+            wx.shareAppMessage({
+                title: "大夏天的，来消除几颗星球吧",
+                imageUrl: '',
+                query: '22',
+                success() {
+                },
+                fail(){
+
+                },
+                complete() {
+                }
+            })
+        })
+
+        this.shareMyCirle = await GameConfig.createBitmapByName("share.png");
+        //this.addChild(this.shareMyCirle);
+        this.shareMyCirle.width = 207;
+        this.shareMyCirle.height = 80;
+        this.shareMyCirle.x = this.width - this.shareMyCirle.width - 20;
+        this.shareMyCirle.y = this.height - this.shareMyCirle.height - 20;
+        this.shareMyCirle.addEventListener("touchEnd",()=>{
+            wx.shareAppMessage({
+                title: "大夏天的，来消除几颗星球吧",
+                imageUrl: '',
+                query: '22',
+                success() {
+                },
+                fail(){
+
+                },
+                complete() {
+                }
+            })
+        })
+
+        this.closeButton = await GameConfig.createBitmapByName("close.png");
+        this.closeButton.width = 80;
+        this.closeButton.height = 80;
+        this.closeButton.x = this.width /2 - this.closeButton.width/2;
+        this.closeButton.y = this.height - this.closeButton.height - 20;
+        this.closeButton.addEventListener('touchEnd',()=>{
+            this.isdisplay = true;
+            this.onButtonClick();
+        },this);
+        this.addChild(this.closeButton);
+    }
     /**
      * 点击按钮
      * Click the button
      */
-    private onButtonClick() {
+    private async onButtonClick() {
         let openDataContext = wx.getOpenDataContext();
         if (this.isdisplay) {
             this.bitmap.parent && this.bitmap.parent.removeChild(this.bitmap);
             this.rankingListMask.parent && this.rankingListMask.parent.removeChild(this.rankingListMask);
             this.isdisplay = false;
+            this.removeChild(this.closeButton);
+           
         } else {
+            // 增加关闭按钮和分享按钮
+            
             //处理遮罩，避免开放数据域事件影响主域。
             this.rankingListMask = new egret.Shape();
             this.rankingListMask.graphics.beginFill(0x000000, 1);
@@ -97,7 +161,11 @@ class EntryGame extends egret.Sprite{
             this.rankingListMask.alpha = 0.5;
             this.rankingListMask.touchEnabled = true;
             this.addChild(this.rankingListMask);
-
+            openDataContext.postMessage({
+                text: 'refresh',
+                year: (new Date()).getFullYear()
+            });
+            await this.drawButton();
             //简单实现，打开这关闭使用一个按钮。
             //this.addChild(this.btnClose);
             //主要示例代码开始
@@ -120,11 +188,11 @@ class EntryGame extends egret.Sprite{
         }
         //发送消息
         console.log("发送消息")
-        openDataContext.postMessage({
-            isDisplay: this.isdisplay,
-            text: 'hello',
-            year: (new Date()).getFullYear()
-        });
+        // openDataContext.postMessage({
+        //     isDisplay: this.isdisplay,
+        //     text: 'hello',
+        //     year: (new Date()).getFullYear()
+        // });
     }
     private addNPC() {
         let sky = this.createBitmapByName("npc_1_png",256,282);
@@ -214,6 +282,14 @@ class EntryGame extends egret.Sprite{
             },this,false,i);
         }  
     }
+    private saveData() {
+        let openDataContext = wx.getOpenDataContext();
+        openDataContext.postMessage({
+            array: [1,23],
+            type: 'save',
+            year: (new Date()).getFullYear()
+        });
+    }
     /* 给按钮绑定事件 */
     private bindClickFn(i) {
         console.log(i);
@@ -227,6 +303,10 @@ class EntryGame extends egret.Sprite{
                 break;
             case 2:
                 this.onButtonClick();
+                break;
+            case 3:
+                //this.saveData();
+                GameConfig.setHelpArr(1,0);
                 break;
             default:
                 return;

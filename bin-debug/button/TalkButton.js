@@ -37,3 +37,4 @@ var TalkButton = (function (_super) {
     return TalkButton;
 }(eui.Component));
 __reflect(TalkButton.prototype, "TalkButton");
+//# sourceMappingURL=TalkButton.js.map

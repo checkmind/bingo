@@ -42,6 +42,29 @@ class Bingo extends egret.Sprite{
         this.img.height = this.height;
         this.addChild(this.img);
     }
+    private nowDrak:Boolean = false;
+    public async beDark() {
+        let ran = Math.floor(Math.random()*10);;
+        // 变换为黑色球的几率
+        if( ran === 5 && !this.nowDrak) {
+            this.removeChild(this.img);
+            this.img = await GameConfig.createBitmapByName("dark.png");
+            this.img.width = this.width;
+            this.img.height = this.height;
+            this.nowDrak = true;
+            this.addChild(this.img);
+            return false;
+        }
+        this.removeChild(this.img);
+        this.nowDrak = false;
+        this.addImage();
+    }
+    // 变成另外的星球
+    private async beType(type) {
+        this.removeChild(this.img);
+        this.type = type;
+        this.addImage();
+    }
     private async addBlackHole(fn) {
         this.removeChild(this.img)
         let sky:any = await GameConfig.createBitmapByName("blackhole.png");

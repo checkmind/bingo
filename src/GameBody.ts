@@ -90,8 +90,6 @@ class GameBody extends egret.Sprite{
         }
     }
     private useHlper(x,y) {
-        console.log("使用helper")
-        console.log(GameConfig.helper)
         if(GameConfig.helperArr[GameConfig.helper-1]===0) {
             GameConfig.helper = 0;
             return;
@@ -204,6 +202,8 @@ class GameBody extends egret.Sprite{
        // this.gameInf.updataStep();
         this.addMask();
         //this.addBlackShape();
+        this.addDark();
+        this.addType();
     }
     
     private addBack() {
@@ -223,6 +223,39 @@ class GameBody extends egret.Sprite{
         circle.graphics.endFill();
         this.$parent.addChild(circle);
         this.mask = circle;
+    }
+    // 星球变暗色 每隔三秒遍历一次
+    private addDark() {
+        if(!GameConfig.taxConfig[GameConfig.nowTax]["darkTime"]) {
+            return;
+        }
+        let timer = setInterval(()=>{
+            if(GameConfig.state == 2 || GameConfig.state ==0) {
+                clearInterval(timer);
+            }
+            this.bingos.forEach((val)=>{
+                val.forEach((val2)=>{
+                    val2.beDark();
+                })
+            })
+        },5000)
+    }
+    // 星球变成其他类型
+    private addType() {
+        if(!GameConfig.taxConfig[GameConfig.nowTax]["changeTime"]) {
+            return;
+        }
+        let timer = setInterval(()=>{
+            if(GameConfig.state == 2 || GameConfig.state ==0) {
+                clearInterval(timer);
+            }
+            this.bingos.forEach((val)=>{
+                val.forEach((val2)=>{
+                    if(Math.floor(Math.random()*10)===2)
+                        val2.beType(this.ran());
+                })
+            })
+        },5000)
     }
     private drawBingo() {
         for(let i = 0;i<this.row;i++) {
@@ -395,6 +428,10 @@ class GameBody extends egret.Sprite{
                 delete this.bingos[i][j];
             }  
         })
+        // 如果当前消除的个数大于7，则有几率触发道具生成
+        if(this.clears.length>=7 && GameConfig.nowTax===-1) {
+            this.gameInf.productHelper();
+        }
         this.clears.length = 0;        
         return Promise.all(pros).then(()=>{
             fn();
@@ -404,6 +441,10 @@ class GameBody extends egret.Sprite{
     
     /* 更新函数 */
     private updataGame() {
+        // 游戏结束
+        if(GameConfig.state == 2 || GameConfig.state ==0) {
+                return
+        }
         for(let i = 0;i<this.bingos.length;i++) {
 			let now = this.bingos[i]
             let num = undefined; //这个参数记录当前j，辅助计算createNewBingos的下降距离

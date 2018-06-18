@@ -48,13 +48,55 @@ var GameConfig = (function () {
             var url, image;
             return __generator(this, function (_a) {
                 url = GameConfig.domainUrl + name;
-                console.log(url);
                 image = new eui.Image();
                 egret.ImageLoader.crossOrigin = "anonymous";
                 image.source = url;
-                console.log("source");
                 return [2 /*return*/, image];
             });
+        });
+    };
+    GameConfig.shareFun = function () {
+        wx.shareAppMessage({
+            title: "大夏天的，来消除几颗星球吧",
+            imageUrl: '',
+            query: '22',
+            success: function () {
+            },
+            fail: function () {
+            },
+            complete: function () {
+            }
+        });
+    };
+    GameConfig.initHelpArr = function () {
+        GameConfig.helperArr = [0, 0, 0, 0];
+        if (!this["wx"])
+            return;
+        wx.getStorage({
+            key: "helpArr",
+            success: function (ev) {
+                var data = ev.data;
+                GameConfig.helperArr = data.split("");
+            },
+            fail: function () {
+            },
+            complete: function () {
+            }
+        });
+    };
+    GameConfig.setHelpArr = function (num, index) {
+        GameConfig.helperArr[index] = num;
+        var str = GameConfig.helperArr.join("");
+        if (!this["wx"])
+            return;
+        wx.setStorage({
+            key: "helpArr",
+            data: str,
+            success: function () {
+                console.log("set success");
+            },
+            fail: function () { },
+            complete: function () { }
         });
     };
     //static domainUrl = 'http://cangnanshi.com/bingo/'
@@ -93,16 +135,34 @@ var GameConfig = (function () {
     // 当前最强关卡
     GameConfig.maxTax = 0;
     // 第一关限定步数
-    GameConfig.taxConfig = [{
+    GameConfig.taxConfig = [
+        {
+            row: 7,
+            checkType: 'uncommon',
+            col: 7,
+            uncommon: 4,
+            // 每隔五秒钟没消除操作就失败 允许来回挪动 如果没有能消除的就打乱
+            matrix: [],
+            myScore: 5000,
+            bingoType: 4,
+            step: 0,
+            // 限定时间 为0不限定
+            time: 10,
+            monster: true,
+            //每隔一段时间星球会变暗
+            darkTime: false,
+            // 每隔一段时间星球会变成其他星球
+            changeTime: true
+        }, {
             row: 4,
             col: 4,
             checkType: 'uncommon',
             // 目标分数
             myScore: 2000,
             // 限定步数
-            step: 20,
+            step: 0,
             // 限定时间 为0不限定
-            time: 0,
+            time: 60,
             // 类型
             bingoType: 4,
             // 最顶层放稀有星球 稀有星球需到底部
@@ -112,14 +172,13 @@ var GameConfig = (function () {
             row: 5,
             col: 5,
             checkType: 'uncommon',
-            //uncommon: 4,
             // 从下到上 宇宙会黑掉，这个是黑掉的时间
             darkTime: 10,
             myScore: 3800,
             bingoType: 4,
-            step: 0,
+            step: 20,
             // 限定时间 为0不限定
-            time: 10,
+            time: 0,
         }, {
             row: 6,
             checkType: 'uncommon',
@@ -137,9 +196,9 @@ var GameConfig = (function () {
             matrix: [],
             myScore: 4000,
             bingoType: 4,
-            step: 20,
+            step: 0,
             // 限定时间 为0不限定
-            time: 0,
+            time: 60,
         }, {
             row: 7,
             checkType: 'uncommon',
@@ -148,9 +207,21 @@ var GameConfig = (function () {
             matrix: [],
             myScore: 5000,
             bingoType: 4,
-            step: 20,
+            step: 0,
             // 限定时间 为0不限定
-            time: 0,
+            time: 60,
+            monster: true
+        }, {
+            row: 7,
+            checkType: 'uncommon',
+            col: 7,
+            // 每隔五秒钟星球会随机变化
+            matrix: [],
+            myScore: 6000,
+            bingoType: 4,
+            step: 0,
+            // 限定时间 为0不限定
+            time: 60
         }, {
             row: 8,
             checkType: 'uncommon',
@@ -158,33 +229,25 @@ var GameConfig = (function () {
             // 每隔五秒钟星球会随机变化
             matrix: [],
             myScore: 6000,
-            bingoType: 4,
-            step: 20,
+            bingoType: 5,
+            step: 0,
             // 限定时间 为0不限定
-            time: 0,
-        }, {
-            row: 8,
-            checkType: 'uncommon',
-            col: 9,
-            // 每隔五秒钟星球会随机变化
-            matrix: [],
-            myScore: 7000,
-            bingoType: 4,
-            step: 20,
-            // 限定时间 为0不限定
-            time: 0,
+            time: 60,
         }, {
             row: 8,
             checkType: 'uncommon',
             col: 10,
             // 每隔五秒钟星球会随机变化
             matrix: [],
-            myScore: 8000,
-            bingoType: 4,
-            step: 20,
+            myScore: 6500,
+            bingoType: 6,
+            step: 0,
             // 限定时间 为0不限定
-            time: 0,
-        },];
+            time: 50,
+            monster: true
+        },
+    ];
     return GameConfig;
 }());
 __reflect(GameConfig.prototype, "GameConfig");
+//# sourceMappingURL=GameConfig.js.map

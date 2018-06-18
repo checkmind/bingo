@@ -53,6 +53,7 @@ var Bingo = (function (_super) {
         _this.height = GameBody.childH;
         _this.image = new egret.Bitmap();
         _this.colors = [0x1ca5fc, 0x295c9d, 0x990000, 0x7f0000];
+        _this.nowDrak = false;
         _this.x = x * (_this.width);
         _this.y = y * (_this.height);
         _this.parents = parent;
@@ -108,6 +109,45 @@ var Bingo = (function (_super) {
                         this.addChild(this.img);
                         return [2 /*return*/];
                 }
+            });
+        });
+    };
+    Bingo.prototype.beDark = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var ran, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        ran = Math.floor(Math.random() * 10);
+                        ;
+                        if (!(ran === 5 && !this.nowDrak)) return [3 /*break*/, 2];
+                        this.removeChild(this.img);
+                        _a = this;
+                        return [4 /*yield*/, GameConfig.createBitmapByName("dark.png")];
+                    case 1:
+                        _a.img = _b.sent();
+                        this.img.width = this.width;
+                        this.img.height = this.height;
+                        this.nowDrak = true;
+                        this.addChild(this.img);
+                        return [2 /*return*/, false];
+                    case 2:
+                        this.removeChild(this.img);
+                        this.nowDrak = false;
+                        this.addImage();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    // 变成另外的星球
+    Bingo.prototype.beType = function (type) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                this.removeChild(this.img);
+                this.type = type;
+                this.addImage();
+                return [2 /*return*/];
             });
         });
     };
@@ -216,3 +256,4 @@ var Bingo = (function (_super) {
     return Bingo;
 }(egret.Sprite));
 __reflect(Bingo.prototype, "Bingo");
+//# sourceMappingURL=Bingo.js.map
