@@ -61,7 +61,7 @@ var TaxPage = (function (_super) {
     TaxPage.prototype.addImage = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var system;
+            var system, pop;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: 
@@ -72,13 +72,15 @@ var TaxPage = (function (_super) {
                         _a.sent();
                         this.success = function () {
                             _this.removeChild(_this.talkContent);
+                            _this.addGameInf();
                             _this.addGameBody();
                         };
                         system = new particle.GravityParticleSystem(RES.getRes("newParticle_png"), RES.getRes("newParticle_json"));
                         this.addChild(system);
                         system.start();
-                        this.addGameInf();
                         this.addTalk();
+                        pop = new PopClass(0, 50, this.width, this.height);
+                        this.addChild(pop);
                         return [2 /*return*/];
                 }
             });
@@ -174,6 +176,7 @@ var TaxPage = (function (_super) {
     // 点击完对话后的场景
     TaxPage.prototype.success = function () {
         this.removeChild(this.talkContent);
+        this.addGameInf();
         this.addGameBody();
     };
     TaxPage.prototype.addGameInf = function () {

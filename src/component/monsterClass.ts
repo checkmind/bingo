@@ -31,13 +31,13 @@ class MonsterClass extends egret.Sprite{
     }
     private moveRandom() {
         let fn = ()=>{
-            if(GameConfig.state ===0 || GameConfig.state ===2) {
-                return;
-            }
             let random = Math.floor(Math.random()*1000)*2;
             egret.Tween
             .get(this.img)
             .to( this.generateStyle(), 10*random, egret.Ease.sineIn ).call(()=>{
+                if(GameConfig.state ===0 || GameConfig.state ===2) {
+                    return;
+                }
                 fn();
             });
         }

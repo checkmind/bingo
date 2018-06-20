@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,button_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,cir_png,toast_png,newParticle2_png,newParticle2_json,ok_png,helpBack_png,rect_2_png",
+			"keys": "description_json,button_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,cir_png,toast_png,newParticle2_png,newParticle2_json,ok_png,helpBack_png,rect_2_png,ending_png",
 			"name": "preload"
 		}
 	],
@@ -70,6 +70,11 @@
 			"name": "rect_2_png",
 			"type": "image",
 			"url": "assets/rect_2.png"
+		},
+		{
+			"name": "ending_png",
+			"type": "image",
+			"url": "assets/ending.png"
 		}
 	]
 }

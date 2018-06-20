@@ -3,6 +3,10 @@ declare module skins{
 	}
 }
 declare module skins{
+	class EndingSkin extends eui.Skin{
+	}
+}
+declare module skins{
 	class GetHelper extends eui.Skin{
 	}
 }

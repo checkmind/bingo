@@ -29,13 +29,16 @@ class TaxPage extends egret.Sprite{
         
         this.success = ()=>{
             this.removeChild(this.talkContent);
+            this.addGameInf();
             this.addGameBody();
         }
         var system = new particle.GravityParticleSystem(RES.getRes("newParticle_png"), RES.getRes("newParticle_json"));
         this.addChild(system);
         system.start();
-        this.addGameInf();
+        
         this.addTalk();
+        let pop = new PopClass(0,50,this.width,this.height);
+        this.addChild(pop);
     }
     
     private async addStar() {
@@ -120,6 +123,7 @@ class TaxPage extends egret.Sprite{
     // 点击完对话后的场景
     private success() {
         this.removeChild(this.talkContent);
+        this.addGameInf();
         this.addGameBody();
     }
     private addGameInf() {

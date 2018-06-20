@@ -157,7 +157,8 @@ var Bingo = (function (_super) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this.removeChild(this.img);
+                        if (this.img.parent)
+                            this.removeChild(this.img);
                         return [4 /*yield*/, GameConfig.createBitmapByName("blackhole.png")];
                     case 1:
                         sky = _a.sent();

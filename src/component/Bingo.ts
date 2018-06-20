@@ -66,7 +66,8 @@ class Bingo extends egret.Sprite{
         this.addImage();
     }
     private async addBlackHole(fn) {
-        this.removeChild(this.img)
+        if(this.img.parent)
+            this.removeChild(this.img)
         let sky:any = await GameConfig.createBitmapByName("blackhole.png");
         sky.width = this.width;
         sky.height = this.height;

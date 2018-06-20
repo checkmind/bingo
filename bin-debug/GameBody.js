@@ -31,6 +31,7 @@ var GameBody = (function (_super) {
         _this.stackArr = [];
         // 产生新的bingos
         _this.newBingos = [];
+        _this.lockCheck = false;
         /************* 检查游戏函数ending************* */
         /*
          这列已经为空了，直接创建新的bingos。然后移动到对应位置
@@ -259,12 +260,15 @@ var GameBody = (function (_super) {
             if (GameConfig.state == 2 || GameConfig.state == 0) {
                 clearInterval(timer);
             }
+            if (_this.lock || _this.loack_2)
+                return;
             _this.bingos.forEach(function (val) {
                 val.forEach(function (val2) {
                     if (Math.floor(Math.random() * 10) === 2)
                         val2.beType(_this.ran());
                 });
             });
+            _this.checkFun();
         }, 5000);
     };
     GameBody.prototype.drawBingo = function () {

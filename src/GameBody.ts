@@ -249,12 +249,15 @@ class GameBody extends egret.Sprite{
             if(GameConfig.state == 2 || GameConfig.state ==0) {
                 clearInterval(timer);
             }
+            if(this.lock||this.loack_2)
+                return;
             this.bingos.forEach((val)=>{
                 val.forEach((val2)=>{
                     if(Math.floor(Math.random()*10)===2)
                         val2.beType(this.ran());
                 })
             })
+            this.checkFun();
         },5000)
     }
     private drawBingo() {
@@ -303,6 +306,7 @@ class GameBody extends egret.Sprite{
         this.newBingos.length = 0;
         this.checkFun();
     }
+    private lockCheck = false;
     private checkFun() {
         this.checkBingos();
         if(this.clears.length ===0){
