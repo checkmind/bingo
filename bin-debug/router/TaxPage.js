@@ -81,6 +81,10 @@ var TaxPage = (function (_super) {
                         this.addTalk();
                         pop = new PopClass(0, 50, this.width, this.height);
                         this.addChild(pop);
+                        pop.addEventListener(DateEvent.DATE, function (ev) {
+                            console.log(ev);
+                            console.log('next');
+                        }, this);
                         return [2 /*return*/];
                 }
             });

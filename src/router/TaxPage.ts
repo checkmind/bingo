@@ -39,6 +39,10 @@ class TaxPage extends egret.Sprite{
         this.addTalk();
         let pop = new PopClass(0,50,this.width,this.height);
         this.addChild(pop);
+        pop.addEventListener(DateEvent.DATE,(ev)=>{
+            console.log(ev);
+            console.log('next')
+        },this)
     }
     
     private async addStar() {
