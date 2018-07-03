@@ -33,7 +33,7 @@ class GameBody extends egret.Sprite{
         super();
         this.width = width;
         this.parents = parents;
-        
+        console.log("载入gamebody")
         if(GameConfig.nowTax!==-1){
             GameBody.childH = GameBody.childW =  (this.width - this.padding) / GameConfig.taxConfig[GameConfig.nowTax].row;
             this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
@@ -491,6 +491,10 @@ class GameBody extends egret.Sprite{
 
     /* 檢查游戲是否真的結束包括时间、熵值、无解 */
     private checkGameOver() {
+        /* 如果不在运行中，就结束游戏 */
+        if(GameConfig.state !== 1) {
+            return;
+        }
         // 這邊簡單記錄一下bingos
         if(!this.cloneBingos()){
             this.parents.gameOver();

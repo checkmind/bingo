@@ -39,6 +39,7 @@ var GameBody = (function (_super) {
         _this.maxUncommon = 0;
         _this.width = width;
         _this.parents = parents;
+        console.log("载入gamebody");
         if (GameConfig.nowTax !== -1) {
             GameBody.childH = GameBody.childW = (_this.width - _this.padding) / GameConfig.taxConfig[GameConfig.nowTax].row;
             _this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
@@ -500,6 +501,10 @@ var GameBody = (function (_super) {
     };
     /* 檢查游戲是否真的結束包括时间、熵值、无解 */
     GameBody.prototype.checkGameOver = function () {
+        /* 如果不在运行中，就结束游戏 */
+        if (GameConfig.state !== 1) {
+            return;
+        }
         // 這邊簡單記錄一下bingos
         if (!this.cloneBingos()) {
             this.parents.gameOver();

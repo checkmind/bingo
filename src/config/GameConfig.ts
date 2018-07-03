@@ -45,11 +45,11 @@ class GameConfig{
         uncommon: 4,
         // 每隔五秒钟没消除操作就失败 允许来回挪动 如果没有能消除的就打乱
         matrix: [],
-        myScore: 5000,
+        myScore: 1000,
         bingoType: 4,
         step: 0,
         // 限定时间 为0不限定
-        time: 10,
+        time: 5,
         monster: true,
         //每隔一段时间星球会变暗
         darkTime: false,
@@ -60,7 +60,7 @@ class GameConfig{
         col: 4,
         checkType: 'uncommon',
         // 目标分数
-        myScore: 2000,
+        myScore: 1500,
         // 限定步数
         step: 0,
         // 限定时间 为0不限定

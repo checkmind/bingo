@@ -28,7 +28,6 @@ class TaxPage extends egret.Sprite{
         await this.addStar();
         
         this.success = ()=>{
-            this.removeChild(this.talkContent);
             this.addGameInf();
             this.addGameBody();
         }
@@ -37,12 +36,7 @@ class TaxPage extends egret.Sprite{
         system.start();
         
         this.addTalk();
-        let pop = new PopClass(0,50,this.width,this.height);
-        this.addChild(pop);
-        pop.addEventListener(DateEvent.DATE,(ev)=>{
-            console.log(ev);
-            console.log('next')
-        },this)
+        
     }
     
     private async addStar() {
@@ -79,44 +73,67 @@ class TaxPage extends egret.Sprite{
        this.addChild(this.talkContent)  
     }
     private passTax() {
-        if(GameConfig.nowTax===GameConfig.maxTax){
-            GameConfig.maxTax++;
-            GameConfig.nowTax = GameConfig.maxTax
-        }
-
-        this.addChild(this.talkContent)
-        this.talkContent.showWhich({
-            type:1,
-            text:'真厉害，竟然通关了，果然没选错人'
-        })
-        
-        if(GameConfig.maxTax>=1) {
-            this.success = ()=>{
-                PageBus.gotoPage("gameTax");
-            }
-           return;
-        }
+        GameConfig.state = 0;
+        this.addPopClass(0);
+        this.removeChild(this.gameBody);
+        // if(GameConfig.maxTax>=1) {
+        //     this.success = ()=>{
+        //         PageBus.gotoPage("gameTax");
+        //     }
+        //    return;
+        // }
         this.success = ()=>{
             this.removeChildren();
             this.addImage();
         }
     }
     private gameOver() {
-        this.addChild(this.talkContent)
         GameConfig.state = 2;
-        this.talkContent.showWhich({
-            type:1,
-            text:'失败了？没事儿，再来一次'
-        })
+        this.addPopClass(1);
+        this.removeChild(this.gameBody);
         this.success = ()=>{
-            this.removeChild(this.talkContent);
-            this.removeChild(this.gameBody)
-            this.removeChild(this.gameInf)    
-            this.removeChild(this.monsterClass)
-            GameConfig.state = 1;
-            this.addGameInf();   
-            this.addGameBody();
+            this.removeChildren();
+            this.addImage();
         }
+    }
+    private pop:PopClass;
+    /**
+     * type 弹窗类型
+     */
+    private addPopClass(type) {
+        console.log("add pop class")
+        if(!this.pop)
+            this.pop = new PopClass(0,50,this.width,this.height,type);
+        this.addChild(this.pop);
+        this.pop.addEventListener(DateEvent.DATE,(ev)=>{
+            let type = ev._type
+            switch(type){
+                case 'home':
+                    PageBus.gotoPage("index");
+                    break;
+                case 'next':
+                    console.log("next")
+                    if(GameConfig.nowTax===GameConfig.maxTax){
+                        GameConfig.maxTax++;
+                        GameConfig.nowTax = GameConfig.maxTax
+                    }
+                    console.log(GameConfig.nowTax);
+                    this.removeChildren();
+                     GameConfig.state = 1;
+                    this.addImage();
+                    break;
+                case 'again':
+                    console.log('again')
+                    GameConfig.state = 1;
+                    this.gameInf.resetInf();
+                    this.addGameBody();
+                    break;
+                default:
+                    return;
+            }
+            if(this.pop.$parent)
+                this.removeChild(this.pop);
+        },this)
     }
     private addMonster(){
         this.monsterClass = new MonsterClass(this.gameBody.x,this.gameBody.y,this.gameBody.width,this.gameBody.height);

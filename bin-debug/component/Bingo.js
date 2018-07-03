@@ -157,6 +157,8 @@ var Bingo = (function (_super) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        if (!this.img)
+                            return [2 /*return*/];
                         if (this.img.parent)
                             this.removeChild(this.img);
                         return [4 /*yield*/, GameConfig.createBitmapByName("blackhole.png")];
