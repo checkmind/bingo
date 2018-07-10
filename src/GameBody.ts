@@ -201,9 +201,10 @@ class GameBody extends egret.Sprite{
         this.gameInf.updataScroe();
        // this.gameInf.updataStep();
         this.addMask();
-        //this.addBlackShape();
-        this.addDark();
-        this.addType();
+        if(GameConfig.nowTax!=-1) {
+            this.addDark();
+            this.addType();
+        }
     }
     
     private addBack() {
@@ -308,8 +309,11 @@ class GameBody extends egret.Sprite{
     }
     private lockCheck = false;
     private checkFun() {
+        if(GameConfig.state!==1)
+            return;
         this.checkBingos();
         if(this.clears.length ===0){
+            console.log('游戏主体内监测的')
             this.lock = false;
             this.checkGameOver();
             return false;
@@ -491,6 +495,8 @@ class GameBody extends egret.Sprite{
 
     /* 檢查游戲是否真的結束包括时间、熵值、无解 */
     private checkGameOver() {
+        console.log('监测是否结束')
+        console.log(GameConfig.state)
         /* 如果不在运行中，就结束游戏 */
         if(GameConfig.state !== 1) {
             return;
@@ -498,9 +504,14 @@ class GameBody extends egret.Sprite{
         // 這邊簡單記錄一下bingos
         if(!this.cloneBingos()){
             this.parents.gameOver();
+            GameConfig.state = 2;
+            return;
         }
         if(GameConfig.nowTax!==-1 && this.gameInf.myScore>=GameConfig.taxConfig[GameConfig.nowTax].myScore) {
+            console.log("通关了")
             this.parents.passTax();
+            GameConfig.state = 2;
+            return;
         }
         
     }

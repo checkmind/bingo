@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,button_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,cir_png,toast_png,newParticle2_png,newParticle2_json,ok_png,helpBack_png,rect_2_png,ending_png",
+			"keys": "description_json,button_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,cir_png,toast_png,newParticle2_png,newParticle2_json,ok_png,helpBack_png,rect_2_png,ending_png,gameEui_json,tax_json",
 			"name": "preload"
 		}
 	],
@@ -75,6 +75,16 @@
 			"name": "ending_png",
 			"type": "image",
 			"url": "assets/ending.png"
+		},
+		{
+			"name": "gameEui_json",
+			"type": "json",
+			"url": "gameEui.json"
+		},
+		{
+			"name": "tax_json",
+			"type": "json",
+			"url": "tax.json"
 		}
 	]
 }

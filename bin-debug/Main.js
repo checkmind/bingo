@@ -200,6 +200,9 @@ var Main = (function (_super) {
         PageBus.pushPage({ page: gameTax, router: 'gameTax' });
         // 无限模式
         PageBus.pushPage({ page: taxInfinite, router: 'infinite' });
+        // 加载配置
+        var objs = RES.getRes("tax_json");
+        GameConfig.taxConfig = objs;
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。

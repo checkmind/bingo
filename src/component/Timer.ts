@@ -35,6 +35,10 @@ class Timer extends eui.Group{
     }
     private changeTimer() {
        this.timer = setInterval(()=>{
+           if(GameConfig.state != 1) {
+               clearInterval(this.timer);
+               return;
+           }
            if(this.time ===0) {
                clearInterval(this.timer);
                this.parents.gameOver();

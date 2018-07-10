@@ -9,24 +9,33 @@ class PopClass extends egret.Sprite{
     public listen;
     private buttonWidth = 47;
     private type;
+    private hadConstructor;
+    private label1;
+    private label2;
     /**
      * type: 0 成功
      * type: 1 失败
      */
-    public constructor(x,y,width,height,type){
+    public constructor(x,y,width,height,type,label1,label2){
         super();
         this.width = 502;
         this.height = 658;
         this.x = width/2 - this.width/2;
         this.y = height/2 - this.height/2;
         this.type = type;
+        this.label1 = label1;
+        this.label2 = label2;
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawProps,this);
     }
-    private taxNum;
-    private async drawProps(){
+    private taxNum:TaxButton;
+    private  drawProps(){
+        if(this.hadConstructor)
+            return;
+        this.hadConstructor = true;
         this.taxNum = new TaxButton();
         this.taxNum.skinName="resource/eui_skins/EndingSkin.exml"       
-        this.taxNum.label ='恭喜获得了奖励';
+        this.taxNum.label =this.label1;
+        this.taxNum.label2 = this.label2;
         this.addChild(this.taxNum)
         if(this.type===0)
             this.nextTax();
@@ -39,12 +48,13 @@ class PopClass extends egret.Sprite{
         sky.x = this.x + this.width - 117 - sky.width;
         sky.y =this.height - 120;
         this.addChild(sky);
-        sky.addEventListener('touchEnd',()=>{
+        let fn = ()=>{
             let dataEvent:DateEvent = new DateEvent('myPrivateEvent');
             dataEvent._type = 'next'; 
-            console.log("next");
+            console.log("点击下一次了");
             this.dispatchEvent(dataEvent);
-        },this);
+        }
+        sky.addEventListener('touchEnd',fn,this);
     }
     private async againGame() {
         let sky:any = await GameConfig.createBitmapByName("home.png");

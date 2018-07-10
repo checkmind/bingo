@@ -96,10 +96,9 @@ class TaxInfinite extends egret.Sprite{
             text:'失败了？没事儿，再来一次'
         })
         this.success = ()=>{
-            this.removeChild(this.talkContent);
-            this.removeChild(this.gameBody)
-            this.removeChild(this.gameInf)    
-            this.removeChild(this.monsterClass)     
+            this.removeChild(this.talkContent);  
+            this.removeChild(this.gameBody);
+            this.removeChild(this.gameInf);
             this.addGameInf();   
             this.addGameBody();
         }

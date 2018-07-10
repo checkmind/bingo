@@ -381,6 +381,7 @@ var EntryGame = (function (_super) {
                 break;
             case 1:
                 GameConfig.nowTax = -1;
+                GameConfig.state = 1;
                 PageBus.gotoPage("infinite");
                 break;
             case 2:

@@ -60,7 +60,6 @@ var TaxPage = (function (_super) {
     }
     TaxPage.prototype.addImage = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var system;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -70,10 +69,6 @@ var TaxPage = (function (_super) {
                     case 1:
                         //this.addBack();
                         _a.sent();
-                        this.success = function () {
-                            _this.addGameInf();
-                            _this.addGameBody();
-                        };
                         system = new particle.GravityParticleSystem(RES.getRes("newParticle_png"), RES.getRes("newParticle_json"));
                         this.addChild(system);
                         system.start();
@@ -120,76 +115,85 @@ var TaxPage = (function (_super) {
             this.addMonster();
     };
     TaxPage.prototype.addTalk = function () {
+        if (this.talkContent && this.talkContent.$parent) {
+            this.removeChild(this.talkContent);
+        }
         this.talkContent = new TalkContent(this.width, this.height, this);
         this.talkContent.init();
         this.addChild(this.talkContent);
     };
     TaxPage.prototype.passTax = function () {
-        var _this = this;
-        GameConfig.state = 0;
-        this.addPopClass(0);
-        this.removeChild(this.gameBody);
+        console.log('通关了');
+        this.addPopClass(0, '游戏通关', '挑战下一关吧');
+        if (this.gameBody && this.gameBody.$parent)
+            this.removeChild(this.gameBody);
         // if(GameConfig.maxTax>=1) {
         //     this.success = ()=>{
         //         PageBus.gotoPage("gameTax");
         //     }
         //    return;
         // }
-        this.success = function () {
-            _this.removeChildren();
-            _this.addImage();
-        };
+        // this.success = ()=>{
+        //     this.removeChildren();
+        //     this.addImage();
+        // }
     };
     TaxPage.prototype.gameOver = function () {
-        var _this = this;
-        GameConfig.state = 2;
-        this.addPopClass(1);
-        this.removeChild(this.gameBody);
-        this.success = function () {
-            _this.removeChildren();
-            _this.addImage();
-        };
+        console.log('结束了');
+        this.addPopClass(1, '游戏失败了', '重新来一把吧');
+        if (this.gameBody && this.gameBody.$parent)
+            this.removeChild(this.gameBody);
+        // this.success = ()=>{
+        //     this.removeChildren();
+        //     this.addImage();
+        // }
     };
     /**
      * type 弹窗类型
      */
-    TaxPage.prototype.addPopClass = function (type) {
+    TaxPage.prototype.addPopClass = function (type, label1, label2) {
         var _this = this;
-        console.log("add pop class");
-        if (!this.pop)
-            this.pop = new PopClass(0, 50, this.width, this.height, type);
+        if (this.pop && this.pop.$parent) {
+            this.removeChild(this.pop);
+        }
+        this.pop = new PopClass(0, 50, this.width, this.height, type, label1, label2);
         this.addChild(this.pop);
-        this.pop.addEventListener(DateEvent.DATE, function (ev) {
-            var type = ev._type;
-            switch (type) {
-                case 'home':
-                    PageBus.gotoPage("index");
-                    break;
-                case 'next':
-                    console.log("next");
-                    if (GameConfig.nowTax === GameConfig.maxTax) {
-                        GameConfig.maxTax++;
-                        GameConfig.nowTax = GameConfig.maxTax;
-                    }
-                    console.log(GameConfig.nowTax);
-                    _this.removeChildren();
-                    GameConfig.state = 1;
-                    _this.addImage();
-                    break;
-                case 'again':
-                    console.log('again');
-                    GameConfig.state = 1;
-                    _this.gameInf.resetInf();
-                    _this.addGameBody();
-                    break;
-                default:
-                    return;
-            }
-            if (_this.pop.$parent)
-                _this.removeChild(_this.pop);
-        }, this);
+        this.pop.addEventListener(DateEvent.DATE, function (ev) { _this.popMethods(ev); }, this);
+    };
+    TaxPage.prototype.popMethods = function (ev) {
+        var type = ev._type;
+        switch (type) {
+            case 'home':
+                PageBus.gotoPage("index");
+                break;
+            case 'next':
+                console.log("next");
+                if (GameConfig.nowTax === GameConfig.maxTax) {
+                    GameConfig.maxTax++;
+                    GameConfig.nowTax = GameConfig.maxTax;
+                }
+                console.log(GameConfig.nowTax);
+                this.removeChildren();
+                GameConfig.state = 1;
+                this.addImage();
+                break;
+            case 'again':
+                console.log('again');
+                GameConfig.state = 1;
+                if (this.gameBody && this.gameBody.$parent)
+                    this.removeChild(this.gameBody);
+                this.gameInf.resetInf();
+                this.addGameBody();
+                break;
+            default:
+                return;
+        }
+        if (this.pop.$parent)
+            this.removeChild(this.pop);
     };
     TaxPage.prototype.addMonster = function () {
+        if (this.monsterClass && this.monsterClass.$parent)
+            this.removeChild(this.monsterClass);
         this.monsterClass = new MonsterClass(this.gameBody.x, this.gameBody.y, this.gameBody.width, this.gameBody.height);
         // 放到顶部
         this.addChild(this.monsterClass);
