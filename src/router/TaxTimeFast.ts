@@ -1,7 +1,7 @@
 /* 
-    无尽模式
+    时间模式
 **/
-class TaxInfinite extends egret.Sprite{
+class TaxTimerFast extends egret.Sprite{
     public width:number;
     public height:number;
     private image:egret.Bitmap = new egret.Bitmap();

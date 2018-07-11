@@ -264,7 +264,7 @@ class EntryGame extends egret.Sprite{
     }
     private meau() {
         var skins = ['ButtonModel1','ButtonModel2','ButtonMore','ButtonHelp']
-        var labelText = ['剧情模式','无尽模式','排行榜','道具说明']
+        var labelText = ['剧情模式','无尽模式','时间模式','排行榜']
         for(let i = 0;i<skins.length;i++) {
             let button = new eui.Button();
             button.touchEnabled = true;
@@ -303,13 +303,13 @@ class EntryGame extends egret.Sprite{
                 PageBus.gotoPage("infinite")
                 break;
             case 2:
-                this.onButtonClick();
                 break;
             case 3:
-                //this.saveData();
-                GameConfig.setHelpArr(1,0);
+                this.onButtonClick();
                 break;
             default:
+                //this.saveData();
+                GameConfig.setHelpArr(1,0);
                 return;
         }
     }

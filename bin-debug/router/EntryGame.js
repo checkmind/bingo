@@ -342,7 +342,7 @@ var EntryGame = (function (_super) {
     EntryGame.prototype.meau = function () {
         var _this = this;
         var skins = ['ButtonModel1', 'ButtonModel2', 'ButtonMore', 'ButtonHelp'];
-        var labelText = ['剧情模式', '无尽模式', '排行榜', '道具说明'];
+        var labelText = ['剧情模式', '无尽模式', '时间模式', '排行榜'];
         var _loop_1 = function (i) {
             var button = new eui.Button();
             button.touchEnabled = true;
@@ -385,13 +385,13 @@ var EntryGame = (function (_super) {
                 PageBus.gotoPage("infinite");
                 break;
             case 2:
-                this.onButtonClick();
                 break;
             case 3:
-                //this.saveData();
-                GameConfig.setHelpArr(1, 0);
+                this.onButtonClick();
                 break;
             default:
+                //this.saveData();
+                GameConfig.setHelpArr(1, 0);
                 return;
         }
     };

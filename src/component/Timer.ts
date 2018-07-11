@@ -31,9 +31,13 @@ class Timer extends eui.Group{
         clearInterval(this.timer);
         if(GameConfig.nowTax!=-1)
             this.time = GameConfig.taxConfig[GameConfig.nowTax].time;
+        else 
+            this.time = GameConfig.infiniteTime;
         this.changeTimer();
     }
     private changeTimer() {
+       let str = `时间：${this.time}`
+       this.taxNum.label = str;
        this.timer = setInterval(()=>{
            if(GameConfig.state != 1) {
                clearInterval(this.timer);

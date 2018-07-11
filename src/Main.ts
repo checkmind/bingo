@@ -127,6 +127,7 @@ class Main extends eui.UILayer {
         var entryGame:EntryGame = new EntryGame(stageW,stageH,this);
         let gameTax = new GameTax(stageW,stageH,this);
         let taxInfinite = new TaxInfinite(stageW,stageH);
+        let taxTimerFast = new TaxTimerFast(stageW,stageH);
         this.addChild(entryGame)
         PageBus.init(this);
         /* 放入路由 */
@@ -138,6 +139,8 @@ class Main extends eui.UILayer {
         PageBus.pushPage({page:gameTax,router:'gameTax'});
         // 无限模式
         PageBus.pushPage({page:taxInfinite,router:'infinite'});
+        //时间模式
+        PageBus.pushPage({page:taxTimerFast,router:'TaxTimerFast'})
         // 加载配置
         const objs = RES.getRes("tax_json");
         GameConfig.taxConfig = objs;

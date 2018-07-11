@@ -126,10 +126,12 @@ var GameConfig = (function () {
     GameConfig.bingosMax = 8;
     GameConfig.taxArr = ['一', '二', '三', '四', '五', '六', '七', '八'];
     // 无限模式初始化时间
-    GameConfig.infiniteTime = 10;
+    GameConfig.infiniteTime = 60;
     GameConfig.infiniteRow = 7;
     GameConfig.infiniteCol = 7;
     GameConfig.infiniteBingoType = 7;
+    // 速度
+    GameConfig.infiniteColV = 100;
     // 当前关卡
     GameConfig.nowTax = -1;
     // 当前最强关卡

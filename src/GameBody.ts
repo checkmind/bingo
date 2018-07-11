@@ -29,6 +29,8 @@ class GameBody extends egret.Sprite{
     // 游戏信息
     private gameInf
     private parents;
+    //消除速度
+    public speed;
     public constructor(width,height,gameInf,parents){
         super();
         this.width = width;
@@ -44,6 +46,7 @@ class GameBody extends egret.Sprite{
             this.row = GameConfig.infiniteRow
             this.col = GameConfig.infiniteCol
             this.bingoType = GameConfig.infiniteBingoType
+            this.speed = GameConfig.infiniteColV;
         }
         this.gameInf = gameInf;
         //this.x = (this.width - this.row*GameBody.childH) / 2
@@ -490,7 +493,7 @@ class GameBody extends egret.Sprite{
 		}
         setTimeout(()=>{
             this.checkFun();
-        },1000)
+        },this.speed)
     }
 
     /* 檢查游戲是否真的結束包括时间、熵值、无解 */

@@ -5,7 +5,7 @@ class Bingo extends egret.Sprite{
     public height:number = GameBody.childH;
     private image:egret.Bitmap = new egret.Bitmap();
     public type
-    public parents
+    public parents:GameBody
     public colors = [0x1ca5fc,0x295c9d,0x990000,0x7f0000]
     private choosed
     private borderShape:egret.Shape
@@ -89,8 +89,9 @@ class Bingo extends egret.Sprite{
         //egret.Tween.get( sky ).to( {width:0,height:0}, 600, egret.Ease.sineIn )
         
         this.addChild(sky);
+        let self = this;
         egret.Tween.get( sky, { onChange:funcChange, onChangeObj:sky } )
-            .to( {}, 1000, egret.Ease.sineIn ).call(fn);
+            .to( {}, self.parents.speed, egret.Ease.sineIn ).call(fn);
     }
    
    
@@ -124,16 +125,16 @@ class Bingo extends egret.Sprite{
             }
             switch(direction) {
                 case 1:
-                    egret.Tween.get( this ).to( {x:this.x,y:this.y-this.height}, 600, egret.Ease.sineIn ).call(fn);
+                    egret.Tween.get( this ).to( {x:this.x,y:this.y-this.height}, this.parents.speed, egret.Ease.sineIn ).call(fn);
                     break;
                 case 2:
-                    egret.Tween.get( this ).to( {x:this.x+this.width,y:this.y}, 600, egret.Ease.sineIn ).call(fn);
+                    egret.Tween.get( this ).to( {x:this.x+this.width,y:this.y}, this.parents.speed, egret.Ease.sineIn ).call(fn);
                     break;
                 case 3:
-                    egret.Tween.get( this ).to( {x:this.x,y:this.y+this.height}, 600, egret.Ease.sineIn ).call(fn);
+                    egret.Tween.get( this ).to( {x:this.x,y:this.y+this.height}, this.parents.speed, egret.Ease.sineIn ).call(fn);
                     break;
                 default:
-                    egret.Tween.get( this ).to( {x:this.x-this.width,y:this.y}, 600, egret.Ease.sineIn ).call(fn);
+                    egret.Tween.get( this ).to( {x:this.x-this.width,y:this.y}, this.parents.speed, egret.Ease.sineIn ).call(fn);
                     break;
             }
         });
@@ -145,7 +146,7 @@ class Bingo extends egret.Sprite{
         /*** 本示例关键代码段开始 ***/
         let distance = j * (this.height)
         egret.Tween.get( this )
-            .to( {x:this.x,y:distance}, 600, egret.Ease.sineIn );
+            .to( {x:this.x,y:distance}, this.parents.speed, egret.Ease.sineIn );
     }
     public chooseBingo() {
         if( this.choosed ) {

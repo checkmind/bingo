@@ -51,6 +51,7 @@ var GameBody = (function (_super) {
             _this.row = GameConfig.infiniteRow;
             _this.col = GameConfig.infiniteCol;
             _this.bingoType = GameConfig.infiniteBingoType;
+            _this.speed = GameConfig.infiniteColV;
         }
         _this.gameInf = gameInf;
         //this.x = (this.width - this.row*GameBody.childH) / 2
@@ -501,7 +502,7 @@ var GameBody = (function (_super) {
         }
         setTimeout(function () {
             _this.checkFun();
-        }, 1000);
+        }, this.speed);
     };
     /* 檢查游戲是否真的結束包括时间、熵值、无解 */
     GameBody.prototype.checkGameOver = function () {

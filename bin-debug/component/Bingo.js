@@ -153,7 +153,7 @@ var Bingo = (function (_super) {
     };
     Bingo.prototype.addBlackHole = function (fn) {
         return __awaiter(this, void 0, void 0, function () {
-            var sky, funcChange, iDirection;
+            var sky, funcChange, iDirection, self;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -180,8 +180,9 @@ var Bingo = (function (_super) {
                         iDirection = 1;
                         //egret.Tween.get( sky ).to( {width:0,height:0}, 600, egret.Ease.sineIn )
                         this.addChild(sky);
+                        self = this;
                         egret.Tween.get(sky, { onChange: funcChange, onChangeObj: sky })
-                            .to({}, 1000, egret.Ease.sineIn).call(fn);
+                            .to({}, self.parents.speed, egret.Ease.sineIn).call(fn);
                         return [2 /*return*/];
                 }
             });
@@ -216,16 +217,16 @@ var Bingo = (function (_super) {
             };
             switch (direction) {
                 case 1:
-                    egret.Tween.get(_this).to({ x: _this.x, y: _this.y - _this.height }, 600, egret.Ease.sineIn).call(fn);
+                    egret.Tween.get(_this).to({ x: _this.x, y: _this.y - _this.height }, _this.parents.speed, egret.Ease.sineIn).call(fn);
                     break;
                 case 2:
-                    egret.Tween.get(_this).to({ x: _this.x + _this.width, y: _this.y }, 600, egret.Ease.sineIn).call(fn);
+                    egret.Tween.get(_this).to({ x: _this.x + _this.width, y: _this.y }, _this.parents.speed, egret.Ease.sineIn).call(fn);
                     break;
                 case 3:
-                    egret.Tween.get(_this).to({ x: _this.x, y: _this.y + _this.height }, 600, egret.Ease.sineIn).call(fn);
+                    egret.Tween.get(_this).to({ x: _this.x, y: _this.y + _this.height }, _this.parents.speed, egret.Ease.sineIn).call(fn);
                     break;
                 default:
-                    egret.Tween.get(_this).to({ x: _this.x - _this.width, y: _this.y }, 600, egret.Ease.sineIn).call(fn);
+                    egret.Tween.get(_this).to({ x: _this.x - _this.width, y: _this.y }, _this.parents.speed, egret.Ease.sineIn).call(fn);
                     break;
             }
         });
@@ -234,7 +235,7 @@ var Bingo = (function (_super) {
         /*** 本示例关键代码段开始 ***/
         var distance = j * (this.height);
         egret.Tween.get(this)
-            .to({ x: this.x, y: distance }, 600, egret.Ease.sineIn);
+            .to({ x: this.x, y: distance }, this.parents.speed, egret.Ease.sineIn);
     };
     Bingo.prototype.chooseBingo = function () {
         if (this.choosed) {
