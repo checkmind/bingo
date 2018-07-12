@@ -189,6 +189,7 @@ var Main = (function (_super) {
         var entryGame = new EntryGame(stageW, stageH, this);
         var gameTax = new GameTax(stageW, stageH, this);
         var taxInfinite = new TaxInfinite(stageW, stageH);
+        var taxTimerFast = new TaxTimerFast(stageW, stageH);
         this.addChild(entryGame);
         PageBus.init(this);
         /* 放入路由 */
@@ -200,6 +201,8 @@ var Main = (function (_super) {
         PageBus.pushPage({ page: gameTax, router: 'gameTax' });
         // 无限模式
         PageBus.pushPage({ page: taxInfinite, router: 'infinite' });
+        //时间模式
+        PageBus.pushPage({ page: taxTimerFast, router: 'TaxTimerFast' });
         // 加载配置
         var objs = RES.getRes("tax_json");
         GameConfig.taxConfig = objs;

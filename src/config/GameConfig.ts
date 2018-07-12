@@ -66,7 +66,7 @@ class GameConfig{
         })
     }
     static initHelpArr() {
-        GameConfig.helperArr = [0,0,0,0];
+        GameConfig.helperArr = [10,0,0,0];
         if(!this["wx"])
             return;
         wx.getStorage({

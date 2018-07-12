@@ -34,6 +34,7 @@
 		"bin-debug/router/EntryGame.js",
 		"bin-debug/router/GameTax.js",
 		"bin-debug/router/TaxInfinite.js",
-		"bin-debug/router/TaxPage.js"
+		"bin-debug/router/TaxPage.js",
+		"bin-debug/router/TaxTimeFast.js"
 	]
 }

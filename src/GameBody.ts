@@ -41,6 +41,7 @@ class GameBody extends egret.Sprite{
             this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
             this.col = GameConfig.taxConfig[GameConfig.nowTax].col;
             this.bingoType = GameConfig.taxConfig[GameConfig.nowTax].bingoType;    
+            this.speed = 1000;
         } else {
             GameBody.childH = GameBody.childW =  (this.width - this.padding) / GameConfig.infiniteRow;
             this.row = GameConfig.infiniteRow

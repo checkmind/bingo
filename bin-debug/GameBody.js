@@ -45,6 +45,7 @@ var GameBody = (function (_super) {
             _this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
             _this.col = GameConfig.taxConfig[GameConfig.nowTax].col;
             _this.bingoType = GameConfig.taxConfig[GameConfig.nowTax].bingoType;
+            _this.speed = 1000;
         }
         else {
             GameBody.childH = GameBody.childW = (_this.width - _this.padding) / GameConfig.infiniteRow;
