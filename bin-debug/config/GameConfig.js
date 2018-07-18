@@ -69,7 +69,7 @@ var GameConfig = (function () {
         });
     };
     GameConfig.initHelpArr = function () {
-        GameConfig.helperArr = [10, 0, 0, 0];
+        GameConfig.helperArr = [10, 10, 10, 10, 10];
         if (!this["wx"])
             return;
         wx.getStorage({
@@ -120,13 +120,13 @@ var GameConfig = (function () {
     GameConfig.stepOnoff = true;
     GameConfig.maxStep = 20;
     /* 道具数目 */
-    GameConfig.helperArr = [10, 3, 4, 5];
-    GameConfig.helperSrc = ['1', 'hit', 'foot', 'change'];
+    GameConfig.helperArr = [10, 3, 4, 5, 2];
+    GameConfig.helperSrc = ['1', 'hit', 'shoot', 'change', 'change'];
     /* 星球种类 */
     GameConfig.bingosMax = 8;
     GameConfig.taxArr = ['一', '二', '三', '四', '五', '六', '七', '八'];
     // 无限模式初始化时间
-    GameConfig.infiniteTime = 60;
+    GameConfig.infiniteTime = 10;
     GameConfig.infiniteRow = 7;
     GameConfig.infiniteCol = 7;
     GameConfig.infiniteBingoType = 7;

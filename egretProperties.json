@@ -31,6 +31,9 @@
 			"name": "promise"
 		},
 		{
+			"name": "game"
+		},
+		{
 			"name": "particle",
 			"path": "C:/Users/duhao/Desktop/game/particle/libsrc/"
 		}

@@ -22,13 +22,13 @@ class GameConfig{
     static stepOnoff = true;
     static maxStep = 20;  
     /* 道具数目 */
-    static helperArr = [10,3,4,5];
-    static helperSrc = ['1','hit','foot','change']
+    static helperArr = [10,3,4,5,2];
+    static helperSrc = ['1','hit','shoot','change','change']
     /* 星球种类 */
     static bingosMax = 8;
     static taxArr = ['一','二','三','四','五','六','七','八'];
     // 无限模式初始化时间
-    static infiniteTime = 60;
+    static infiniteTime = 10;
     static infiniteRow = 7;
     static infiniteCol = 7;
     static infiniteBingoType = 7;
@@ -66,7 +66,7 @@ class GameConfig{
         })
     }
     static initHelpArr() {
-        GameConfig.helperArr = [10,0,0,0];
+        GameConfig.helperArr = [10,10,10,10,10];
         if(!this["wx"])
             return;
         wx.getStorage({

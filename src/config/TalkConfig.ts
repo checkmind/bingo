@@ -10,6 +10,7 @@ class TalkConfig{
                        '暂未解锁',
                        '暂未解锁',
                        '暂未解锁'];
+    static propTalk = ['道具1说明','道具2说明','道具3说明','道具4说明',]
     /* npc台词 */
     static talkInfinite = [{
         type: 1,

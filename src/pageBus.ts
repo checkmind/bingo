@@ -1,4 +1,5 @@
 /* 
+ * 页面路由
 **/
 class PageBus{
     static pages = {};

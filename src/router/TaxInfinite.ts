@@ -100,6 +100,7 @@ class TaxInfinite extends egret.Sprite{
                 GameConfig.state = 1;
                 if(this.gameBody && this.gameBody.$parent)
                     this.removeChild(this.gameBody)
+                console.log('初始化信息')
                 this.gameInf.resetInf();
                 this.addGameBody();
                 break;

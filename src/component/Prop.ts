@@ -9,14 +9,16 @@ class Prop extends egret.Sprite{
     public parents
     private choosed
     private text:egret.TextField
-    private propName = ['星球锁定','降维打击','道具三','道聚四']
+    private propName = ['星球锁定','降维打击','道具三','道聚四','道具五']
     private rect;
-    public constructor(x,y,type,parents){
+    private callback:Function;
+    public constructor(x,y,type,parents,callback){
         super();
         this.x = x;
         this.y = y;
         this.parents = parents
         this.type = type
+        this.callback = callback;
         console.log("type")
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawProps,this);
     }
@@ -56,6 +58,7 @@ class Prop extends egret.Sprite{
         this.touchEnabled = true;
         this.nowNum = GameConfig.helperArr[this.type]
         this.addEventListener("touchEnd",()=>{
+            this.callback();
             // 如果点的是当前道具
             if(this.type+1 === +GameConfig.helper) {
                 //移除方框
@@ -97,11 +100,20 @@ class Prop extends egret.Sprite{
     private propText:egret.TextField;
     private propTextMethods() {
         this.propText = new egret.TextField();
-        this.propText.width = this.stage.stageWidth - 40;
-        this.propText.y = this.y + 120;
-        this.propText.text = '选择一种星球，我们的武器库会销毁该种类的所有星球！';
+        this.propText.width = this.stage.stageWidth - 80;
+        this.propText.y = this.y + 130;
+        this.propText.text = TalkConfig.propTalk[this.type];
         this.propText.textAlign = 'center';
+        this.propText.size = 20;
+        this.propText.lineSpacing = 23;
+        this.propText.x = -this.x + 40;
         this.addChild(this.propText)
+    }
+    //初始化道具
+    public init() {
+        console.log("初始化")
+        GameConfig.helper = 0;
+        this.removeRect()
     }
     private removePropText() {
         if(this.propText && this.propText.$parent)

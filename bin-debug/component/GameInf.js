@@ -82,6 +82,38 @@ var GameInf = (function (_super) {
                         this.addTimer();
                         this.addStep();
                         this.addProps();
+                        //this.getProps(2);
+                        this.myCoin();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    // 当前资金
+    GameInf.prototype.myCoin = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var sprite, coin, height;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        sprite = new egret.Sprite();
+                        return [4 /*yield*/, GameConfig.createBitmapByName('coin.png')];
+                    case 1:
+                        coin = _a.sent();
+                        coin.width = coin.height = 50;
+                        height = this.height - coin.height - 50;
+                        coin.x = 40;
+                        coin.y = height;
+                        sprite.addChild(coin);
+                        this.coinText = new egret.TextField();
+                        this.coinText.width = 200;
+                        this.coinText.x = 100;
+                        this.coinText.y = height + 15;
+                        this.coinText.text = '99999金';
+                        this.coinText.textAlign = 'left';
+                        this.coinText.size = 20;
+                        sprite.addChild(this.coinText);
+                        this.addChild(sprite);
                         return [2 /*return*/];
                 }
             });
@@ -93,6 +125,9 @@ var GameInf = (function (_super) {
         this.updataScroe();
         if (GameConfig.nowTax == -1) {
             this.Timer.resetTime();
+            this.propsArr.map(function (obj) {
+                obj.init();
+            });
             return;
         }
         if (GameConfig.taxConfig[GameConfig.nowTax].time != 0)
@@ -154,8 +189,15 @@ var GameInf = (function (_super) {
         var maxType = GameConfig.helperArr.length;
         // 整个盒子的宽度是  
         var moveX = this.width / 4 - 100 * maxType / 4 - 20;
+        var self = this;
+        function clickButton() {
+            console.log(self);
+            self.propsArr.map(function (prop) {
+                prop.removeRect();
+            });
+        }
         for (var type = 0; type < maxType; type++) {
-            var props = new Prop(moveX + 60 * type, (790 + 40) / 2, type, this);
+            var props = new Prop(moveX + 60 * type, (790 + 40) / 2, type, this, clickButton);
             this.propsArr.push(props);
             this.addChild(props);
         }
