@@ -122,23 +122,45 @@ var TaxPage = (function (_super) {
         this.talkContent.init();
         this.addChild(this.talkContent);
     };
-    TaxPage.prototype.passTax = function () {
-        console.log('通关了');
-        this.addPopClass(0, '游戏通关', '挑战下一关吧');
-        if (this.gameBody && this.gameBody.$parent)
-            this.removeChild(this.gameBody);
-        // if(GameConfig.maxTax>=1) {
-        //     this.success = ()=>{
-        //         PageBus.gotoPage("gameTax");
-        //     }
-        //    return;
-        // }
-        // this.success = ()=>{
-        //     this.removeChildren();
-        //     this.addImage();
-        // }
+    TaxPage.prototype.addHore = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var img;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, GameConfig.createBitmapByName('success.png')];
+                    case 1:
+                        img = _a.sent();
+                        img.width = 300 * 1.7;
+                        img.height = 391 * 1.7;
+                        img.x = this.width / 2 - img.width / 2;
+                        img.y = this.height / 2 - img.height / 2;
+                        this.addChild(img);
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
-    TaxPage.prototype.gameOver = function () {
+    TaxPage.prototype.saveData = function () {
+    };
+    TaxPage.prototype.passTax = function (score) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                console.log('通关了');
+                if (GameConfig.nowTax === GameConfig.taxConfig.length - 1) {
+                    this.addHore();
+                    return [2 /*return*/];
+                }
+                platform.saveData(GameConfig.nowTax + 1);
+                this.addPopClass(0, "\u6311\u6218\u4E0B\u4E00\u5173\u5427\uFF0C\u5956\u52B1\u4F60" + score / 2 + "\u91D1", '游戏通关');
+                GameConfig.setCoin(score / 2);
+                this.gameInf.changeCoin();
+                if (this.gameBody && this.gameBody.$parent)
+                    this.removeChild(this.gameBody);
+                return [2 /*return*/];
+            });
+        });
+    };
+    TaxPage.prototype.gameOver = function (num) {
         console.log('结束了');
         this.addPopClass(1, '游戏失败了', '重新来一把吧');
         if (this.gameBody && this.gameBody.$parent)
@@ -161,35 +183,62 @@ var TaxPage = (function (_super) {
         this.pop.addEventListener(DateEvent.DATE, function (ev) { _this.popMethods(ev); }, this);
     };
     TaxPage.prototype.popMethods = function (ev) {
-        var type = ev._type;
-        switch (type) {
-            case 'home':
-                PageBus.gotoPage("index");
-                break;
-            case 'next':
-                console.log("next");
-                if (GameConfig.nowTax === GameConfig.maxTax) {
-                    GameConfig.maxTax++;
-                    GameConfig.nowTax = GameConfig.maxTax;
+        return __awaiter(this, void 0, void 0, function () {
+            var type, _a, res;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        type = ev._type;
+                        _a = type;
+                        switch (_a) {
+                            case 'home': return [3 /*break*/, 1];
+                            case 'next': return [3 /*break*/, 2];
+                            case 'again': return [3 /*break*/, 3];
+                            case 'share': return [3 /*break*/, 4];
+                        }
+                        return [3 /*break*/, 6];
+                    case 1:
+                        PageBus.gotoPage("index");
+                        return [3 /*break*/, 7];
+                    case 2:
+                        console.log("next");
+                        if (GameConfig.nowTax === GameConfig.maxTax) {
+                            GameConfig.maxTax++;
+                            GameConfig.nowTax = GameConfig.maxTax;
+                        }
+                        console.log(GameConfig.nowTax);
+                        this.removeChildren();
+                        GameConfig.state = 1;
+                        this.addImage();
+                        return [3 /*break*/, 7];
+                    case 3:
+                        console.log('again');
+                        GameConfig.state = 1;
+                        if (this.gameBody && this.gameBody.$parent)
+                            this.removeChild(this.gameBody);
+                        this.gameInf.resetInf();
+                        this.addGameBody();
+                        return [3 /*break*/, 7];
+                    case 4:
+                        console.log('分享');
+                        return [4 /*yield*/, platform.shareAppMessage()];
+                    case 5:
+                        res = _b.sent();
+                        console.log(res);
+                        if (res.success) {
+                            console.log('分享成功奖励1000金');
+                            GameConfig.setCoin(1000);
+                            this.gameInf.changeCoin();
+                        }
+                        return [3 /*break*/, 7];
+                    case 6: return [2 /*return*/];
+                    case 7:
+                        if (this.pop.$parent)
+                            this.removeChild(this.pop);
+                        return [2 /*return*/];
                 }
-                console.log(GameConfig.nowTax);
-                this.removeChildren();
-                GameConfig.state = 1;
-                this.addImage();
-                break;
-            case 'again':
-                console.log('again');
-                GameConfig.state = 1;
-                if (this.gameBody && this.gameBody.$parent)
-                    this.removeChild(this.gameBody);
-                this.gameInf.resetInf();
-                this.addGameBody();
-                break;
-            default:
-                return;
-        }
-        if (this.pop.$parent)
-            this.removeChild(this.pop);
+            });
+        });
     };
     TaxPage.prototype.addMonster = function () {
         if (this.monsterClass && this.monsterClass.$parent)

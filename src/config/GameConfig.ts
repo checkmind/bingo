@@ -5,6 +5,7 @@ class GameConfig{
     static domainUrl = 'https://qqqdu.oss-cn-beijing.aliyuncs.com/bingo/'
     /* 即使不能消除也能交换顺序 */
     static canChange = false;
+    static canChangeTime = 10;
     // GameBody 占据的y和高度
     static GameBodyY = 0;
     static GameBodyH = 0;
@@ -21,14 +22,18 @@ class GameConfig{
     /* 当前步数 */
     static stepOnoff = true;
     static maxStep = 20;  
+    // 金钱
+    static coin = 500;
+    static minCoin = 10000;
     /* 道具数目 */
-    static helperArr = [10,3,4,5,2];
-    static helperSrc = ['1','hit','shoot','change','change']
+    static helperArr = [1,1,1,1,1];
+    static helperPrice = [1000,1000,1000,1000,1000];
+    static helperSrc = ['1','hit','change','foot','time']
     /* 星球种类 */
     static bingosMax = 8;
     static taxArr = ['一','二','三','四','五','六','七','八'];
     // 无限模式初始化时间
-    static infiniteTime = 10;
+    static infiniteTime = 100;
     static infiniteRow = 7;
     static infiniteCol = 7;
     static infiniteBingoType = 7;
@@ -41,6 +46,7 @@ class GameConfig{
      
     // 第一关限定步数
     static taxConfig = [];
+    
     static generatorBingos() {
 
     }
@@ -56,7 +62,8 @@ class GameConfig{
             title: "大夏天的，来消除几颗星球吧",
             imageUrl: '',
             query: '22',
-            success() {
+            success(ev) {
+                console.log(ev)
             },
             fail(){
 
@@ -66,14 +73,39 @@ class GameConfig{
         })
     }
     static initHelpArr() {
-        GameConfig.helperArr = [10,10,10,10,10];
-        if(!this["wx"])
+        if(!window["wx"])
             return;
         wx.getStorage({
             key: "helpArr",
             success(ev) {
+                console.log('拿到数据了')
+                console.log(ev.data);
                 let data = ev.data;
-                GameConfig.helperArr = data.split("")
+                if(data)
+                    GameConfig.helperArr = [11,10,10,10,10]
+                    //GameConfig.helperArr = data.split("")
+                else   
+                    GameConfig.helperArr = [10,10,10,10,10]
+            },
+            fail() {
+
+            },
+            complete() {
+
+            }
+        })
+    }
+    static initCoin() {
+        if(!this["wx"])
+            return;
+        wx.getStorage({
+            key: "coin",
+            success(ev) {
+                let data = ev.data;
+                if(!data)
+                    GameConfig.coin = 1000
+                else 
+                    GameConfig.coin = data;
             },
             fail() {
 
@@ -84,7 +116,7 @@ class GameConfig{
         })
     }
     static setHelpArr(num,index) {
-        GameConfig.helperArr[index] = num;
+        GameConfig.helperArr[index] += num;
         let str = GameConfig.helperArr.join("");
         if(!this["wx"])
             return;
@@ -96,6 +128,35 @@ class GameConfig{
             },
             fail(){},
             complete(){}
+        })
+    }
+    static setCoin(num) {
+        GameConfig.coin += num;
+        if(!this["wx"])
+            return;
+        wx.setStorage({
+            key: "coin",
+            data: GameConfig.coin,
+            success() {
+                console.log("set success");
+            },
+            fail(){},
+            complete(){}
+        })
+    }
+    static getCoin() {
+        wx.getStorage({
+            key: "coin",
+            success(ev) {
+                let data = ev.data;
+                GameConfig.coin = +data;
+            },
+            fail() {
+
+            },
+            complete() {
+
+            }
         })
     }
     public constructor(){

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?> 
-<e:Skin class="skins.TextSkin" minHeight="50" minWidth="100" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="275" height="346"> 
+<e:Skin class="skins.ImageSkin" minHeight="50" minWidth="100" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="275" height="346"> 
      <e:Image id='button' width="274.73" height="344.08" scale9Grid="1,3,8,8"
  left="0" top="-1" anchorOffsetX="0" anchorOffsetY="0" source="resource/assets/tax.png"/>
 	<e:Label id="labelDisplay" top="6" bottom="307" left="15" right="22" size="20" fontFamily="KaiTi" verticalAlign="middle" textAlign="center" text="第一宇宙"  textColor="0x0a0707" bold="true"/>

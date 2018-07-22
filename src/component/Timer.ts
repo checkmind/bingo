@@ -35,6 +35,11 @@ class Timer extends eui.Group{
             this.time = GameConfig.infiniteTime;
         this.changeTimer();
     }
+    public setTime(num) {
+        if(this.time)
+            this.time += num;
+        this.taxNum.label = `时间：${this.time--}`;
+    }
     private changeTimer() {
        let str = `时间：${this.time}`
        this.taxNum.label = str;

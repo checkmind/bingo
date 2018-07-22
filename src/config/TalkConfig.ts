@@ -10,7 +10,11 @@ class TalkConfig{
                        '暂未解锁',
                        '暂未解锁',
                        '暂未解锁'];
-    static propTalk = ['道具1说明','道具2说明','道具3说明','道具4说明',]
+    static propTalk = [ '消灭指定的所有星球类型',
+                        '消灭指定星球及其周围的八颗星球',
+                        `当前你可以交换任意两个星球的位置，持续${GameConfig.canChangeTime}s`,
+                        '当前增加五步，限关卡模式',
+                        '使用时间机器，增加10s时间',]
     /* npc台词 */
     static talkInfinite = [{
         type: 1,

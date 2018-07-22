@@ -8,6 +8,8 @@ declare interface Platform {
 
     getUserInfo(): Promise<any>;
 
+    saveData(data): Promise<any>
+
     login(): Promise<any>
     
     createInnerAudioContext() :Promise<any>   
@@ -15,6 +17,10 @@ declare interface Platform {
     playClearMusic() :Promise<any>
 
     playButtonMusic() :Promise<any>
+
+    shareAppMessage(): Promise<any>
+
+    
 }
 class DebugPlatform implements Platform {
     async getUserInfo() {
@@ -23,7 +29,11 @@ class DebugPlatform implements Platform {
     async login() {
 
     }
+    // 分享小程序
     async shareAppMessage() {
+
+    }
+    async saveData(data) {
 
     }
     async createInnerAudioContext () {

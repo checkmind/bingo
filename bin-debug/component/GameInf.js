@@ -102,22 +102,28 @@ var GameInf = (function (_super) {
                         coin = _a.sent();
                         coin.width = coin.height = 50;
                         height = this.height - coin.height - 50;
-                        coin.x = 40;
-                        coin.y = height;
+                        coin.x = 0;
+                        coin.y = 0;
                         sprite.addChild(coin);
                         this.coinText = new egret.TextField();
                         this.coinText.width = 200;
-                        this.coinText.x = 100;
-                        this.coinText.y = height + 15;
+                        this.coinText.x = 60;
+                        this.coinText.y = 0 + 15;
                         this.coinText.text = '99999金';
                         this.coinText.textAlign = 'left';
                         this.coinText.size = 20;
+                        sprite.x = 40;
+                        sprite.y = height + 80;
                         sprite.addChild(this.coinText);
                         this.addChild(sprite);
+                        this.changeCoin();
                         return [2 /*return*/];
                 }
             });
         });
+    };
+    GameInf.prototype.changeCoin = function () {
+        this.coinText.text = GameConfig.coin + "\u91D1";
     };
     // 重置各种 游戏信息
     GameInf.prototype.resetInf = function () {
@@ -190,10 +196,11 @@ var GameInf = (function (_super) {
         // 整个盒子的宽度是  
         var moveX = this.width / 4 - 100 * maxType / 4 - 20;
         var self = this;
-        function clickButton() {
-            console.log(self);
-            self.propsArr.map(function (prop) {
-                prop.removeRect();
+        function clickButton(index) {
+            self.propsArr.forEach(function (prop, key) {
+                if (2 !== key) {
+                    prop.removeRect();
+                }
             });
         }
         for (var type = 0; type < maxType; type++) {
@@ -259,11 +266,18 @@ var GameInf = (function (_super) {
         this.taxNum.label = "\u71B5\u503C\uFF1A" + this.myScore;
     };
     /* 更新步数 */
-    GameInf.prototype.updataStep = function () {
+    GameInf.prototype.updataStep = function (step) {
         if (GameConfig.nowTax === -1)
             return;
-        this.maxStep--;
+        if (!step)
+            this.maxStep--;
+        else
+            this.maxStep += step;
         this.StepClass && this.StepClass.changeStep(this.maxStep);
+    };
+    /* 设置时间 */
+    GameInf.prototype.setTime = function (num) {
+        this.Timer.setTime(num);
     };
     return GameInf;
 }(egret.Sprite));

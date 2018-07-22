@@ -50,6 +50,40 @@ var EntryGame = (function (_super) {
     function EntryGame(width, height, parent) {
         var _this = _super.call(this) || this;
         _this.image = new egret.Bitmap();
+        /**
+         * 创建场景界面
+         * Create scene interface
+         */
+        // protected createGameScene(): void {
+        //     this.btnClose = new eui.Button();
+        //     this.btnClose.label = "btnClose!";
+        //     this.btnClose.y = 35;
+        //     this.btnClose.horizontalCenter = 0;
+        //     this.addChild(this.btnClose);
+        //     this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
+        //     // /**
+        //     //  * 当前按钮会退出小游戏线程
+        //     //  */
+        //     // let close = new eui.Button();
+        //     // close.y = 135;
+        //     // close.label = '退出';
+        //     // this.addChild(close);
+        //     // close.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+        //     //     wx.exitMiniProgram({
+        //     //         success: (res) => {
+        //     //             console.log('退出成功', res);
+        //     //         },
+        //     //         fail: (err) => {
+        //     //             console.log('退出失败', err);
+        //     //         },
+        //     //         complete: (res) => {
+        //     //         }
+        //     //     })
+        //     // }, this);
+        //     this.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
+        //         console.log('输出主域点击事件');
+        //     }, this)
+        // }
         _this.isdisplay = false;
         _this.x = 0;
         _this.y = 0;
@@ -79,40 +113,6 @@ var EntryGame = (function (_super) {
                 }
             });
         });
-    };
-    /**
-     * 创建场景界面
-     * Create scene interface
-     */
-    EntryGame.prototype.createGameScene = function () {
-        this.btnClose = new eui.Button();
-        this.btnClose.label = "btnClose!";
-        this.btnClose.y = 35;
-        this.btnClose.horizontalCenter = 0;
-        this.addChild(this.btnClose);
-        this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
-        // /**
-        //  * 当前按钮会退出小游戏线程
-        //  */
-        // let close = new eui.Button();
-        // close.y = 135;
-        // close.label = '退出';
-        // this.addChild(close);
-        // close.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-        //     wx.exitMiniProgram({
-        //         success: (res) => {
-        //             console.log('退出成功', res);
-        //         },
-        //         fail: (err) => {
-        //             console.log('退出失败', err);
-        //         },
-        //         complete: (res) => {
-        //         }
-        //     })
-        // }, this);
-        this.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
-            console.log('输出主域点击事件');
-        }, this);
     };
     /**
      * 关闭按钮和分享按钮
@@ -239,6 +239,11 @@ var EntryGame = (function (_super) {
                     case 3:
                         //发送消息
                         console.log("发送消息");
+                        openDataContext.postMessage({
+                            isDisplay: this.isdisplay,
+                            text: 'hello',
+                            year: (new Date()).getFullYear()
+                        });
                         return [2 /*return*/];
                 }
             });
@@ -390,7 +395,6 @@ var EntryGame = (function (_super) {
                 this.onButtonClick();
                 break;
             default:
-                //this.saveData();
                 GameConfig.setHelpArr(1, 0);
                 return;
         }

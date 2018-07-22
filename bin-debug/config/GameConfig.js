@@ -60,7 +60,8 @@ var GameConfig = (function () {
             title: "大夏天的，来消除几颗星球吧",
             imageUrl: '',
             query: '22',
-            success: function () {
+            success: function (ev) {
+                console.log(ev);
             },
             fail: function () {
             },
@@ -69,14 +70,36 @@ var GameConfig = (function () {
         });
     };
     GameConfig.initHelpArr = function () {
-        GameConfig.helperArr = [10, 10, 10, 10, 10];
-        if (!this["wx"])
+        if (!window["wx"])
             return;
         wx.getStorage({
             key: "helpArr",
             success: function (ev) {
+                console.log('拿到数据了');
+                console.log(ev.data);
                 var data = ev.data;
-                GameConfig.helperArr = data.split("");
+                if (data)
+                    GameConfig.helperArr = [11, 10, 10, 10, 10];
+                else
+                    GameConfig.helperArr = [10, 10, 10, 10, 10];
+            },
+            fail: function () {
+            },
+            complete: function () {
+            }
+        });
+    };
+    GameConfig.initCoin = function () {
+        if (!this["wx"])
+            return;
+        wx.getStorage({
+            key: "coin",
+            success: function (ev) {
+                var data = ev.data;
+                if (!data)
+                    GameConfig.coin = 1000;
+                else
+                    GameConfig.coin = data;
             },
             fail: function () {
             },
@@ -85,7 +108,7 @@ var GameConfig = (function () {
         });
     };
     GameConfig.setHelpArr = function (num, index) {
-        GameConfig.helperArr[index] = num;
+        GameConfig.helperArr[index] += num;
         var str = GameConfig.helperArr.join("");
         if (!this["wx"])
             return;
@@ -99,10 +122,38 @@ var GameConfig = (function () {
             complete: function () { }
         });
     };
+    GameConfig.setCoin = function (num) {
+        GameConfig.coin += num;
+        if (!this["wx"])
+            return;
+        wx.setStorage({
+            key: "coin",
+            data: GameConfig.coin,
+            success: function () {
+                console.log("set success");
+            },
+            fail: function () { },
+            complete: function () { }
+        });
+    };
+    GameConfig.getCoin = function () {
+        wx.getStorage({
+            key: "coin",
+            success: function (ev) {
+                var data = ev.data;
+                GameConfig.coin = +data;
+            },
+            fail: function () {
+            },
+            complete: function () {
+            }
+        });
+    };
     //static domainUrl = 'http://cangnanshi.com/bingo/'
     GameConfig.domainUrl = 'https://qqqdu.oss-cn-beijing.aliyuncs.com/bingo/';
     /* 即使不能消除也能交换顺序 */
     GameConfig.canChange = false;
+    GameConfig.canChangeTime = 10;
     // GameBody 占据的y和高度
     GameConfig.GameBodyY = 0;
     GameConfig.GameBodyH = 0;
@@ -119,14 +170,18 @@ var GameConfig = (function () {
     /* 当前步数 */
     GameConfig.stepOnoff = true;
     GameConfig.maxStep = 20;
+    // 金钱
+    GameConfig.coin = 500;
+    GameConfig.minCoin = 10000;
     /* 道具数目 */
-    GameConfig.helperArr = [10, 3, 4, 5, 2];
-    GameConfig.helperSrc = ['1', 'hit', 'shoot', 'change', 'change'];
+    GameConfig.helperArr = [1, 1, 1, 1, 1];
+    GameConfig.helperPrice = [1000, 1000, 1000, 1000, 1000];
+    GameConfig.helperSrc = ['1', 'hit', 'change', 'foot', 'time'];
     /* 星球种类 */
     GameConfig.bingosMax = 8;
     GameConfig.taxArr = ['一', '二', '三', '四', '五', '六', '七', '八'];
     // 无限模式初始化时间
-    GameConfig.infiniteTime = 10;
+    GameConfig.infiniteTime = 100;
     GameConfig.infiniteRow = 7;
     GameConfig.infiniteCol = 7;
     GameConfig.infiniteBingoType = 7;

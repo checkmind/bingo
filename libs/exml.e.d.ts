@@ -11,10 +11,30 @@ declare module skins{
 	}
 }
 declare module skins{
-	class TextSkin extends eui.Skin{
+	class ImageSkin extends eui.Skin{
 	}
 }
 declare module skins{
 	class TalkSkin extends eui.Skin{
+	}
+}
+declare module skins{
+	class TalkSkin2 extends eui.Skin{
+	}
+}
+declare module skins{
+	class TextSkin extends eui.Skin{
+	}
+}
+declare module skins{
+	class timerSkin extends eui.Skin{
+	}
+}
+declare module skins{
+	class TitleSkin extends eui.Skin{
+	}
+}
+declare module skins{
+	class ToastSkin extends eui.Skin{
 	}
 }

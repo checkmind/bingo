@@ -34,9 +34,7 @@ class TaxPage extends egret.Sprite{
         var system = new particle.GravityParticleSystem(RES.getRes("newParticle_png"), RES.getRes("newParticle_json"));
         this.addChild(system);
         system.start();
-        
-        this.addTalk();
-        
+        this.addTalk();        
     }
     
     private async addStar() {
@@ -75,9 +73,27 @@ class TaxPage extends egret.Sprite{
        this.talkContent.init();
        this.addChild(this.talkContent)  
     }
-    private passTax() {
+    private async addHore() {
+        let img = await GameConfig.createBitmapByName('success.png');
+        img.width = 300*1.7;
+        img.height = 391*1.7;
+        img.x = this.width/2-img.width/2;
+        img.y = this.height/2 - img.height/2;
+        this.addChild(img);
+    }
+    private saveData() {
+        
+    }
+    private async passTax(score) {
         console.log('通关了')
-        this.addPopClass(0,'游戏通关','挑战下一关吧');
+        if(GameConfig.nowTax === GameConfig.taxConfig.length-1) {
+            this.addHore();
+            return;
+        }
+        platform.saveData(GameConfig.nowTax+1)
+        this.addPopClass(0,`挑战下一关吧，奖励你${score/2}金`,'游戏通关');
+        GameConfig.setCoin(score/2);
+        this.gameInf.changeCoin()
         if(this.gameBody && this.gameBody.$parent)
             this.removeChild(this.gameBody);
         // if(GameConfig.maxTax>=1) {
@@ -91,7 +107,7 @@ class TaxPage extends egret.Sprite{
         //     this.addImage();
         // }
     }
-    private gameOver() {
+    private gameOver(num?:Number) {
         console.log('结束了')
         this.addPopClass(1,'游戏失败了','重新来一把吧');
         if(this.gameBody && this.gameBody.$parent)
@@ -114,13 +130,14 @@ class TaxPage extends egret.Sprite{
         this.addChild(this.pop);
         this.pop.addEventListener(DateEvent.DATE,(ev)=>{this.popMethods(ev)},this)
     }
-    private popMethods(ev) {
+    private async popMethods(ev) {
         let type = ev._type
         switch(type){
             case 'home':
                 PageBus.gotoPage("index");
                 break;
             case 'next':
+                
                 console.log("next")
                 if(GameConfig.nowTax===GameConfig.maxTax){
                     GameConfig.maxTax++;
@@ -138,6 +155,16 @@ class TaxPage extends egret.Sprite{
                     this.removeChild(this.gameBody)
                 this.gameInf.resetInf();
                 this.addGameBody();
+                break;
+            case 'share':
+                console.log('分享')
+                let res = await platform.shareAppMessage();
+                console.log(res);
+                if(res.success) {
+                    console.log('分享成功奖励1000金')
+                    GameConfig.setCoin(1000);
+                    this.gameInf.changeCoin()
+                }
                 break;
             default:
                 return;

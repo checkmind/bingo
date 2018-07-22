@@ -1,1 +1,96 @@
-[{"row":5,"checkType":"uncommon","col":5,"uncommon":4,"matrix":[],"myScore":1000,"bingoType":6,"step":0,"time":50,"monster":true,"darkTime":false},{"row":3,"col":3,"checkType":"uncommon","myScore":100,"step":0,"time":60,"bingoType":4,"uncommon":0},{"row":5,"col":5,"checkType":"uncommon","darkTime":10,"myScore":100,"bingoType":4,"step":20,"time":0},{"row":6,"checkType":"uncommon","col":6,"myScore":100,"bingoType":4,"step":20,"time":0},{"row":7,"checkType":"uncommon","col":7,"matrix":[],"myScore":100,"bingoType":4,"step":0,"time":60},{"row":7,"checkType":"uncommon","col":7,"matrix":[],"myScore":100,"bingoType":4,"step":0,"time":60,"monster":true},{"row":7,"checkType":"uncommon","col":7,"matrix":[],"myScore":100,"bingoType":4,"step":0,"time":60},{"row":8,"checkType":"uncommon","col":8,"matrix":[],"myScore":100,"bingoType":5,"step":0,"time":60},{"row":8,"checkType":"uncommon","col":10,"matrix":[],"myScore":100,"bingoType":6,"step":0,"time":50,"monster":true}]
+[
+    {
+        "row": 5,
+        "checkType": "uncommon",
+        "col": 5,
+        "uncommon": 4,
+        "matrix": [],
+        "myScore": 1000,
+        "bingoType": 6,
+        "step": 0,
+        "time": 50,
+        "monster": true,
+        "darkTime": false
+    },
+    {
+        "row": 3,
+        "col": 3,
+        "checkType": "uncommon",
+        "myScore": 100,
+        "step": 0,
+        "time": 60,
+        "bingoType": 4,
+        "uncommon": 0
+    },
+    {
+        "row": 5,
+        "col": 5,
+        "checkType": "uncommon",
+        "darkTime": 10,
+        "myScore": 100,
+        "bingoType": 4,
+        "step": 20,
+        "time": 0
+    },
+    {
+        "row": 6,
+        "checkType": "uncommon",
+        "col": 6,
+        "myScore": 100,
+        "bingoType": 4,
+        "step": 20,
+        "time": 0
+    },
+    {
+        "row": 7,
+        "checkType": "uncommon",
+        "col": 7,
+        "matrix": [],
+        "myScore": 100,
+        "bingoType": 4,
+        "step": 0,
+        "time": 60
+    },
+    {
+        "row": 7,
+        "checkType": "uncommon",
+        "col": 7,
+        "matrix": [],
+        "myScore": 100,
+        "bingoType": 4,
+        "step": 0,
+        "time": 60,
+        "monster": true
+    },
+    {
+        "row": 7,
+        "checkType": "uncommon",
+        "col": 7,
+        "matrix": [],
+        "myScore": 100,
+        "bingoType": 4,
+        "step": 0,
+        "time": 60
+    },
+    {
+        "row": 8,
+        "checkType": "uncommon",
+        "col": 8,
+        "matrix": [],
+        "myScore": 100,
+        "bingoType": 5,
+        "step": 0,
+        "time": 60
+    },
+    {
+        "row": 8,
+        "checkType": "uncommon",
+        "col": 10,
+        "matrix": [],
+        "myScore": 100,
+        "bingoType": 6,
+        "step": 0,
+        "time": 50,
+        "monster": true
+    }
+]

@@ -34,41 +34,41 @@ class EntryGame extends egret.Sprite{
      * 创建场景界面
      * Create scene interface
      */
-    protected createGameScene(): void {
+    // protected createGameScene(): void {
 
-        this.btnClose = new eui.Button();
-        this.btnClose.label = "btnClose!";
-        this.btnClose.y = 35;
-        this.btnClose.horizontalCenter = 0;
-        this.addChild(this.btnClose);
-        this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
+    //     this.btnClose = new eui.Button();
+    //     this.btnClose.label = "btnClose!";
+    //     this.btnClose.y = 35;
+    //     this.btnClose.horizontalCenter = 0;
+    //     this.addChild(this.btnClose);
+    //     this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
 
-        // /**
-        //  * 当前按钮会退出小游戏线程
-        //  */
-        // let close = new eui.Button();
-        // close.y = 135;
-        // close.label = '退出';
-        // this.addChild(close);
+    //     // /**
+    //     //  * 当前按钮会退出小游戏线程
+    //     //  */
+    //     // let close = new eui.Button();
+    //     // close.y = 135;
+    //     // close.label = '退出';
+    //     // this.addChild(close);
 
-        // close.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-        //     wx.exitMiniProgram({
-        //         success: (res) => {
-        //             console.log('退出成功', res);
-        //         },
-        //         fail: (err) => {
-        //             console.log('退出失败', err);
-        //         },
-        //         complete: (res) => {
+    //     // close.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+    //     //     wx.exitMiniProgram({
+    //     //         success: (res) => {
+    //     //             console.log('退出成功', res);
+    //     //         },
+    //     //         fail: (err) => {
+    //     //             console.log('退出失败', err);
+    //     //         },
+    //     //         complete: (res) => {
 
-        //         }
-        //     })
-        // }, this);
+    //     //         }
+    //     //     })
+    //     // }, this);
 
-        this.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
-            console.log('输出主域点击事件');
-        }, this)
-    }
+    //     this.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => {
+    //         console.log('输出主域点击事件');
+    //     }, this)
+    // }
 
     private isdisplay = false;
 
@@ -188,11 +188,11 @@ class EntryGame extends egret.Sprite{
         }
         //发送消息
         console.log("发送消息")
-        // openDataContext.postMessage({
-        //     isDisplay: this.isdisplay,
-        //     text: 'hello',
-        //     year: (new Date()).getFullYear()
-        // });
+        openDataContext.postMessage({
+            isDisplay: this.isdisplay,
+            text: 'hello',
+            year: (new Date()).getFullYear()
+        });
     }
     private addNPC() {
         let sky = this.createBitmapByName("npc_1_png",256,282);
@@ -308,7 +308,6 @@ class EntryGame extends egret.Sprite{
                 this.onButtonClick();
                 break;
             default:
-                //this.saveData();
                 GameConfig.setHelpArr(1,0);
                 return;
         }

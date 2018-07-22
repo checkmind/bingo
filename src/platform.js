@@ -36,17 +36,69 @@ class WxgamePlatform {
     createInnerAudioContext () {
         let music =  wx.createInnerAudioContext()
         music.src = 'http://cangnanshi.com/bingo/music.mp3'
-        music.play();
+        //music.play();
     }
     playClearMusic() {
         let music =  wx.createInnerAudioContext()
         music.src = 'http://cangnanshi.com/bingo/clear.mp3'
-        music.play();
+        //music.play();
     }
     playButtonMusic() {
         let music =  wx.createInnerAudioContext()
         music.src = 'http://cangnanshi.com/bingo/button.mp3'
-        music.play();
+        //music.play();
+    }
+    saveData(data) {
+        console.log('数据是')
+        console.log(data);
+        let openDataContext = wx.getOpenDataContext();
+        openDataContext.postMessage({
+            array: [data],
+            type: 'save',
+            year: (new Date()).getFullYear()
+        });
+    }
+    shareAppMessage() {
+        wx.shareAppMessage({
+            title: "大夏天的，来消除几颗星球吧",
+            imageUrl: '',
+            query: '22',
+            success() {
+            },
+            fail(){
+
+            },
+            complete() {
+            }
+        })
+    }
+
+    openDataContext = new WxgameOpenDataContext();
+}
+
+class WxgameOpenDataContext {
+
+    createDisplayObject(type,width,height){
+        const bitmapdata = new egret.BitmapData(sharedCanvas);
+        bitmapdata.$deleteSource = false;
+        const texture = new egret.Texture();
+        texture._setBitmapData(bitmapdata);
+        const bitmap = new egret.Bitmap(texture);
+        bitmap.width = width;
+        bitmap.height = height;
+
+        egret.startTick((timeStarmp) => {
+            egret.WebGLUtils.deleteWebGLTexture(bitmapdata.webGLTexture);
+            bitmapdata.webGLTexture = null;
+            return false;
+        }, this);
+        return bitmap;
+    }
+
+
+    postMessage(data){
+        const openDataContext = wx.getOpenDataContext();
+        openDataContext.postMessage(data);
     }
 }
 

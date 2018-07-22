@@ -15,6 +15,7 @@ class GameInf extends egret.Sprite{
     private StepClass:StepClass;
     private propsArr = [];
     public backToPage = '';
+    private coinText:egret.TextField;
     public constructor(width,height,parent){
         super();
         this.x = 0;
@@ -39,27 +40,34 @@ class GameInf extends egret.Sprite{
         this.addProps();
         //this.getProps(2);
         this.myCoin()
+        
     }
-    private coinText:egret.TextField;
+    
     // 当前资金
     private async myCoin() {
         var sprite = new egret.Sprite();
         var coin = await GameConfig.createBitmapByName('coin.png')
         coin.width = coin.height = 50
         let height = this.height - coin.height - 50;
-        coin.x = 40;
-        coin.y = height;
+        coin.x = 0;
+        coin.y = 0;
         sprite.addChild(coin);
         this.coinText = new egret.TextField();
         this.coinText.width = 200;
-        this.coinText.x = 100;
-        this.coinText.y = height + 15;
+        this.coinText.x = 60;
+        this.coinText.y = 0 + 15;
         this.coinText.text = '99999金';
         this.coinText.textAlign = 'left';
         
         this.coinText.size = 20;
+        sprite.x = 40;
+        sprite.y = height + 80;
         sprite.addChild(this.coinText);
         this.addChild(sprite);
+        this.changeCoin()
+    }
+    public changeCoin() {
+        this.coinText.text = `${GameConfig.coin}金`
     }
     // 重置各种 游戏信息
     public resetInf() {
@@ -126,10 +134,11 @@ class GameInf extends egret.Sprite{
         // 整个盒子的宽度是  
         let moveX = this.width/4 - 100*maxType/4 - 20
         let self = this;
-        function clickButton() {
-            console.log(self)
-            self.propsArr.map((prop)=>{
-                prop.removeRect()
+        function clickButton(index) {
+            self.propsArr.forEach((prop, key)=>{
+                if(2 !== key) {
+                    prop.removeRect()
+                }
             })
         }
         for(let type = 0;type<maxType;type++) {
@@ -184,10 +193,17 @@ class GameInf extends egret.Sprite{
         this.taxNum.label =`熵值：${this.myScore}`;
     }
     /* 更新步数 */
-    private updataStep() {
+    public updataStep(step?:number) {
         if(GameConfig.nowTax===-1)
             return;
-        this.maxStep--;
+        if(!step)
+            this.maxStep--;
+        else
+            this.maxStep += step;
         this.StepClass&&this.StepClass.changeStep(this.maxStep);
+    }
+    /* 设置时间 */
+    public setTime(num) {
+        this.Timer.setTime(num);
     }
 }

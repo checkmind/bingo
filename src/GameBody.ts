@@ -41,7 +41,7 @@ class GameBody extends egret.Sprite{
             this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
             this.col = GameConfig.taxConfig[GameConfig.nowTax].col;
             this.bingoType = GameConfig.taxConfig[GameConfig.nowTax].bingoType;    
-            this.speed = 1000;
+            this.speed = 500;
         } else {
             GameBody.childH = GameBody.childW =  (this.width - this.padding) / GameConfig.infiniteRow;
             this.row = GameConfig.infiniteRow
@@ -58,7 +58,8 @@ class GameBody extends egret.Sprite{
         //this.y = 100;
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawDoors,this);
         this.touchEnabled = true;
-        this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.mouseDown, this);
+        this.addEventListener(egret.TouchEvent.TOUCH_END, this.mouseDown, this);
+        //this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.mouseDown, this);
     }
     private initWinnerConfig() {
         let type = GameConfig.taxConfig[GameConfig.nowTax].checkType
@@ -99,23 +100,27 @@ class GameBody extends egret.Sprite{
             return;
         } 
         
-        if(GameConfig.helperArr[GameConfig.helper-1]>=1)
-            GameConfig.helperArr[GameConfig.helper-1] -= 1
-        this.gameInf.propsArr[GameConfig.helper-1].setNum();
+        if(GameConfig.helperArr[GameConfig.helper-1]>=1) {
+            GameConfig.setHelpArr(-1,GameConfig.helper-1);
+        }
+            
         switch(GameConfig.helper){
             // 清除相同的所有类别
             case 1:
                 this.clearCommonBingo(x,y);
+                this.gameInf.propsArr[GameConfig.helper-1].setNum();
                 break;
             // 清除九宫格 
             case 2:
                 this.clearHelper(x,y);
+                this.gameInf.propsArr[GameConfig.helper-1].setNum();
                 break;
             default:
-                break;
+                return true;
         }
         this.checkFun();
         GameConfig.helper = 0;
+        return false
     }
     // 道具1
     private clearHelper(x,y) {
@@ -513,7 +518,7 @@ class GameBody extends egret.Sprite{
         }
         if(GameConfig.nowTax!==-1 && this.gameInf.myScore>=GameConfig.taxConfig[GameConfig.nowTax].myScore) {
             console.log("通关了")
-            this.parents.passTax();
+            this.parents.passTax(this.gameInf.myScore);
             GameConfig.state = 2;
             return;
         }

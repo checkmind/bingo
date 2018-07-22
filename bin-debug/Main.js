@@ -176,6 +176,8 @@ var Main = (function (_super) {
         var stageH = this.stage.stageHeight;
         /* 得到道具数据 */
         GameConfig.initHelpArr();
+        /* 得到金钱设置 */
+        GameConfig.initCoin();
         /* 背景色设置 */
         var shape = new egret.Shape;
         shape.graphics.beginFill(0x000000, 1);

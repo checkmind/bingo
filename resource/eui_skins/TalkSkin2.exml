@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?> 
-<e:Skin class="skins.TalkSkin" minHeight="50" minWidth="100" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="700" height="1300">
+<e:Skin class="skins.TalkSkin2" minHeight="50" minWidth="100" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="700" height="1300">
 	<e:Label id="labelDisplay3" top="-1" bottom="-106" left="0" right="1" size="25" fontFamily="KaiTi" verticalAlign="top" textAlign="left" text="" anchorOffsetX="0" anchorOffsetY="0" wordWrap="true" textColor="0x112663" bold="true" background="true" backgroundColor="0x070707" border="true" alpha="0.1" borderColor="0xf9f5f4"/> 
 
     <e:Label id="labelDisplay2" top="1118" bottom="1" left="-6" right="-44" size="25" fontFamily="KaiTi" verticalAlign="top" textAlign="left" text=""   anchorOffsetX="0" anchorOffsetY="0" wordWrap="true" textColor="0x112663" bold="true" background="true" backgroundColor="0xe0dbdb" border="true" alpha="1" borderColor="0xf9f5f4" height="200"/>

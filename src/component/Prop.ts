@@ -9,9 +9,46 @@ class Prop extends egret.Sprite{
     public parents
     private choosed
     private text:egret.TextField
-    private propName = ['星球锁定','降维打击','道具三','道聚四','道具五']
+    private propName = ['星球锁定','降维打击','粒子交换','道聚四','道具五']
     private rect;
+    private rect_2;
     private callback:Function;
+    private vertexSrc =
+            "attribute vec2 aVertexPosition;\n" +
+            "attribute vec2 aTextureCoord;\n" +
+            "attribute vec2 aColor;\n" +
+
+            "uniform vec2 projectionVector;\n" +
+
+            "varying vec2 vTextureCoord;\n" +
+            "varying vec4 vColor;\n" +
+
+            "const vec2 center = vec2(-1.0, 1.0);\n" +
+
+            "void main(void) {\n" +
+            "   gl_Position = vec4( (aVertexPosition / projectionVector) + center , 0.0, 1.0);\n" +
+            "   vTextureCoord = aTextureCoord;\n" +
+            "   vColor = vec4(aColor.x, aColor.x, aColor.x, aColor.x);\n" +
+            "}";
+    private fragmentSrc1 =
+            "precision lowp float;\n" +
+            "varying vec2 vTextureCoord;\n" +
+            "varying vec4 vColor;\n" +
+            "uniform sampler2D uSampler;\n" +
+
+            "uniform float customUniform;\n" +
+
+            "void main(void) {\n" +
+            "vec2 uvs = vTextureCoord.xy;\n" +
+            "vec4 fg = texture2D(uSampler, vTextureCoord);\n" +
+            "fg.rgb += sin(customUniform + uvs.x * 2. + uvs.y * 2.) * 0.2;\n" +
+            "gl_FragColor = fg * vColor;\n" +
+            "}";
+    
+    // 定时器对话
+    private timeWordsText:egret.TextField;
+    // 道具说明
+    private propText:egret.TextField;
     public constructor(x,y,type,parents,callback){
         super();
         this.x = x;
@@ -22,33 +59,58 @@ class Prop extends egret.Sprite{
         console.log("type")
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawProps,this);
     }
-    
+    //  增加渐变
+    private addShader(rect) {
+        if(GameConfig.helperArr[this.type]<=0){
+            return;
+        }
+        let customFilter1 = new egret.CustomFilter(
+                                this.vertexSrc,
+                                this.fragmentSrc1,
+                                    {
+                                        customUniform: 0
+                                    }
+                            );
+        this.rect_2.filters = [customFilter1];
+        this.addEventListener(egret.Event.ENTER_FRAME, () => {
+            customFilter1.uniforms.customUniform += 0.1;
+            if (customFilter1.uniforms.customUniform > Math.PI * 2) {
+                customFilter1.uniforms.customUniform = 0.0;
+            }
+            
+        }, this);
+    }
     private async drawProps(){
         let sprite = new egret.Sprite();
-        var rect = await GameConfig.createBitmapByName('rect_2.png')
+        this.rect_2 = await GameConfig.createBitmapByName('rect_2.png')
         var hit = await GameConfig.createBitmapByName(`${GameConfig.helperSrc[this.type]}.png`);
         let text = new egret.TextField();
-        text.text = this.propName[this.type];
+        if(GameConfig.helperArr[this.type]>0)
+            text.text = this.propName[this.type];
+        else 
+            text.text = '售: 500金'
         text.width = 100;
         text.y = 75;
         text.size = 16;
         text.textAlign = 'center';
-        rect.height = rect.width = 100
+        this.rect_2.height = this.rect_2.width = 100
         hit.width = hit.height = 70 
-        hit.x = (rect.width - hit.width) /2
-        sprite.addChild(rect);
+        hit.x = (this.rect_2.width - hit.width) /2
+        sprite.addChild(this.rect_2);
+        this.addShader(this.rect_2);
         sprite.addChild(hit);
         sprite.addChild(text);
         sprite.x = this.x;
         sprite.y = this.y;
         var shape:egret.Shape = new egret.Shape();
         shape.graphics.beginFill(0xff0000, 1);
-        shape.graphics.drawCircle(rect.width-15, 20, 20);
+        shape.graphics.drawCircle(this.rect_2.width-15, 20, 20);
         shape.graphics.endFill();
         this.text = new egret.TextField();
         this.text.text =''+GameConfig.helperArr[this.type];
+
         this.text.width = 40;
-        this.text.x = rect.width-35;
+        this.text.x = this.rect_2.width-35;
         this.text.size = 20;
         this.text.y = 10;
         this.text.textAlign = 'center';
@@ -58,32 +120,87 @@ class Prop extends egret.Sprite{
         this.touchEnabled = true;
         this.nowNum = GameConfig.helperArr[this.type]
         this.addEventListener("touchEnd",()=>{
-            this.callback();
+            //道具使用无效
+            if(this.type === 2 && GameConfig.canChange) {
+                return;
+            }
+            this.callback(this.type);
             // 如果点的是当前道具
             if(this.type+1 === +GameConfig.helper) {
                 //移除方框
-                
+                console.log('在这消失1')
                 GameConfig.helper = 0;
                 this.removeRect();   
                 return;
             }
-            if(GameConfig.helperArr[this.type] === 0) {
+            platform.playButtonMusic();
+            // 购买道具
+            if(GameConfig.helperArr[this.type] <= 0) {
+                if(GameConfig.coin <= GameConfig.minCoin) {
+                    this.addTimeWords(`穷鬼买什么道具??`)
+                    return;
+                }
+                this.addShader(this.rect_2);
+                GameConfig.setHelpArr(1,this.type);
+                GameConfig.setCoin(-GameConfig.helperPrice[this.type]);
+                this.parents.changeCoin();
+                this.setNum();
+                
+                this.addTimeWords(`您花费了${GameConfig.helperPrice[this.type]}购买道具成功`)
                 return;
             }
-            platform.playButtonMusic();
+            
             GameConfig.helper = this.type+1;
             this.addRect();
-            this.setNum();
+            //this.setNum();
+            // 根据不同类型调用不同事件
+            switch(this.type) {
+                // 如果是任意交换道具
+                case 2: 
+                    if(!GameConfig.canChange)
+                        this.changeProp()
+                    if(GameConfig.helperArr[GameConfig.helper-1]>=1)
+                        GameConfig.helperArr[GameConfig.helper-1] -= 1
+                    break;
+                // 增加步数道具
+                case 3:
+                    console.log(GameConfig.nowTax)
+                    if(GameConfig.nowTax==-1 || GameConfig.taxConfig[GameConfig.nowTax].step ===0){
+                        this.unshowWords();                        
+                        return;
+                    }
+                    //this.unshowWords('我两秒钟后就消失掉了');
+                    GameConfig.helper = 0;
+                    GameConfig.setHelpArr(-1,this.type);
+                    this.setNum();
+                    this.parents.updataStep(5);
+                    break;
+                //增加时间道具
+                case 4:
+                    if(GameConfig.nowTax!=-1 && GameConfig.taxConfig[GameConfig.nowTax].time ===0){
+                        //this.unshowWords('在此场景是无用道具哦~~');                        
+                        return;
+                    }
+                    this.unshowWords();
+                    GameConfig.helper = 0;                  
+                    GameConfig.setHelpArr(-1,this.type);
+                    this.parents.setTime(10);
+                    this.setNum();
+                    break;
+                default :
+                    return;
+            }
         },this)
         this.addFilter();
     }   
+    
     //当前道具还剩下多少
     private nowNum = null;
-    public setNum() {
+    public setNum(save?:Boolean) {
         if(this.nowNum === GameConfig.helperArr[this.type]) {
             return;
         }
-        this.removeRect();
+        !save && this.removeRect();
         this.text.text = '' + GameConfig.helperArr[this.type]
         this.nowNum = GameConfig.helperArr[this.type]
         this.addFilter();
@@ -94,26 +211,118 @@ class Prop extends egret.Sprite{
         this.rect.x = this.x -10;
         this.rect.y = this.y - 10;
         this.addChild(this.rect);
-        this.propTextMethods();
+        this.propTextMethods(TalkConfig.propTalk[this.type]);
     }
-    // 道具说明
-    private propText:egret.TextField;
-    private propTextMethods() {
+    private propTextMethods(words) {
+        if(this.propText && this.propText.$parent) {
+            this.removeChild(this.propText);
+        }
         this.propText = new egret.TextField();
         this.propText.width = this.stage.stageWidth - 80;
         this.propText.y = this.y + 130;
-        this.propText.text = TalkConfig.propTalk[this.type];
+        this.propText.text = words;
         this.propText.textAlign = 'center';
         this.propText.size = 20;
         this.propText.lineSpacing = 23;
         this.propText.x = -this.x + 40;
+        if(this.timeWordsText && this.timeWordsText.$parent)
+            this.removeChild(this.timeWordsText)
         this.addChild(this.propText)
+    }
+    
+    private addTimeWords (words) {
+        if(this.timeWordsText && this.timeWordsText.$parent)
+            this.removeChild(this.timeWordsText)
+        this.timeWordsText = new egret.TextField();
+        this.timeWordsText.width = this.stage.stageWidth - 80;
+        this.timeWordsText.y = this.y + 130;
+        this.timeWordsText.text = words;
+        this.timeWordsText.textAlign = 'center';
+        this.timeWordsText.size = 20;
+        this.timeWordsText.lineSpacing = 23;
+        this.timeWordsText.x = -this.x + 40;
+        let timer = setTimeout(()=>{
+            clearTimeout(timer);
+            if(this.timeWordsText.$parent)
+                this.removeChild(this.timeWordsText)
+        },1000)
+        this.addChild(this.timeWordsText)
     }
     //初始化道具
     public init() {
-        console.log("初始化")
         GameConfig.helper = 0;
         this.removeRect()
+        this.removeBar();
+    }
+    // 两秒钟后消失的话
+    private unshowWords() {
+        setTimeout(()=>{
+            this.removeRect();
+        },2000)
+    }
+    //  任意交换道具方法
+    private changeProp() {
+        let time = GameConfig.canChangeTime;
+        this.setNum(true);
+        GameConfig.helper = 0;
+        GameConfig.canChange = true
+        this.addBar();
+        let inter = setInterval(()=>{
+            time--;
+            if(this.stone){
+                this.stone.mask = this.addMask((90-(time)*10),10)
+            }
+            if(time === 0) {
+                GameConfig.canChange = false
+                clearInterval(inter);
+                this.removeBar();
+                this.removeRect();
+            }
+        },1000)
+    }
+    
+    private stoneBar:egret.Shape
+    private stone:egret.Shape
+    private maskBack:egret.Shape;
+    private async addBar() {
+        this.addStoneBar();
+        this.addStone();
+    }
+    private removeBar() {
+        if(this.stone && this.stone.$parent)
+            this.removeChild(this.stone);
+        if(this.stoneBar && this.stoneBar.$parent)
+            this.removeChild(this.stoneBar);
+    }
+    private async addStoneBar() {
+        this.stoneBar = new egret.Shape();
+        this.stoneBar.graphics.beginFill(0xdc5354 + Math.floor(Math.random() * 100) * (0xffffff / 100), 1);
+        this.stoneBar.graphics.lineStyle(2, 0xff0000 + Math.floor(Math.random() * 100) * (0xffffff / 100));
+        this.stoneBar.graphics.drawRect(this.x + 5, this.y + 60, 90, 10);
+        this.stoneBar.graphics.endFill();
+        this.addChild(this.stoneBar)
+    }
+    private async addStone() {
+        this.stone = new egret.Shape();
+        this.stone.graphics.beginFill(0xff0000);
+        this.stone.graphics.drawRect(this.x + 5, this.y + 60, 90, 10);
+        this.stone.graphics.endFill();
+        this.addChild(this.stone);
+        this.stone.mask = this.addMask(0,0)
+    }
+    private addMask(width,height) {
+        //画一个遮罩正方形
+        if(this.maskBack){
+            this.removeChild(this.maskBack)
+            this.maskBack = null;
+        }
+        this.maskBack = new egret.Shape();
+        this.maskBack.graphics.beginFill(0x000000,1);
+        this.maskBack.graphics.drawRect(this.x + 5,this.y + 60,width,height);
+        this.maskBack.graphics.endFill();
+        
+        this.addChild(this.maskBack);
+        return this.maskBack;
     }
     private removePropText() {
         if(this.propText && this.propText.$parent)
@@ -129,6 +338,8 @@ class Prop extends egret.Sprite{
             this.filters = null;
             return;
         }
+        if(this.rect_2)
+            this.rect_2.filters = null;
         let colorMatrix = [
             0.3,0.6,0,0,0,
             0.3,0.6,0,0,0,

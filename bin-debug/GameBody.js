@@ -45,7 +45,7 @@ var GameBody = (function (_super) {
             _this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
             _this.col = GameConfig.taxConfig[GameConfig.nowTax].col;
             _this.bingoType = GameConfig.taxConfig[GameConfig.nowTax].bingoType;
-            _this.speed = 1000;
+            _this.speed = 500;
         }
         else {
             GameBody.childH = GameBody.childW = (_this.width - _this.padding) / GameConfig.infiniteRow;
@@ -62,8 +62,9 @@ var GameBody = (function (_super) {
         //this.y = 100;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.drawDoors, _this);
         _this.touchEnabled = true;
-        _this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, _this.mouseDown, _this);
+        _this.addEventListener(egret.TouchEvent.TOUCH_END, _this.mouseDown, _this);
         return _this;
+        //this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.mouseDown, this);
     }
     GameBody.prototype.initWinnerConfig = function () {
         var type = GameConfig.taxConfig[GameConfig.nowTax].checkType;
@@ -106,23 +107,26 @@ var GameBody = (function (_super) {
             GameConfig.helper = 0;
             return;
         }
-        if (GameConfig.helperArr[GameConfig.helper - 1] >= 1)
-            GameConfig.helperArr[GameConfig.helper - 1] -= 1;
-        this.gameInf.propsArr[GameConfig.helper - 1].setNum();
+        if (GameConfig.helperArr[GameConfig.helper - 1] >= 1) {
+            GameConfig.setHelpArr(-1, GameConfig.helper - 1);
+        }
         switch (GameConfig.helper) {
             // 清除相同的所有类别
             case 1:
                 this.clearCommonBingo(x, y);
+                this.gameInf.propsArr[GameConfig.helper - 1].setNum();
                 break;
             // 清除九宫格 
             case 2:
                 this.clearHelper(x, y);
+                this.gameInf.propsArr[GameConfig.helper - 1].setNum();
                 break;
             default:
-                break;
+                return true;
         }
         this.checkFun();
         GameConfig.helper = 0;
+        return false;
     };
     // 道具1
     GameBody.prototype.clearHelper = function (x, y) {
@@ -521,7 +525,7 @@ var GameBody = (function (_super) {
         }
         if (GameConfig.nowTax !== -1 && this.gameInf.myScore >= GameConfig.taxConfig[GameConfig.nowTax].myScore) {
             console.log("通关了");
-            this.parents.passTax();
+            this.parents.passTax(this.gameInf.myScore);
             GameConfig.state = 2;
             return;
         }

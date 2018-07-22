@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?> 
-<e:Skin class="skins.TalkSkin" minHeight="50" minWidth="100" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*" width="335" height="137">
+<e:Skin class="skins.TitleSkin" minHeight="50" minWidth="100" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*" width="335" height="137">
 	<e:Label id="labelDisplay2" size="20" fontFamily="KaiTi" verticalAlign="middle" text="第一宇宙" anchorOffsetX="0" anchorOffsetY="0" wordWrap="true" bold="true" background="false" backgroundColor="0xe5e3e3" strokeColor="0xfcf9f9" alpha="1" lineSpacing="8" y="55" x="30" textColor="0xf4e8e8" width="117.4" height="30.57" textAlign="center"/>
     <e:Label id="labelDisplay" size="22" fontFamily="KaiTi" verticalAlign="middle" text="熵值：10" anchorOffsetX="0" anchorOffsetY="0" wordWrap="true" bold="true" background="false" backgroundColor="0xe5e3e3" strokeColor="0xfcf9f9" alpha="1" lineSpacing="8" y="46" x="164" textColor="0xf4e8e8" width="149.4" height="43" textAlign="center"/>
 

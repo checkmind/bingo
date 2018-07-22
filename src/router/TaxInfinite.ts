@@ -27,12 +27,12 @@ class TaxInfinite extends egret.Sprite{
         await this.addStar();
         this.success = ()=>{
             this.removeChild(this.talkContent);
+            this.addGameInf();
             this.addGameBody();
         }
         var system = new particle.GravityParticleSystem(RES.getRes("newParticle_png"), RES.getRes("newParticle_json"));
         this.addChild(system);
         system.start();
-        this.addGameInf();
         this.addTalk();
     }
     
@@ -67,8 +67,13 @@ class TaxInfinite extends egret.Sprite{
        this.addChild(this.talkContent)  
     }
     private gameOver() {
-        console.log('结束了')
-        this.addPopClass(1,'游戏失败了','重新来一把吧');
+        let score = this.gameInf.myScore
+        if(score>=2000){
+            this.addPopClass(1,`你表现的还可以，emmmm，那就奖励你${score/2}金`,'游戏结束');
+            GameConfig.setCoin(score/2);
+            this.gameInf.changeCoin()
+        } else 
+            this.addPopClass(1,`继续加油吧，注意要经常使用道具哦`,'游戏结束');
         if(this.gameBody && this.gameBody.$parent)
             this.removeChild(this.gameBody);
         // this.success = ()=>{
@@ -89,7 +94,7 @@ class TaxInfinite extends egret.Sprite{
         this.addChild(this.pop);
         this.pop.addEventListener(DateEvent.DATE,(ev)=>{this.popMethods(ev)},this)
     }
-    private popMethods(ev) {
+    private async popMethods(ev) {
         let type = ev._type
         switch(type){
             case 'home':
@@ -103,6 +108,16 @@ class TaxInfinite extends egret.Sprite{
                 console.log('初始化信息')
                 this.gameInf.resetInf();
                 this.addGameBody();
+                break;
+            case 'share':
+                console.log('分享')
+                let res = await platform.shareAppMessage();
+                console.log(res);
+                if(res.success) {
+                    console.log('分享成功奖励1000金')
+                    GameConfig.setCoin(1000);
+                    this.gameInf.changeCoin()
+                }
                 break;
             default:
                 return;
