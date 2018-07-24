@@ -34,7 +34,12 @@ var GameGroup = (function (_super) {
         var button = new TaxButton();
         button.skinName = "resource/eui_skins/toastSkin.exml"; //假设Button.exml在resource文件夹下。
         button.label2 = "\u7B2C" + TalkConfig.taxArr[num] + "\u5B87\u5B99";
-        button.label = "  " + TalkConfig.taxLabel[num];
+        if (num > GameConfig.maxTax) {
+            button.label = "  " + TalkConfig.lockLabel;
+        }
+        else {
+            button.label = "  " + TalkConfig.taxLabel[num];
+        }
         button.width = 226 * 2;
         button.height = 345 * 2;
         button.x = (button.width + 80) * num;

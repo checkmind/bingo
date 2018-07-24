@@ -65,21 +65,23 @@ let totalGroup = [
   { key: 15, name: "1515151515", url: assets.icon, scroes: 2000 },
   { key: 16, name: "1616161616", url: assets.icon, scroes: 2000 },
 ];
-wx.onMessage(data => {
-  console.log(data)
-  if(data.type==='refresh') {
-    console.log("requestAnimationFram")
-    drawRankPanel()
-    // wx.removeUserCloudStorage({
-    //   keyList: ["val"]
-    // })
-  }
-})
+// console.log('捕捉数据')
+// wx.onMessage(data => {
+//   console.log('捕捉数据')
+//   if(data.type==='refresh') {
+//     console.log("requestAnimationFram")
+//     drawRankPanel()
+//     // wx.removeUserCloudStorage({
+//     //   keyList: ["val"]
+//     // })
+//   }
+// })
 
 /**
  * 创建排行榜
  */
  function drawRankPanel() {
+  console.log('绘制')
   //绘制背景
   context.drawImage(assets.panel, offsetX_rankToBorder, offsetY_rankToBorder, RankWidth, RankHeight);
   //绘制标题
@@ -120,22 +122,14 @@ function changeTotalGroup(parme) {
 function saveFriendData() {
       wx.onMessage(data => {
           if(data.type==='save') {
+            console.log('拿到消息')
             console.log(data)
             wx.setUserCloudStorage({
-                KVDataList: [{key:"score",value:"12宇宙"}],
+                KVDataList: [{key:"score",value:`第${data.array[0]}宇宙`}],
                 success(ev) {
-                    console.log(ev);
+                    drawRankPanel();
                 }
             });
-            // wx.removeUserCloudStorage({
-            //   keyList: ["val"]
-            // })
-          }
-        })
-      wx.onMessage(data => {
-          if(data.type==='refresh') {
-
-            drawRankPanel()
             // wx.removeUserCloudStorage({
             //   keyList: ["val"]
             // })
@@ -147,25 +141,25 @@ function saveFriendData() {
  */
 function init() {
   //排行榜绘制数据初始化
-  RankWidth = stageWidth * 4 / 5;
+  RankWidth = stageWidth * 4 / 4.5;
   RankHeight = stageHeight * 4 / 5;
   barWidth = RankWidth;
   barHeight = RankWidth / perPageMaxNum;
   offsetX_rankToBorder = (stageWidth - RankWidth) / 2;
   offsetY_rankToBorder = (stageHeight - RankHeight) / 2;
-  preOffsetY = (RankHeight - barHeight) / (perPageMaxNum + 1);
+  preOffsetY = (RankHeight - barHeight) / (perPageMaxNum + .4);
 
   startX = offsetX_rankToBorder ;
   startY = offsetY_rankToBorder + preOffsetY;
   avatarSize = barHeight - 10;
-  intervalX = barWidth / 20;
+  intervalX = barWidth / 30;
   textOffsetY = (barHeight + fontSize) / 2;
   textMaxSize = 250;
   indexWidth = context.measureText("99").width;
 
   //按钮绘制数据初始化
-  buttonWidth = 65*3;
-  buttonHeight = 27*3;
+  buttonWidth = 65*2;
+  buttonHeight = 27*2;
   buttonOffset = RankWidth / 3;
   lastButtonX = offsetX_rankToBorder + buttonOffset - buttonWidth;
   nextButtonX = offsetX_rankToBorder + 2 * buttonOffset;
@@ -368,7 +362,7 @@ let buttonOffset;
 /**
  * 字体大小
  */
-let fontSize = 45;
+let fontSize = 30;
 /**
  * 文本文字Y轴偏移量
  * 可以使文本相对于图片大小居中

@@ -20,13 +20,20 @@ declare interface Platform {
 
     shareAppMessage(): Promise<any>
 
-    
+    saveImg():Promise<any>
+
+    passTax(tax:Number):Promise<any>
+
+    getTax():Promise<any>
 }
 class DebugPlatform implements Platform {
     async getUserInfo() {
         return { nickName: "username" }
     }
     async login() {
+
+    }
+    async saveImg() {
 
     }
     // 分享小程序
@@ -50,6 +57,12 @@ class DebugPlatform implements Platform {
     //   let music =  wx.createInnerAudioContext()
     //   music.src = 'http://cangnanshi.com/bingo/button.mp3'
     //   music.play();
+    }
+    async passTax() {
+
+    }
+    async getTax() {
+
     }
 }
 

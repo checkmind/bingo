@@ -73,8 +73,6 @@ class GameConfig{
         })
     }
     static initHelpArr() {
-        if(!window["wx"])
-            return;
         wx.getStorage({
             key: "helpArr",
             success(ev) {
@@ -96,8 +94,6 @@ class GameConfig{
         })
     }
     static initCoin() {
-        if(!this["wx"])
-            return;
         wx.getStorage({
             key: "coin",
             success(ev) {
@@ -118,8 +114,6 @@ class GameConfig{
     static setHelpArr(num,index) {
         GameConfig.helperArr[index] += num;
         let str = GameConfig.helperArr.join("");
-        if(!this["wx"])
-            return;
         wx.setStorage({
             key: "helpArr",
             data: str,
@@ -132,8 +126,6 @@ class GameConfig{
     }
     static setCoin(num) {
         GameConfig.coin += num;
-        if(!this["wx"])
-            return;
         wx.setStorage({
             key: "coin",
             data: GameConfig.coin,
@@ -158,6 +150,9 @@ class GameConfig{
 
             }
         })
+    }
+    static async initTax() {
+        GameConfig.maxTax = await platform.getTax(); 
     }
     public constructor(){
         

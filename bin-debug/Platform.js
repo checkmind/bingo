@@ -53,6 +53,13 @@ var DebugPlatform = (function () {
             });
         });
     };
+    DebugPlatform.prototype.saveImg = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
     // 分享小程序
     DebugPlatform.prototype.shareAppMessage = function () {
         return __awaiter(this, void 0, void 0, function () {

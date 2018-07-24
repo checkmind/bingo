@@ -34,7 +34,7 @@ class TaxPage extends egret.Sprite{
         var system = new particle.GravityParticleSystem(RES.getRes("newParticle_png"), RES.getRes("newParticle_json"));
         this.addChild(system);
         system.start();
-        this.addTalk();        
+        this.addTalk();
     }
     
     private async addStar() {
@@ -80,16 +80,26 @@ class TaxPage extends egret.Sprite{
         img.x = this.width/2-img.width/2;
         img.y = this.height/2 - img.height/2;
         this.addChild(img);
+        let button:eui.Button =new eui.Button();
+        button.label = '分享朋友圈';
+        button.width = 236;
+        button.x = this.width/2 - button.width/2;
+        button.y = img.y + img.height + 20;
+        button.addEventListener('touchEnd',()=>{
+            platform.saveImg();
+        },this)
+        this.addChild(button);
     }
     private saveData() {
         
     }
     private async passTax(score) {
-        console.log('通关了')
         if(GameConfig.nowTax === GameConfig.taxConfig.length-1) {
+            
             this.addHore();
             return;
         }
+        platform.passTax(GameConfig.nowTax+1);
         platform.saveData(GameConfig.nowTax+1)
         this.addPopClass(0,`挑战下一关吧，奖励你${score/2}金`,'游戏通关');
         GameConfig.setCoin(score/2);

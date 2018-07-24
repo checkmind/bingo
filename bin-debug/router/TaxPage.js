@@ -124,7 +124,7 @@ var TaxPage = (function (_super) {
     };
     TaxPage.prototype.addHore = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var img;
+            var img, button;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, GameConfig.createBitmapByName('success.png')];
@@ -135,6 +135,15 @@ var TaxPage = (function (_super) {
                         img.x = this.width / 2 - img.width / 2;
                         img.y = this.height / 2 - img.height / 2;
                         this.addChild(img);
+                        button = new eui.Button();
+                        button.label = '分享朋友圈';
+                        button.width = 236;
+                        button.x = this.width / 2 - button.width / 2;
+                        button.y = img.y + img.height + 20;
+                        button.addEventListener('touchEnd', function () {
+                            platform.saveImg();
+                        }, this);
+                        this.addChild(button);
                         return [2 /*return*/];
                 }
             });
@@ -145,7 +154,8 @@ var TaxPage = (function (_super) {
     TaxPage.prototype.passTax = function (score) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                console.log('通关了');
+                console.log('关卡信息');
+                console.log(GameConfig.nowTax, GameConfig.taxConfig.length - 1);
                 if (GameConfig.nowTax === GameConfig.taxConfig.length - 1) {
                     this.addHore();
                     return [2 /*return*/];

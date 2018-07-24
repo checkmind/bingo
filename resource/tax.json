@@ -1,22 +1,22 @@
 [
     {
-        "row": 5,
+        "row": 4,
         "checkType": "uncommon",
-        "col": 5,
-        "uncommon": 4,
+        "col": 4,
+        "uncommon": 0,
         "matrix": [],
-        "myScore": 1000,
+        "myScore": 3000,
         "bingoType": 6,
-        "step": 0,
-        "time": 50,
-        "monster": true,
+        "step": 20,
+        "time": 0,
+        "monster": false,
         "darkTime": false
     },
     {
-        "row": 3,
-        "col": 3,
+        "row": 5,
+        "col": 5,
         "checkType": "uncommon",
-        "myScore": 100,
+        "myScore": 3000,
         "step": 0,
         "time": 60,
         "bingoType": 4,
@@ -27,8 +27,8 @@
         "col": 5,
         "checkType": "uncommon",
         "darkTime": 10,
-        "myScore": 100,
-        "bingoType": 4,
+        "myScore": 3000,
+        "bingoType": 5,
         "step": 20,
         "time": 0
     },
@@ -36,20 +36,22 @@
         "row": 6,
         "checkType": "uncommon",
         "col": 6,
-        "myScore": 100,
+        "myScore": 3000,
         "bingoType": 4,
         "step": 20,
-        "time": 0
+        "time": 0,
+        "darkTime": true
     },
     {
         "row": 7,
         "checkType": "uncommon",
         "col": 7,
         "matrix": [],
-        "myScore": 100,
+        "myScore": 4000,
         "bingoType": 4,
         "step": 0,
-        "time": 60
+        "time": 60,
+        "darkTime": true
     },
     {
         "row": 7,
@@ -85,7 +87,7 @@
     {
         "row": 8,
         "checkType": "uncommon",
-        "col": 10,
+        "col": 8,
         "matrix": [],
         "myScore": 100,
         "bingoType": 6,

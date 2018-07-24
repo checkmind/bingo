@@ -48,6 +48,98 @@ class WxgamePlatform {
         music.src = 'http://cangnanshi.com/bingo/button.mp3'
         //music.play();
     }
+    saveData(data) {
+        console.log('数据是')
+        console.log(data);
+        let openDataContext = wx.getOpenDataContext();
+        openDataContext.postMessage({
+            array: [data],
+            type: 'save',
+            year: (new Date()).getFullYear()
+        });
+    }
+    saveImg() {
+        var imgSrc = "https://cangnanshi.com/bingo/success.png"
+        let downFile = wx.downloadFile({
+            url: imgSrc,
+            filePath: '',
+            header: {},
+            success(res) {
+                console.log(res.tempFilePath)
+                wx.saveImageToPhotosAlbum({
+                    filePath: res.tempFilePath,
+                    success() {
+                        wx.showToast({
+                            title: '保存成功'
+                        })
+                    },
+                    fail(err){
+                        console.log(err);
+                    }
+                })
+
+            },
+            fail(res) {
+                console.log(res)
+            }
+        })
+        downFile.onProgressUpdate((res)=>{
+            console.log(res)
+        })
+    }
+    // 得到关卡数
+    getTax() {
+        console.log('得到关卡')
+        return new Promise((resolve)=>{
+            wx.getStorage({
+                key: "maxTax",
+                success(ev) {
+                    console.log('关卡')
+                    console.log(ev)
+                    resolve && resolve(+ev.data)
+                },
+                fail() {
+
+                },
+                complete() {
+
+                }
+            })
+        })
+    }
+    // 设置当前关卡
+    passTax(num) {
+        console.log('设置关卡')
+       let tax = null;
+       this.getTax().then((res)=>{
+            tax = res
+       })
+       if(num <= tax)
+            return;
+        wx.setStorage({
+            key: "maxTax",
+            data: num,
+            success() {
+                console.log("set success");
+            },
+            fail(){},
+            complete(){}
+        })
+    }
+    shareAppMessage() {
+        wx.shareAppMessage({
+            title: "大夏天的，来消除几颗星球吧",
+            imageUrl: 'https://cangnanshi.com/bingo/title.png',
+            query: '',
+            success() {
+            },
+            fail(){
+
+            },
+            complete() {
+            }
+        })
+    }
 
     openDataContext = new WxgameOpenDataContext();
 }
