@@ -1,8 +1,8 @@
 [
     {
-        "row": 4,
+        "row": 10,
         "checkType": "uncommon",
-        "col": 4,
+        "col": 10,
         "uncommon": 0,
         "matrix": [],
         "myScore": 3000,

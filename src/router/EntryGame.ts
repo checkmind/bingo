@@ -107,24 +107,13 @@ class EntryGame extends egret.Sprite{
         })
 
         this.shareMyCirle = await GameConfig.createBitmapByName("share.png");
-        //this.addChild(this.shareMyCirle);
+        this.addChild(this.shareMyCirle);
         this.shareMyCirle.width = 207;
         this.shareMyCirle.height = 80;
         this.shareMyCirle.x = this.width - this.shareMyCirle.width - 20;
         this.shareMyCirle.y = this.height - this.shareMyCirle.height - 20;
         this.shareMyCirle.addEventListener("touchEnd",()=>{
-            wx.shareAppMessage({
-                title: "大夏天的，来消除几颗星球吧",
-                imageUrl: '',
-                query: '22',
-                success() {
-                },
-                fail(){
-
-                },
-                complete() {
-                }
-            })
+           platform.shareAppMessage(`快来和我一绝高下吧，我已经闯到第${GameConfig.maxTax}关了!`)
         })
 
         this.closeButton = await GameConfig.createBitmapByName("close.png");

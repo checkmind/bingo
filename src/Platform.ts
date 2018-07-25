@@ -18,13 +18,21 @@ declare interface Platform {
 
     playButtonMusic() :Promise<any>
 
-    shareAppMessage(): Promise<any>
+    shareAppMessage(msg?:String): Promise<any>
 
     saveImg():Promise<any>
 
     passTax(tax:Number):Promise<any>
 
     getTax():Promise<any>
+
+    getHelpStorage(): Promise<any>
+
+    getCoinStorage(): Promise<any>
+
+    setCoinStorage(num): Promise<any>
+
+    setHelpStorage(num): Promise<any>
 }
 class DebugPlatform implements Platform {
     async getUserInfo() {
@@ -37,26 +45,36 @@ class DebugPlatform implements Platform {
 
     }
     // 分享小程序
-    async shareAppMessage() {
+    async shareAppMessage(msg?:String) {
+
+    }
+    // 得到本地道具信息
+    async getHelpStorage() {
+
+    }
+    // 储存本地道具信息
+    async setHelpStorage(obj) {
+
+    }
+    // 得到本地金钱信息
+    async getCoinStorage() {
+
+    }
+    // 储存本地金钱信息
+    async setCoinStorage(num) {
 
     }
     async saveData(data) {
 
     }
     async createInnerAudioContext () {
-    //   let music =  wx.createInnerAudioContext()
-    //   music.src = 'http://cangnanshi.com/bingo/music.mp3'
-    //   music.play();
+
     }
     async playClearMusic() {
-    //   let music =  wx.createInnerAudioContext()
-    //   music.src = 'http://cangnanshi.com/bingo/clear.mp3'
-    //   music.play();
+
     }
     async playButtonMusic() {
-    //   let music =  wx.createInnerAudioContext()
-    //   music.src = 'http://cangnanshi.com/bingo/button.mp3'
-    //   music.play();
+
     }
     async passTax() {
 

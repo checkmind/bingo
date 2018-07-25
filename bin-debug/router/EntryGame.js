@@ -150,23 +150,13 @@ var EntryGame = (function (_super) {
                         return [4 /*yield*/, GameConfig.createBitmapByName("share.png")];
                     case 2:
                         _b.shareMyCirle = _d.sent();
-                        //this.addChild(this.shareMyCirle);
+                        this.addChild(this.shareMyCirle);
                         this.shareMyCirle.width = 207;
                         this.shareMyCirle.height = 80;
                         this.shareMyCirle.x = this.width - this.shareMyCirle.width - 20;
                         this.shareMyCirle.y = this.height - this.shareMyCirle.height - 20;
                         this.shareMyCirle.addEventListener("touchEnd", function () {
-                            wx.shareAppMessage({
-                                title: "大夏天的，来消除几颗星球吧",
-                                imageUrl: '',
-                                query: '22',
-                                success: function () {
-                                },
-                                fail: function () {
-                                },
-                                complete: function () {
-                                }
-                            });
+                            platform.shareAppMessage("\u5FEB\u6765\u548C\u6211\u4E00\u7EDD\u9AD8\u4E0B\u5427\uFF0C\u6211\u5DF2\u7ECF\u95EF\u5230\u7B2C" + GameConfig.maxTax + "\u5173\u4E86!");
                         });
                         _c = this;
                         return [4 /*yield*/, GameConfig.createBitmapByName("close.png")];

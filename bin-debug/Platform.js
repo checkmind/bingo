@@ -61,7 +61,39 @@ var DebugPlatform = (function () {
         });
     };
     // 分享小程序
-    DebugPlatform.prototype.shareAppMessage = function () {
+    DebugPlatform.prototype.shareAppMessage = function (msg) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    // 得到本地道具信息
+    DebugPlatform.prototype.getHelpStorage = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    // 储存本地道具信息
+    DebugPlatform.prototype.setHelpStorage = function (obj) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    // 得到本地金钱信息
+    DebugPlatform.prototype.getCoinStorage = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    // 储存本地金钱信息
+    DebugPlatform.prototype.setCoinStorage = function (num) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/];
@@ -90,6 +122,20 @@ var DebugPlatform = (function () {
         });
     };
     DebugPlatform.prototype.playButtonMusic = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    DebugPlatform.prototype.passTax = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    DebugPlatform.prototype.getTax = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/];

@@ -154,12 +154,11 @@ var TaxPage = (function (_super) {
     TaxPage.prototype.passTax = function (score) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                console.log('关卡信息');
-                console.log(GameConfig.nowTax, GameConfig.taxConfig.length - 1);
                 if (GameConfig.nowTax === GameConfig.taxConfig.length - 1) {
                     this.addHore();
                     return [2 /*return*/];
                 }
+                platform.passTax(GameConfig.nowTax + 1);
                 platform.saveData(GameConfig.nowTax + 1);
                 this.addPopClass(0, "\u6311\u6218\u4E0B\u4E00\u5173\u5427\uFF0C\u5956\u52B1\u4F60" + score / 2 + "\u91D1", '游戏通关');
                 GameConfig.setCoin(score / 2);

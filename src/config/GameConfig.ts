@@ -57,100 +57,22 @@ class GameConfig{
          image.source = url;
          return image;
     }
-    static shareFun() {
-        wx.shareAppMessage({
-            title: "大夏天的，来消除几颗星球吧",
-            imageUrl: '',
-            query: '22',
-            success(ev) {
-                console.log(ev)
-            },
-            fail(){
-
-            },
-            complete() {
-            }
-        })
+    static async initHelpArr() {
+        GameConfig.helperArr = await platform.getHelpStorage();
     }
-    static initHelpArr() {
-        wx.getStorage({
-            key: "helpArr",
-            success(ev) {
-                console.log('拿到数据了')
-                console.log(ev.data);
-                let data = ev.data;
-                if(data)
-                    GameConfig.helperArr = [11,10,10,10,10]
-                    //GameConfig.helperArr = data.split("")
-                else   
-                    GameConfig.helperArr = [10,10,10,10,10]
-            },
-            fail() {
-
-            },
-            complete() {
-
-            }
-        })
-    }
-    static initCoin() {
-        wx.getStorage({
-            key: "coin",
-            success(ev) {
-                let data = ev.data;
-                if(!data)
-                    GameConfig.coin = 1000
-                else 
-                    GameConfig.coin = data;
-            },
-            fail() {
-
-            },
-            complete() {
-
-            }
-        })
+    static async initCoin() {
+        GameConfig.coin = await platform.getCoinStorage();
     }
     static setHelpArr(num,index) {
         GameConfig.helperArr[index] += num;
         let str = GameConfig.helperArr.join("");
-        wx.setStorage({
-            key: "helpArr",
-            data: str,
-            success() {
-                console.log("set success");
-            },
-            fail(){},
-            complete(){}
-        })
+        platform.setHelpStorage(str)
     }
     static setCoin(num) {
         GameConfig.coin += num;
-        wx.setStorage({
-            key: "coin",
-            data: GameConfig.coin,
-            success() {
-                console.log("set success");
-            },
-            fail(){},
-            complete(){}
-        })
+        platform.setCoinStorage(GameConfig.coin)
     }
-    static getCoin() {
-        wx.getStorage({
-            key: "coin",
-            success(ev) {
-                let data = ev.data;
-                GameConfig.coin = +data;
-            },
-            fail() {
-
-            },
-            complete() {
-
-            }
-        })
-    }
+    
     static async initTax() {
         GameConfig.maxTax = await platform.getTax(); 
     }

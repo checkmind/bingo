@@ -36,17 +36,18 @@ class WxgamePlatform {
     createInnerAudioContext () {
         let music =  wx.createInnerAudioContext()
         music.src = 'http://cangnanshi.com/bingo/music.mp3'
-        //music.play();
+        music.loop = true
+        music.play();
     }
     playClearMusic() {
         let music =  wx.createInnerAudioContext()
         music.src = 'http://cangnanshi.com/bingo/clear.mp3'
-        //music.play();
+        music.play();
     }
     playButtonMusic() {
         let music =  wx.createInnerAudioContext()
         music.src = 'http://cangnanshi.com/bingo/button.mp3'
-        //music.play();
+        music.play();
     }
     saveData(data) {
         console.log('数据是')
@@ -85,6 +86,64 @@ class WxgamePlatform {
         })
         downFile.onProgressUpdate((res)=>{
             console.log(res)
+        })
+    }
+    getHelpStorage() {
+        return new Promise((resolve)=>{
+            wx.getStorage({
+                key: "helpArr",
+                success(ev) {
+                    if(data)
+                        resolve(data.split(""))
+                    else   
+                        resolve([1,0,0,0])
+                },
+                fail() {
+
+                },
+                complete() {
+
+                }
+            })
+        })
+    }
+    getCoinStorage() {
+        return new Promise((resolve)=>{
+            wx.getStorage({
+                key: "coin",
+                success(ev) {
+                    let data = ev.data;
+                    resolve(data)
+                },
+                fail() {
+
+                },
+                complete() {
+
+                }
+            })
+        })
+    }
+    setCoinStorage(num) {
+        wx.setStorage({
+            key: "coin",
+            data: num,
+            success() {
+                console.log("set success");
+            },
+            fail(){},
+            complete(){}
+        })
+    }
+    setHelpStorage(str) {
+        wx.setStorage({
+            key: "helpArr",
+            data: str,
+            success() {
+                console.log("set success");
+            },
+            fail(){},
+            complete(){}
         })
     }
     // 得到关卡数

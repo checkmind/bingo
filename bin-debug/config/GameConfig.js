@@ -55,98 +55,58 @@ var GameConfig = (function () {
             });
         });
     };
-    GameConfig.shareFun = function () {
-        wx.shareAppMessage({
-            title: "大夏天的，来消除几颗星球吧",
-            imageUrl: '',
-            query: '22',
-            success: function (ev) {
-                console.log(ev);
-            },
-            fail: function () {
-            },
-            complete: function () {
-            }
-        });
-    };
     GameConfig.initHelpArr = function () {
-        if (!window["wx"])
-            return;
-        wx.getStorage({
-            key: "helpArr",
-            success: function (ev) {
-                console.log('拿到数据了');
-                console.log(ev.data);
-                var data = ev.data;
-                if (data)
-                    GameConfig.helperArr = [11, 10, 10, 10, 10];
-                else
-                    GameConfig.helperArr = [10, 10, 10, 10, 10];
-            },
-            fail: function () {
-            },
-            complete: function () {
-            }
+        return __awaiter(this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = GameConfig;
+                        return [4 /*yield*/, platform.getHelpStorage()];
+                    case 1:
+                        _a.helperArr = _b.sent();
+                        return [2 /*return*/];
+                }
+            });
         });
     };
     GameConfig.initCoin = function () {
-        if (!this["wx"])
-            return;
-        wx.getStorage({
-            key: "coin",
-            success: function (ev) {
-                var data = ev.data;
-                if (!data)
-                    GameConfig.coin = 1000;
-                else
-                    GameConfig.coin = data;
-            },
-            fail: function () {
-            },
-            complete: function () {
-            }
+        return __awaiter(this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = GameConfig;
+                        return [4 /*yield*/, platform.getCoinStorage()];
+                    case 1:
+                        _a.coin = _b.sent();
+                        return [2 /*return*/];
+                }
+            });
         });
     };
     GameConfig.setHelpArr = function (num, index) {
         GameConfig.helperArr[index] += num;
         var str = GameConfig.helperArr.join("");
-        if (!this["wx"])
-            return;
-        wx.setStorage({
-            key: "helpArr",
-            data: str,
-            success: function () {
-                console.log("set success");
-            },
-            fail: function () { },
-            complete: function () { }
-        });
+        platform.setHelpStorage(str);
     };
     GameConfig.setCoin = function (num) {
         GameConfig.coin += num;
-        if (!this["wx"])
-            return;
-        wx.setStorage({
-            key: "coin",
-            data: GameConfig.coin,
-            success: function () {
-                console.log("set success");
-            },
-            fail: function () { },
-            complete: function () { }
-        });
+        platform.setCoinStorage(GameConfig.coin);
     };
-    GameConfig.getCoin = function () {
-        wx.getStorage({
-            key: "coin",
-            success: function (ev) {
-                var data = ev.data;
-                GameConfig.coin = +data;
-            },
-            fail: function () {
-            },
-            complete: function () {
-            }
+    GameConfig.initTax = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = GameConfig;
+                        return [4 /*yield*/, platform.getTax()];
+                    case 1:
+                        _a.maxTax = _b.sent();
+                        return [2 /*return*/];
+                }
+            });
         });
     };
     //static domainUrl = 'http://cangnanshi.com/bingo/'

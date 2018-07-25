@@ -178,6 +178,8 @@ var Main = (function (_super) {
         GameConfig.initHelpArr();
         /* 得到金钱设置 */
         GameConfig.initCoin();
+        /**得到关卡数 */
+        GameConfig.initTax();
         /* 背景色设置 */
         var shape = new egret.Shape;
         shape.graphics.beginFill(0x000000, 1);
