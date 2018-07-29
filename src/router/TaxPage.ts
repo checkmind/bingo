@@ -20,40 +20,15 @@ class TaxPage extends egret.Sprite{
         
     }
     
-    private system:particle.ParticleSystem;
-    private systemLeaf:particle.ParticleSystem;
 
     private async addImage(){
-        //this.addBack();
-        await this.addStar();
-        
-        // this.success = ()=>{
-        //     this.addGameInf();
-        //     this.addGameBody();
-        // }
-        var system = new particle.GravityParticleSystem(RES.getRes("newParticle_png"), RES.getRes("newParticle_json"));
-        this.addChild(system);
-        system.start();
+        this.addBack()
         this.addTalk();
     }
     
-    private async addStar() {
-        let imgHeight = this.width*1.78;
-        let top = imgHeight - this.height;
-        let sky =await GameConfig.createBitmapByName("back_1.png");
-        sky.width = this.width;
-        sky.height = imgHeight;
-        this.addChild(sky);
-
-        var fn = ()=> {
-            egret.Tween.get(sky)
-        .to( {y:-top}, 8*6000, egret.Ease.sineIn ).call(fn2);
-        }
-        var fn2 = ()=> {
-            egret.Tween.get(sky)
-        .to( {y:0}, 8*6000, egret.Ease.sineIn ).call(fn);
-        }
-        fn();
+    private async addBack() {
+        let back = new Background(0,0,this.width,this.height);
+        this.addChild(back)
     }
     
     private addGameBody() {
@@ -95,12 +70,13 @@ class TaxPage extends egret.Sprite{
     }
     private async passTax(score) {
         if(GameConfig.nowTax === GameConfig.taxConfig.length-1) {
-            
             this.addHore();
             return;
         }
-        platform.passTax(GameConfig.nowTax+1);
-        platform.saveData(GameConfig.nowTax+1)
+        if(GameConfig.nowTax === GameConfig.maxTax) {
+            platform.passTax(GameConfig.nowTax+1);
+            platform.saveData(GameConfig.nowTax+1)
+        }
         this.addPopClass(0,`挑战下一关吧，奖励你${score/2}金`,'游戏通关');
         GameConfig.setCoin(score/2);
         this.gameInf.changeCoin()

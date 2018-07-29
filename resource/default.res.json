@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,button_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,cir_png,toast_png,newParticle2_png,newParticle2_json,ok_png,helpBack_png,rect_2_png,ending_png,gameEui_json,tax_json,monster_json",
+			"keys": "description_json,button_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,cir_png,toast_png,newParticle2_png,newParticle2_json,ok_png,helpBack_png,rect_2_png,ending_png,gameEui_json,tax_json,monster_json,gameEui_png",
 			"name": "preload"
 		}
 	],
@@ -90,6 +90,11 @@
 			"name": "monster_json",
 			"type": "json",
 			"url": "assets/monster.json"
+		},
+		{
+			"name": "gameEui_png",
+			"type": "image",
+			"url": "assets/starts/gameEui.png"
 		}
 	]
 }

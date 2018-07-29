@@ -63,16 +63,40 @@ var GameBody = (function (_super) {
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.drawDoors, _this);
         _this.touchEnabled = true;
         _this.addEventListener(egret.TouchEvent.TOUCH_END, _this.mouseDown, _this);
+        _this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, _this.mouseTap, _this);
         return _this;
-        //this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.mouseDown, this);
     }
     GameBody.prototype.initWinnerConfig = function () {
         var type = GameConfig.taxConfig[GameConfig.nowTax].checkType;
     };
-    /* 事件捕捉 */
     GameBody.prototype.mouseDown = function (ev) {
+        console.log('down');
         var x = Math.floor((ev.stageX - this.x) / GameBody.childW);
         var y = Math.floor((ev.stageY - this.y) / GameBody.childH);
+        if (this.lock || this.loack_2)
+            return;
+        if (this.exitObj(this.bingos, x, y)) {
+            // 栈里面已经有bingo了
+            if (this.stackArr[0] && this.stackArr[0] !== this.bingos[x][y]) {
+                if (this.checkChange(this.stackArr[0], this.bingos[x][y])) {
+                    this.stackArr[0].chooseBingo();
+                    this.bingos[x][y].chooseBingo();
+                    this.stackArr.length = 0;
+                }
+                else {
+                }
+            }
+            else if (this.stackArr[0] && this.stackArr[0] === this.bingos[x][y]) {
+            }
+            else {
+            }
+        }
+    };
+    /* 事件捕捉 */
+    GameBody.prototype.mouseTap = function (ev) {
+        var x = Math.floor((ev.stageX - this.x) / GameBody.childW);
+        var y = Math.floor((ev.stageY - this.y) / GameBody.childH);
+        console.log('top');
         if (this.lock || this.loack_2)
             return;
         if (this.exitObj(this.bingos, x, y)) {
@@ -511,16 +535,19 @@ var GameBody = (function (_super) {
     };
     /* 檢查游戲是否真的結束包括时间、熵值、无解 */
     GameBody.prototype.checkGameOver = function () {
+        var _this = this;
         console.log('监测是否结束');
         console.log(GameConfig.state);
         /* 如果不在运行中，就结束游戏 */
         if (GameConfig.state !== 1) {
             return;
         }
-        // 這邊簡單記錄一下bingos
+        // 這邊簡單記錄一下bingos 没有解法了，就乱序
         if (!this.cloneBingos()) {
-            this.parents.gameOver();
-            GameConfig.state = 2;
+            this.sortBingos();
+            setTimeout(function () {
+                _this.checkFun();
+            }, this.speed);
             return;
         }
         if (GameConfig.nowTax !== -1 && this.gameInf.myScore >= GameConfig.taxConfig[GameConfig.nowTax].myScore) {
@@ -529,6 +556,33 @@ var GameBody = (function (_super) {
             GameConfig.state = 2;
             return;
         }
+    };
+    GameBody.prototype.sortBingos = function () {
+        var _this = this;
+        var arr = [], set = [];
+        this.bingos.forEach(function (val, x) {
+            val.forEach(function (val2, y) {
+                arr.push(val2);
+                set.push({
+                    x: x,
+                    y: y
+                });
+            });
+        });
+        arr.sort(function () {
+            return Math.random() > .5 ? -1 : 1;
+        });
+        console.log(set);
+        var i = 0;
+        this.bingos.forEach(function (val, x) {
+            val.forEach(function (val2, y) {
+                _this.bingos[x][y] = arr[i];
+                console.log(arr[i]);
+                console.log(set[i]);
+                _this.bingos[x][y].moveToSet(set[i].x, set[i].y);
+                i++;
+            });
+        });
     };
     GameBody.prototype.cloneBingos = function () {
         var arr = [];

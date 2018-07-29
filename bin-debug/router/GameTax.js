@@ -62,14 +62,10 @@ var GameTax = (function (_super) {
     GameTax.prototype.addImage = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.addBack()];
-                    case 1:
-                        _a.sent();
-                        this.addGroup();
-                        this.addReturn();
-                        return [2 /*return*/];
-                }
+                this.addBack();
+                this.addGroup();
+                this.addReturn();
+                return [2 /*return*/];
             });
         });
     };
@@ -79,26 +75,11 @@ var GameTax = (function (_super) {
     };
     GameTax.prototype.addBack = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var sky, fn, fn2;
+            var back;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, GameConfig.createBitmapByName("back_1.png")];
-                    case 1:
-                        sky = _a.sent();
-                        sky.width = this.width;
-                        sky.height = this.width * 1.78;
-                        this.addChild(sky);
-                        fn = function () {
-                            egret.Tween.get(sky)
-                                .to({ y: -100 }, 4 * 6000, egret.Ease.sineIn).call(fn2);
-                        };
-                        fn2 = function () {
-                            egret.Tween.get(sky)
-                                .to({ y: 0 }, 4 * 6000, egret.Ease.sineIn).call(fn);
-                        };
-                        fn();
-                        return [2 /*return*/];
-                }
+                back = new Background(0, 0, this.width, this.height);
+                this.addChild(back);
+                return [2 /*return*/];
             });
         });
     };
@@ -122,16 +103,6 @@ var GameTax = (function (_super) {
                 }
             });
         });
-    };
-    GameTax.prototype.createBitmapByName = function (name, width, height) {
-        var result = new egret.Bitmap();
-        var texture = RES.getRes(name);
-        result.texture = texture;
-        if (width)
-            result.width = width;
-        if (height)
-            result.height = height;
-        return result;
     };
     return GameTax;
 }(egret.Sprite));

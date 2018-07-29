@@ -142,11 +142,17 @@ class Bingo extends egret.Sprite{
 
     }
 
-    public moveToBottom(j) {
+    public moveToBottom(j:number) {
         /*** 本示例关键代码段开始 ***/
         let distance = j * (this.height)
         egret.Tween.get( this )
             .to( {x:this.x,y:distance}, this.parents.speed, egret.Ease.sineIn );
+    }
+    public moveToSet(x,y) {
+        y = y * (this.height)
+        x = x * (this.width)
+        egret.Tween.get( this )
+            .to( {x,y}, this.parents.speed, egret.Ease.sineIn );
     }
     public chooseBingo() {
         if( this.choosed ) {

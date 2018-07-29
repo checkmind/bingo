@@ -18,41 +18,19 @@ class TaxTimerFast extends egret.Sprite{
         this.height = height;
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addImage,this);
     }
-    
-    private system:particle.ParticleSystem;
-    private systemLeaf:particle.ParticleSystem;
-
     private async addImage(){
-        //this.addBack();
-        await this.addStar();
+        this.addBack();
         this.success = ()=>{
             this.removeChild(this.talkContent);
             this.addGameBody();
         }
-        var system = new particle.GravityParticleSystem(RES.getRes("newParticle_png"), RES.getRes("newParticle_json"));
-        this.addChild(system);
-        system.start();
         this.addGameInf();
         this.addTalk();
     }
     
-    private async addStar() {
-        let imgHeight = this.width*1.78;
-        let top = imgHeight - this.height;
-        let sky = await GameConfig.createBitmapByName("back_1.png");
-        sky.width = this.width;
-        sky.height = imgHeight;
-        this.addChild(sky);
-
-        var fn = ()=> {
-            egret.Tween.get(sky)
-        .to( {y:-top}, 8*6000, egret.Ease.sineIn ).call(fn2);
-        }
-        var fn2 = ()=> {
-            egret.Tween.get(sky)
-        .to( {y:0}, 8*6000, egret.Ease.sineIn ).call(fn);
-        }
-        fn();
+    private async addBack() {
+        let back = new Background(0,0,this.width,this.height);
+        this.addChild(back)
     }
     
     private addGameBody() {
@@ -67,14 +45,9 @@ class TaxTimerFast extends egret.Sprite{
        this.addChild(this.talkContent)  
     }
     private gameOver() {
-        console.log('结束了')
         this.addPopClass(1,'游戏失败了','重新来一把吧');
         if(this.gameBody && this.gameBody.$parent)
             this.removeChild(this.gameBody);
-        // this.success = ()=>{
-        //     this.removeChildren();
-        //     this.addImage();
-        // }
     }
     private pop:PopClass;
     /**

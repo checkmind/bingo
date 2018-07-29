@@ -11,19 +11,20 @@
 	],
 	"game": [
 		"bin-debug/config/GameConfig.js",
-		"bin-debug/router/TaxTimeFast.js",
+		"bin-debug/component/popClass.js",
 		"bin-debug/pageBus.js",
 		"bin-debug/Platform.js",
 		"bin-debug/button/Progress.js",
 		"bin-debug/button/stateButton.js",
 		"bin-debug/button/TalkButton.js",
+		"bin-debug/component/Background.js",
 		"bin-debug/component/Bingo.js",
 		"bin-debug/component/DataEvent.js",
 		"bin-debug/component/GameGroup.js",
 		"bin-debug/component/GameInf.js",
 		"bin-debug/component/LoadingUI.js",
 		"bin-debug/component/monsterClass.js",
-		"bin-debug/component/popClass.js",
+		"bin-debug/Main.js",
 		"bin-debug/component/Prop.js",
 		"bin-debug/component/StepClass.js",
 		"bin-debug/component/TalkContent.js",
@@ -36,6 +37,6 @@
 		"bin-debug/router/GameTax.js",
 		"bin-debug/router/TaxInfinite.js",
 		"bin-debug/router/TaxPage.js",
-		"bin-debug/Main.js"
+		"bin-debug/router/TaxTimeFast.js"
 	]
 }

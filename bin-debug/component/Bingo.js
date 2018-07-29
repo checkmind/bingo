@@ -237,6 +237,12 @@ var Bingo = (function (_super) {
         egret.Tween.get(this)
             .to({ x: this.x, y: distance }, this.parents.speed, egret.Ease.sineIn);
     };
+    Bingo.prototype.moveToSet = function (x, y) {
+        y = y * (this.height);
+        x = x * (this.width);
+        egret.Tween.get(this)
+            .to({ x: x, y: y }, this.parents.speed, egret.Ease.sineIn);
+    };
     Bingo.prototype.chooseBingo = function () {
         if (this.choosed) {
             this.removeChoosed();

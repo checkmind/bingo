@@ -59,9 +59,15 @@ class GameConfig{
     }
     static async initHelpArr() {
         GameConfig.helperArr = await platform.getHelpStorage();
+        if(!GameConfig.helperArr) {
+            GameConfig.helperArr = [1,2,3,4]  
+        }
     }
     static async initCoin() {
         GameConfig.coin = await platform.getCoinStorage();
+        if(!GameConfig.coin) {
+            GameConfig.coin = 1000
+        }
     }
     static setHelpArr(num,index) {
         GameConfig.helperArr[index] += num;
@@ -75,6 +81,9 @@ class GameConfig{
     
     static async initTax() {
         GameConfig.maxTax = await platform.getTax(); 
+        if(!GameConfig.maxTax) {
+            GameConfig.maxTax = 0
+        }
     }
     public constructor(){
         

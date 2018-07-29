@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>配置</title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.3/css/bootstrap.css">
+	<script type="text/javascript" src='https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js'></script>
+</head>
+<style type="text/css">
+	html,body {
+		width: 100%;
+		height: 100%;
+		padding: 30px;
+		padding-top: 0;
+	}
+	input {
+		width: 100%;
+	}
+	.table {
+		margin-top: 20px;
+		height: 300px;
+	}
+	.tabel-con {
+		width: 100%;
+		height: 400px;
+		overflow: auto;
+	}
+	textarea {
+		height: 20px;
+		margin-top: 30px;
+	}
+	button {
+		margin-top: 30px;
+	}
+</style>
+<body>
+<textarea class="form-control textareaa" rows="3" id='config' placeholder="先把tax.json粘贴到这里"></textarea>
+<button id="parseButton">解析</button>
+<button id="stringButton">新增</button>
+<button id="ok">生成</button>
+<div class="tabel-con">
+	<table class="table">
+	  <thead>
+	    <tr id="head">
+	    </tr>
+	  </thead>
+	  <tbody id='tbody'>
+	  </tbody>
+	</table>
+</div>
+<textarea class='form-control textareaa trigger'></textarea>
+</body>
+<script>
+let style = {
+	row: '行数:Number',
+	col: '列数:Number',
+	checkType: '默认uncommon:String',
+	myScore: '通关成绩:Number',
+	bingoType: '元素最大类型:Number',
+	step: '步数:Number',
+	time: '时间:Number',
+	monster: '怪物:Boolean',
+	darkTime: '黑暗星球: Boolean',
+	changeTime: '星球变化: Boolean'
+}
+let headStr = ''
+Object.keys(style).forEach((key, index)=>{
+	headStr += `<th>${style[key]}</th>`
+})
+$('#head').html(headStr)
+$("#parseButton").click(()=>{
+	let json = $("#config").val()
+	json =JSON.parse(json)
+	let tbodyStr = ''
+	json.forEach((val, index)=>{
+		tbodyStr += 
+	   `<tr>
+	   		<td><input value='${ val.row||'未填写' }' /> </td>
+	   		<td><input value='${ val.col||'未填写' }' /> </td>
+	   		<td><input value='${ val.checkType||'未填写' }' /> </td>
+	   		<td><input value='${ val.myScore||'未填写' }' /> </td>
+	   		<td><input value='${ val.bingoType||'未填写' }' /> </td>
+	   		<td><input value='${ val.step||'未填写' }' /> </td>
+	   		<td><input value='${ val.time||'未填写' }' /> </td>
+	   		<td><input value='${ val.monster||'未填写' }' /> </td>
+	   		<td><input value='${ val.darkTime||'未填写' }' /> </td>
+	   		<td><input value='${ val.changeTime||'未填写' }' /> </td>
+	   </tr>
+	   `
+	});
+	$('#tbody').html(tbodyStr)
+})
+$("#stringButton").click(()=>{
+	let tbodyStr = `<tr>
+			<td><input value='' /> </td>
+	   		<td><input value='' /> </td>
+	   		<td><input value='' /> </td>
+	   		<td><input value='' /> </td>
+	   		<td><input value='' /> </td>
+	   		<td><input value='' /> </td>
+	   		<td><input value='' /> </td>
+	   		<td><input value='' /> </td>
+	   		<td><input value='' /> </td>
+	   		<td><input value='' /> </td></tr>`
+	$("#tbody").html($('#tbody').html() + tbodyStr)
+})
+let hash = []
+$("#ok").click((e)=>{
+	
+	for(let i = 0;i<$("#tbody tr").length;i++) {
+		let obj = {}
+		for(let j = 0;j<$("#tbody tr:eq("+i+") td").length;j++) {
+
+			obj[Object.keys(style)[j]] = $("#tbody tr:eq("+i+") td:eq("+j+") input").val()
+		}
+		hash.push(obj)
+	}
+	$('.trigger').val(JSON.stringify(hash))
+	$('.trigger').select(); // 选择对象
+	document.execCommand("Copy"); 
+})
+function copyText(obj)
+{
+  var rng = document.body.createTextRange();
+  rng.moveToElementText(obj);
+  rng.scrollIntoView();
+  rng.select();
+  rng.execCommand("Copy");
+  rng.collapse(false);
+  alert("复制成功!");
+}
+//绑定在了body上，也可以绑定在其他可用元素行，但是不是所有元素都支持copy和past事件。
+$('.trigger').bind({
+	copy: function(e) {//copy事件
+		var cpTxt = hash;
+		var clipboardData = window.clipboardData; //for IE
+		if (!clipboardData) { // for chrome
+			console.log(e)
+			clipboardData = e.originalEvent.clipboardData;
+		}
+		//e.clipboardData.getData('text');//可以获取用户选中复制的数据
+		clipboardData.setData('Text', cpTxt);
+		alert('去粘贴吧大佬！！');
+	},paste: function(e) {//paste事件
+		var eve = e.originalEvent
+		var cp = eve.clipboardData;
+		var data = null;
+		var clipboardData = window.clipboardData; // IE
+		if (!clipboardData) { //chrome
+			clipboardData = e.originalEvent.clipboardData
+		}
+		data = clipboardData.getData('Text');
+		$('#message').html(data);
+	}
+});
+
+//[{"row":"5","col":"5","checkType":"uncommon","myScore":"1600","bingoType":"4","step":"10","time":"未填写","monster":"未填写","darkTime":"未填写","changeTime":"未填写"},{"row":"5","col":"5","checkType":"uncommon","myScore":"3000","bingoType":"4","step":"未填写","time":"60","monster":"未填写","darkTime":"未填写","changeTime":"未填写"},{"row":"5","col":"5","checkType":"uncommon","myScore":"3000","bingoType":"5","step":"20","time":"未填写","monster":"未填写","darkTime":"10","changeTime":"未填写"},{"row":"6","col":"6","checkType":"uncommon","myScore":"3000","bingoType":"4","step":"20","time":"未填写","monster":"未填写","darkTime":"true","changeTime":"未填写"},{"row":"7","col":"7","checkType":"uncommon","myScore":"4000","bingoType":"4","step":"未填写","time":"60","monster":"未填写","darkTime":"true","changeTime":"未填写"},{"row":"7","col":"7","checkType":"uncommon","myScore":"100","bingoType":"4","step":"未填写","time":"60","monster":"true","darkTime":"未填写","changeTime":"未填写"},{"row":"7","col":"7","checkType":"uncommon","myScore":"100","bingoType":"4","step":"未填写","time":"60","monster":"未填写","darkTime":"未填写","changeTime":"未填写"},{"row":"8","col":"8","checkType":"uncommon","myScore":"100","bingoType":"5","step":"未填写","time":"60","monster":"未填写","darkTime":"未填写","changeTime":"未填写"},{"row":"8","col":"8","checkType":"uncommon","myScore":"100","bingoType":"6","step":"未填写","time":"50","monster":"true","darkTime":"未填写","changeTime":"未填写"}]
+</script>
+</html>

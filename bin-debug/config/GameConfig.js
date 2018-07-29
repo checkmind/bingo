@@ -65,6 +65,9 @@ var GameConfig = (function () {
                         return [4 /*yield*/, platform.getHelpStorage()];
                     case 1:
                         _a.helperArr = _b.sent();
+                        if (!GameConfig.helperArr) {
+                            GameConfig.helperArr = [1, 2, 3, 4];
+                        }
                         return [2 /*return*/];
                 }
             });
@@ -80,6 +83,9 @@ var GameConfig = (function () {
                         return [4 /*yield*/, platform.getCoinStorage()];
                     case 1:
                         _a.coin = _b.sent();
+                        if (!GameConfig.coin) {
+                            GameConfig.coin = 1000;
+                        }
                         return [2 /*return*/];
                 }
             });
@@ -104,6 +110,9 @@ var GameConfig = (function () {
                         return [4 /*yield*/, platform.getTax()];
                     case 1:
                         _a.maxTax = _b.sent();
+                        if (!GameConfig.maxTax) {
+                            GameConfig.maxTax = 0;
+                        }
                         return [2 /*return*/];
                 }
             });

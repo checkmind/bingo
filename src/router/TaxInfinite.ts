@@ -19,40 +19,19 @@ class TaxInfinite extends egret.Sprite{
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addImage,this);
     }
     
-    private system:particle.ParticleSystem;
-    private systemLeaf:particle.ParticleSystem;
-
     private async addImage(){
-        //this.addBack();
-        await this.addStar();
+        await this.addBack();
         this.success = ()=>{
             this.removeChild(this.talkContent);
             this.addGameInf();
             this.addGameBody();
         }
-        var system = new particle.GravityParticleSystem(RES.getRes("newParticle_png"), RES.getRes("newParticle_json"));
-        this.addChild(system);
-        system.start();
         this.addTalk();
     }
     
-    private async addStar() {
-        let imgHeight = this.width*1.78;
-        let top = imgHeight - this.height;
-        let sky = await GameConfig.createBitmapByName("back_1.png");
-        sky.width = this.width;
-        sky.height = imgHeight;
-        this.addChild(sky);
-
-        var fn = ()=> {
-            egret.Tween.get(sky)
-        .to( {y:-top}, 8*6000, egret.Ease.sineIn ).call(fn2);
-        }
-        var fn2 = ()=> {
-            egret.Tween.get(sky)
-        .to( {y:0}, 8*6000, egret.Ease.sineIn ).call(fn);
-        }
-        fn();
+    private async addBack() {
+        let back = new Background(0,0,this.width,this.height);
+        this.addChild(back)
     }
     
     private addGameBody() {
@@ -76,10 +55,6 @@ class TaxInfinite extends egret.Sprite{
             this.addPopClass(1,`继续加油吧，注意要经常使用道具哦`,'游戏结束');
         if(this.gameBody && this.gameBody.$parent)
             this.removeChild(this.gameBody);
-        // this.success = ()=>{
-        //     this.removeChildren();
-        //     this.addImage();
-        // }
     }
     private pop:PopClass;
     /**

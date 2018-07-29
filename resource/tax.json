@@ -1,12 +1,12 @@
 [
     {
-        "row": 10,
+        "row": 3,
         "checkType": "uncommon",
-        "col": 10,
+        "col": 3,
         "uncommon": 0,
         "matrix": [],
         "myScore": 3000,
-        "bingoType": 6,
+        "bingoType": 5,
         "step": 20,
         "time": 0,
         "monster": false,

@@ -60,49 +60,20 @@ var TaxPage = (function (_super) {
     }
     TaxPage.prototype.addImage = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var system;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: 
-                    //this.addBack();
-                    return [4 /*yield*/, this.addStar()];
-                    case 1:
-                        //this.addBack();
-                        _a.sent();
-                        system = new particle.GravityParticleSystem(RES.getRes("newParticle_png"), RES.getRes("newParticle_json"));
-                        this.addChild(system);
-                        system.start();
-                        this.addTalk();
-                        return [2 /*return*/];
-                }
+                this.addBack();
+                this.addTalk();
+                return [2 /*return*/];
             });
         });
     };
-    TaxPage.prototype.addStar = function () {
+    TaxPage.prototype.addBack = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var imgHeight, top, sky, fn, fn2;
+            var back;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        imgHeight = this.width * 1.78;
-                        top = imgHeight - this.height;
-                        return [4 /*yield*/, GameConfig.createBitmapByName("back_1.png")];
-                    case 1:
-                        sky = _a.sent();
-                        sky.width = this.width;
-                        sky.height = imgHeight;
-                        this.addChild(sky);
-                        fn = function () {
-                            egret.Tween.get(sky)
-                                .to({ y: -top }, 8 * 6000, egret.Ease.sineIn).call(fn2);
-                        };
-                        fn2 = function () {
-                            egret.Tween.get(sky)
-                                .to({ y: 0 }, 8 * 6000, egret.Ease.sineIn).call(fn);
-                        };
-                        fn();
-                        return [2 /*return*/];
-                }
+                back = new Background(0, 0, this.width, this.height);
+                this.addChild(back);
+                return [2 /*return*/];
             });
         });
     };
@@ -158,8 +129,10 @@ var TaxPage = (function (_super) {
                     this.addHore();
                     return [2 /*return*/];
                 }
-                platform.passTax(GameConfig.nowTax + 1);
-                platform.saveData(GameConfig.nowTax + 1);
+                if (GameConfig.nowTax === GameConfig.maxTax) {
+                    platform.passTax(GameConfig.nowTax + 1);
+                    platform.saveData(GameConfig.nowTax + 1);
+                }
                 this.addPopClass(0, "\u6311\u6218\u4E0B\u4E00\u5173\u5427\uFF0C\u5956\u52B1\u4F60" + score / 2 + "\u91D1", '游戏通关');
                 GameConfig.setCoin(score / 2);
                 this.gameInf.changeCoin();

@@ -59,15 +59,39 @@ class GameBody extends egret.Sprite{
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawDoors,this);
         this.touchEnabled = true;
         this.addEventListener(egret.TouchEvent.TOUCH_END, this.mouseDown, this);
-        //this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.mouseDown, this);
+        this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.mouseTap, this);
     }
     private initWinnerConfig() {
         let type = GameConfig.taxConfig[GameConfig.nowTax].checkType
     }
-    /* 事件捕捉 */
     private mouseDown(ev) {
+        console.log('down')
         let x =  Math.floor((ev.stageX-this.x)/GameBody.childW);
         let y = Math.floor((ev.stageY-this.y)/GameBody.childH);
+        if(this.lock||this.loack_2)
+            return;
+        if(this.exitObj(this.bingos,x,y)){
+           // 栈里面已经有bingo了
+           if(this.stackArr[0] && this.stackArr[0]!==this.bingos[x][y]) {
+               if(this.checkChange(this.stackArr[0],this.bingos[x][y])) {
+                   this.stackArr[0].chooseBingo();
+                   this.bingos[x][y].chooseBingo();
+                   this.stackArr.length = 0;
+               } else {
+
+               }
+           } else if(this.stackArr[0] && this.stackArr[0]===this.bingos[x][y]) {
+
+           } else {
+
+           }
+        }
+    }
+    /* 事件捕捉 */
+    private mouseTap(ev) {
+        let x =  Math.floor((ev.stageX-this.x)/GameBody.childW);
+        let y = Math.floor((ev.stageY-this.y)/GameBody.childH);
+        console.log('top')
         if(this.lock||this.loack_2)
             return;
         if(this.exitObj(this.bingos,x,y)){
@@ -510,10 +534,12 @@ class GameBody extends egret.Sprite{
         if(GameConfig.state !== 1) {
             return;
         }
-        // 這邊簡單記錄一下bingos
+        // 這邊簡單記錄一下bingos 没有解法了，就乱序
         if(!this.cloneBingos()){
-            this.parents.gameOver();
-            GameConfig.state = 2;
+            this.sortBingos()
+            setTimeout(()=>{
+                this.checkFun();
+            },this.speed)
             return;
         }
         if(GameConfig.nowTax!==-1 && this.gameInf.myScore>=GameConfig.taxConfig[GameConfig.nowTax].myScore) {
@@ -523,6 +549,32 @@ class GameBody extends egret.Sprite{
             return;
         }
         
+    }
+    private sortBingos() {
+        let arr = [],set = []
+        this.bingos.forEach((val,x)=>{
+            val.forEach((val2,y)=>{
+                arr.push( val2 )
+                set.push({
+                    x: x,
+                    y: y
+                })
+            })
+        });
+        arr.sort(()=>{
+            return Math.random()>.5 ? -1 : 1;
+        })
+        console.log(set)
+        let i = 0
+        this.bingos.forEach((val,x)=>{
+            val.forEach((val2,y)=>{
+                this.bingos[x][y] = arr[i]
+                console.log(arr[i])
+                console.log(set[i])
+                this.bingos[x][y].moveToSet(set[i].x,set[i].y)
+                i++            
+            })
+        });
     }
     private cloneBingos() {
         let arr = [];
