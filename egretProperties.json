@@ -1,6 +1,6 @@
 {
-	"engineVersion": "5.2.4",
-	"compilerVersion": "5.2.4",
+	"engineVersion": "5.2.6",
+	"compilerVersion": "5.2.6",
 	"template": {},
 	"target": {
 		"current": "web"
@@ -35,7 +35,7 @@
 		},
 		{
 			"name": "particle",
-			"path": "C:/Users/duhao/Desktop/game/particle/libsrc/"
+			"path": "../particle/libsrc/"
 		}
 	]
 }
