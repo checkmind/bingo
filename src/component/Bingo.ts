@@ -108,7 +108,7 @@ class Bingo extends egret.Sprite{
     public killSelf() {
         return new Promise((resolve)=>{
             this.addBlackHole(()=>{
-                this.$parent.removeChild(this);
+                this.$parent && this.$parent.removeChild(this);
                 resolve();            
             })
         })

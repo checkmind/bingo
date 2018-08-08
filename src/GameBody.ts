@@ -298,7 +298,6 @@ class GameBody extends egret.Sprite{
         for(let i = 0;i<this.row;i++) {
             let arrs = [];
             for(let j = 0;j<this.col;j++) {
-                
                 arrs.push(null);
             }
             this.bingos.push(arrs);
@@ -379,6 +378,8 @@ class GameBody extends egret.Sprite{
             x,y
         } = coord
         let obj = this.bingos[x][y]
+        if(!obj)
+            return
         let type = obj.type;
         if(type>=100)
             return;
@@ -479,7 +480,15 @@ class GameBody extends egret.Sprite{
             this.gameInf.updataScroe();
         })
     }
-    
+    private judegeMatrix(i, j) {
+        let satus = true
+        GameConfig.taxConfig[GameConfig.nowTax].matrix.map((val)=>{
+            if(val.x === i && val.y === j) {
+                satus = false
+            }
+        })
+        return satus
+    }
     /* 更新函数 */
     private updataGame() {
         // 游戏结束
@@ -491,7 +500,7 @@ class GameBody extends egret.Sprite{
             let num = undefined; //这个参数记录当前j，辅助计算createNewBingos的下降距离
             for(let j = this.col-1;j>=0;j--) {
 				// 当前没有方块，去上级拿
-				if( !now[j] ) {
+				if( !now[j] && this.judegeMatrix(i,j)) {
                     let topBingo = this.getMyTop(i,j-1) 
 					if(topBingo){
                         topBingo.moveToBottom(j);
@@ -554,11 +563,13 @@ class GameBody extends egret.Sprite{
         let arr = [],set = []
         this.bingos.forEach((val,x)=>{
             val.forEach((val2,y)=>{
-                arr.push( val2 )
-                set.push({
-                    x: x,
-                    y: y
-                })
+                if(val2) {
+                    arr.push( val2 )
+                    set.push({
+                        x: x,
+                        y: y
+                    })
+                }
             })
         });
         arr.sort(()=>{
@@ -568,11 +579,11 @@ class GameBody extends egret.Sprite{
         let i = 0
         this.bingos.forEach((val,x)=>{
             val.forEach((val2,y)=>{
-                this.bingos[x][y] = arr[i]
-                console.log(arr[i])
-                console.log(set[i])
-                this.bingos[x][y].moveToSet(set[i].x,set[i].y)
-                i++            
+                if(arr[i] && this.judegeMatrix(x,y)) {
+                    this.bingos[x][y] = arr[i]
+                    this.bingos[x][y].moveToSet(set[i].x,set[i].y)
+                    i++ 
+                }   
             })
         });
     }
@@ -582,7 +593,6 @@ class GameBody extends egret.Sprite{
         for(let i = 0;i<bingos.length;i++) {
             let arr_1 = [];
             for(let j = 0;j<bingos[i].length;j++) {
-                let type = bingos[i][j].type
                 if(this.checkLineExis(i,j))
                     return true;
                 // arr_1.push({

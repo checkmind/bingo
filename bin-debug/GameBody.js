@@ -386,6 +386,8 @@ var GameBody = (function (_super) {
     GameBody.prototype.checkAround = function (coord, direction) {
         var x = coord.x, y = coord.y;
         var obj = this.bingos[x][y];
+        if (!obj)
+            return;
         var type = obj.type;
         if (type >= 100)
             return;
@@ -487,6 +489,15 @@ var GameBody = (function (_super) {
             _this.gameInf.updataScroe();
         });
     };
+    GameBody.prototype.judegeMatrix = function (i, j) {
+        var satus = true;
+        GameConfig.taxConfig[GameConfig.nowTax].matrix.map(function (val) {
+            if (val.x === i && val.y === j) {
+                satus = false;
+            }
+        });
+        return satus;
+    };
     /* 更新函数 */
     GameBody.prototype.updataGame = function () {
         var _this = this;
@@ -499,7 +510,7 @@ var GameBody = (function (_super) {
             var num = undefined; //这个参数记录当前j，辅助计算createNewBingos的下降距离
             for (var j = this.col - 1; j >= 0; j--) {
                 // 当前没有方块，去上级拿
-                if (!now[j]) {
+                if (!now[j] && this.judegeMatrix(i, j)) {
                     var topBingo = this.getMyTop(i, j - 1);
                     if (topBingo) {
                         topBingo.moveToBottom(j);
@@ -562,11 +573,13 @@ var GameBody = (function (_super) {
         var arr = [], set = [];
         this.bingos.forEach(function (val, x) {
             val.forEach(function (val2, y) {
-                arr.push(val2);
-                set.push({
-                    x: x,
-                    y: y
-                });
+                if (val2) {
+                    arr.push(val2);
+                    set.push({
+                        x: x,
+                        y: y
+                    });
+                }
             });
         });
         arr.sort(function () {
@@ -576,11 +589,11 @@ var GameBody = (function (_super) {
         var i = 0;
         this.bingos.forEach(function (val, x) {
             val.forEach(function (val2, y) {
-                _this.bingos[x][y] = arr[i];
-                console.log(arr[i]);
-                console.log(set[i]);
-                _this.bingos[x][y].moveToSet(set[i].x, set[i].y);
-                i++;
+                if (arr[i] && _this.judegeMatrix(x, y)) {
+                    _this.bingos[x][y] = arr[i];
+                    _this.bingos[x][y].moveToSet(set[i].x, set[i].y);
+                    i++;
+                }
             });
         });
     };
@@ -590,7 +603,6 @@ var GameBody = (function (_super) {
         for (var i = 0; i < bingos.length; i++) {
             var arr_1 = [];
             for (var j = 0; j < bingos[i].length; j++) {
-                var type = bingos[i][j].type;
                 if (this.checkLineExis(i, j))
                     return true;
                 // arr_1.push({

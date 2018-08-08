@@ -201,7 +201,7 @@ var Bingo = (function (_super) {
         var _this = this;
         return new Promise(function (resolve) {
             _this.addBlackHole(function () {
-                _this.$parent.removeChild(_this);
+                _this.$parent && _this.$parent.removeChild(_this);
                 resolve();
             });
         });
