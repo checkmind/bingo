@@ -51,11 +51,12 @@
 </body>
 <script>
 let style = {
-	row: '行数:Number',
-	col: '列数:Number',
-	checkType: '默认uncommon:String',
-	myScore: '通关成绩:Number',
-	bingoType: '元素最大类型:Number',
+	row: '行数',
+	col: '列数',
+	checkType: '不用设置',
+	matrix: '障碍物',
+	myScore: '通关成绩',
+	bingoType: '元素最大类型',
 	step: '步数:Number',
 	time: '时间:Number',
 	monster: '怪物:Boolean',
@@ -77,6 +78,7 @@ $("#parseButton").click(()=>{
 	   		<td><input value='${ val.row||'未填写' }' /> </td>
 	   		<td><input value='${ val.col||'未填写' }' /> </td>
 	   		<td><input value='${ val.checkType||'未填写' }' /> </td>
+			<td><input value='${ val.matrix }' type='hidden'/> <button class=''>设置</button></td>
 	   		<td><input value='${ val.myScore||'未填写' }' /> </td>
 	   		<td><input value='${ val.bingoType||'未填写' }' /> </td>
 	   		<td><input value='${ val.step||'未填写' }' /> </td>

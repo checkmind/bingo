@@ -35,7 +35,6 @@ class GameBody extends egret.Sprite{
         super();
         this.width = width;
         this.parents = parents;
-        console.log("载入gamebody")
         if(GameConfig.nowTax!==-1){
             GameBody.childH = GameBody.childW =  (this.width - this.padding) / GameConfig.taxConfig[GameConfig.nowTax].row;
             this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
@@ -65,7 +64,6 @@ class GameBody extends egret.Sprite{
         let type = GameConfig.taxConfig[GameConfig.nowTax].checkType
     }
     private mouseDown(ev) {
-        console.log('down')
         let x =  Math.floor((ev.stageX-this.x)/GameBody.childW);
         let y = Math.floor((ev.stageY-this.y)/GameBody.childH);
         if(this.lock||this.loack_2)
@@ -91,7 +89,6 @@ class GameBody extends egret.Sprite{
     private mouseTap(ev) {
         let x =  Math.floor((ev.stageX-this.x)/GameBody.childW);
         let y = Math.floor((ev.stageY-this.y)/GameBody.childH);
-        console.log('top')
         if(this.lock||this.loack_2)
             return;
         if(this.exitObj(this.bingos,x,y)){
@@ -299,6 +296,9 @@ class GameBody extends egret.Sprite{
             let arrs = [];
             for(let j = 0;j<this.col;j++) {
                 arrs.push(null);
+                if(!this.judegeMatrix(i,j)) {
+                    this.addChildAt(new Wall(i,j,0,this),9)
+                }
             }
             this.bingos.push(arrs);
         }
@@ -316,7 +316,7 @@ class GameBody extends egret.Sprite{
         for(let i = 0;i<this.row;i++) {
                 let ran = this.ran()
                 let bingo:Bingo = new Bingo(i,-1,ran,this);
-                this.addChild(bingo);
+                this.addChildAt(bingo,0);
                 this.newBingos.push(bingo);            
         }
         this.moveToBottom();
@@ -345,7 +345,6 @@ class GameBody extends egret.Sprite{
             return;
         this.checkBingos();
         if(this.clears.length ===0){
-            console.log('游戏主体内监测的')
             this.lock = false;
             this.checkGameOver();
             return false;
@@ -537,12 +536,11 @@ class GameBody extends egret.Sprite{
 
     /* 檢查游戲是否真的結束包括时间、熵值、无解 */
     private checkGameOver() {
-        console.log('监测是否结束')
-        console.log(GameConfig.state)
         /* 如果不在运行中，就结束游戏 */
         if(GameConfig.state !== 1) {
             return;
         }
+        console.log('判断有没有解法')
         // 這邊簡單記錄一下bingos 没有解法了，就乱序
         if(!this.cloneBingos()){
             this.sortBingos()
@@ -552,7 +550,6 @@ class GameBody extends egret.Sprite{
             return;
         }
         if(GameConfig.nowTax!==-1 && this.gameInf.myScore>=GameConfig.taxConfig[GameConfig.nowTax].myScore) {
-            console.log("通关了")
             this.parents.passTax(this.gameInf.myScore);
             GameConfig.state = 2;
             return;
@@ -575,7 +572,6 @@ class GameBody extends egret.Sprite{
         arr.sort(()=>{
             return Math.random()>.5 ? -1 : 1;
         })
-        console.log(set)
         let i = 0
         this.bingos.forEach((val,x)=>{
             val.forEach((val2,y)=>{
@@ -590,14 +586,19 @@ class GameBody extends egret.Sprite{
     private cloneBingos() {
         let arr = [];
         let bingos = this.bingos
+        
         for(let i = 0;i<bingos.length;i++) {
             let arr_1 = [];
             for(let j = 0;j<bingos[i].length;j++) {
+                if(!this.judegeMatrix(i, j)) {
+                    console.log('这个元素不用去检测')
+                    console.log(i,j)
+                    console.log(bingos[i][j])
+                    console.log(bingos)
+                    break;
+                }
                 if(this.checkLineExis(i,j))
                     return true;
-                // arr_1.push({
-                //     type: bingos[i][j].type
-                // })
             }
             arr.push(arr_1);
         }
@@ -642,9 +643,21 @@ class GameBody extends egret.Sprite{
             })
             return can;
         }
-        for(let num = 0;num<AllCoord.length;num++) {
-            if(checkType(AllCoord[num]))
-                return true
+        for(let num = 0; num < 4; num++) {
+            let judege = this.judegeMatrix(i+1,j);
+            // 要交换的元素不存在
+            if(judege){
+                if(checkType(AllCoord[num]))
+                    return true
+            }
+        }
+        for(let num = 4; num < AllCoord.length; num++) {
+            let judege = this.judegeMatrix(i,j+1);
+            // 要交换的元素不存在
+            if(judege){
+                if(checkType(AllCoord[num]))
+                    return true
+            }
         }
         return false;
     }
@@ -666,7 +679,7 @@ class GameBody extends egret.Sprite{
         }
         // 注释
         let bingo:Bingo = new Bingo(i,-set,ran,this);
-        this.addChild(bingo);
+        this.addChildAt(bingo,0);
         bingo.moveToBottom(j);
         this.bingos[i][j] = bingo;
     }
