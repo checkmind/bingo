@@ -31,6 +31,7 @@ var GameBody = (function (_super) {
         _this.stackArr = [];
         // 产生新的bingos
         _this.newBingos = [];
+        _this.matrixes = [];
         _this.lockCheck = false;
         /************* 检查游戏函数ending************* */
         /*
@@ -44,7 +45,7 @@ var GameBody = (function (_super) {
             _this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
             _this.col = GameConfig.taxConfig[GameConfig.nowTax].col;
             _this.bingoType = GameConfig.taxConfig[GameConfig.nowTax].bingoType;
-            _this.speed = 500;
+            _this.speed = 300;
         }
         else {
             GameBody.childH = GameBody.childW = (_this.width - _this.padding) / GameConfig.infiniteRow;
@@ -274,7 +275,7 @@ var GameBody = (function (_super) {
             }
             _this.bingos.forEach(function (val) {
                 val.forEach(function (val2) {
-                    val2.beDark();
+                    val2 && val2.beDark();
                 });
             });
         }, 5000);
@@ -293,8 +294,12 @@ var GameBody = (function (_super) {
                 return;
             _this.bingos.forEach(function (val) {
                 val.forEach(function (val2) {
-                    if (Math.floor(Math.random() * 10) === 2)
-                        val2.beType(_this.ran());
+                    if (Math.floor(Math.random() * 10) === 2) {
+                        val2 && val2.beType(_this.ran());
+                        setTimeout(function () {
+                            _this.checkFun();
+                        }, _this.speed + 1);
+                    }
                 });
             });
             _this.checkFun();
@@ -306,7 +311,9 @@ var GameBody = (function (_super) {
             for (var j = 0; j < this.col; j++) {
                 arrs.push(null);
                 if (!this.judegeMatrix(i, j)) {
-                    this.addChildAt(new Wall(i, j, 0, this), 9);
+                    var wall = new Wall(i, j, 0, this);
+                    this.matrixes.push(wall);
+                    this.addChildAt(wall, 9);
                 }
             }
             this.bingos.push(arrs);
@@ -490,6 +497,9 @@ var GameBody = (function (_super) {
     };
     GameBody.prototype.judegeMatrix = function (i, j) {
         var satus = true;
+        if (GameConfig.nowTax === -1) {
+            return true;
+        }
         GameConfig.taxConfig[GameConfig.nowTax].matrix.map(function (val) {
             if (val.x === i && val.y === j) {
                 satus = false;

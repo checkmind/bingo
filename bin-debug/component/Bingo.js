@@ -63,9 +63,28 @@ var Bingo = (function (_super) {
     }
     Bingo.prototype.drawDoors = function () {
         //this.addRect();
+        //this.addMask()
         this.addImage();
         //this.addText();
         //this.addBlackHole();
+    };
+    Bingo.prototype.addMask = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = this;
+                        return [4 /*yield*/, GameConfig.createBitmapByName("rect_2.png")];
+                    case 1:
+                        _a.rect = _b.sent();
+                        this.rect.width = this.width;
+                        this.rect.height = this.height;
+                        this.addChild(this.rect);
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     Bingo.prototype.addRect = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -106,6 +125,10 @@ var Bingo = (function (_super) {
                     case 4:
                         this.img.width = this.width;
                         this.img.height = this.height;
+                        this.img.anchorOffsetX = this.width / 2;
+                        this.img.anchorOffsetY = this.width / 2;
+                        this.img.x = this.img.width / 2;
+                        this.img.y = this.img.width / 2;
                         this.addChild(this.img);
                         return [2 /*return*/];
                 }
@@ -143,13 +166,25 @@ var Bingo = (function (_super) {
     // 变成另外的星球
     Bingo.prototype.beType = function (type) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             return __generator(this, function (_a) {
-                this.removeChild(this.img);
-                this.type = type;
-                this.addImage();
+                this.changeBiong(function () {
+                    _this.removeChild(_this.img);
+                    _this.type = type;
+                    _this.addImage();
+                });
                 return [2 /*return*/];
             });
         });
+    };
+    Bingo.prototype.changeBiong = function (fn) {
+        var sky = this.img;
+        var iDirection = 1;
+        var funcChange = function () {
+            sky.rotation += 6 * iDirection;
+        };
+        egret.Tween.get(sky, { onChange: funcChange, onChangeObj: sky })
+            .to({}, this.parents.speed, egret.Ease.sineIn).call(fn);
     };
     Bingo.prototype.addBlackHole = function (fn) {
         return __awaiter(this, void 0, void 0, function () {
@@ -178,7 +213,6 @@ var Bingo = (function (_super) {
                             }
                         };
                         iDirection = 1;
-                        //egret.Tween.get( sky ).to( {width:0,height:0}, 600, egret.Ease.sineIn )
                         this.addChild(sky);
                         self = this;
                         egret.Tween.get(sky, { onChange: funcChange, onChangeObj: sky })

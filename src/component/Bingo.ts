@@ -22,9 +22,16 @@ class Bingo extends egret.Sprite{
     }
     private drawDoors(){
         //this.addRect();
+        //this.addMask()
         this.addImage();
         //this.addText();
         //this.addBlackHole();
+    }
+    private async addMask(){
+        this.rect =await GameConfig.createBitmapByName("rect_2.png");
+        this.rect.width = this.width;
+        this.rect.height = this.height;
+        this.addChild(this.rect);
     }
     private async addRect(){
         this.rect =await GameConfig.createBitmapByName("rect.png");
@@ -40,6 +47,10 @@ class Bingo extends egret.Sprite{
         }
         this.img.width = this.width;
         this.img.height = this.height;
+        this.img.anchorOffsetX = this.width/2
+        this.img.anchorOffsetY = this.width/2
+        this.img.x = this.img.width/2;
+        this.img.y = this.img.width/2;
         this.addChild(this.img);
     }
     private nowDrak:Boolean = false;
@@ -61,9 +72,20 @@ class Bingo extends egret.Sprite{
     }
     // 变成另外的星球
     private async beType(type) {
-        this.removeChild(this.img);
-        this.type = type;
-        this.addImage();
+        this.changeBiong(()=>{
+            this.removeChild(this.img);
+            this.type = type;
+            this.addImage();
+        })
+    }
+    private changeBiong(fn) {
+        let sky = this.img
+        let iDirection:number = 1;
+        let funcChange = ():void=>{
+            sky.rotation += 6 * iDirection;
+        }
+        egret.Tween.get( sky, { onChange:funcChange, onChangeObj:sky } )
+            .to( {}, this.parents.speed, egret.Ease.sineIn ).call(fn);
     }
     private async addBlackHole(fn) {
         if(!this.img)
@@ -86,8 +108,6 @@ class Bingo extends egret.Sprite{
             }
         }
         var iDirection:number = 1;  
-        //egret.Tween.get( sky ).to( {width:0,height:0}, 600, egret.Ease.sineIn )
-        
         this.addChild(sky);
         let self = this;
         egret.Tween.get( sky, { onChange:funcChange, onChangeObj:sky } )

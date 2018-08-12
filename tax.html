@@ -18,6 +18,7 @@
 	.table {
 		margin-top: 20px;
 		height: 300px;
+		text-align: center;
 	}
 	.tabel-con {
 		width: 100%;
@@ -30,6 +31,42 @@
 	}
 	button {
 		margin-top: 30px;
+	}
+	table {
+		font-size: 12px;
+	}
+	.modal-dialog {
+		margin-top: 100px;
+	}
+	.setMatrix {
+		color: blue;
+		width: 60px;
+		text-align: center;
+		display: inline-block;
+	}
+	.row {
+		justify-content: center;
+	}
+	.col {
+		width: 40px;
+		height: 40px;
+		border: 1px solid white;
+		text-align: center;
+		line-height: 40px;
+		color: white;
+		font-weight: bold;
+		font-size: 16px;
+		flex-grow: 0;
+		flex-shrink: 0;
+		flex-basis: 40px;
+		justify-content: center;
+		align-items: center;
+	}
+	.blue {
+		background: #007bff;
+	}
+	.red {
+		background: #ff6c00;
 	}
 </style>
 <body>
@@ -47,6 +84,22 @@
 	  </tbody>
 	</table>
 </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				在这里添加一些文本
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="button" class="btn btn-primary">
+					提交更改
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
 <textarea class='form-control textareaa trigger'></textarea>
 </body>
 <script>
@@ -57,11 +110,11 @@ let style = {
 	matrix: '障碍物',
 	myScore: '通关成绩',
 	bingoType: '元素最大类型',
-	step: '步数:Number',
-	time: '时间:Number',
-	monster: '怪物:Boolean',
-	darkTime: '黑暗星球: Boolean',
-	changeTime: '星球变化: Boolean'
+	step: '步数',
+	time: '时间',
+	monster: '怪物',
+	darkTime: '黑暗星球',
+	changeTime: '星球变化'
 }
 let headStr = ''
 Object.keys(style).forEach((key, index)=>{
@@ -73,29 +126,33 @@ $("#parseButton").click(()=>{
 	json =JSON.parse(json)
 	let tbodyStr = ''
 	json.forEach((val, index)=>{
+		let matrix = JSON.stringify(val.matrix)
+		console.log(typeof matrix)
 		tbodyStr += 
 	   `<tr>
-	   		<td><input value='${ val.row||'未填写' }' /> </td>
-	   		<td><input value='${ val.col||'未填写' }' /> </td>
-	   		<td><input value='${ val.checkType||'未填写' }' /> </td>
-			<td><input value='${ val.matrix }' type='hidden'/> <button class=''>设置</button></td>
-	   		<td><input value='${ val.myScore||'未填写' }' /> </td>
-	   		<td><input value='${ val.bingoType||'未填写' }' /> </td>
-	   		<td><input value='${ val.step||'未填写' }' /> </td>
-	   		<td><input value='${ val.time||'未填写' }' /> </td>
-	   		<td><input value='${ val.monster||'未填写' }' /> </td>
-	   		<td><input value='${ val.darkTime||'未填写' }' /> </td>
-	   		<td><input value='${ val.changeTime||'未填写' }' /> </td>
+	   		<td><input value='${ val.row||'必填' }' /> </td>
+	   		<td><input value='${ val.col||'必填' }' /> </td>
+	   		<td><input value='${ val.checkType||'common' }' /> </td>
+			<td><input value='${ matrix }' type='hidden'/> <a javascript=":;" class='setMatrix' data-toggle="modal" data-target="#myModal">设置</a></td>
+	   		<td><input value='${ val.myScore||0 }' /> </td>
+	   		<td><input value='${ val.bingoType||4 }' /> </td>
+	   		<td><input value='${ val.step||0 }' /> </td>
+	   		<td><input value='${ val.time||0 }' /> </td>
+	   		<td><input value='${ val.monster||0 }' /> </td>
+	   		<td><input value='${ val.darkTime||0 }' /> </td>
+	   		<td><input value='${ val.changeTime||0 }' /> </td>
 	   </tr>
 	   `
 	});
 	$('#tbody').html(tbodyStr)
+	setMatrix()
 })
 $("#stringButton").click(()=>{
 	let tbodyStr = `<tr>
 			<td><input value='' /> </td>
 	   		<td><input value='' /> </td>
 	   		<td><input value='' /> </td>
+	   		<td><input type='hidden' value="[]"/> <a javascript=":;" class='setMatrix'>设置</a></td>
 	   		<td><input value='' /> </td>
 	   		<td><input value='' /> </td>
 	   		<td><input value='' /> </td>
@@ -103,16 +160,109 @@ $("#stringButton").click(()=>{
 	   		<td><input value='' /> </td>
 	   		<td><input value='' /> </td>
 	   		<td><input value='' /> </td></tr>`
-	$("#tbody").html($('#tbody').html() + tbodyStr)
+	$("#tbody").append(tbodyStr)
+	setMatrix()
 })
+let matrixNode;
+function setMatrix() {
+	$(".setMatrix").on('click',function (){
+		// tr
+		matrixNode = $(this).prev()
+		let trNode = $(this).parent().parent()
+		let row = $(trNode.find('input')[0]).val()
+		let col = $(trNode.find('input')[1]).val()
+		let data = JSON.parse($(matrixNode).val())
+		// 开始画方格
+		let allStr = ''
+		for(let i = 0;i<row;i++) {
+			let str = `<div class='row'>`;
+			for(let j = 0;j<col;j++) {
+				if(hadMatrix(data,j,i))
+					str += `<div class='col red' data-col='${i}' data-row='${j}' matrix='true'></div>`
+				else
+					str += `<div class='col blue' data-col='${i}' data-row='${j}' matrix='false' ></div>`
+			}
+			str+='</div>'
+			allStr += str
+		}
+		$(".modal-body").html(allStr);
+		clickRow()
+		showModel()
+	})
+}
+// 检查障碍物
+function hadMatrix(data,i,j) {
+	let onoff = false
+	data.map(function(val){
+		if(val.x === i && val.y ===j)
+			onoff = true
+	})
+	return onoff
+}
+function clickRow() {
+	$(".modal-body .row .col").click(function(){
+		if($(this).hasClass('blue')) {
+			$(this).addClass('red')
+			$(this).removeClass('blue')
+			$(this).attr('matrix','true');
+		} else {
+			$(this).addClass('blue')
+			$(this).removeClass('red')
+			$(this).attr('matrix','false');
+		}	
+	})
+	$(".modal-footer .btn-primary").click(function(){
+		saveMatirx()
+	})
+	$(".modal-footer .btn-default").click(function(){
+		hideModel()
+	})
+}
+function saveMatirx() {
+	let row = $(".modal-body .row"),
+		col = $(".modal-body .col"),
+		matrix = [];
+	for(let i = 0;i<row.length;i++) {
+		for(let j = 0;j<col.length;j++) {
+			if($(`.modal-body .row:eq(${i}) .col:eq(${j})`).attr('matrix') == 'true') {
+				matrix.push({
+					x: j,
+					y: i
+				})
+			}
+		}
+	}
+	hideModel()
+	$(matrixNode).val(JSON.stringify(matrix))
+}
+function showModel() {
+	$(".modal").show()
+	$('.modal').removeClass('fade')
+}
+function hideModel() {
+	$(".modal").hide()
+	$('.modal').addClass('fade')
+}
 let hash = []
 $("#ok").click((e)=>{
-	
+	$(".trigger").html('');
 	for(let i = 0;i<$("#tbody tr").length;i++) {
 		let obj = {}
 		for(let j = 0;j<$("#tbody tr:eq("+i+") td").length;j++) {
-
-			obj[Object.keys(style)[j]] = $("#tbody tr:eq("+i+") td:eq("+j+") input").val()
+			let val  = $("#tbody tr:eq("+i+") td:eq("+j+") input").val()
+			if(j===3 && val) {
+				val = JSON.parse(val)
+				obj[Object.keys(style)[j]] = val
+			} 
+			if(j===3 && !val) {
+				val = []
+				obj[Object.keys(style)[j]] = val
+			}
+			if(j!==3) {
+				let check = +val;
+				let number = (!isNaN(check)) ? check : val
+				obj[Object.keys(style)[j]] = number
+			}
 		}
 		hash.push(obj)
 	}
@@ -154,7 +304,5 @@ $('.trigger').bind({
 		$('#message').html(data);
 	}
 });
-
-//[{"row":"5","col":"5","checkType":"uncommon","myScore":"1600","bingoType":"4","step":"10","time":"未填写","monster":"未填写","darkTime":"未填写","changeTime":"未填写"},{"row":"5","col":"5","checkType":"uncommon","myScore":"3000","bingoType":"4","step":"未填写","time":"60","monster":"未填写","darkTime":"未填写","changeTime":"未填写"},{"row":"5","col":"5","checkType":"uncommon","myScore":"3000","bingoType":"5","step":"20","time":"未填写","monster":"未填写","darkTime":"10","changeTime":"未填写"},{"row":"6","col":"6","checkType":"uncommon","myScore":"3000","bingoType":"4","step":"20","time":"未填写","monster":"未填写","darkTime":"true","changeTime":"未填写"},{"row":"7","col":"7","checkType":"uncommon","myScore":"4000","bingoType":"4","step":"未填写","time":"60","monster":"未填写","darkTime":"true","changeTime":"未填写"},{"row":"7","col":"7","checkType":"uncommon","myScore":"100","bingoType":"4","step":"未填写","time":"60","monster":"true","darkTime":"未填写","changeTime":"未填写"},{"row":"7","col":"7","checkType":"uncommon","myScore":"100","bingoType":"4","step":"未填写","time":"60","monster":"未填写","darkTime":"未填写","changeTime":"未填写"},{"row":"8","col":"8","checkType":"uncommon","myScore":"100","bingoType":"5","step":"未填写","time":"60","monster":"未填写","darkTime":"未填写","changeTime":"未填写"},{"row":"8","col":"8","checkType":"uncommon","myScore":"100","bingoType":"6","step":"未填写","time":"50","monster":"true","darkTime":"未填写","changeTime":"未填写"}]
 </script>
 </html>

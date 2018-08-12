@@ -21,10 +21,10 @@ class Wall extends egret.Sprite{
         
     }
     private drawDoors(){
-        this.addImage();
+        //this.addImage();
     }
     private async addImage(){
-        this.img =await GameConfig.createBitmapByName("stone.png");     
+        this.img =await GameConfig.createBitmapByName("rect.png");     
         this.img.width = this.width;
         this.img.height = this.height;
         this.addChild(this.img);

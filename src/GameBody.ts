@@ -40,7 +40,7 @@ class GameBody extends egret.Sprite{
             this.row = GameConfig.taxConfig[GameConfig.nowTax].row;
             this.col = GameConfig.taxConfig[GameConfig.nowTax].col;
             this.bingoType = GameConfig.taxConfig[GameConfig.nowTax].bingoType;    
-            this.speed = 500;
+            this.speed = 300;
         } else {
             GameBody.childH = GameBody.childW =  (this.width - this.padding) / GameConfig.infiniteRow;
             this.row = GameConfig.infiniteRow
@@ -266,7 +266,7 @@ class GameBody extends egret.Sprite{
             }
             this.bingos.forEach((val)=>{
                 val.forEach((val2)=>{
-                    val2.beDark();
+                    val2 && val2.beDark();
                 })
             })
         },5000)
@@ -284,20 +284,27 @@ class GameBody extends egret.Sprite{
                 return;
             this.bingos.forEach((val)=>{
                 val.forEach((val2)=>{
-                    if(Math.floor(Math.random()*10)===2)
-                        val2.beType(this.ran());
+                    if(Math.floor(Math.random()*10)===2) {
+                        val2 && val2.beType(this.ran());
+                        setTimeout(()=>{
+                            this.checkFun();
+                        },this.speed+1)
+                    } 
                 })
             })
             this.checkFun();
         },5000)
     }
+    public matrixes = [];
     private drawBingo() {
         for(let i = 0;i<this.row;i++) {
             let arrs = [];
             for(let j = 0;j<this.col;j++) {
                 arrs.push(null);
                 if(!this.judegeMatrix(i,j)) {
-                    this.addChildAt(new Wall(i,j,0,this),9)
+                    let wall = new Wall(i,j,0,this)
+                    this.matrixes.push(wall)
+                    this.addChildAt(wall,9)
                 }
             }
             this.bingos.push(arrs);
@@ -481,6 +488,9 @@ class GameBody extends egret.Sprite{
     }
     private judegeMatrix(i, j) {
         let satus = true
+        if(GameConfig.nowTax === -1) {
+            return true
+        }
         GameConfig.taxConfig[GameConfig.nowTax].matrix.map((val)=>{
             if(val.x === i && val.y === j) {
                 satus = false
@@ -586,7 +596,6 @@ class GameBody extends egret.Sprite{
     private cloneBingos() {
         let arr = [];
         let bingos = this.bingos
-        
         for(let i = 0;i<bingos.length;i++) {
             let arr_1 = [];
             for(let j = 0;j<bingos[i].length;j++) {
