@@ -23,11 +23,11 @@ class GameConfig{
     static stepOnoff = true;
     static maxStep = 20;  
     // 金钱
-    static coin = 500;
-    static minCoin = 10000;
+    static coin = 0;
+    static minCoin = 2000;
     /* 道具数目 */
-    static helperArr = [1,1,1,1,1];
-    static helperPrice = [1000,1000,1000,1000,1000];
+    static helperArr = [1,0,0,0,0];
+    static helperPrice = [2000,2000,2000,2000,2000];
     static helperSrc = ['1','hit','change','foot','time']
     /* 星球种类 */
     static bingosMax = 8;
@@ -60,7 +60,7 @@ class GameConfig{
     static async initHelpArr() {
         GameConfig.helperArr = await platform.getHelpStorage();
         if(!GameConfig.helperArr) {
-            GameConfig.helperArr = [1,2,3,4]  
+            GameConfig.helperArr = [1,0,0,0,0]  
         }
     }
     static async initCoin() {

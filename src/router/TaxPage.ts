@@ -20,7 +20,6 @@ class TaxPage extends egret.Sprite{
         
     }
     
-
     private async addImage(){
         this.addBack()
         this.addTalk();
@@ -74,8 +73,9 @@ class TaxPage extends egret.Sprite{
             return;
         }
         if(GameConfig.nowTax === GameConfig.maxTax) {
-            platform.passTax(GameConfig.nowTax+1);
-            platform.saveData(GameConfig.nowTax+1)
+            GameConfig.maxTax++;
+            platform.passTax(GameConfig.maxTax);
+            platform.saveData(GameConfig.maxTax)
         }
         this.addPopClass(0,`挑战下一关吧，奖励你${score/2}金`,'游戏通关');
         GameConfig.setCoin(score/2);
@@ -124,11 +124,8 @@ class TaxPage extends egret.Sprite{
                 break;
             case 'next':
                 
-                console.log("next")
-                if(GameConfig.nowTax===GameConfig.maxTax){
-                    GameConfig.maxTax++;
-                    GameConfig.nowTax = GameConfig.maxTax
-                }
+                GameConfig.nowTax++
+                  
                 console.log(GameConfig.nowTax);
                 this.removeChildren();
                     GameConfig.state = 1;

@@ -9,7 +9,7 @@ class Prop extends egret.Sprite{
     public parents
     private choosed
     private text:egret.TextField
-    private propName = ['星球锁定','降维打击','粒子交换','道聚四','道具五']
+    private propName = ['星球锁定','降维打击','粒子交换','增加步数','增加时间']
     private rect;
     private rect_2;
     private callback:Function;
@@ -88,7 +88,7 @@ class Prop extends egret.Sprite{
         if(GameConfig.helperArr[this.type]>0)
             text.text = this.propName[this.type];
         else 
-            text.text = '售: 500金'
+            text.text = `售: ${GameConfig.helperPrice[this.type]}金`
         text.width = 100;
         text.y = 75;
         text.size = 16;
@@ -136,7 +136,8 @@ class Prop extends egret.Sprite{
             platform.playButtonMusic();
             // 购买道具
             if(GameConfig.helperArr[this.type] <= 0) {
-                if(GameConfig.coin <= GameConfig.minCoin) {
+                if(GameConfig.coin < GameConfig.helperPrice[this.type]) {
+                    GameConfig.helperPrice[this.type]
                     this.addTimeWords(`穷鬼买什么道具??`)
                     return;
                 }
@@ -147,6 +148,7 @@ class Prop extends egret.Sprite{
                 this.setNum();
                 
                 this.addTimeWords(`您花费了${GameConfig.helperPrice[this.type]}购买道具成功`)
+                text.text = this.propName[this.type];
                 return;
             }
             
@@ -159,8 +161,8 @@ class Prop extends egret.Sprite{
                 case 2: 
                     if(!GameConfig.canChange)
                         this.changeProp()
-                    if(GameConfig.helperArr[GameConfig.helper-1]>=1)
-                        GameConfig.helperArr[GameConfig.helper-1] -= 1
+                    GameConfig.setHelpArr(-1,this.type);    
+                    this.setNum();
                     break;
                 // 增加步数道具
                 case 3:
@@ -183,7 +185,7 @@ class Prop extends egret.Sprite{
                     }
                     this.unshowWords();
                     GameConfig.helper = 0;                  
-                    GameConfig.setHelpArr(-1,this.type);
+                    GameConfig.setHelpArr(-1,this.type); 
                     this.parents.setTime(10);
                     this.setNum();
                     break;

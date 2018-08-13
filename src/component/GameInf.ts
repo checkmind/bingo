@@ -56,7 +56,7 @@ class GameInf extends egret.Sprite{
         this.coinText.width = 200;
         this.coinText.x = 60;
         this.coinText.y = 0 + 15;
-        this.coinText.text = '99999金';
+        this.coinText.text = GameConfig.coin + '';
         this.coinText.textAlign = 'left';
         
         this.coinText.size = 20;

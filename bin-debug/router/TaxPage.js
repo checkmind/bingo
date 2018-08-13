@@ -130,8 +130,9 @@ var TaxPage = (function (_super) {
                     return [2 /*return*/];
                 }
                 if (GameConfig.nowTax === GameConfig.maxTax) {
-                    platform.passTax(GameConfig.nowTax + 1);
-                    platform.saveData(GameConfig.nowTax + 1);
+                    GameConfig.maxTax++;
+                    platform.passTax(GameConfig.maxTax);
+                    platform.saveData(GameConfig.maxTax);
                 }
                 this.addPopClass(0, "\u6311\u6218\u4E0B\u4E00\u5173\u5427\uFF0C\u5956\u52B1\u4F60" + score / 2 + "\u91D1", '游戏通关');
                 GameConfig.setCoin(score / 2);
@@ -183,11 +184,7 @@ var TaxPage = (function (_super) {
                         PageBus.gotoPage("index");
                         return [3 /*break*/, 7];
                     case 2:
-                        console.log("next");
-                        if (GameConfig.nowTax === GameConfig.maxTax) {
-                            GameConfig.maxTax++;
-                            GameConfig.nowTax = GameConfig.maxTax;
-                        }
+                        GameConfig.nowTax++;
                         console.log(GameConfig.nowTax);
                         this.removeChildren();
                         GameConfig.state = 1;
