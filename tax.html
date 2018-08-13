@@ -35,6 +35,9 @@
 	table {
 		font-size: 12px;
 	}
+	a {
+		cursor: pointer;
+	}
 	.modal-dialog {
 		margin-top: 100px;
 	}
@@ -68,6 +71,27 @@
 	.red {
 		background: #ff6c00;
 	}
+	.tds {
+		position: relative;
+		padding-left: 50px !important;
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+	}
+
+	.taxName {
+		position: absolute;
+		left: 0 ;
+		display: block;
+		text-align: left;
+		width: auto;
+	}
+	.npc {
+		color: #007bff;
+	}
+	.hero {
+		color: #ff6c00;
+	}
 </style>
 <body>
 <textarea class="form-control textareaa" rows="3" id='config' placeholder="先把tax.json粘贴到这里"></textarea>
@@ -91,6 +115,11 @@
 				在这里添加一些文本
 			</div>
 			<div class="modal-footer">
+
+				<button type="button" class="btn btn-add btn-add-hero hide" >hero+
+				</button>
+				<button type="button" class="btn btn-add btn-add-npc hide">npc +
+				</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
 				<button type="button" class="btn btn-primary">
@@ -114,7 +143,8 @@ let style = {
 	time: '时间',
 	monster: '怪物',
 	darkTime: '黑暗星球',
-	changeTime: '星球变化'
+	changeTime: '星球变化',
+	npcTalk: '对话'
 }
 let headStr = ''
 Object.keys(style).forEach((key, index)=>{
@@ -127,10 +157,15 @@ $("#parseButton").click(()=>{
 	let tbodyStr = ''
 	json.forEach((val, index)=>{
 		let matrix = JSON.stringify(val.matrix)
-		console.log(typeof matrix)
+		console.log(val.npcTalk)
+		let npcTalk
+		if(val.npcTalk)
+		   npcTalk = JSON.stringify(val.npcTalk)
+		else
+			npcTalk = '[]'
 		tbodyStr += 
 	   `<tr>
-	   		<td><input value='${ val.row||'必填' }' /> </td>
+	   		<td class='tds'><span class='taxName'>第${index+1}关卡</span><input value='${ val.row||'必填' }' /> </td>
 	   		<td><input value='${ val.col||'必填' }' /> </td>
 	   		<td><input value='${ val.checkType||'common' }' /> </td>
 			<td><input value='${ matrix }' type='hidden'/> <a javascript=":;" class='setMatrix' data-toggle="modal" data-target="#myModal">设置</a></td>
@@ -141,11 +176,13 @@ $("#parseButton").click(()=>{
 	   		<td><input value='${ val.monster||0 }' /> </td>
 	   		<td><input value='${ val.darkTime||0 }' /> </td>
 	   		<td><input value='${ val.changeTime||0 }' /> </td>
+	   		<td><input value='${ npcTalk }' type='hidden' /><a javascript=":;" class='setNpcTalk'>设置</a> </td>
 	   </tr>
 	   `
 	});
 	$('#tbody').html(tbodyStr)
 	setMatrix()
+	setNpcTalk()
 })
 $("#stringButton").click(()=>{
 	let tbodyStr = `<tr>
@@ -159,13 +196,58 @@ $("#stringButton").click(()=>{
 	   		<td><input value='' /> </td>
 	   		<td><input value='' /> </td>
 	   		<td><input value='' /> </td>
-	   		<td><input value='' /> </td></tr>`
+	   		<td><input value='' /> </td>
+	   		<td><input value='[]' type='hidden' /><a javascript=":;" class='setNpcTalk'>设置</a> </td></tr>`
 	$("#tbody").append(tbodyStr)
 	setMatrix()
+	setNpcTalk()
 })
-let matrixNode;
+let matrixNode, npcTalkNode
+function setNpcTalk () {
+	$(".setNpcTalk").on('click',function(){
+		npcTalkNode = $(this).prev()
+		let trNode = $(this).parent().parent()
+		let row = $(trNode.find('input')[0]).val()
+		let col = $(trNode.find('input')[1]).val()
+		let data = JSON.parse($(npcTalkNode).val())
+
+		let allStr = ''
+		data.map(function(val){
+			if(isNpc(val)) {
+				allStr += `<div class='npc' contenteditable="true">${val.text}</div>`
+			} else {
+				allStr += `<div class='hero' contenteditable="true">${val.text}</div>`
+			}
+		})
+
+		$(".modal-body").html(allStr);
+		$(".btn-add").show()
+		clickAdd();
+		clickRow()
+		showModel()
+	})
+}
+function clickAdd() {
+	$(".btn-add").on('click',function() {
+		let allStr = ''
+		if($(this).hasClass('btn-add-npc')) {
+			allStr += `<div class='npc' contenteditable="true">请输入npc台词</div>`
+		} else {
+			allStr += `<div class='hero' contenteditable="true">请输入英雄台词</div>`
+		}
+		$(".modal-body").append(allStr);
+	})
+}
+function isNpc(data) {
+	if( data.type == 1 ) {
+		return true
+	} else {
+		return false
+	}
+}
 function setMatrix() {
 	$(".setMatrix").on('click',function (){
+		console.log('setMatrix')
 		// tr
 		matrixNode = $(this).prev()
 		let trNode = $(this).parent().parent()
@@ -212,16 +294,45 @@ function clickRow() {
 		}	
 	})
 	$(".modal-footer .btn-primary").click(function(){
+		$("btn-add").hide();
 		saveMatirx()
+		saveNpcTalk()
+		hideModel()
 	})
 	$(".modal-footer .btn-default").click(function(){
 		hideModel()
 	})
 }
+function saveNpcTalk() {
+	let talks = $(".modal-body div")
+	let npc = $(".modal-body .npc")
+	let hero = $(".modal-body .hero")
+	let hash = []
+	if(npc.length === 0 && hero.length ===0) {
+		return
+	}
+	for(let i = 0;i<talks.length;i++) {
+		let talk = $(".modal-body div:eq("+ i +")")
+		if(talk.hasClass('npc')) {
+			hash.push({
+				type: 1,
+				text: talk.html()
+			})
+		} else {
+			hash.push({
+				type: 2,
+				text: talk.html()
+			})
+		}
+	}
+	$(npcTalkNode).val(JSON.stringify(hash))
+}
 function saveMatirx() {
 	let row = $(".modal-body .row"),
 		col = $(".modal-body .col"),
 		matrix = [];
+	if(!row.length || !col.length)
+		return
 	for(let i = 0;i<row.length;i++) {
 		for(let j = 0;j<col.length;j++) {
 			if($(`.modal-body .row:eq(${i}) .col:eq(${j})`).attr('matrix') == 'true') {
@@ -250,15 +361,15 @@ $("#ok").click((e)=>{
 		let obj = {}
 		for(let j = 0;j<$("#tbody tr:eq("+i+") td").length;j++) {
 			let val  = $("#tbody tr:eq("+i+") td:eq("+j+") input").val()
-			if(j===3 && val) {
+			if((j===11 || j===3 )&& val) {
 				val = JSON.parse(val)
 				obj[Object.keys(style)[j]] = val
 			} 
-			if(j===3 && !val) {
+			if((j===11 || j===3) && !val) {
 				val = []
 				obj[Object.keys(style)[j]] = val
 			}
-			if(j!==3) {
+			if(j!==3 && j !==11) {
 				let check = +val;
 				let number = (!isNaN(check)) ? check : val
 				obj[Object.keys(style)[j]] = number
