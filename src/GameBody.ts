@@ -164,7 +164,7 @@ class GameBody extends egret.Sprite{
         let type = this.bingos[x][y].type
         this.bingos.map((val,j)=>{
             return val.map((val2,i)=>{
-                if(this.bingos[j][i].type=== type){
+                if(this.bingos[j][i] && this.bingos[j][i].type=== type){
                     this.saveClears(j+`,`+i)
                 }
                 return val2;

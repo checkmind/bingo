@@ -20,17 +20,42 @@ class GameGroup extends eui.Group{
     }
   
     private addImage(){
-        for(let i = 0;i<GameConfig.taxArr.length;i++)
+        for(let i = 0;i<GameConfig.taxConfig.length;i++)
             this.meau(i);
         this.addScroll();
     }
 
+    private chnNumChar = ["零","一","二","三","四","五","六","七","八","九"];
+    private chnUnitSection = ["","万","亿","万亿","亿亿"];
+    private chnUnitChar = ["","十","百","千"];
 
+    private SectionToChinese(section){
+        var strIns = '', chnStr = '';
+        var unitPos = 0;
+        var zero = true;
+        while(section > 0){
+            var v = section % 10;
+            if(v === 0){
+                if(!zero){
+                    zero = true;
+                    chnStr = this.chnNumChar[v] + chnStr;
+                }
+            }else{
+                zero = false;
+                strIns = this.chnNumChar[v];
+                strIns += this.chnUnitChar[unitPos];
+                chnStr = strIns + chnStr;
+            }
+            unitPos++;
+            section = Math.floor(section / 10);
+        }
+        return chnStr;
+    }
 
     private meau(num) {
         var button = new TaxButton();
         button.skinName="resource/eui_skins/toastSkin.exml" //假设Button.exml在resource文件夹下。
-        button.label2 = `第${TalkConfig.taxArr[num]}宇宙`;
+        button.label2 = `第${this.SectionToChinese(num+1)}宇宙`;
         if(num > GameConfig.maxTax) {
             button.label = `  ${TalkConfig.lockLabel}`;
         } else {

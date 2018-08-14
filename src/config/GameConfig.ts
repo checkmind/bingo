@@ -27,11 +27,11 @@ class GameConfig{
     static minCoin = 2000;
     /* 道具数目 */
     static helperArr = [1,0,0,0,0];
-    static helperPrice = [2000,2000,2000,2000,2000];
+    static helperPrice = [2999,2999,1999,2888,2888];
     static helperSrc = ['1','hit','change','foot','time']
     /* 星球种类 */
     static bingosMax = 8;
-    static taxArr = ['一','二','三','四','五','六','七','八'];
+    static taxArr = ['零','一','二','三','四','五','六','七','八','九'];
     // 无限模式初始化时间
     static infiniteTime = 100;
     static infiniteRow = 7;
@@ -60,7 +60,7 @@ class GameConfig{
     static async initHelpArr() {
         GameConfig.helperArr = await platform.getHelpStorage();
         if(!GameConfig.helperArr) {
-            GameConfig.helperArr = [1,0,0,0,0]  
+            GameConfig.helperArr = [100,100,100,100,100]  
         }
     }
     static async initCoin() {

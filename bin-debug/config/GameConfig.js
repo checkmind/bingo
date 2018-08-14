@@ -66,7 +66,7 @@ var GameConfig = (function () {
                     case 1:
                         _a.helperArr = _b.sent();
                         if (!GameConfig.helperArr) {
-                            GameConfig.helperArr = [1, 0, 0, 0, 0];
+                            GameConfig.helperArr = [100, 100, 100, 100, 100];
                         }
                         return [2 /*return*/];
                 }
@@ -144,11 +144,11 @@ var GameConfig = (function () {
     GameConfig.minCoin = 2000;
     /* 道具数目 */
     GameConfig.helperArr = [1, 0, 0, 0, 0];
-    GameConfig.helperPrice = [2000, 2000, 2000, 2000, 2000];
+    GameConfig.helperPrice = [2999, 2999, 1999, 2888, 2888];
     GameConfig.helperSrc = ['1', 'hit', 'change', 'foot', 'time'];
     /* 星球种类 */
     GameConfig.bingosMax = 8;
-    GameConfig.taxArr = ['一', '二', '三', '四', '五', '六', '七', '八'];
+    GameConfig.taxArr = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
     // 无限模式初始化时间
     GameConfig.infiniteTime = 100;
     GameConfig.infiniteRow = 7;

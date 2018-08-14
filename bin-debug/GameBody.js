@@ -173,7 +173,7 @@ var GameBody = (function (_super) {
         var type = this.bingos[x][y].type;
         this.bingos.map(function (val, j) {
             return val.map(function (val2, i) {
-                if (_this.bingos[j][i].type === type) {
+                if (_this.bingos[j][i] && _this.bingos[j][i].type === type) {
                     _this.saveClears(j + "," + i);
                 }
                 return val2;

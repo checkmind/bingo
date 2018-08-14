@@ -107,7 +107,7 @@ class EntryGame extends egret.Sprite{
         })
 
         this.shareMyCirle = await GameConfig.createBitmapByName("share.png");
-        this.addChild(this.shareMyCirle);
+        //this.addChild(this.shareMyCirle);
         this.shareMyCirle.width = 207;
         this.shareMyCirle.height = 80;
         this.shareMyCirle.x = this.width - this.shareMyCirle.width - 20;
@@ -253,7 +253,7 @@ class EntryGame extends egret.Sprite{
     }
     private meau() {
         var skins = ['ButtonModel1','ButtonModel2','ButtonMore','ButtonHelp']
-        var labelText = ['剧情模式','无尽模式','时间模式','排行榜']
+        var labelText = ['剧情模式','无尽模式','商店（未开通）','排行榜']
         for(let i = 0;i<skins.length;i++) {
             let button = new eui.Button();
             button.touchEnabled = true;

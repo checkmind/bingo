@@ -40,9 +40,27 @@ class GameInf extends egret.Sprite{
         this.addProps();
         //this.getProps(2);
         this.myCoin()
-        
+        this.myGoal()
     }
+    // 游戏目标
+    private async myGoal() {
+        if(GameConfig.nowTax == -1)
+            return
+        var sprite = new egret.Sprite();
+        this.coinText = new egret.TextField();
+        this.coinText.width = 200;
+        this.coinText.height = 50;
+        this.coinText.x = 60;
+        this.coinText.y = 0 + 15;
+        this.coinText.text = `目标熵值：${ GameConfig.taxConfig[GameConfig.nowTax].myScore }`;
+        this.coinText.textAlign = 'left';
     
+        this.coinText.size = 16;
+        sprite.x = this.width - 40 - this.coinText.width;
+        sprite.y = this.height - 20;
+        sprite.addChild(this.coinText);
+        this.addChild(sprite);
+    }
     // 当前资金
     private async myCoin() {
         var sprite = new egret.Sprite();
@@ -58,7 +76,7 @@ class GameInf extends egret.Sprite{
         this.coinText.y = 0 + 15;
         this.coinText.text = GameConfig.coin + '';
         this.coinText.textAlign = 'left';
-        
+    
         this.coinText.size = 20;
         sprite.x = 40;
         sprite.y = height + 80;
