@@ -194,11 +194,14 @@ var Main = (function (_super) {
         var gameTax = new GameTax(stageW, stageH, this);
         var taxInfinite = new TaxInfinite(stageW, stageH);
         var taxTimerFast = new TaxTimerFast(stageW, stageH);
+        var gameShop = new GameShop(stageW, stageH);
         this.addChild(entryGame);
         PageBus.init(this);
         /* 放入路由 */
         // 主页面
         PageBus.pushPage({ page: entryGame, router: 'index' });
+        // 商店
+        PageBus.pushPage({ page: gameShop, router: 'gameShop' });
         // 关卡页面
         PageBus.pushPage({ page: pageTax, router: 'pageTax' });
         // 关卡游戏页面
@@ -207,6 +210,7 @@ var Main = (function (_super) {
         PageBus.pushPage({ page: taxInfinite, router: 'infinite' });
         //时间模式
         PageBus.pushPage({ page: taxTimerFast, router: 'TaxTimerFast' });
+        // 商店
         // 加载配置
         var objs = RES.getRes("tax_json");
         GameConfig.taxConfig = objs;

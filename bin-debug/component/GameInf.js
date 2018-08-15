@@ -90,7 +90,6 @@ var GameInf = (function (_super) {
             });
         });
     };
-    // 游戏目标
     GameInf.prototype.myGoal = function () {
         return __awaiter(this, void 0, void 0, function () {
             var sprite;
@@ -98,17 +97,17 @@ var GameInf = (function (_super) {
                 if (GameConfig.nowTax == -1)
                     return [2 /*return*/];
                 sprite = new egret.Sprite();
-                this.coinText = new egret.TextField();
-                this.coinText.width = 200;
-                this.coinText.height = 50;
-                this.coinText.x = 60;
-                this.coinText.y = 0 + 15;
-                this.coinText.text = "\u76EE\u6807\u71B5\u503C\uFF1A" + GameConfig.taxConfig[GameConfig.nowTax].myScore;
-                this.coinText.textAlign = 'left';
-                this.coinText.size = 16;
-                sprite.x = this.width - 40 - this.coinText.width;
+                this.goalText = new egret.TextField();
+                this.goalText.width = 200;
+                this.goalText.height = 50;
+                this.goalText.x = 60;
+                this.goalText.y = 0 + 15;
+                this.goalText.text = "\u76EE\u6807\u71B5\u503C\uFF1A" + GameConfig.taxConfig[GameConfig.nowTax].myScore;
+                this.goalText.textAlign = 'left';
+                this.goalText.size = 16;
+                sprite.x = this.width - 40 - this.goalText.width;
                 sprite.y = this.height - 20;
-                sprite.addChild(this.coinText);
+                sprite.addChild(this.goalText);
                 this.addChild(sprite);
                 return [2 /*return*/];
             });
@@ -278,7 +277,7 @@ var GameInf = (function (_super) {
         this.taxNum = new TaxButton();
         this.taxNum.skinName = "resource/eui_skins/TitleSkin.exml";
         if (GameConfig.nowTax != -1)
-            this.taxNum.label2 = '第' + GameConfig.taxArr[GameConfig.nowTax] + '宇宙';
+            this.taxNum.label2 = '第' + GameConfig.SectionToChinese(GameConfig.nowTax + 1) + '宇宙';
         else
             this.taxNum.label2 = '无尽模式';
         this.taxNum.label = '熵值：0';

@@ -25,37 +25,12 @@ class GameGroup extends eui.Group{
         this.addScroll();
     }
 
-    private chnNumChar = ["零","一","二","三","四","五","六","七","八","九"];
-    private chnUnitSection = ["","万","亿","万亿","亿亿"];
-    private chnUnitChar = ["","十","百","千"];
-
-    private SectionToChinese(section){
-        var strIns = '', chnStr = '';
-        var unitPos = 0;
-        var zero = true;
-        while(section > 0){
-            var v = section % 10;
-            if(v === 0){
-                if(!zero){
-                    zero = true;
-                    chnStr = this.chnNumChar[v] + chnStr;
-                }
-            }else{
-                zero = false;
-                strIns = this.chnNumChar[v];
-                strIns += this.chnUnitChar[unitPos];
-                chnStr = strIns + chnStr;
-            }
-            unitPos++;
-            section = Math.floor(section / 10);
-        }
-        return chnStr;
-    }
+    
 
     private meau(num) {
         var button = new TaxButton();
         button.skinName="resource/eui_skins/toastSkin.exml" //假设Button.exml在resource文件夹下。
-        button.label2 = `第${this.SectionToChinese(num+1)}宇宙`;
+        button.label2 = `第${GameConfig.SectionToChinese(num+1)}宇宙`;
         if(num > GameConfig.maxTax) {
             button.label = `  ${TalkConfig.lockLabel}`;
         } else {
@@ -88,7 +63,7 @@ class GameGroup extends eui.Group{
         
         this.myScroller.viewport = this.group;
         this.addChild(this.myScroller);
-        let nowSet = (226*2+80)*GameConfig.maxTax - (this.width/2-226)
+        let nowSet = (226*2+80)*GameConfig.nowTax - (this.width/2-226)
         this.myScroller.viewport.scrollH = GameConfig.maxTax==0?0:nowSet;
     
     }

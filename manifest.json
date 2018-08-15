@@ -35,6 +35,7 @@
 		"bin-debug/lib/AssetAdapter.js",
 		"bin-debug/lib/ThemeAdapter.js",
 		"bin-debug/router/EntryGame.js",
+		"bin-debug/router/GameShop.js",
 		"bin-debug/router/GameTax.js",
 		"bin-debug/router/TaxInfinite.js",
 		"bin-debug/router/TaxPage.js",

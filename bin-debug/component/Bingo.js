@@ -169,7 +169,8 @@ var Bingo = (function (_super) {
             var _this = this;
             return __generator(this, function (_a) {
                 this.changeBiong(function () {
-                    _this.removeChild(_this.img);
+                    if (_this.img.parent)
+                        _this.removeChild(_this.img);
                     _this.type = type;
                     _this.addImage();
                 });

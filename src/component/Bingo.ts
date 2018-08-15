@@ -73,7 +73,8 @@ class Bingo extends egret.Sprite{
     // 变成另外的星球
     private async beType(type) {
         this.changeBiong(()=>{
-            this.removeChild(this.img);
+            if(this.img.parent)
+                this.removeChild(this.img);
             this.type = type;
             this.addImage();
         })
@@ -129,7 +130,7 @@ class Bingo extends egret.Sprite{
         return new Promise((resolve)=>{
             this.addBlackHole(()=>{
                 this.$parent && this.$parent.removeChild(this);
-                resolve();            
+                resolve();
             })
         })
     }

@@ -84,7 +84,7 @@ var GameConfig = (function () {
                     case 1:
                         _a.coin = _b.sent();
                         if (!GameConfig.coin) {
-                            GameConfig.coin = 1000;
+                            GameConfig.coin = 2000000;
                         }
                         return [2 /*return*/];
                 }
@@ -118,6 +118,29 @@ var GameConfig = (function () {
             });
         });
     };
+    GameConfig.SectionToChinese = function (section) {
+        var strIns = '', chnStr = '';
+        var unitPos = 0;
+        var zero = true;
+        while (section > 0) {
+            var v = section % 10;
+            if (v === 0) {
+                if (!zero) {
+                    zero = true;
+                    chnStr = GameConfig.chnNumChar[v] + chnStr;
+                }
+            }
+            else {
+                zero = false;
+                strIns = GameConfig.chnNumChar[v];
+                strIns += GameConfig.chnUnitChar[unitPos];
+                chnStr = strIns + chnStr;
+            }
+            unitPos++;
+            section = Math.floor(section / 10);
+        }
+        return chnStr;
+    };
     //static domainUrl = 'http://cangnanshi.com/bingo/'
     GameConfig.domainUrl = 'https://qqqdu.oss-cn-beijing.aliyuncs.com/bingo/';
     /* 即使不能消除也能交换顺序 */
@@ -140,7 +163,7 @@ var GameConfig = (function () {
     GameConfig.stepOnoff = true;
     GameConfig.maxStep = 20;
     // 金钱
-    GameConfig.coin = 0;
+    GameConfig.coin = 99999;
     GameConfig.minCoin = 2000;
     /* 道具数目 */
     GameConfig.helperArr = [1, 0, 0, 0, 0];
@@ -162,6 +185,9 @@ var GameConfig = (function () {
     GameConfig.maxTax = 0;
     // 第一关限定步数
     GameConfig.taxConfig = [];
+    GameConfig.chnNumChar = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+    GameConfig.chnUnitSection = ["", "万", "亿", "万亿", "亿亿"];
+    GameConfig.chnUnitChar = ["", "十", "百", "千"];
     return GameConfig;
 }());
 __reflect(GameConfig.prototype, "GameConfig");

@@ -24,10 +24,9 @@ class GameConfig{
     static maxStep = 20;  
     // 金钱
     static coin = 0;
-    static minCoin = 2000;
     /* 道具数目 */
     static helperArr = [1,0,0,0,0];
-    static helperPrice = [2999,2999,1999,2888,2888];
+    static helperPrice = [1999,1999,1999,2888,2888];
     static helperSrc = ['1','hit','change','foot','time']
     /* 星球种类 */
     static bingosMax = 8;
@@ -66,7 +65,7 @@ class GameConfig{
     static async initCoin() {
         GameConfig.coin = await platform.getCoinStorage();
         if(!GameConfig.coin) {
-            GameConfig.coin = 1000
+            GameConfig.coin = 0
         }
     }
     static setHelpArr(num,index) {
@@ -84,6 +83,32 @@ class GameConfig{
         if(!GameConfig.maxTax) {
             GameConfig.maxTax = 0
         }
+    }
+    static chnNumChar = ["零","一","二","三","四","五","六","七","八","九"];
+    static chnUnitSection = ["","万","亿","万亿","亿亿"];
+    static chnUnitChar = ["","十","百","千"];
+
+    static SectionToChinese(section){
+        var strIns = '', chnStr = '';
+        var unitPos = 0;
+        var zero = true;
+        while(section > 0){
+            var v = section % 10;
+            if(v === 0){
+                if(!zero){
+                    zero = true;
+                    chnStr = GameConfig.chnNumChar[v] + chnStr;
+                }
+            }else{
+                zero = false;
+                strIns = GameConfig.chnNumChar[v];
+                strIns += GameConfig.chnUnitChar[unitPos];
+                chnStr = strIns + chnStr;
+            }
+            unitPos++;
+            section = Math.floor(section / 10);
+        }
+        return chnStr;
     }
     public constructor(){
         

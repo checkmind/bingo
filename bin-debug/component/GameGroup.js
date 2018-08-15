@@ -16,9 +16,6 @@ var GameGroup = (function (_super) {
     function GameGroup(width, height, parent) {
         var _this = _super.call(this) || this;
         _this.image = new egret.Bitmap();
-        _this.chnNumChar = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
-        _this.chnUnitSection = ["", "万", "亿", "万亿", "亿亿"];
-        _this.chnUnitChar = ["", "十", "百", "千"];
         _this.x = 0;
         _this.y = 0;
         _this.width = width;
@@ -33,33 +30,10 @@ var GameGroup = (function (_super) {
             this.meau(i);
         this.addScroll();
     };
-    GameGroup.prototype.SectionToChinese = function (section) {
-        var strIns = '', chnStr = '';
-        var unitPos = 0;
-        var zero = true;
-        while (section > 0) {
-            var v = section % 10;
-            if (v === 0) {
-                if (!zero) {
-                    zero = true;
-                    chnStr = this.chnNumChar[v] + chnStr;
-                }
-            }
-            else {
-                zero = false;
-                strIns = this.chnNumChar[v];
-                strIns += this.chnUnitChar[unitPos];
-                chnStr = strIns + chnStr;
-            }
-            unitPos++;
-            section = Math.floor(section / 10);
-        }
-        return chnStr;
-    };
     GameGroup.prototype.meau = function (num) {
         var button = new TaxButton();
         button.skinName = "resource/eui_skins/toastSkin.exml"; //假设Button.exml在resource文件夹下。
-        button.label2 = "\u7B2C" + this.SectionToChinese(num + 1) + "\u5B87\u5B99";
+        button.label2 = "\u7B2C" + GameConfig.SectionToChinese(num + 1) + "\u5B87\u5B99";
         if (num > GameConfig.maxTax) {
             button.label = "  " + TalkConfig.lockLabel;
         }

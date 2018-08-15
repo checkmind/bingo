@@ -88,7 +88,7 @@ let totalGroup = [
   let title = assets.title;
   //根据title的宽高计算一下位置;
   let titleX = offsetX_rankToBorder + (RankWidth - title.width) / 2;
-  let titleY = offsetY_rankToBorder + title.height + 50;
+  let titleY = offsetY_rankToBorder + title.height;
   context.drawImage(title, titleX, titleY);
   //获取当前要渲染的数据组
   let start = perPageMaxNum * page;
@@ -96,7 +96,19 @@ let totalGroup = [
         keyList: ["score"],
         success(ev){    
             totalGroup = changeTotalGroup(ev.data);
-            console.log(totalGroup);
+
+            totalGroup = totalGroup.sort((val1, val2)=>{
+              let score1 = isNaN(+val1.scroes) ? 0 : +val1.scroes
+              let score2 = isNaN(+val2.scroes) ? 0 : +val2.scroes
+              console.log(score1, score2)
+              return   score2 - score1
+            })
+            totalGroup = totalGroup.map((val)=>{
+              console.log(val)
+              val.scroes = `第${val.scroes}宇宙`
+              return val
+            })
+            console.log(totalGroup)
             currentGroup = totalGroup.slice(start, start + perPageMaxNum);
               //创建头像Bar
             drawRankByGroup(currentGroup);
@@ -125,9 +137,9 @@ function saveFriendData() {
             console.log('拿到消息')
             console.log(data)
             wx.setUserCloudStorage({
-                KVDataList: [{key:"score",value:`第${data.array[0]}宇宙`}],
+                KVDataList: [{key:"score",value:`${data[0]}`}],
                 success(ev) {
-                    drawRankPanel();
+                    console.log(ev);
                 }
             });
             // wx.removeUserCloudStorage({
@@ -141,25 +153,25 @@ function saveFriendData() {
  */
 function init() {
   //排行榜绘制数据初始化
-  RankWidth = stageWidth * 4 / 4.5;
+  RankWidth = stageWidth * 4 / 4;
   RankHeight = stageHeight * 4 / 5;
   barWidth = RankWidth;
-  barHeight = RankWidth / perPageMaxNum;
+  barHeight = RankWidth / perPageMaxNum - 10;
   offsetX_rankToBorder = (stageWidth - RankWidth) / 2;
   offsetY_rankToBorder = (stageHeight - RankHeight) / 2;
-  preOffsetY = (RankHeight - barHeight) / (perPageMaxNum + .4);
+  preOffsetY = (RankHeight - barHeight) / (perPageMaxNum + 1) + 10;
 
   startX = offsetX_rankToBorder ;
   startY = offsetY_rankToBorder + preOffsetY;
   avatarSize = barHeight - 10;
-  intervalX = barWidth / 30;
+  intervalX = barWidth / 20;
   textOffsetY = (barHeight + fontSize) / 2;
   textMaxSize = 250;
   indexWidth = context.measureText("99").width;
 
   //按钮绘制数据初始化
-  buttonWidth = 65*2;
-  buttonHeight = 27*2;
+  buttonWidth = 65*3;
+  buttonHeight = 27*3;
   buttonOffset = RankWidth / 3;
   lastButtonX = offsetX_rankToBorder + buttonOffset - buttonWidth;
   nextButtonX = offsetX_rankToBorder + 2 * buttonOffset;

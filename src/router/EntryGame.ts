@@ -253,7 +253,7 @@ class EntryGame extends egret.Sprite{
     }
     private meau() {
         var skins = ['ButtonModel1','ButtonModel2','ButtonMore','ButtonHelp']
-        var labelText = ['剧情模式','无尽模式','商店（未开通）','排行榜']
+        var labelText = ['剧情模式','无尽模式','商店','排行榜']
         for(let i = 0;i<skins.length;i++) {
             let button = new eui.Button();
             button.touchEnabled = true;
@@ -292,6 +292,7 @@ class EntryGame extends egret.Sprite{
                 PageBus.gotoPage("infinite")
                 break;
             case 2:
+                PageBus.gotoPage("gameShop")
                 break;
             case 3:
                 this.onButtonClick();

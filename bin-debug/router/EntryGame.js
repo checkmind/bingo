@@ -150,7 +150,7 @@ var EntryGame = (function (_super) {
                         return [4 /*yield*/, GameConfig.createBitmapByName("share.png")];
                     case 2:
                         _b.shareMyCirle = _d.sent();
-                        this.addChild(this.shareMyCirle);
+                        //this.addChild(this.shareMyCirle);
                         this.shareMyCirle.width = 207;
                         this.shareMyCirle.height = 80;
                         this.shareMyCirle.x = this.width - this.shareMyCirle.width - 20;
@@ -337,7 +337,7 @@ var EntryGame = (function (_super) {
     EntryGame.prototype.meau = function () {
         var _this = this;
         var skins = ['ButtonModel1', 'ButtonModel2', 'ButtonMore', 'ButtonHelp'];
-        var labelText = ['剧情模式', '无尽模式', '商店（未开通）', '排行榜'];
+        var labelText = ['剧情模式', '无尽模式', '商店', '排行榜'];
         var _loop_1 = function (i) {
             var button = new eui.Button();
             button.touchEnabled = true;
@@ -380,6 +380,7 @@ var EntryGame = (function (_super) {
                 PageBus.gotoPage("infinite");
                 break;
             case 2:
+                PageBus.gotoPage("gameShop");
                 break;
             case 3:
                 this.onButtonClick();
