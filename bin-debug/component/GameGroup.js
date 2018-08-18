@@ -65,7 +65,7 @@ var GameGroup = (function (_super) {
         this.myScroller.height = this.height;
         this.myScroller.viewport = this.group;
         this.addChild(this.myScroller);
-        var nowSet = (226 * 2 + 80) * GameConfig.maxTax - (this.width / 2 - 226);
+        var nowSet = (226 * 2 + 80) * GameConfig.nowTax - (this.width / 2 - 226);
         this.myScroller.viewport.scrollH = GameConfig.maxTax == 0 ? 0 : nowSet;
     };
     /* 给按钮绑定事件 */

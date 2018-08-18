@@ -84,7 +84,7 @@ var GameConfig = (function () {
                     case 1:
                         _a.coin = _b.sent();
                         if (!GameConfig.coin) {
-                            GameConfig.coin = 2000000;
+                            GameConfig.coin = 0;
                         }
                         return [2 /*return*/];
                 }
@@ -163,11 +163,10 @@ var GameConfig = (function () {
     GameConfig.stepOnoff = true;
     GameConfig.maxStep = 20;
     // 金钱
-    GameConfig.coin = 99999;
-    GameConfig.minCoin = 2000;
+    GameConfig.coin = 0;
     /* 道具数目 */
     GameConfig.helperArr = [1, 0, 0, 0, 0];
-    GameConfig.helperPrice = [2999, 2999, 1999, 2888, 2888];
+    GameConfig.helperPrice = [1999, 1999, 1999, 2888, 2888];
     GameConfig.helperSrc = ['1', 'hit', 'change', 'foot', 'time'];
     /* 星球种类 */
     GameConfig.bingosMax = 8;

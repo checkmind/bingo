@@ -31,6 +31,8 @@ var GameBody = (function (_super) {
         _this.stackArr = [];
         // 产生新的bingos
         _this.newBingos = [];
+        _this.lastX = null;
+        _this.lastY = null;
         _this.matrixes = [];
         _this.lockCheck = false;
         /************* 检查游戏函数ending************* */
@@ -72,8 +74,28 @@ var GameBody = (function (_super) {
     GameBody.prototype.mouseDown = function (ev) {
         var x = Math.floor((ev.stageX - this.x) / GameBody.childW);
         var y = Math.floor((ev.stageY - this.y) / GameBody.childH);
+        var diffX = ev.stageX - this.lastX;
+        var diffY = ev.stageY - this.lastY;
+        console.log(diffX, diffY);
+        var lastBingo = this.getObjSet(this.stackArr[0]);
         if (this.lock || this.loack_2)
             return;
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+            if (diffX > 0) {
+                x = lastBingo.x + 1;
+            }
+            else if (diffX < 0) {
+                x = lastBingo.x - 1;
+            }
+        }
+        else if (Math.abs(diffX) < Math.abs(diffY)) {
+            if (diffY > 0) {
+                y = lastBingo.y + 1;
+            }
+            else if (diffY < 0) {
+                y = lastBingo.y - 1;
+            }
+        }
         if (this.exitObj(this.bingos, x, y)) {
             // 栈里面已经有bingo了
             if (this.stackArr[0] && this.stackArr[0] !== this.bingos[x][y]) {
@@ -82,12 +104,6 @@ var GameBody = (function (_super) {
                     this.bingos[x][y].chooseBingo();
                     this.stackArr.length = 0;
                 }
-                else {
-                }
-            }
-            else if (this.stackArr[0] && this.stackArr[0] === this.bingos[x][y]) {
-            }
-            else {
             }
         }
     };
@@ -95,6 +111,8 @@ var GameBody = (function (_super) {
     GameBody.prototype.mouseTap = function (ev) {
         var x = Math.floor((ev.stageX - this.x) / GameBody.childW);
         var y = Math.floor((ev.stageY - this.y) / GameBody.childH);
+        this.lastX = ev.stageX;
+        this.lastY = ev.stageY;
         if (this.lock || this.loack_2)
             return;
         if (this.exitObj(this.bingos, x, y)) {
