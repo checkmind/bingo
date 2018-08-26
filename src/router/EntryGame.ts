@@ -17,8 +17,10 @@ class EntryGame extends egret.Sprite{
     }
     private bitmap;
     private async addImage(){
-        await this.addBlackHead();
-        this.addBoom();
+        let back = new Background(0,0,this.width,this.height);
+        this.addChild(back)
+        //await this.addBlackHead();
+        //this.addBoom();
         await this.addTitle();
         this.addNPC();
         await this.addStarLand();
@@ -253,7 +255,7 @@ class EntryGame extends egret.Sprite{
     }
     private meau() {
         var skins = ['ButtonModel1','ButtonModel2','ButtonMore','ButtonHelp']
-        var labelText = ['剧情模式','无尽模式','商店','排行榜']
+        var labelText = ['剧情模式','时间模式','商店','排行榜']
         for(let i = 0;i<skins.length;i++) {
             let button = new eui.Button();
             button.touchEnabled = true;

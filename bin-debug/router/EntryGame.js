@@ -95,18 +95,22 @@ var EntryGame = (function (_super) {
     }
     EntryGame.prototype.addImage = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var back;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.addBlackHead()];
-                    case 1:
-                        _a.sent();
-                        this.addBoom();
+                    case 0:
+                        back = new Background(0, 0, this.width, this.height);
+                        this.addChild(back);
+                        //await this.addBlackHead();
+                        //this.addBoom();
                         return [4 /*yield*/, this.addTitle()];
-                    case 2:
+                    case 1:
+                        //await this.addBlackHead();
+                        //this.addBoom();
                         _a.sent();
                         this.addNPC();
                         return [4 /*yield*/, this.addStarLand()];
-                    case 3:
+                    case 2:
                         _a.sent();
                         this.meau();
                         return [2 /*return*/];
@@ -337,7 +341,7 @@ var EntryGame = (function (_super) {
     EntryGame.prototype.meau = function () {
         var _this = this;
         var skins = ['ButtonModel1', 'ButtonModel2', 'ButtonMore', 'ButtonHelp'];
-        var labelText = ['剧情模式', '无尽模式', '商店', '排行榜'];
+        var labelText = ['剧情模式', '时间模式', '商店', '排行榜'];
         var _loop_1 = function (i) {
             var button = new eui.Button();
             button.touchEnabled = true;

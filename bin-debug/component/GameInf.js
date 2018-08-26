@@ -90,29 +90,6 @@ var GameInf = (function (_super) {
             });
         });
     };
-    GameInf.prototype.myGoal = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var sprite;
-            return __generator(this, function (_a) {
-                if (GameConfig.nowTax == -1)
-                    return [2 /*return*/];
-                sprite = new egret.Sprite();
-                this.goalText = new egret.TextField();
-                this.goalText.width = 200;
-                this.goalText.height = 50;
-                this.goalText.x = 60;
-                this.goalText.y = 0 + 15;
-                this.goalText.text = "\u76EE\u6807\u71B5\u503C\uFF1A" + GameConfig.taxConfig[GameConfig.nowTax].myScore;
-                this.goalText.textAlign = 'left';
-                this.goalText.size = 16;
-                sprite.x = this.width - 40 - this.goalText.width;
-                sprite.y = this.height - 20;
-                sprite.addChild(this.goalText);
-                this.addChild(sprite);
-                return [2 /*return*/];
-            });
-        });
-    };
     // 当前资金
     GameInf.prototype.myCoin = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -228,7 +205,7 @@ var GameInf = (function (_super) {
             });
         }
         for (var type = 0; type < maxType; type++) {
-            var props = new Prop(moveX + 60 * type, (790 + 40) / 2, type, this, clickButton);
+            var props = new Prop(moveX + 60 * type, this.height / 2 - 100, type, this, clickButton);
             this.propsArr.push(props);
             this.addChild(props);
         }
@@ -274,20 +251,42 @@ var GameInf = (function (_super) {
         });
     };
     GameInf.prototype.addTaxNum = function () {
-        this.taxNum = new TaxButton();
-        this.taxNum.skinName = "resource/eui_skins/TitleSkin.exml";
-        if (GameConfig.nowTax != -1)
-            this.taxNum.label2 = '第' + GameConfig.SectionToChinese(GameConfig.nowTax + 1) + '宇宙';
+        this.taxNum = new egret.TextField();
+        this.taxNum.width = 200;
+        this.taxNum.height = 50;
+        if (GameConfig.nowTax === -1)
+            this.taxNum.x = this.width / 2 - this.taxNum.width / 2;
         else
-            this.taxNum.label2 = '无尽模式';
-        this.taxNum.label = '熵值：0';
-        this.taxNum.x = (this.width - this.taxNum.width) - 100;
-        this.taxNum.y = 5;
+            this.taxNum.x = 140;
+        this.taxNum.y = 60;
+        this.taxNum.lineSpacing = 50;
+        this.taxNum.text = '当前降熵：0';
+        this.taxNum.size = 25;
+        this.taxNum.textAlign = 'center';
         this.addChild(this.taxNum);
+    };
+    GameInf.prototype.myGoal = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                if (GameConfig.nowTax == -1)
+                    return [2 /*return*/];
+                this.goalText = new egret.TextField();
+                this.goalText.width = 200;
+                this.goalText.height = 50;
+                this.goalText.lineSpacing = 50;
+                this.goalText.x = 360;
+                this.goalText.y = 60;
+                this.goalText.text = "\u76EE\u6807\u71B5\u503C\uFF1A" + GameConfig.taxConfig[GameConfig.nowTax].myScore;
+                this.goalText.textAlign = 'left';
+                this.goalText.size = 25;
+                this.addChild(this.goalText);
+                return [2 /*return*/];
+            });
+        });
     };
     /* 更新成绩 */
     GameInf.prototype.updataScroe = function () {
-        this.taxNum.label = "\u71B5\u503C\uFF1A" + this.myScore;
+        this.taxNum.text = "\u5F53\u524D\u964D\u71B5\uFF1A" + this.myScore;
     };
     /* 更新步数 */
     GameInf.prototype.updataStep = function (step) {

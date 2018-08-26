@@ -42,26 +42,7 @@ class GameInf extends egret.Sprite{
         this.myCoin()
         this.myGoal()
     }
-    // 游戏目标
-    private goalText
-    private async myGoal() {
-        if(GameConfig.nowTax == -1)
-            return
-        var sprite = new egret.Sprite();
-        this.goalText = new egret.TextField();
-        this.goalText.width = 200;
-        this.goalText.height = 50;
-        this.goalText.x = 60;
-        this.goalText.y = 0 + 15;
-        this.goalText.text = `目标熵值：${ GameConfig.taxConfig[GameConfig.nowTax].myScore }`;
-        this.goalText.textAlign = 'left';
     
-        this.goalText.size = 16;
-        sprite.x = this.width - 40 - this.goalText.width;
-        sprite.y = this.height - 20;
-        sprite.addChild(this.goalText);
-        this.addChild(sprite);
-    }
     // 当前资金
     private async myCoin() {
         var sprite = new egret.Sprite();
@@ -161,7 +142,7 @@ class GameInf extends egret.Sprite{
             })
         }
         for(let type = 0;type<maxType;type++) {
-          let props = new Prop(moveX+60*type,(790+40)/2,type,this,clickButton);
+          let props = new Prop(moveX+60*type,this.height/2 - 100,type,this,clickButton);
           this.propsArr.push(props);
           this.addChild(props);
         }
@@ -196,20 +177,40 @@ class GameInf extends egret.Sprite{
         this.addChild(sky);
     }
     private addTaxNum() {
-        this.taxNum = new TaxButton();
-        this.taxNum.skinName="resource/eui_skins/TitleSkin.exml"
-        if(GameConfig.nowTax!=-1)
-            this.taxNum.label2 ='第'+GameConfig.SectionToChinese(GameConfig.nowTax+1) + '宇宙';
+        this.taxNum = new egret.TextField();
+        this.taxNum.width = 200;
+        this.taxNum.height = 50;
+        
+        if(GameConfig.nowTax===-1)
+           this.taxNum.x = this.width/2 - this.taxNum.width/2;
         else
-            this.taxNum.label2 ='无尽模式';        
-        this.taxNum.label ='熵值：0';
-        this.taxNum.x =(this.width - this.taxNum.width)-100;
-        this.taxNum.y = 5;
+           this.taxNum.x = 140; 
+        this.taxNum.y = 60;
+        this.taxNum.lineSpacing = 50;
+        this.taxNum.text = '当前降熵：0'
+        this.taxNum.size = 25;
+        this.taxNum.textAlign = 'center';
         this.addChild(this.taxNum);
+    }
+    // 游戏目标
+    private goalText:egret.TextField
+    private async myGoal() {
+        if(GameConfig.nowTax == -1)
+            return
+        this.goalText = new egret.TextField();
+        this.goalText.width = 200;
+        this.goalText.height = 50;
+        this.goalText.lineSpacing = 50;
+        this.goalText.x = 360;
+        this.goalText.y = 60;
+        this.goalText.text = `目标熵值：${ GameConfig.taxConfig[GameConfig.nowTax].myScore }`;
+        this.goalText.textAlign = 'left';
+        this.goalText.size = 25;
+        this.addChild(this.goalText);
     }
     /* 更新成绩 */
     private updataScroe() {
-        this.taxNum.label =`熵值：${this.myScore}`;
+        this.taxNum.text =`当前降熵：${this.myScore}`;
     }
     /* 更新步数 */
     public updataStep(step?:number) {

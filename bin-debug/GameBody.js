@@ -60,7 +60,7 @@ var GameBody = (function (_super) {
         //this.x = (this.width - this.row*GameBody.childH) / 2
         _this.x = _this.padding / 2;
         _this.height = _this.col * GameBody.childH;
-        _this.y = 200;
+        _this.y = height / 2 - _this.height / 2 - 80;
         //this.y = 100;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.drawDoors, _this);
         _this.touchEnabled = true;

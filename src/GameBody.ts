@@ -52,7 +52,7 @@ class GameBody extends egret.Sprite{
         //this.x = (this.width - this.row*GameBody.childH) / 2
         this.x = this.padding/2;
         this.height = this.col*GameBody.childH
-        this.y = 200;
+        this.y = height/2 - this.height/2 - 80
         
         //this.y = 100;
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawDoors,this);
