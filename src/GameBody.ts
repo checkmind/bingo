@@ -251,7 +251,6 @@ class GameBody extends egret.Sprite{
             this.addType();
         }
     }
-    
     private addBack() {
         /* 背景色设置 */
         var shape:egret.Shape = new egret.Shape;
@@ -558,7 +557,8 @@ class GameBody extends egret.Sprite{
             this.checkFun();
         },this.speed)
     }
-
+    // 已经奖励过了
+    private hadBingo = false
     /* 檢查游戲是否真的結束包括时间、熵值、无解 */
     private checkGameOver() {
         /* 如果不在运行中，就结束游戏 */
@@ -575,11 +575,42 @@ class GameBody extends egret.Sprite{
             return;
         }
         if(GameConfig.nowTax!==-1 && this.gameInf.myScore>=GameConfig.taxConfig[GameConfig.nowTax].myScore) {
-            this.parents.passTax(this.gameInf.myScore);
-            GameConfig.state = 2;
-            return;
+            if(this.hadBingo) {
+                this.parents.passTax(this.gameInf.myScore);
+                GameConfig.state = 2;
+            } else {
+                this.shootBingos()
+                this.hadBingo = true
+            }
         }
         
+    }
+    private shootBingos() {
+        
+        let set = []
+        this.bingos.forEach((val,x)=>{
+            val.forEach((val2,y)=>{
+                console.log(val2.canClear())
+                if(val2.canClear()) {
+                    set.push({
+                        x: x,
+                        y: y
+                    })
+                }
+            })
+        });
+        setTimeout(()=>{
+            this.checkFun();  
+        },3000)
+        set.map((val, index) => {
+            let arr = [{x: 0,y: 1},{x: 1,y: 0},{x: 0,y: 0},{x: 1,y: 1},]
+            let obj = this.bingos[val.x][val.y]
+            this.saveClears(val.x+`,`+val.y)
+            this.parents.shootRock({
+                x: obj.x + this.x + GameBody.childW/2,
+                y: obj.y + this.y + GameBody.childH/2,
+            })
+        })
     }
     private sortBingos() {
         let arr = [],set = []

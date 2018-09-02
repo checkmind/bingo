@@ -58,6 +58,24 @@ var TaxPage = (function (_super) {
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.addImage, _this);
         return _this;
     }
+    TaxPage.prototype.ran = function (start, end) {
+        return Math.floor(Math.random() * (end - start) + start);
+    };
+    TaxPage.prototype.shootRock = function (bingo) {
+        var rock = new Rock({
+            x1: this.width / 2,
+            y1: this.height,
+            x2: this.ran(0, this.width),
+            y2: this.height / 2,
+            x3: bingo.x,
+            y3: bingo.y,
+            width: 42,
+            height: 100,
+            time: 3000
+        });
+        this.addChildAt(rock, 9);
+        rock.shoot();
+    };
     TaxPage.prototype.addImage = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -244,4 +262,3 @@ var TaxPage = (function (_super) {
     return TaxPage;
 }(egret.Sprite));
 __reflect(TaxPage.prototype, "TaxPage");
-//# sourceMappingURL=TaxPage.js.map

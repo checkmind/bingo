@@ -19,7 +19,24 @@ class TaxPage extends egret.Sprite{
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addImage,this);
         
     }
-    
+    private ran(start, end) {
+        return Math.floor(Math.random()*(end-start)+start)
+    }
+    private shootRock(bingo) {
+        let rock:Rock = new Rock({
+            x1 : this.width / 2,
+            y1 : this.height,
+            x2: this.ran(0, this.width),
+            y2: this.height/2,
+            x3 : bingo.x,
+            y3 : bingo.y,
+            width: 42,
+            height: 100,
+            time : 3000
+        });
+         this.addChildAt(rock,9)
+         rock.shoot()
+    }
     private async addImage(){
         this.addBack()
         this.addTalk();

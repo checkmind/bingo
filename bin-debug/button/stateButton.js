@@ -51,4 +51,3 @@ var TaxButton = (function (_super) {
     return TaxButton;
 }(eui.Component));
 __reflect(TaxButton.prototype, "TaxButton");
-//# sourceMappingURL=stateButton.js.map

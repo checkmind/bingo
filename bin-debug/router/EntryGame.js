@@ -50,15 +50,6 @@ var EntryGame = (function (_super) {
     function EntryGame(width, height, parent) {
         var _this = _super.call(this) || this;
         _this.image = new egret.Bitmap();
-        _this.balls = [];
-        _this.ballsSet = [{
-                x1: 100,
-                y1: 100,
-                x2: 200,
-                y2: 300,
-                x3: 400,
-                y3: 500
-            }];
         /**
          * 创建场景界面
          * Create scene interface
@@ -110,105 +101,34 @@ var EntryGame = (function (_super) {
                     case 0:
                         back = new Background(0, 0, this.width, this.height);
                         this.addChild(back);
-                        //await this.addBlackHead();
-                        //this.addBoom();
                         return [4 /*yield*/, this.addTitle()];
                     case 1:
-                        //await this.addBlackHead();
-                        //this.addBoom();
                         _a.sent();
                         this.addNPC();
                         return [4 /*yield*/, this.addStarLand()];
                     case 2:
                         _a.sent();
                         this.meau();
-                        //this.createGameScene();
-                        this.testRank();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    Object.defineProperty(EntryGame.prototype, "factor", {
-        get: function () {
-            return 0;
-        },
-        set: function (value) {
-            var _this = this;
-            this.balls.map(function (ball, index) {
-                var oldx = ball.x;
-                var oldy = ball.y;
-                var ballSet = _this.ballsSet[index];
-                ball.x = (1 - value) * (1 - value) * ballSet.x1 + 2 * value * (1 - value) * ballSet.x2 + value * value * ballSet.x3;
-                ball.y = (1 - value) * (1 - value) * ballSet.y1 + 2 * value * (1 - value) * ballSet.y2 + value * value * ballSet.y3;
-                ball.rotation = _this.getAngle(oldx, oldy, ball.x, ball.y);
-            });
-        },
-        enumerable: true,
-        configurable: true
-    });
-    EntryGame.prototype.getAngle = function (px, py, mx, my) {
-        var x = Math.abs(px - mx);
-        var y = Math.abs(py - my);
-        var z = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-        var cos = y / z;
-        var radina = Math.acos(cos); //用反三角函数求弧度
-        var angle = Math.floor(180 / (Math.PI / radina)); //将弧度转换成角度
-        if (mx > px && my > py) {
-            angle = 180 - angle;
-        }
-        if (mx == px && my > py) {
-            angle = 180;
-        }
-        if (mx > px && my == py) {
-            angle = 90;
-        }
-        if (mx < px && my > py) {
-            angle = 180 + angle;
-        }
-        if (mx < px && my == py) {
-            angle = 270;
-        }
-        if (mx < px && my < py) {
-            angle = 360 - angle;
-        }
-        return angle;
-    };
-    EntryGame.prototype.testRank = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var i, ball;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        i = 0;
-                        _a.label = 1;
-                    case 1:
-                        if (!(i < 4)) return [3 /*break*/, 4];
-                        return [4 /*yield*/, GameConfig.createBitmapByName('rank.png')];
-                    case 2:
-                        ball = _a.sent();
-                        ball.width = 84 / 2;
-                        ball.height = 200 / 2;
-                        this.addChild(ball);
-                        this.balls.push(ball);
-                        this.ballsSet.push({
-                            x1: 100 * Math.random() * 5,
-                            y1: 100 * Math.random() * 5,
-                            x2: 200 * Math.random() * 5,
-                            y2: 300 * Math.random() * 5,
-                            x3: 400,
-                            y3: 500
+                        this.shootRock({
+                            x: 200,
+                            y: 200
                         });
-                        _a.label = 3;
-                    case 3:
-                        i++;
-                        return [3 /*break*/, 1];
-                    case 4:
-                        egret.Tween.get(this).to({ factor: 1 }, 2000);
                         return [2 /*return*/];
                 }
             });
         });
+    };
+    EntryGame.prototype.shootRock = function (bingo) {
+        var rock = new Rock({
+            x1: this.width / 2,
+            y1: this.height,
+            x3: bingo.x,
+            y3: bingo.y,
+            width: this.width,
+            height: this.height,
+            time: 1000
+        });
+        this.addChild(rock);
     };
     /**
      * 关闭按钮和分享按钮
@@ -499,4 +419,3 @@ var EntryGame = (function (_super) {
     return EntryGame;
 }(egret.Sprite));
 __reflect(EntryGame.prototype, "EntryGame");
-//# sourceMappingURL=EntryGame.js.map

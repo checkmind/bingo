@@ -305,4 +305,3 @@ var GameInf = (function (_super) {
     return GameInf;
 }(egret.Sprite));
 __reflect(GameInf.prototype, "GameInf");
-//# sourceMappingURL=GameInf.js.map

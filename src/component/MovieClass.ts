@@ -1,37 +1,28 @@
 /* 
     道具类
 **/
-class MonsterClass extends egret.Sprite{
+class MovieClass extends egret.Sprite{
     private image:egret.Bitmap = new egret.Bitmap();
     private img;
     public width:number;
     public height:number;
     private role:egret.MovieClip;
-    public constructor(x,y,width,height){
+    private movieName;
+    private rotate;
+    public constructor(x,y,width,height,movieName,rotate:any){
         super();
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.movieName = movieName
+        this.rotate = rotate
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawProps,this);
     }
     private async drawProps(){
-      //  this.addBlackShape();
         this.load(this.initMovieClip);
-    }   
-
-    // 阴影
-    private async addBlackShape() {
-      this.img = await this.createBitmapByName("monster.gif")
-      this.img.width = 100
-      this.img.height = 100
-      
-      // 深度放到最大
-      this.img.x = Math.floor(Math.random()*1000)*2 / 2;
-      this.img.y = this.y;
-      this.addChild(this.img);
-      this.moveRandom();
     }
+    
     private moveRandom() {
         let fn = ()=>{
             let random = Math.floor(Math.random()*1000)*2;
@@ -73,13 +64,27 @@ class MonsterClass extends egret.Sprite{
         console.log(this._mcData,this._mcTexture)
         var mcDataFactory = new egret.MovieClipDataFactory(this._mcData, this._mcTexture);
         
-        this.role =  new egret.MovieClip(mcDataFactory.generateMovieClipData("monster"));
-        this.role.x = this.generateStyle().x;
-        this.role.y = this.generateStyle().y;
-        this.role.frameRate = 5;
+        this.role =  new egret.MovieClip(mcDataFactory.generateMovieClipData(this.movieName));
+        
+        this.role.width = this.width
+        this.role.height = this.height
+        this.role.scaleX = this.role.scaleY = .5;
+        this.role.x = -this.width/2;
+        this.role.y = -this.height/2;
+        // this.role.anchorOffsetX = this.width / 2;
+        // this.role.anchorOffsetY = this.height / 2;
+        this.role.rotation = this.rotate
+        this.role.frameRate = 60;
         this.addChild(this.role);
-        this.role.gotoAndPlay(0,-1);
-        this.moveRandom();
+        //this.role.gotoAndPlay(0, 1);
+        //this.moveRandom();
+    }
+    public playMovie() {
+        this.role.gotoAndPlay(0, 1);
+        this.role.addEventListener(egret.Event.COMPLETE, function (e:egret.Event):void {
+            if(this.parent)
+                this.parent.removeChild(this)
+        }, this);
     }
     protected async load(callback) {
         var count:number = 0;
@@ -93,26 +98,17 @@ class MonsterClass extends egret.Sprite{
         let loader = new egret.URLLoader()
          loader.addEventListener(egret.Event.COMPLETE, function loadOver(e) {
             var loader = e.currentTarget;
-            self._mcTexture = loader.data;    
-            console.log('纹理集')
-            console.log(this._mcTexture)
+            self._mcTexture = loader.data;
             check();       
         }, this);
         loader.dataFormat = egret.URLLoaderDataFormat.TEXTURE;
-        var request:egret.URLRequest = new egret.URLRequest(GameConfig.domainUrl+'monster.png');
+        var request:egret.URLRequest = new egret.URLRequest(GameConfig.domainUrl+this.movieName +'.png');
         loader.load(request);
-        RES.getResByUrl(GameConfig.domainUrl+'monster.json',(ev)=>{
+        RES.getResByUrl(GameConfig.domainUrl+this.movieName+'.json',(ev)=>{
             this._mcData = ev;
             this.initMovieClip();
             check();
-        },this,RES.ResourceItem.TYPE_JSON);
+        },this,'json');
         
-    }
-    private async createBitmapByName(name: string) {
-        let url = GameConfig.domainUrl+name;
-        var image = new eui.Image();
-        egret.ImageLoader.crossOrigin = "anonymous"
-        image.source = url;
-        return image;
     }
 }

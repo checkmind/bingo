@@ -142,7 +142,6 @@ var Bingo = (function (_super) {
                 switch (_b.label) {
                     case 0:
                         ran = Math.floor(Math.random() * 10);
-                        ;
                         if (!(ran === 5 && !this.nowDrak)) return [3 /*break*/, 2];
                         this.removeChild(this.img);
                         _a = this;
@@ -162,6 +161,15 @@ var Bingo = (function (_super) {
                 }
             });
         });
+    };
+    Bingo.prototype.canClear = function () {
+        var ran = Math.floor(Math.random() * 10);
+        // 变换为黑色球的几率
+        console.log(ran);
+        if (ran > 7) {
+            return true;
+        }
+        return false;
     };
     // 变成另外的星球
     Bingo.prototype.beType = function (type) {
@@ -301,4 +309,3 @@ var Bingo = (function (_super) {
     return Bingo;
 }(egret.Sprite));
 __reflect(Bingo.prototype, "Bingo");
-//# sourceMappingURL=Bingo.js.map

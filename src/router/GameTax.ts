@@ -20,7 +20,20 @@ class GameTax extends egret.Sprite{
     private async addImage(){
         this.addBack();
         this.addGroup();
-        this.addReturn();        
+        this.addReturn();
+    }
+    private shootRock(bingo) {
+        let rock:Rock = new Rock({
+            x1 : this.width / 2,
+            y1 : this.height,
+            x3 : bingo.x,
+            y3 : bingo.y,
+            width: 42,
+            height: 100,
+            time : 4000
+        });
+         this.addChildAt(rock,9)
+         rock.shoot()
     }
     private addGroup() {
        let gameGroup = new GameGroup(this.width,this.height,this);

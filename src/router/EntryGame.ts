@@ -17,15 +17,29 @@ class EntryGame extends egret.Sprite{
     }
     private bitmap;
     private async addImage(){
+        
         let back = new Background(0,0,this.width,this.height);
         this.addChild(back)
-        //await this.addBlackHead();
-        //this.addBoom();
         await this.addTitle();
         this.addNPC();
         await this.addStarLand();
         this.meau();
-        //this.createGameScene();
+        this.shootRock({
+            x: 200,
+            y: 200
+        })
+    }
+    private shootRock(bingo) {
+        let rock:Rock = new Rock({
+            x1 : this.width / 2,
+            y1 : this.height,
+            x3 : bingo.x,
+            y3 : bingo.y,
+            width: this.width,
+            height: this.height,
+            time : 1000
+        });
+        this.addChild(rock)
     }
     /**
      * 排行榜关闭按钮

@@ -1,36 +1,59 @@
 class Rock extends egret.Sprite{
-    private parents
-    public constructor(x,y,type,parent){
+    public width;
+    public height;
+    public x1;
+    public x2 = 400;
+    public x3;
+    public y1;
+    public y2 = 300;
+    public y3;
+    public time;
+    private ballsSet;
+    private ball:MovieClass
+    public constructor(obj:Object){
         super();
-        this.x = x*(this.width);
-        this.y = y*(this.height);
-        this.parents = parent
-        this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawDoors,this);
+        Object.keys(obj).map((val)=>{
+            this[val] = obj[val]
+        })
+        this.ballsSet = {
+            x1: this.x1,
+            y1: this.y1,
+            x2: this.x2,
+            y2: this.y2,
+            x3: this.x3,
+            y3: this.y3
+        }
+        console.log(this.ballsSet)
+        this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawProps,this);
     }
-    private drawDoors() {
-      
+    
+    private rotate = 0;
+    private drawProps() {
+        // setTimeout(()=>{
+        //     let movie = new MovieClass(this.x3, this.y3,42,100,'rank',this.rotate)
+        //     movie.width = 42
+        //     movie.height = 100;
+        //     movie.x = this.x3
+        //     movie.y = this.y3
+        //     this.addChild(movie)
+        // },this.time)
     }
     public get factor():number {
         return 0;
     }
-    private balls = [];
-    private ballsSet = [{
-        x1: 100,
-        y1: 100,
-        x2: 200,
-        y2: 300,
-        x3: 400,
-        y3: 500
-    }]
+    private isOne = false
     public set factor(value:number) {
-        this.balls.map((ball,index)=>{
-            let oldx = ball.x;
-            let oldy = ball.y;
-            let ballSet = this.ballsSet[index]
-            ball.x = (1 - value) * (1 - value) * ballSet.x1 + 2 * value * (1 - value) * ballSet.x2 + value * value * ballSet.x3;
-            ball.y = (1 - value) * (1 - value) * ballSet.y1 + 2 * value * (1 - value) * ballSet.y2 + value * value * ballSet.y3;
-            ball.rotation = this.getAngle(oldx,oldy,ball.x,ball.y)
-        })
+            let oldx = this.ball.x;
+            let oldy = this.ball.y;
+            let ballSet = this.ballsSet
+            let x = (1 - value) * (1 - value) * ballSet.x1 + 2 * value * (1 - value) * ballSet.x2 + value * value * ballSet.x3;
+            let y = (1 - value) * (1 - value) * ballSet.y1 + 2 * value * (1 - value) * ballSet.y2 + value * value * ballSet.y3;
+            if(x === this.ball.x && y === this.ball.y)
+                return
+            this.ball.x = x
+            this.ball.y = y
+            this.ball.rotation = this.getAngle(oldx,oldy,this.ball.x,this.ball.y)
+            this.rotate = this.ball.rotation
     }
     private getAngle(px,py,mx,my){//获得人物中心和鼠标坐标连线，与y轴正半轴之间的夹角
         var x = Math.abs(px-mx);
@@ -65,22 +88,18 @@ class Rock extends egret.Sprite{
         }
         return angle;
     }
-    private async testRank() {
-        for(let i = 0;i<4;i++) {
-            let ball = await GameConfig.createBitmapByName('rank.png')
-            ball.width = 84 / 2
-            ball.height = 200 / 2;
-            this.addChild(ball)
-            this.balls.push(ball)
-            this.ballsSet.push({
-                x1: 100*Math.random()*5,
-                y1: 100*Math.random()*5,
-                x2: 200*Math.random()*5,
-                y2: 300*Math.random()*5,
-                x3: 400,
-                y3: 500
-            })
-        }
-        egret.Tween.get(this).to({factor: 1}, 2000);
+    public async shoot() {
+        this.ball = new MovieClass(this.x3, this.y3,42,100,'rank',this.rotate)
+        this.ball.width = 42
+        this.ball.height = 100;
+        this.ball.x = this.x3
+        this.ball.y = this.y3
+        this.addChild(this.ball)
+        egret.Tween.get(this,{loop:false},false,false).to({factor: 1}, this.time).call(()=>{
+            console.log('ok')
+            this.ball.x = this.x3
+            this.ball.y = this.y3
+            this.ball.playMovie()
+        })
     }
 }

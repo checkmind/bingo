@@ -35,6 +35,8 @@ var GameBody = (function (_super) {
         _this.lastY = null;
         _this.matrixes = [];
         _this.lockCheck = false;
+        // 已经奖励过了
+        _this.hadBingo = false;
         /************* 检查游戏函数ending************* */
         /*
          这列已经为空了，直接创建新的bingos。然后移动到对应位置
@@ -588,10 +590,42 @@ var GameBody = (function (_super) {
             return;
         }
         if (GameConfig.nowTax !== -1 && this.gameInf.myScore >= GameConfig.taxConfig[GameConfig.nowTax].myScore) {
-            this.parents.passTax(this.gameInf.myScore);
-            GameConfig.state = 2;
-            return;
+            if (this.hadBingo) {
+                this.parents.passTax(this.gameInf.myScore);
+                GameConfig.state = 2;
+            }
+            else {
+                this.shootBingos();
+                this.hadBingo = true;
+            }
         }
+    };
+    GameBody.prototype.shootBingos = function () {
+        var _this = this;
+        var set = [];
+        this.bingos.forEach(function (val, x) {
+            val.forEach(function (val2, y) {
+                console.log(val2.canClear());
+                if (val2.canClear()) {
+                    set.push({
+                        x: x,
+                        y: y
+                    });
+                }
+            });
+        });
+        setTimeout(function () {
+            _this.checkFun();
+        }, 3000);
+        set.map(function (val, index) {
+            var arr = [{ x: 0, y: 1 }, { x: 1, y: 0 }, { x: 0, y: 0 }, { x: 1, y: 1 },];
+            var obj = _this.bingos[val.x][val.y];
+            _this.saveClears(val.x + "," + val.y);
+            _this.parents.shootRock({
+                x: obj.x + _this.x + GameBody.childW / 2,
+                y: obj.y + _this.y + GameBody.childH / 2,
+            });
+        });
     };
     GameBody.prototype.sortBingos = function () {
         var _this = this;
@@ -759,4 +793,3 @@ var GameBody = (function (_super) {
     return GameBody;
 }(egret.Sprite));
 __reflect(GameBody.prototype, "GameBody");
-//# sourceMappingURL=GameBody.js.map

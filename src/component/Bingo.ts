@@ -18,7 +18,6 @@ class Bingo extends egret.Sprite{
         this.parents = parent
         this.type = type;
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawDoors,this);
-        
     }
     private drawDoors(){
         //this.addRect();
@@ -55,7 +54,7 @@ class Bingo extends egret.Sprite{
     }
     private nowDrak:Boolean = false;
     public async beDark() {
-        let ran = Math.floor(Math.random()*10);;
+        let ran = Math.floor(Math.random()*10);
         // 变换为黑色球的几率
         if( ran === 5 && !this.nowDrak) {
             this.removeChild(this.img);
@@ -69,6 +68,15 @@ class Bingo extends egret.Sprite{
         this.removeChild(this.img);
         this.nowDrak = false;
         this.addImage();
+    }
+    public canClear() {
+        let ran = Math.floor(Math.random()*10);
+        // 变换为黑色球的几率
+        console.log(ran)
+        if( ran > 7) {
+            return true
+        }
+        return false
     }
     // 变成另外的星球
     private async beType(type) {

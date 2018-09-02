@@ -69,6 +69,19 @@ var GameTax = (function (_super) {
             });
         });
     };
+    GameTax.prototype.shootRock = function (bingo) {
+        var rock = new Rock({
+            x1: this.width / 2,
+            y1: this.height,
+            x3: bingo.x,
+            y3: bingo.y,
+            width: 42,
+            height: 100,
+            time: 4000
+        });
+        this.addChildAt(rock, 9);
+        rock.shoot();
+    };
     GameTax.prototype.addGroup = function () {
         var gameGroup = new GameGroup(this.width, this.height, this);
         this.addChild(gameGroup);
@@ -107,4 +120,3 @@ var GameTax = (function (_super) {
     return GameTax;
 }(egret.Sprite));
 __reflect(GameTax.prototype, "GameTax");
-//# sourceMappingURL=GameTax.js.map
