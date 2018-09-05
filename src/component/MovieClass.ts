@@ -104,7 +104,7 @@ class MovieClass extends egret.Sprite{
         loader.dataFormat = egret.URLLoaderDataFormat.TEXTURE;
         var request:egret.URLRequest = new egret.URLRequest(GameConfig.domainUrl+this.movieName +'.png');
         loader.load(request);
-        RES.getResByUrl(GameConfig.domainUrl+this.movieName+'.json',(ev)=>{
+        RES.getResByUrl(this.movieName+'_json',(ev)=>{
             this._mcData = ev;
             this.initMovieClip();
             check();

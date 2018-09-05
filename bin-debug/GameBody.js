@@ -596,6 +596,7 @@ var GameBody = (function (_super) {
             }
             else {
                 this.shootBingos();
+                this.lock = true;
                 this.hadBingo = true;
             }
         }

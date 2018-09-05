@@ -580,6 +580,7 @@ class GameBody extends egret.Sprite{
                 GameConfig.state = 2;
             } else {
                 this.shootBingos()
+                this.lock = true
                 this.hadBingo = true
             }
         }

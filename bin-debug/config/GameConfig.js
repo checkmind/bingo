@@ -93,7 +93,7 @@ var GameConfig = (function () {
     };
     GameConfig.setHelpArr = function (num, index) {
         GameConfig.helperArr[index] += num;
-        var str = GameConfig.helperArr.join("");
+        var str = GameConfig.helperArr.join("_");
         platform.setHelpStorage(str);
     };
     GameConfig.setCoin = function (num) {
@@ -110,6 +110,7 @@ var GameConfig = (function () {
                         return [4 /*yield*/, platform.getTax()];
                     case 1:
                         _a.maxTax = _b.sent();
+                        GameConfig.nowTax = GameConfig.maxTax;
                         if (!GameConfig.maxTax) {
                             GameConfig.maxTax = 0;
                         }
@@ -141,8 +142,8 @@ var GameConfig = (function () {
         }
         return chnStr;
     };
-    //static domainUrl = 'http://cangnanshi.com/bingo/'
-    GameConfig.domainUrl = 'https://qqqdu.oss-cn-beijing.aliyuncs.com/bingo/';
+    GameConfig.domainUrl = 'http://cangnanshi.com/bingo/';
+    //static domainUrl = 'https://qqqdu.oss-cn-beijing.aliyuncs.com/bingo/'
     /* 即使不能消除也能交换顺序 */
     GameConfig.canChange = false;
     GameConfig.canChangeTime = 10;

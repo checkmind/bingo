@@ -1,8 +1,8 @@
 /* 
 **/
 class GameConfig{
-    //static domainUrl = 'http://cangnanshi.com/bingo/'
-    static domainUrl = 'https://qqqdu.oss-cn-beijing.aliyuncs.com/bingo/'
+    static domainUrl = 'http://cangnanshi.com/bingo/'
+    //static domainUrl = 'https://qqqdu.oss-cn-beijing.aliyuncs.com/bingo/'
     /* 即使不能消除也能交换顺序 */
     static canChange = false;
     static canChangeTime = 10;
@@ -70,7 +70,7 @@ class GameConfig{
     }
     static setHelpArr(num,index) {
         GameConfig.helperArr[index] += num;
-        let str = GameConfig.helperArr.join("");
+        let str = GameConfig.helperArr.join("_");
         platform.setHelpStorage(str)
     }
     static setCoin(num) {
@@ -79,7 +79,8 @@ class GameConfig{
     }
     
     static async initTax() {
-        GameConfig.maxTax = await platform.getTax(); 
+        GameConfig.maxTax = await platform.getTax();
+        GameConfig.nowTax = GameConfig.maxTax
         if(!GameConfig.maxTax) {
             GameConfig.maxTax = 0
         }
