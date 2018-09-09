@@ -44,16 +44,11 @@ var GameConfig = (function () {
     GameConfig.generatorBingos = function () {
     };
     GameConfig.createBitmapByName = function (name) {
-        return __awaiter(this, void 0, void 0, function () {
-            var url, image;
-            return __generator(this, function (_a) {
-                url = GameConfig.domainUrl + name;
-                image = new eui.Image();
-                egret.ImageLoader.crossOrigin = "anonymous";
-                image.source = url;
-                return [2 /*return*/, image];
-            });
-        });
+        var url = GameConfig.domainUrl + name;
+        var image = new eui.Image();
+        egret.ImageLoader.crossOrigin = "anonymous";
+        image.source = url;
+        return image;
     };
     GameConfig.initHelpArr = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -93,7 +88,9 @@ var GameConfig = (function () {
     };
     GameConfig.setHelpArr = function (num, index) {
         GameConfig.helperArr[index] += num;
+        console.log('setNumber');
         var str = GameConfig.helperArr.join("_");
+        console.log(str);
         platform.setHelpStorage(str);
     };
     GameConfig.setCoin = function (num) {

@@ -27,11 +27,11 @@ declare module skins{
 	}
 }
 declare module skins{
-	class timerSkin extends eui.Skin{
+	class TitleSkin extends eui.Skin{
 	}
 }
 declare module skins{
-	class TitleSkin extends eui.Skin{
+	class timerSkin extends eui.Skin{
 	}
 }
 declare module skins{

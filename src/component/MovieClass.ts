@@ -63,21 +63,15 @@ class MovieClass extends egret.Sprite{
         /*** 本示例关键代码段开始 ***/
         console.log(this._mcData,this._mcTexture)
         var mcDataFactory = new egret.MovieClipDataFactory(this._mcData, this._mcTexture);
-        
         this.role =  new egret.MovieClip(mcDataFactory.generateMovieClipData(this.movieName));
-        
         this.role.width = this.width
         this.role.height = this.height
         this.role.scaleX = this.role.scaleY = .5;
         this.role.x = -this.width/2;
         this.role.y = -this.height/2;
-        // this.role.anchorOffsetX = this.width / 2;
-        // this.role.anchorOffsetY = this.height / 2;
         this.role.rotation = this.rotate
         this.role.frameRate = 60;
         this.addChild(this.role);
-        //this.role.gotoAndPlay(0, 1);
-        //this.moveRandom();
     }
     public playMovie() {
         this.role.gotoAndPlay(0, 1);
@@ -95,16 +89,21 @@ class MovieClass extends egret.Sprite{
                 callback.call(self);
             }
         }
-        let loader = new egret.URLLoader()
-         loader.addEventListener(egret.Event.COMPLETE, function loadOver(e) {
-            var loader = e.currentTarget;
-            self._mcTexture = loader.data;
-            check();       
+        let url = GameConfig.domainUrl + this.movieName + '.png'
+        let imgLoader = new egret.ImageLoader();
+        imgLoader.crossOrigin = "anonymous";// 跨域请求
+        imgLoader.load(url);// 去除链接中的转义字符‘\’        
+        imgLoader.once(egret.Event.COMPLETE, function (evt: egret.Event) {
+            if (evt.currentTarget.data) {
+                let texture = new egret.Texture();
+                texture.bitmapData = evt.currentTarget.data;
+                self._mcTexture = texture
+                check() 
+                console.log(texture)
+            }
         }, this);
-        loader.dataFormat = egret.URLLoaderDataFormat.TEXTURE;
-        var request:egret.URLRequest = new egret.URLRequest(this.movieName +'_png');
-        loader.load(request);
-        RES.getResByUrl(this.movieName+'_json',(ev)=>{
+        
+        RES.getResByUrl(GameConfig.domainUrl + this.movieName+'.json',(ev)=>{
             this._mcData = ev;
             this.initMovieClip();
             check();

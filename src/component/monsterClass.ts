@@ -2,7 +2,6 @@
     道具类
 **/
 class MonsterClass extends egret.Sprite{
-    private image:egret.Bitmap = new egret.Bitmap();
     private img;
     public width:number;
     public height:number;
@@ -16,22 +15,8 @@ class MonsterClass extends egret.Sprite{
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawProps,this);
     }
     private async drawProps(){
-      //  this.addBlackShape();
         this.load(this.initMovieClip);
     }   
-
-    // 阴影
-    private async addBlackShape() {
-      this.img = await this.createBitmapByName("monster.gif")
-      this.img.width = 100
-      this.img.height = 100
-      
-      // 深度放到最大
-      this.img.x = Math.floor(Math.random()*1000)*2 / 2;
-      this.img.y = this.y;
-      this.addChild(this.img);
-      this.moveRandom();
-    }
     private moveRandom() {
         let fn = ()=>{
             let random = Math.floor(Math.random()*1000)*2;
@@ -90,29 +75,35 @@ class MonsterClass extends egret.Sprite{
                 callback.call(self);
             }
         }
-        let loader = new egret.URLLoader()
-         loader.addEventListener(egret.Event.COMPLETE, function loadOver(e) {
-            var loader = e.currentTarget;
-            self._mcTexture = loader.data;    
-            console.log('纹理集')
-            console.log(this._mcTexture)
-            check();       
+        let url = GameConfig.domainUrl + 'monster.png'
+        let imgLoader = new egret.ImageLoader();
+        imgLoader.crossOrigin = "anonymous";// 跨域请求
+        imgLoader.load(url);// 去除链接中的转义字符‘\’        
+        imgLoader.once(egret.Event.COMPLETE, function (evt: egret.Event) {
+            if (evt.currentTarget.data) {
+                egret.log("加载头像成功: " + evt.currentTarget.data);
+                let texture = new egret.Texture();
+                texture.bitmapData = evt.currentTarget.data;
+                self._mcTexture = texture
+                check() 
+                console.log(texture)
+            }
         }, this);
-        loader.dataFormat = egret.URLLoaderDataFormat.TEXTURE;
-        var request:egret.URLRequest = new egret.URLRequest(GameConfig.domainUrl+'monster.png');
-        loader.load(request);
         RES.getResByUrl('monster_json',(ev)=>{
             this._mcData = ev;
-            this.initMovieClip();
             check();
         },this,RES.ResourceItem.TYPE_JSON);
         
     }
-    private async createBitmapByName(name: string) {
+    private createBitmapByName(name: string, callback) {
         let url = GameConfig.domainUrl+name;
         var image = new eui.Image();
-        egret.ImageLoader.crossOrigin = "anonymous"
-        image.source = url;
-        return image;
+        image.addEventListener(egret.Event.COMPLETE, function(ev) {
+            console.log('callback')
+            callback(image)
+        }, image)
+        image.source = url;        
+        egret.ImageLoader.crossOrigin = "anonymous"        
+        return image
     }
 }

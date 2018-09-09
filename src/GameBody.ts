@@ -591,8 +591,8 @@ class GameBody extends egret.Sprite{
         let set = []
         this.bingos.forEach((val,x)=>{
             val.forEach((val2,y)=>{
-                console.log(val2.canClear())
-                if(val2.canClear()) {
+                const exit = this.exitObj(this.bingos,x,y);
+                if(exit && val2.canClear()) {
                     set.push({
                         x: x,
                         y: y

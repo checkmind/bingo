@@ -606,8 +606,8 @@ var GameBody = (function (_super) {
         var set = [];
         this.bingos.forEach(function (val, x) {
             val.forEach(function (val2, y) {
-                console.log(val2.canClear());
-                if (val2.canClear()) {
+                var exit = _this.exitObj(_this.bingos, x, y);
+                if (exit && val2.canClear()) {
                     set.push({
                         x: x,
                         y: y

@@ -49,12 +49,12 @@ class GameConfig{
     static generatorBingos() {
 
     }
-    static async createBitmapByName(name: string) {
+    static createBitmapByName(name: string) {
         let url = GameConfig.domainUrl+name;
-         var image = new eui.Image();
-         egret.ImageLoader.crossOrigin = "anonymous"
-         image.source = url;
-         return image;
+        var image = new eui.Image();
+        egret.ImageLoader.crossOrigin = "anonymous"
+        image.source = url;
+        return image
     }
     static async initHelpArr() {
         GameConfig.helperArr = await platform.getHelpStorage();
@@ -70,7 +70,9 @@ class GameConfig{
     }
     static setHelpArr(num,index) {
         GameConfig.helperArr[index] += num;
+        console.log('setNumber')
         let str = GameConfig.helperArr.join("_");
+        console.log(str)
         platform.setHelpStorage(str)
     }
     static setCoin(num) {

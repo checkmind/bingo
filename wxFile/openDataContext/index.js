@@ -47,35 +47,7 @@ context.globalCompositeOperation = "source-over";
  * 包括姓名，头像图片，得分
  * 排位序号i会根据parge*perPageNum+i+1进行计算
  */
-let totalGroup = [
-  { key: 1, name: "1111111111", url: assets.icon, scroes: 10000 },
-  { key: 2, name: "2222222222", url: assets.icon, scroes: 9000 },
-  { key: 3, name: "3333333", url: assets.icon, scroes: 8000 },
-  { key: 4, name: "4444444", url: assets.icon, scroes: 7000 },
-  { key: 5, name: "55555555", url: assets.icon, scroes: 6000 },
-  { key: 6, name: "6666666", url: assets.icon, scroes: 5000 },
-  { key: 7, name: "7777777", url: assets.icon, scroes: 4000 },
-  { key: 8, name: "8888888", url: assets.icon, scroes: 3000 },
-  { key: 9, name: "9999999", url: assets.icon, scroes: 2000 },
-  { key: 10, name: "1010101010", url: assets.icon, scroes: 2000 },
-  { key: 11, name: "111111111111", url: assets.icon, scroes: 2000 },
-  { key: 12, name: "121212121212", url: assets.icon, scroes: 2000 },
-  { key: 13, name: "13131313", url: assets.icon, scroes: 2000 },
-  { key: 14, name: "1414141414", url: assets.icon, scroes: 2000 },
-  { key: 15, name: "1515151515", url: assets.icon, scroes: 2000 },
-  { key: 16, name: "1616161616", url: assets.icon, scroes: 2000 },
-];
-// console.log('捕捉数据')
-// wx.onMessage(data => {
-//   console.log('捕捉数据')
-//   if(data.type==='refresh') {
-//     console.log("requestAnimationFram")
-//     drawRankPanel()
-//     // wx.removeUserCloudStorage({
-//     //   keyList: ["val"]
-//     // })
-//   }
-// })
+let totalGroup = []
 
 /**
  * 创建排行榜
@@ -95,8 +67,11 @@ let totalGroup = [
   wx.getFriendCloudStorage({
         keyList: ["score"],
         success(ev){    
-            totalGroup = changeTotalGroup(ev.data);
+            console.log('值')
 
+            console.log(ev.data)
+            totalGroup = changeTotalGroup(ev.data);
+            console.log(totalGroup)
             totalGroup = totalGroup.sort((val1, val2)=>{
               let score1 = isNaN(+val1.scroes) ? 0 : +val1.scroes
               let score2 = isNaN(+val2.scroes) ? 0 : +val2.scroes
@@ -137,14 +112,11 @@ function saveFriendData() {
             console.log('拿到消息')
             console.log(data)
             wx.setUserCloudStorage({
-                KVDataList: [{key:"score",value:`${data[0]}`}],
+                KVDataList: [{key:"score",value:`${data.array[0]}`}],
                 success(ev) {
                     console.log(ev);
                 }
             });
-            // wx.removeUserCloudStorage({
-            //   keyList: ["val"]
-            // })
           }
         })
 }
@@ -170,8 +142,8 @@ function init() {
   indexWidth = context.measureText("99").width;
 
   //按钮绘制数据初始化
-  buttonWidth = 65*3;
-  buttonHeight = 27*3;
+  buttonWidth = 65*2;
+  buttonHeight = 27*2;
   buttonOffset = RankWidth / 3;
   lastButtonX = offsetX_rankToBorder + buttonOffset - buttonWidth;
   nextButtonX = offsetX_rankToBorder + 2 * buttonOffset;

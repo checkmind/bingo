@@ -98,7 +98,7 @@ class WxgamePlatform {
                     if(ev.data)
                         resolve(ev.data.split("_"))
                     else   
-                        resolve([1,0,0,0])
+                        resolve([1,0,0,0,0])
                 },
                 fail() {
 
@@ -230,14 +230,5 @@ class WxgameOpenDataContext {
         openDataContext.postMessage(data);
     }
 }
-wx.setStorage({
-    key: "helpArr",
-    data: '',
-    success() {
-        console.log("set success");
-    },
-    fail(){},
-    complete(){}
-})
 
 window.platform = new WxgamePlatform();
