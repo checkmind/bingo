@@ -41,7 +41,7 @@ class WxgamePlatform {
     }
     playClearMusic() {
         let music =  wx.createInnerAudioContext()
-        music.src = 'http://cangnanshi.com/bingo/clear.mp3'
+        music.src = 'http://cangnanshi.com/bingo/clear2.mp3'
         music.play();
     }
     playButtonMusic() {
@@ -93,8 +93,10 @@ class WxgamePlatform {
             wx.getStorage({
                 key: "helpArr",
                 success(ev) {
-                    if(data)
-                        resolve(data.split(""))
+                    console.log('道具是')
+                    console.log(ev)
+                    if(ev.data)
+                        resolve(ev.data.split("_"))
                     else   
                         resolve([1,0,0,0])
                 },
@@ -228,6 +230,14 @@ class WxgameOpenDataContext {
         openDataContext.postMessage(data);
     }
 }
-
+wx.setStorage({
+    key: "helpArr",
+    data: '',
+    success() {
+        console.log("set success");
+    },
+    fail(){},
+    complete(){}
+})
 
 window.platform = new WxgamePlatform();

@@ -101,7 +101,7 @@ class MonsterClass extends egret.Sprite{
         loader.dataFormat = egret.URLLoaderDataFormat.TEXTURE;
         var request:egret.URLRequest = new egret.URLRequest(GameConfig.domainUrl+'monster.png');
         loader.load(request);
-        RES.getResByUrl(GameConfig.domainUrl+'monster.json',(ev)=>{
+        RES.getResByUrl('monster_json',(ev)=>{
             this._mcData = ev;
             this.initMovieClip();
             check();
