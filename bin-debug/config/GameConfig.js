@@ -61,7 +61,7 @@ var GameConfig = (function () {
                     case 1:
                         _a.helperArr = _b.sent();
                         if (!GameConfig.helperArr) {
-                            GameConfig.helperArr = [100, 100, 100, 100, 100];
+                            GameConfig.helperArr = [1, 1, 1, 1, 1];
                         }
                         return [2 /*return*/];
                 }

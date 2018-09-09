@@ -199,9 +199,9 @@ var GameInf = (function (_super) {
         var self = this;
         function clickButton(index) {
             self.propsArr.forEach(function (prop, key) {
-                if (2 !== key) {
-                    prop.removeRect();
-                }
+                // if(2 !== key) {
+                prop.removeRect();
+                // }
             });
         }
         for (var type = 0; type < maxType; type++) {
@@ -223,6 +223,12 @@ var GameInf = (function (_super) {
         this.StepClass = new StepClass(this.width, this.heights, this.width, this.height, this);
         this.addChild(this.StepClass);
         this.StepClass.changeStep(this.maxStep);
+    };
+    GameInf.prototype.checkGameover = function () {
+        if (GameConfig.taxConfig[GameConfig.nowTax].myScore > this.myScore)
+            this.gameOver();
+        else
+            this.parents.passTax();
     };
     GameInf.prototype.gameOver = function () {
         this.parents.gameOver();

@@ -143,7 +143,7 @@ var Bingo = (function (_super) {
                     case 0:
                         ran = Math.floor(Math.random() * 10);
                         if (!(ran === 5 && !this.nowDrak)) return [3 /*break*/, 2];
-                        this.removeChild(this.img);
+                        this.img.$parent && this.removeChild(this.img);
                         _a = this;
                         return [4 /*yield*/, GameConfig.createBitmapByName("dark.png")];
                     case 1:

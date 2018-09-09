@@ -50,7 +50,7 @@ class Timer extends eui.Group{
            }
            if(this.time ===0) {
                clearInterval(this.timer);
-               this.parents.gameOver();
+               this.parents.checkGameover();
            }
            let str = `时间：${this.time--}`
            this.taxNum.label = str;

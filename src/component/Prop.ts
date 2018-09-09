@@ -83,26 +83,31 @@ class Prop extends egret.Sprite{
             
         }, this);
     }
+    private propIntro
+    // 增加底部道具名称
+    private addPropIntro(sprite) {
+        this.propIntro = new egret.TextField();
+        if(GameConfig.helperArr[this.type]>0 && !this.buy)
+            this.propIntro.text = this.propName[this.type];
+        else 
+            this.propIntro.text = `售: ${GameConfig.helperPrice[this.type]}金`
+        this.propIntro.width = 100;
+        this.propIntro.y = 75;
+        this.propIntro.size = 16;
+        this.propIntro.textAlign = 'center';
+        sprite.addChild(this.propIntro);
+    }
     private async drawProps(){
         let sprite = new egret.Sprite();
         this.rect_2 = await GameConfig.createBitmapByName('rect_2.png')
         var hit = await GameConfig.createBitmapByName(`${GameConfig.helperSrc[this.type]}.png`);
-        let text = new egret.TextField();
-        if(GameConfig.helperArr[this.type]>0 && !this.buy)
-            text.text = this.propName[this.type];
-        else 
-            text.text = `售: ${GameConfig.helperPrice[this.type]}金`
-        text.width = 100;
-        text.y = 75;
-        text.size = 16;
-        text.textAlign = 'center';
+        this.addPropIntro(sprite)
         this.rect_2.height = this.rect_2.width = 100
         hit.width = hit.height = 70 
         hit.x = (this.rect_2.width - hit.width) /2
         sprite.addChild(this.rect_2);
         this.addShader(this.rect_2);
         sprite.addChild(hit);
-        sprite.addChild(text);
         sprite.x = this.x;
         sprite.y = this.y;
         var shape:egret.Shape = new egret.Shape();
@@ -146,7 +151,7 @@ class Prop extends egret.Sprite{
             // 在游戏过程中购买道具
             if(GameConfig.helperArr[this.type] <= 0) {
                 this.buyProp()
-                text.text = this.propName[this.type];
+                this.propIntro.text = this.propName[this.type];
                 return;
             }
             
@@ -196,7 +201,8 @@ class Prop extends egret.Sprite{
     private buyProp() {
         if(GameConfig.coin < GameConfig.helperPrice[this.type]) {
             GameConfig.helperPrice[this.type]
-            this.addTimeWords(`穷鬼买什么道具??`)
+            this.addTimeWords(`金币不够，可以去时间模式刷金币哦~~`)
+            this.removePropText()
             return;
         }
         this.addShader(this.rect_2);
@@ -216,6 +222,10 @@ class Prop extends egret.Sprite{
         }
         !save && this.removeRect();
         this.text.text = '' + GameConfig.helperArr[this.type]
+        if(GameConfig.helperArr[this.type]>0 && !this.buy)
+            this.propIntro.text = this.propName[this.type];
+        else 
+            this.propIntro.text = `售: ${GameConfig.helperPrice[this.type]}金`
         this.nowNum = GameConfig.helperArr[this.type]
         this.addFilter();
     }
@@ -266,7 +276,7 @@ class Prop extends egret.Sprite{
     public init() {
         GameConfig.helper = 0;
         this.removeRect()
-        this.removeBar();
+        // this.removeBar();
     }
     // 两秒钟后消失的话
     private unshowWords() {

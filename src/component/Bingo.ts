@@ -57,7 +57,7 @@ class Bingo extends egret.Sprite{
         let ran = Math.floor(Math.random()*10);
         // 变换为黑色球的几率
         if( ran === 5 && !this.nowDrak) {
-            this.removeChild(this.img);
+            this.img.$parent && this.removeChild(this.img);
             this.img = await GameConfig.createBitmapByName("dark.png");
             this.img.width = this.width;
             this.img.height = this.height;

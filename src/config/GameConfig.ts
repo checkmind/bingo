@@ -59,7 +59,7 @@ class GameConfig{
     static async initHelpArr() {
         GameConfig.helperArr = await platform.getHelpStorage();
         if(!GameConfig.helperArr) {
-            GameConfig.helperArr = [100,100,100,100,100]  
+            GameConfig.helperArr = [1,1,1,1,1]  
         }
     }
     static async initCoin() {

@@ -136,9 +136,9 @@ class GameInf extends egret.Sprite{
         let self = this;
         function clickButton(index) {
             self.propsArr.forEach((prop, key)=>{
-                if(2 !== key) {
+               // if(2 !== key) {
                     prop.removeRect()
-                }
+               // }
             })
         }
         for(let type = 0;type<maxType;type++) {
@@ -160,6 +160,12 @@ class GameInf extends egret.Sprite{
         this.StepClass = new StepClass(this.width,this.heights,this.width,this.height,this);
         this.addChild(this.StepClass);
         this.StepClass.changeStep(this.maxStep);
+    }
+    public checkGameover() {
+        if(GameConfig.taxConfig[GameConfig.nowTax].myScore > this.myScore)
+            this.gameOver()
+        else
+            this.parents.passTax()
     }
     private gameOver() {
         this.parents.gameOver();

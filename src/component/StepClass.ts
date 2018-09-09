@@ -31,7 +31,7 @@ class StepClass extends eui.Group{
     }
     public changeStep(step) {
         if(step ===0) {
-            this.parents.gameOver();
+            this.parents.checkGameover();
         }
         let str = `步数：${step}`
         this.taxNum.label = str;
