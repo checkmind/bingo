@@ -262,3 +262,4 @@ var TaxPage = (function (_super) {
     return TaxPage;
 }(egret.Sprite));
 __reflect(TaxPage.prototype, "TaxPage");
+//# sourceMappingURL=TaxPage.js.map

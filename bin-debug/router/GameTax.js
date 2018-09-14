@@ -120,3 +120,4 @@ var GameTax = (function (_super) {
     return GameTax;
 }(egret.Sprite));
 __reflect(GameTax.prototype, "GameTax");
+//# sourceMappingURL=GameTax.js.map

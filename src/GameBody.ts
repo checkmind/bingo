@@ -51,7 +51,7 @@ class GameBody extends egret.Sprite{
         this.gameInf = gameInf;
         //this.x = (this.width - this.row*GameBody.childH) / 2
         this.x = this.padding/2;
-        this.height = this.col*GameBody.childH
+        this.height = this.col*GameBody.childH + 80
         this.y = height/2 - this.height/2 - 80
         
         //this.y = 100;
@@ -264,7 +264,7 @@ class GameBody extends egret.Sprite{
         //画一个遮罩正方形
         var circle:egret.Shape = new egret.Shape();
         circle.graphics.beginFill(0x0000ff);
-        circle.graphics.drawRect(this.x,this.y,this.width-this.padding,this.col*GameBody.childH);
+        circle.graphics.drawRect(this.x,this.y,this.width,this.col*GameBody.childH+80);
         circle.graphics.endFill();
         this.$parent.addChild(circle);
         this.mask = circle;

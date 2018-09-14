@@ -61,7 +61,7 @@ var GameBody = (function (_super) {
         _this.gameInf = gameInf;
         //this.x = (this.width - this.row*GameBody.childH) / 2
         _this.x = _this.padding / 2;
-        _this.height = _this.col * GameBody.childH;
+        _this.height = _this.col * GameBody.childH + 80;
         _this.y = height / 2 - _this.height / 2 - 80;
         //this.y = 100;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.drawDoors, _this);
@@ -278,7 +278,7 @@ var GameBody = (function (_super) {
         //画一个遮罩正方形
         var circle = new egret.Shape();
         circle.graphics.beginFill(0x0000ff);
-        circle.graphics.drawRect(this.x, this.y, this.width - this.padding, this.col * GameBody.childH);
+        circle.graphics.drawRect(this.x, this.y, this.width, this.col * GameBody.childH + 80);
         circle.graphics.endFill();
         this.$parent.addChild(circle);
         this.mask = circle;
@@ -794,3 +794,4 @@ var GameBody = (function (_super) {
     return GameBody;
 }(egret.Sprite));
 __reflect(GameBody.prototype, "GameBody");
+//# sourceMappingURL=GameBody.js.map

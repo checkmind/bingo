@@ -309,3 +309,4 @@ var Bingo = (function (_super) {
     return Bingo;
 }(egret.Sprite));
 __reflect(Bingo.prototype, "Bingo");
+//# sourceMappingURL=Bingo.js.map

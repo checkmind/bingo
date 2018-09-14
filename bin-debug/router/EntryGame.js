@@ -419,3 +419,4 @@ var EntryGame = (function (_super) {
     return EntryGame;
 }(egret.Sprite));
 __reflect(EntryGame.prototype, "EntryGame");
+//# sourceMappingURL=EntryGame.js.map
