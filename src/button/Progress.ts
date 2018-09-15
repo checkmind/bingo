@@ -1,4 +1,4 @@
-class Progress extends eui.Component{
+class lalala extends eui.Component{
     public constructor(){
         super();
     }

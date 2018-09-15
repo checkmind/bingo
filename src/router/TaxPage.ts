@@ -81,10 +81,7 @@ class TaxPage extends egret.Sprite{
         },this)
         this.addChild(button);
     }
-    private saveData() {
-        
-    }
-    private async passTax(score) {
+    public async passTax(score) {
         if(GameConfig.nowTax === GameConfig.taxConfig.length-1) {
             this.addHore();
             return;
@@ -110,7 +107,7 @@ class TaxPage extends egret.Sprite{
         //     this.addImage();
         // }
     }
-    private gameOver(num?:Number) {
+    public gameOver(num?:Number) {
         console.log('结束了')
         this.addPopClass(1,'游戏失败了','重新来一把吧');
         if(this.gameBody && this.gameBody.$parent)

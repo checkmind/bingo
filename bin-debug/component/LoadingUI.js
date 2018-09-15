@@ -138,7 +138,7 @@ var LoadingUI = (function (_super) {
             this.maskBack = null;
         }
         this.maskBack = new egret.Shape();
-        this.maskBack.graphics.beginFill(0x0000ff, 1);
+        this.maskBack.graphics.beginFill(0x1c1833, 1);
         this.maskBack.graphics.drawRect(this.stone.x, this.stone.y, width, height);
         this.maskBack.graphics.endFill();
         this.addChild(this.maskBack);
@@ -184,6 +184,9 @@ var LoadingUI = (function (_super) {
         if (this.stone) {
             this.stone.mask = this.addMask((current + 1) * price, 29);
         }
+        console.log(price);
+        console.log(current);
+        console.log(this.stone);
         var num = Math.floor(((current + 1) / total) * 100);
         if (num > 100)
             num = 100;

@@ -138,8 +138,6 @@ var TaxPage = (function (_super) {
             });
         });
     };
-    TaxPage.prototype.saveData = function () {
-    };
     TaxPage.prototype.passTax = function (score) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {

@@ -8,14 +8,14 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
-var Progress = (function (_super) {
-    __extends(Progress, _super);
-    function Progress() {
+var lalala = (function (_super) {
+    __extends(lalala, _super);
+    function lalala() {
         var _this = _super.call(this) || this;
         _this._label = "";
         return _this;
     }
-    Object.defineProperty(Progress.prototype, "label", {
+    Object.defineProperty(lalala.prototype, "label", {
         get: function () {
             return this._label;
         },
@@ -28,12 +28,12 @@ var Progress = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Progress.prototype.childrenCreated = function () {
+    lalala.prototype.childrenCreated = function () {
         _super.prototype.childrenCreated.call(this);
         if (this.labelDisplay) {
             this.labelDisplay.text = this._label;
         }
     };
-    return Progress;
+    return lalala;
 }(eui.Component));
-__reflect(Progress.prototype, "Progress");
+__reflect(lalala.prototype, "lalala");

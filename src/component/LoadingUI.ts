@@ -66,7 +66,6 @@ class LoadingUI extends egret.Sprite implements RES.PromiseTaskReporter {
         this.stone.y = this.stage.stageHeight/2 - this.stone.height/2;
         this.addChild(this.stone);
         this.stone.mask = this.addMask(0,0)
-
     }
     private addBack() {
         let back = new egret.Shape();
@@ -82,7 +81,7 @@ class LoadingUI extends egret.Sprite implements RES.PromiseTaskReporter {
             this.maskBack = null;
         }
         this.maskBack = new egret.Shape();
-        this.maskBack.graphics.beginFill(0x0000ff,1);
+        this.maskBack.graphics.beginFill(0x1c1833,1);
         this.maskBack.graphics.drawRect(this.stone.x,this.stone.y,width,height);
         this.maskBack.graphics.endFill();
         
@@ -117,6 +116,9 @@ class LoadingUI extends egret.Sprite implements RES.PromiseTaskReporter {
         if(this.stone){
             this.stone.mask = this.addMask((current+1)*price,29)
         }
+        console.log(price)
+        console.log(current)
+        console.log(this.stone)
         let num = Math.floor(((current+1)/total)*100);
         if(num>100)
             num = 100;

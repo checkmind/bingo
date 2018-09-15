@@ -67,20 +67,15 @@ class Prop extends egret.Sprite{
         if(GameConfig.helperArr[this.type]<=0){
             return;
         }
-        let customFilter1 = new egret.CustomFilter(
-                                this.vertexSrc,
-                                this.fragmentSrc1,
-                                    {
-                                        customUniform: 0
-                                    }
-                            );
+        let customFilter1 = new egret.CustomFilter(this.vertexSrc, this.fragmentSrc1, {
+            customUniform: 0
+        });
         this.rect_2.filters = [customFilter1];
         this.addEventListener(egret.Event.ENTER_FRAME, () => {
             customFilter1.uniforms.customUniform += 0.1;
             if (customFilter1.uniforms.customUniform > Math.PI * 2) {
                 customFilter1.uniforms.customUniform = 0.0;
             }
-            
         }, this);
     }
     private propIntro
