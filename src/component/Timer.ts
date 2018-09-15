@@ -50,6 +50,10 @@ class Timer extends eui.Group{
            }
            if(this.time ===0) {
                clearInterval(this.timer);
+               if(GameConfig.nowTax === -1) {
+                   this.parents.gameOver()
+                   return
+               }
                this.parents.checkGameover();
            }
            let str = `时间：${this.time--}`
