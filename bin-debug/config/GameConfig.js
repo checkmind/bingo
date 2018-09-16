@@ -50,6 +50,13 @@ var GameConfig = (function () {
         image.source = url;
         return image;
     };
+    GameConfig.initData = function (data) {
+        data = data.result;
+        GameConfig.helperArr = data.helps;
+        GameConfig.coin = data.coin;
+        GameConfig.maxTax = data.maxTax;
+        GameConfig.nowTax = GameConfig.maxTax;
+    };
     GameConfig.initHelpArr = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _a;
@@ -86,17 +93,6 @@ var GameConfig = (function () {
             });
         });
     };
-    GameConfig.setHelpArr = function (num, index) {
-        GameConfig.helperArr[index] += num;
-        console.log('setNumber');
-        var str = GameConfig.helperArr.join("_");
-        console.log(str);
-        platform.setHelpStorage(str);
-    };
-    GameConfig.setCoin = function (num) {
-        GameConfig.coin += num;
-        platform.setCoinStorage(GameConfig.coin);
-    };
     GameConfig.initTax = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _a;
@@ -115,6 +111,14 @@ var GameConfig = (function () {
                 }
             });
         });
+    };
+    GameConfig.setHelpArr = function (num, index) {
+        GameConfig.helperArr[index] += num;
+        platform.setHelpStorage(GameConfig.helperArr);
+    };
+    GameConfig.setCoin = function (num) {
+        GameConfig.coin += num;
+        platform.setCoinStorage(GameConfig.coin);
     };
     GameConfig.SectionToChinese = function (section) {
         var strIns = '', chnStr = '';
@@ -139,7 +143,7 @@ var GameConfig = (function () {
         }
         return chnStr;
     };
-    GameConfig.domainUrl = 'http://cangnanshi.com/bingo/';
+    GameConfig.domainUrl = 'https://cangnanshi.com/bingo/';
     //static domainUrl = 'https://qqqdu.oss-cn-beijing.aliyuncs.com/bingo/'
     /* 即使不能消除也能交换顺序 */
     GameConfig.canChange = false;
@@ -170,7 +174,7 @@ var GameConfig = (function () {
     GameConfig.bingosMax = 8;
     GameConfig.taxArr = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
     // 无限模式初始化时间
-    GameConfig.infiniteTime = 100;
+    GameConfig.infiniteTime = 10;
     GameConfig.infiniteRow = 7;
     GameConfig.infiniteCol = 7;
     GameConfig.infiniteBingoType = 7;

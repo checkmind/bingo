@@ -51,8 +51,8 @@ class GameBody extends egret.Sprite{
         this.gameInf = gameInf;
         //this.x = (this.width - this.row*GameBody.childH) / 2
         this.x = this.padding/2;
-        this.height = this.col*GameBody.childH + 80
-        this.y = height/2 - this.height/2 - 80
+        this.height = this.col*GameBody.childH + 180
+        this.y = height/2 - this.height/2 - 40
         
         //this.y = 100;
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawDoors,this);
@@ -70,17 +70,18 @@ class GameBody extends egret.Sprite{
         let y = Math.floor((ev.stageY-this.y)/GameBody.childH);
         let diffX = ev.stageX - this.lastX
         let diffY = ev.stageY - this.lastY
-        console.log(diffX, diffY)
         let lastBingo = this.getObjSet(this.stackArr[0])        
         if(this.lock||this.loack_2)
             return;
-        if(Math.abs(diffX) > Math.abs(diffY)) {
+        x = lastBingo.x;
+        y = lastBingo.y;
+        if(Math.abs(diffX) - Math.abs(diffY) > 10) {
             if(diffX > 0) {
                 x = lastBingo.x + 1
             } else if(diffX < 0) {
                 x = lastBingo.x - 1
             }
-        } else if(Math.abs(diffX) < Math.abs(diffY)){
+        } else if( -Math.abs(diffX) + Math.abs(diffY) > 10){
             if(diffY > 0) {
                 y = lastBingo.y + 1
             } else if(diffY < 0){
@@ -241,11 +242,11 @@ class GameBody extends egret.Sprite{
     }
    
     private drawDoors(){
-        //this.addBack();
+        this.addBack();
         this.drawBingo();
         this.gameInf.updataScroe();
        // this.gameInf.updataStep();
-        this.addMask();
+        //this.addMask();
         if(GameConfig.nowTax!=-1) {
             this.addDark();
             this.addType();
@@ -254,9 +255,8 @@ class GameBody extends egret.Sprite{
     private addBack() {
         /* 背景色设置 */
         var shape:egret.Shape = new egret.Shape;
-        shape.graphics.beginFill(0x000000,.7)
-        shape.graphics.lineStyle(1,0x000000) 
-        shape.graphics.drawRect(0, 0, this.width-this.padding,this.col*GameBody.childH);
+        shape.graphics.beginFill(0x000000,0)
+        shape.graphics.drawRect(-this.padding, -this.padding, this.width+this.padding*2,this.height);
         shape.graphics.endFill();
         this.addChild(shape);
     }
@@ -264,7 +264,7 @@ class GameBody extends egret.Sprite{
         //画一个遮罩正方形
         var circle:egret.Shape = new egret.Shape();
         circle.graphics.beginFill(0x0000ff);
-        circle.graphics.drawRect(this.x,this.y,this.width,this.col*GameBody.childH+80);
+        circle.graphics.drawRect(this.x,this.y,this.width,this.height);
         circle.graphics.endFill();
         this.$parent.addChild(circle);
         this.mask = circle;
@@ -565,7 +565,6 @@ class GameBody extends egret.Sprite{
         if(GameConfig.state !== 1) {
             return;
         }
-        console.log('判断有没有解法')
         // 這邊簡單記錄一下bingos 没有解法了，就乱序
         if(!this.cloneBingos()){
             this.sortBingos()
@@ -576,15 +575,35 @@ class GameBody extends egret.Sprite{
         }
         if(GameConfig.nowTax!==-1 && this.gameInf.myScore>=GameConfig.taxConfig[GameConfig.nowTax].myScore) {
             if(this.hadBingo) {
-                this.parents.passTax(this.gameInf.myScore);
-                GameConfig.state = 2;
+                // 延迟两秒通关
+                setTimeout(() => {
+                    this.parents.passTax(this.gameInf.myScore);
+                    GameConfig.state = 2;    
+                }, 1000)
             } else {
-                this.shootBingos()
                 this.lock = true
-                this.hadBingo = true
+                this.addBoard()
             }
         }
         
+    }
+    // 显示出飞船
+    private async addBoard() {
+        const sky = await GameConfig.createBitmapByName("borad.png");
+        sky.width = sky.height = 300;
+        this.addChild(sky);
+        sky.x = -400
+        sky.y = this.height - 320
+        const fn1 = () => {
+            egret.Tween.get( sky ).to( { x:-400 }, 500, egret.Ease.sineIn ).call(()=>{
+                this.shootBingos()
+                this.hadBingo = true
+                this.removeChild(sky)
+            });  
+        }
+        egret.Tween.get( sky ).to( { x:0 }, 2000, egret.Ease.sineIn ).call(()=>{
+            setTimeout(fn1, 1000)
+        });
     }
     private shootBingos() {
         

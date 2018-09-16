@@ -184,9 +184,6 @@ var LoadingUI = (function (_super) {
         if (this.stone) {
             this.stone.mask = this.addMask((current + 1) * price, 29);
         }
-        console.log(price);
-        console.log(current);
-        console.log(this.stone);
         var num = Math.floor(((current + 1) / total) * 100);
         if (num > 100)
             num = 100;

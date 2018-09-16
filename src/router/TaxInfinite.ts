@@ -27,8 +27,18 @@ class TaxInfinite extends egret.Sprite{
             this.addGameBody();
         }
         this.addTalk();
+        this.addProgress()
     }
-    
+    private addProgress() {
+        const progress:Progress = new Progress(this.x, this.y, this.width, this.height)
+        const loadImage:loadImages = new loadImages(()=>{
+            progress.setMask(loadImage.cont,loadImage.totalCont)
+            if(loadImage.cont === loadImage.totalCont) {
+                this.removeChild(progress)
+            }
+        })
+        this.addChild(progress)
+    }
     private async addBack() {
         let back = new Background(0,0,this.width,this.height);
         this.addChild(back)

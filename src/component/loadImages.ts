@@ -8,16 +8,32 @@ class loadImages {
   public totalCont:Number
   // 加载图片列表
   private imgArr:Array<String>
-  constructor(imgArr, callback) {
-    this.imgArr = imgArr
+  constructor(callback) {
     this.callback = callback
-    this.totalCont = imgArr.length
     this.loadMethod()
   }
   // 加载所有图片
   private loadMethod() {
+    this.setImageArr()
+    this.totalCont = this.imgArr.length    
     this.imgArr.map(url => {
       this.loadImage(url)
+    })
+  }
+  // 设置图片列表
+  private setImageArr() {
+    this.imgArr = []
+    this.setBingoImage()
+    this.setPropImage()
+  }
+  private setBingoImage() {
+    for(let i = 1; i<10; i++) {
+      this.imgArr.push(`${GameConfig.domainUrl + i}.png`)
+    }
+  }
+  private setPropImage() {
+    GameConfig.helperSrc.map(val=>{
+      this.imgArr.push(`${GameConfig.domainUrl + val}.png`)
     })
   }
   private loadImage(url) {

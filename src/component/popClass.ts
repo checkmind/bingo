@@ -12,6 +12,7 @@ class PopClass extends egret.Sprite{
     private hadConstructor;
     private label1;
     private label2;
+    private parentWidth
     /**
      * type: 0 成功
      * type: 1 失败
@@ -25,6 +26,7 @@ class PopClass extends egret.Sprite{
         this.type = type;
         this.label1 = label1;
         this.label2 = label2;
+        this.parentWidth = width
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawProps,this);
     }
     private taxNum:TaxButton;
@@ -38,17 +40,23 @@ class PopClass extends egret.Sprite{
         this.taxNum.label2 = this.label2;
         this.addChild(this.taxNum)
         if(this.type===0)
-            this.nextTax();
+            this.nextTax(this.x);
         else 
             this.shareFriend();
         this.againGame();
         this.homeGame();
+        this.scaleX = .1;
+        this.scaleY = .1;
+        this.x = this.parentWidth/2 - (this.width * .1)/2
+        egret.Tween.get( this ).to( { x: this.parentWidth/2 - this.width/2, scaleX: 1,scaleY: 1 }, 300, egret.Ease.sineIn ).call(()=>{
+
+        });
     }   
     //下一关
-    private async nextTax() {
+    private async nextTax(x) {
         let sky:eui.Image = await GameConfig.createBitmapByName("next.png");
         sky.width = sky.height = this.buttonWidth;
-        sky.x = this.x + this.width - 117 - sky.width;
+        sky.x = x + this.width - 117 - sky.width;
         sky.y =this.height - 120;
         this.addChild(sky);
         let fn = ()=>{

@@ -1,7 +1,7 @@
 /* 
 **/
 class GameConfig{
-    static domainUrl = 'http://cangnanshi.com/bingo/'
+    static domainUrl = 'https://cangnanshi.com/bingo/'
     //static domainUrl = 'https://qqqdu.oss-cn-beijing.aliyuncs.com/bingo/'
     /* 即使不能消除也能交换顺序 */
     static canChange = false;
@@ -32,7 +32,7 @@ class GameConfig{
     static bingosMax = 8;
     static taxArr = ['零','一','二','三','四','五','六','七','八','九'];
     // 无限模式初始化时间
-    static infiniteTime = 100;
+    static infiniteTime = 10;
     static infiniteRow = 7;
     static infiniteCol = 7;
     static infiniteBingoType = 7;
@@ -56,6 +56,13 @@ class GameConfig{
         image.source = url;
         return image
     }
+    static initData(data) {
+        data = data.result
+        GameConfig.helperArr = data.helps
+        GameConfig.coin = data.coin
+        GameConfig.maxTax = data.maxTax
+        GameConfig.nowTax = GameConfig.maxTax
+    }
     static async initHelpArr() {
         GameConfig.helperArr = await platform.getHelpStorage();
         if(!GameConfig.helperArr) {
@@ -68,24 +75,20 @@ class GameConfig{
             GameConfig.coin = 0
         }
     }
-    static setHelpArr(num,index) {
-        GameConfig.helperArr[index] += num;
-        console.log('setNumber')
-        let str = GameConfig.helperArr.join("_");
-        console.log(str)
-        platform.setHelpStorage(str)
-    }
-    static setCoin(num) {
-        GameConfig.coin += num;
-        platform.setCoinStorage(GameConfig.coin)
-    }
-    
     static async initTax() {
         GameConfig.maxTax = await platform.getTax();
         GameConfig.nowTax = GameConfig.maxTax
         if(!GameConfig.maxTax) {
             GameConfig.maxTax = 0
         }
+    }
+    static setHelpArr(num,index) {
+        GameConfig.helperArr[index] += num;
+        platform.setHelpStorage(GameConfig.helperArr)
+    }
+    static setCoin(num) {
+        GameConfig.coin += num;
+        platform.setCoinStorage(GameConfig.coin)
     }
     static chnNumChar = ["零","一","二","三","四","五","六","七","八","九"];
     static chnUnitSection = ["","万","亿","万亿","亿亿"];

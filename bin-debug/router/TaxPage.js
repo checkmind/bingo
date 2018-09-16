@@ -81,9 +81,22 @@ var TaxPage = (function (_super) {
             return __generator(this, function (_a) {
                 this.addBack();
                 this.addTalk();
+                this.addProgress();
                 return [2 /*return*/];
             });
         });
+    };
+    TaxPage.prototype.addProgress = function () {
+        var _this = this;
+        var progress = new Progress(this.x, this.y, this.width, this.height);
+        var loadImage = new loadImages(function () {
+            console.log(loadImage.cont, loadImage.totalCont);
+            progress.setMask(loadImage.cont, loadImage.totalCont);
+            if (loadImage.cont === loadImage.totalCont) {
+                _this.removeChild(progress);
+            }
+        });
+        this.addChild(progress);
     };
     TaxPage.prototype.addBack = function () {
         return __awaiter(this, void 0, void 0, function () {

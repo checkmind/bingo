@@ -58,13 +58,17 @@ class Main extends eui.UILayer {
     }
 
     private async runGame() {
+        const userInfo = await platform.getUserInfo();
+        /* 初始化 */
+        try {
+            GameConfig.initData(userInfo)
+        } catch(e) {
+            console.log(e)
+        }
         await this.loadResource()
-    
         this.createGameScene();            
-       
         const result = await RES.getResAsync("description_json")
         await platform.login();
-        const userInfo = await platform.getUserInfo();
         platform.createInnerAudioContext();
     }
 
@@ -111,12 +115,6 @@ class Main extends eui.UILayer {
         this.addChild(sky);
         let stageW = this.stage.stageWidth;
         let stageH = this.stage.stageHeight;
-        /* 得到道具数据 */
-        GameConfig.initHelpArr();
-        /* 得到金钱设置 */
-        GameConfig.initCoin();
-        /**得到关卡数 */
-        GameConfig.initTax();
         /* 背景色设置 */
         var shape:egret.Shape = new egret.Shape;
         shape.graphics.beginFill(0x000000,1)
