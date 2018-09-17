@@ -1,5 +1,5 @@
 /* 
-    道具类
+    帧动画
 **/
 class MovieClass extends egret.Sprite{
     private image:egret.Bitmap = new egret.Bitmap();
@@ -9,7 +9,8 @@ class MovieClass extends egret.Sprite{
     private role:egret.MovieClip;
     private movieName;
     private rotate;
-    public constructor(x,y,width,height,movieName,rotate:any){
+    private frameRate
+    public constructor(x,y,width,height,movieName,rotate:any,frameRate?:number){
         super();
         this.x = x;
         this.y = y;
@@ -17,45 +18,12 @@ class MovieClass extends egret.Sprite{
         this.height = height;
         this.movieName = movieName
         this.rotate = rotate
+        if(frameRate)
+            this.frameRate = frameRate
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawProps,this);
     }
     private async drawProps(){
         this.load(this.initMovieClip);
-    }
-    
-    private moveRandom() {
-        let fn = ()=>{
-            let random = Math.floor(Math.random()*1000)*2;
-            egret.Tween
-            .get(this.role)
-            .to( this.generateStyle(), 10*random, egret.Ease.sineIn ).call(()=>{
-                if(GameConfig.state ===0 || GameConfig.state ===2) {
-                    return;
-                }
-                fn();
-            });
-        }
-        fn();
-    }
-    private ran(end,start) {
-		return Math.floor(Math.random()*(end-start)+start)
-    }
-    private generateStyle() {
-        let minWidth = 100;
-        let maxWidth = 300;
-        let height = this.ran(maxWidth,minWidth) 
-        let width = height;
-        
-        let maxX = this.width-width;
-        let maxY = this.height-height;
-        let minX = this.x;
-        let minY = this.y-200;
-        
-        let x = this.ran(maxX,minX);
-        let y = this.ran(maxY,minY);
-        return {
-            x,y,width,height
-        }
     }
     private _mcData;
     private _mcTexture;
@@ -70,7 +38,7 @@ class MovieClass extends egret.Sprite{
         this.role.x = -this.width/2;
         this.role.y = -this.height/2;
         this.role.rotation = this.rotate
-        this.role.frameRate = 60;
+        this.role.frameRate = this.frameRate;
         this.addChild(this.role);
     }
     public playMovie() {

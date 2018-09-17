@@ -1,5 +1,5 @@
 /* 
-    弹窗类
+    进度条
 **/
 class Progress extends egret.Sprite{
   public width:number;

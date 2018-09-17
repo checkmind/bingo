@@ -97,7 +97,6 @@ class LoadingUI extends egret.Sprite implements RES.PromiseTaskReporter {
         this.addChild(this.stoneBar)
     }
     private getUrl(url) {
-        var textTrue =new egret.Texture()
         let il:egret.ImageLoader = new egret.ImageLoader();
         il.crossOrigin = 'anonymous'
         il.load(GameConfig.domainUrl+url);

@@ -1,8 +1,7 @@
 /* 
-    道具类
+    怪物类，用来阻挡玩家视线
 **/
 class MonsterClass extends egret.Sprite{
-    private img;
     public width:number;
     public height:number;
     private role:egret.MovieClip;
@@ -94,16 +93,5 @@ class MonsterClass extends egret.Sprite{
             check();
         },this,RES.ResourceItem.TYPE_JSON);
         
-    }
-    private createBitmapByName(name: string, callback) {
-        let url = GameConfig.domainUrl+name;
-        var image = new eui.Image();
-        image.addEventListener(egret.Event.COMPLETE, function(ev) {
-            console.log('callback')
-            callback(image)
-        }, image)
-        image.source = url;        
-        egret.ImageLoader.crossOrigin = "anonymous"        
-        return image
     }
 }

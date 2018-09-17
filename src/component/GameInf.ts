@@ -4,10 +4,8 @@
 class GameInf extends egret.Sprite{
     public width:number;
     public heights:number;
-    private image:egret.Bitmap = new egret.Bitmap();
     private parents;
     public myScore:number = 0;
-    private myScoreLabel;
     private taxNum;
     private Timer:Timer;
     // 步数
@@ -136,9 +134,7 @@ class GameInf extends egret.Sprite{
         let self = this;
         function clickButton(index) {
             self.propsArr.forEach((prop, key)=>{
-               // if(2 !== key) {
-                    prop.removeRect()
-               // }
+                prop.removeRect()
             })
         }
         for(let type = 0;type<maxType;type++) {

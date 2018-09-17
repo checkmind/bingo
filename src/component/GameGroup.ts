@@ -81,14 +81,4 @@ class GameGroup extends eui.Group{
         PageBus.gotoPage("pageTax");
         GameConfig.state = 1;
     }
-    private createBitmapByName(name: string,width:any,height:any) {
-        let result = new egret.Bitmap();
-        let texture: egret.Texture = RES.getRes(name);
-        result.texture = texture;
-        if(width)
-            result.width = width;
-        if(height)
-            result.height = height;
-        return result;
-    }
 }
