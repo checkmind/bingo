@@ -1,8 +1,7 @@
 {
 	"skins": {
 		"eui.Button": "resource/eui_skins/ButtonSkin.exml",
-		"eui.label": "resource/eui_skins/TextSkin.exml",
-		"eui.Image": "resource/eui_skins/ImageSkin.exml"
+		"eui.label": "resource/eui_skins/TextSkin.exml"
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
@@ -13,8 +12,8 @@
 		"resource/eui_skins/TalkSkin.exml",
 		"resource/eui_skins/TalkSkin2.exml",
 		"resource/eui_skins/TextSkin.exml",
-		"resource/eui_skins/TitleSkin.exml",
 		"resource/eui_skins/timerSkin.exml",
+		"resource/eui_skins/TitleSkin.exml",
 		"resource/eui_skins/toastSkin.exml"
 	],
 	"path": "resource/default.thm.json"

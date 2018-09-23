@@ -4,7 +4,7 @@ class GameBody extends egret.Sprite{
     public width:number;
     public height:number;
     private image:egret.Bitmap = new egret.Bitmap();
-    private bingos = [];
+    public bingos = [];
     private row = 2;
     private col = 10;
     private clears = [];
@@ -144,12 +144,12 @@ class GameBody extends egret.Sprite{
         switch(GameConfig.helper){
             // 清除相同的所有类别
             case 1:
-                this.clearCommonBingo(x,y);
+                GameRules.clearCommonBingo(x,y, this);
                 this.gameInf.propsArr[GameConfig.helper-1].setNum();
                 break;
             // 清除九宫格 
             case 2:
-                this.clearHelper(x,y);
+                GameRules.clearHelper(x,y,this);
                 this.gameInf.propsArr[GameConfig.helper-1].setNum();
                 break;
             default:
@@ -158,34 +158,6 @@ class GameBody extends egret.Sprite{
         this.checkFun();
         GameConfig.helper = 0;
         return false
-    }
-    // 道具1
-    private clearHelper(x,y) {
-        this.saveClears(x+`,`+y)
-        this.bingos.map((val,j)=>{
-            return val.map((val2,i)=>{
-                if(Math.abs(x-j)===1&&Math.abs(y-i)<=1){
-                    this.saveClears(j+`,`+i)
-                }
-                if(Math.abs(y-i)===1&&Math.abs(x-j)<=1){
-                    this.saveClears(j+`,`+i)
-                }
-                return val2;
-            })
-        })
-    }
-    // 道具2
-    private clearCommonBingo(x,y) {
-        this.saveClears(x+`,`+y)
-        let type = this.bingos[x][y].type
-        this.bingos.map((val,j)=>{
-            return val.map((val2,i)=>{
-                if(this.bingos[j][i] && this.bingos[j][i].type=== type){
-                    this.saveClears(j+`,`+i)
-                }
-                return val2;
-            })
-        })
     }
     // 判断是否可以交换
     private checkChange(object_1,object_2) {
@@ -225,6 +197,11 @@ class GameBody extends egret.Sprite{
         this.loack_2 = true;
         let coord_1 = this.getObjSet(object_1);
         let coord_2 = this.getObjSet(object_2);
+        if(!this.exitObj(this.bingos,coord_1.x,coord_1.y) || !this.exitObj(this.bingos,coord_2.x,coord_2.y)) {
+            this.stackArr = []
+            this.loack_2 = false
+            return
+        }
         let obj = this.bingos[coord_1.x][coord_1.y];
         this.bingos[coord_1.x][coord_1.y] = this.bingos[coord_2.x][coord_2.y] 
         this.bingos[coord_2.x][coord_2.y] = obj;
@@ -245,11 +222,9 @@ class GameBody extends egret.Sprite{
         this.addBack();
         this.drawBingo();
         this.gameInf.updataScroe();
-       // this.gameInf.updataStep();
-        //this.addMask();
         if(GameConfig.nowTax!=-1) {
-            this.addDark();
-            this.addType();
+            GameRules.addDark(this);
+            GameRules.addType(this);
         }
     }
     private addBack() {
@@ -259,55 +234,6 @@ class GameBody extends egret.Sprite{
         shape.graphics.drawRect(-this.padding, -this.padding, this.width+this.padding*2,this.height);
         shape.graphics.endFill();
         this.addChild(shape);
-    }
-    private addMask() {
-        //画一个遮罩正方形
-        var circle:egret.Shape = new egret.Shape();
-        circle.graphics.beginFill(0x0000ff);
-        circle.graphics.drawRect(this.x,this.y,this.width,this.height);
-        circle.graphics.endFill();
-        this.$parent.addChild(circle);
-        this.mask = circle;
-    }
-    // 星球变暗色 每隔三秒遍历一次
-    private addDark() {
-        if(!GameConfig.taxConfig[GameConfig.nowTax]["darkTime"]) {
-            return;
-        }
-        let timer = setInterval(()=>{
-            if(GameConfig.state == 2 || GameConfig.state ==0) {
-                clearInterval(timer);
-            }
-            this.bingos.forEach((val)=>{
-                val.forEach((val2)=>{
-                    val2 && val2.beDark();
-                })
-            })
-        },5000)
-    }
-    // 星球变成其他类型
-    private addType() {
-        if(!GameConfig.taxConfig[GameConfig.nowTax]["changeTime"]) {
-            return;
-        }
-        let timer = setInterval(()=>{
-            if(GameConfig.state == 2 || GameConfig.state ==0) {
-                clearInterval(timer);
-            }
-            if(this.lock||this.loack_2)
-                return;
-            this.bingos.forEach((val)=>{
-                val.forEach((val2)=>{
-                    if(Math.floor(Math.random()*10)===2) {
-                        val2 && val2.beType(this.ran());
-                        setTimeout(()=>{
-                            this.checkFun();
-                        },this.speed+1)
-                    } 
-                })
-            })
-            this.checkFun();
-        },5000)
     }
     public matrixes = [];
     private drawBingo() {
@@ -323,7 +249,6 @@ class GameBody extends egret.Sprite{
             }
             this.bingos.push(arrs);
         }
-        //this.checkFun();
         this.updataGame();    
     }
     private addBingo() {
@@ -331,14 +256,13 @@ class GameBody extends egret.Sprite{
         for(let k=0;k<this.bingos[0].length;k++) {
             if(this.bingos[0][k]){
                 this.game = false;
-               // return false;
             }
         }
         for(let i = 0;i<this.row;i++) {
-                let ran = this.ran()
-                let bingo:Bingo = new Bingo(i,-1,ran,this);
-                this.addChildAt(bingo,0);
-                this.newBingos.push(bingo);            
+            let ran = this.ran()
+            let bingo:Bingo = new Bingo(i,-1,ran,this);
+            this.addChildAt(bingo,0);
+            this.newBingos.push(bingo);            
         }
         this.moveToBottom();
     }
@@ -468,7 +392,7 @@ class GameBody extends egret.Sprite{
         return true;
     }
     /* 清除栈 */
-    private saveClears(string) {
+    public saveClears(string) {
         for(let i = 0;i<this.clears.length;i++) {
             if(this.clears[i] === string)
                return;
@@ -567,7 +491,7 @@ class GameBody extends egret.Sprite{
         }
         // 這邊簡單記錄一下bingos 没有解法了，就乱序
         if(!this.cloneBingos()){
-            this.sortBingos()
+            GameRules.sortBingos(this)
             setTimeout(()=>{
                 this.checkFun();
             },this.speed)
@@ -582,83 +506,12 @@ class GameBody extends egret.Sprite{
                 }, 1000)
             } else {
                 this.lock = true
-                this.addBoard()
+                GameRules.addBoard(this)
             }
         }
         
     }
-    // 显示出飞船
-    private async addBoard() {
-        const sky = await GameConfig.createBitmapByName("borad.png");
-        sky.width = sky.height = 300;
-        this.addChild(sky);
-        sky.x = -400
-        sky.y = this.height - 320
-        const fn1 = () => {
-            egret.Tween.get( sky ).to( { x:-400 }, 500, egret.Ease.sineIn ).call(()=>{
-                this.shootBingos()
-                this.hadBingo = true
-                this.removeChild(sky)
-            });  
-        }
-        egret.Tween.get( sky ).to( { x:0 }, 2000, egret.Ease.sineIn ).call(()=>{
-            setTimeout(fn1, 1000)
-        });
-    }
-    private shootBingos() {
-        
-        let set = []
-        this.bingos.forEach((val,x)=>{
-            val.forEach((val2,y)=>{
-                const exit = this.exitObj(this.bingos,x,y);
-                if(exit && val2.canClear()) {
-                    set.push({
-                        x: x,
-                        y: y
-                    })
-                }
-            })
-        });
-        setTimeout(()=>{
-            this.checkFun();  
-        },3000)
-        set.map((val, index) => {
-            let arr = [{x: 0,y: 1},{x: 1,y: 0},{x: 0,y: 0},{x: 1,y: 1},]
-            let obj = this.bingos[val.x][val.y]
-            this.saveClears(val.x+`,`+val.y)
-            this.parents.shootRock({
-                x: obj.x + this.x + GameBody.childW/2,
-                y: obj.y + this.y + GameBody.childH/2,
-            })
-        })
-    }
-    private sortBingos() {
-        let arr = [],set = []
-        this.bingos.forEach((val,x)=>{
-            val.forEach((val2,y)=>{
-                if(val2) {
-                    arr.push( val2 )
-                    set.push({
-                        x: x,
-                        y: y
-                    })
-                }
-            })
-        });
-        arr.sort(()=>{
-            return Math.random()>.5 ? -1 : 1;
-        })
-        let i = 0
-        this.bingos.forEach((val,x)=>{
-            val.forEach((val2,y)=>{
-                if(arr[i] && this.judegeMatrix(x,y)) {
-                    this.bingos[x][y] = arr[i]
-                    this.bingos[x][y].moveToSet(set[i].x,set[i].y)
-                    i++ 
-                }   
-            })
-        });
-    }
+    
     private cloneBingos() {
         let arr = [];
         let bingos = this.bingos
@@ -694,9 +547,7 @@ class GameBody extends egret.Sprite{
             [{i:i+1,j:j-2},{i:i+1,j:j-1},{i:i,j:j},{i:i+1,j:j+1},{i:i+1,j:j+2}],
             [{i:i-2,j:j},{i:i-1,j:j},{i:i+1,j:j}],
             [{i:i,j:j},{i:i+2,j:j},{i:i+3,j:j}]
-
         ]
-        
         let checkType = arr=>{
             let now,
                 add = 1,

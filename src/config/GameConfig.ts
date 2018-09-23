@@ -39,9 +39,9 @@ class GameConfig{
     // 速度
     static infiniteColV = 100;
     // 当前关卡
-    static nowTax = -1;
+    static nowTax = 0;
     // 当前最强关卡
-    static maxTax = 0;
+    static maxTax = 14;
      
     // 第一关限定步数
     static taxConfig = [];

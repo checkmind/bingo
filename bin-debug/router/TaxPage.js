@@ -96,7 +96,7 @@ var TaxPage = (function (_super) {
                 _this.removeChild(progress);
             }
         });
-        this.addChild(progress);
+        this.addChildAt(progress, 9);
     };
     TaxPage.prototype.addBack = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -122,7 +122,7 @@ var TaxPage = (function (_super) {
         }
         this.talkContent = new TalkContent(this.width, this.height, this);
         this.talkContent.init();
-        this.addChild(this.talkContent);
+        this.addChildAt(this.talkContent, 2);
     };
     TaxPage.prototype.addHore = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -232,12 +232,6 @@ var TaxPage = (function (_super) {
                         return [4 /*yield*/, platform.shareAppMessage()];
                     case 5:
                         res = _b.sent();
-                        console.log(res);
-                        if (res.success) {
-                            console.log('分享成功奖励1000金');
-                            GameConfig.setCoin(1000);
-                            this.gameInf.changeCoin();
-                        }
                         return [3 /*break*/, 7];
                     case 6: return [2 /*return*/];
                     case 7:

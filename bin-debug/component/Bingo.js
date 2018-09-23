@@ -51,8 +51,11 @@ var Bingo = (function (_super) {
         var _this = _super.call(this) || this;
         _this.width = GameBody.childW;
         _this.height = GameBody.childH;
-        _this.image = new egret.Bitmap();
         _this.colors = [0x1ca5fc, 0x295c9d, 0x990000, 0x7f0000];
+        /**
+         * 锁，在元素被清除或者要改变为其他元素的时候，需要判断锁
+         */
+        _this.lock = false;
         _this.nowDrak = false;
         _this.x = x * (_this.width);
         _this.y = y * (_this.height);
@@ -62,30 +65,11 @@ var Bingo = (function (_super) {
         return _this;
     }
     Bingo.prototype.drawDoors = function () {
-        //this.addRect();
-        //this.addMask()
         this.addImage();
-        //this.addText();
-        //this.addBlackHole();
     };
-    Bingo.prototype.addMask = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _a = this;
-                        return [4 /*yield*/, GameConfig.createBitmapByName("rect_2.png")];
-                    case 1:
-                        _a.rect = _b.sent();
-                        this.rect.width = this.width;
-                        this.rect.height = this.height;
-                        this.addChild(this.rect);
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
+    /**
+     * 选择框
+     */
     Bingo.prototype.addRect = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _a;
@@ -104,6 +88,9 @@ var Bingo = (function (_super) {
             });
         });
     };
+    /**
+     * 增加贴图
+     */
     Bingo.prototype.addImage = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b;
@@ -135,6 +122,9 @@ var Bingo = (function (_super) {
             });
         });
     };
+    /**
+     * 星球变黑
+     */
     Bingo.prototype.beDark = function () {
         return __awaiter(this, void 0, void 0, function () {
             var ran, _a;
@@ -162,6 +152,9 @@ var Bingo = (function (_super) {
             });
         });
     };
+    /**
+     * 变黑几率
+     */
     Bingo.prototype.canClear = function () {
         var ran = Math.floor(Math.random() * 10);
         // 变换为黑色球的几率
@@ -171,11 +164,17 @@ var Bingo = (function (_super) {
         }
         return false;
     };
-    // 变成另外的星球
+    /**
+     * 变成其他的星球
+     */
     Bingo.prototype.beType = function (type) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
+                // 如果已经要清除了就不能进行下一步了
+                if (this.lock) {
+                    return [2 /*return*/];
+                }
                 this.changeBiong(function () {
                     if (_this.img.parent)
                         _this.removeChild(_this.img);
@@ -195,6 +194,10 @@ var Bingo = (function (_super) {
         egret.Tween.get(sky, { onChange: funcChange, onChangeObj: sky })
             .to({}, this.parents.speed, egret.Ease.sineIn).call(fn);
     };
+    /**
+     *
+     * @param fn 清除前动画，回调
+     */
     Bingo.prototype.addBlackHole = function (fn) {
         return __awaiter(this, void 0, void 0, function () {
             var sky, funcChange, iDirection, self;
@@ -231,17 +234,12 @@ var Bingo = (function (_super) {
             });
         });
     };
-    Bingo.prototype.onAddToStage = function (evt) {
-    };
-    Bingo.prototype.addText = function () {
-        var text = new egret.TextField();
-        // text.text = this.type;
-        text.x = this.width / 2 - text.textWidth / 2;
-        text.y = this.height / 2 - text.textHeight / 2;
-        this.addChild(text);
-    };
+    /**
+     * 清除
+     */
     Bingo.prototype.killSelf = function () {
         var _this = this;
+        this.lock = true;
         return new Promise(function (resolve) {
             _this.addBlackHole(function () {
                 _this.$parent && _this.$parent.removeChild(_this);
@@ -249,7 +247,10 @@ var Bingo = (function (_super) {
             });
         });
     };
-    // 交换位置
+    /**
+     * 和某个方向相邻元素交换位置
+     * @param direction 方向
+     */
     Bingo.prototype.moveToDirection = function (direction) {
         var _this = this;
         var that = this;
@@ -274,6 +275,10 @@ var Bingo = (function (_super) {
             }
         });
     };
+    /**
+     * 往下挪动
+     * @param j 纵坐标
+     */
     Bingo.prototype.moveToBottom = function (j) {
         /*** 本示例关键代码段开始 ***/
         var distance = j * (this.height);
@@ -291,11 +296,6 @@ var Bingo = (function (_super) {
             this.removeChoosed();
             return;
         }
-        // this.borderShape = new egret.Shape()
-        // this.borderShape.graphics.lineStyle(2, 0xffffff);
-        // this.borderShape.graphics.drawRect(0, 0, this.width,this.height);
-        // this.borderShape.graphics.endFill();
-        // this.addChild(this.borderShape);
         this.addRect();
         this.choosed = true;
     };

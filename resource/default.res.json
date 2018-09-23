@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,button_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,cir_png,toast_png,newParticle2_png,newParticle2_json,ok_png,helpBack_png,rect_2_png,ending_png,gameEui_json,tax_json,monster_json,gameEui_png,rank_json,rank_png,stoneBar_png,stone_png",
+			"keys": "description_json,button_png,newParticle_png,newParticle_json,npc_1_png,npc_2_png,cir_png,newParticle2_png,newParticle2_json,ok_png,helpBack_png,rect_2_png,ending_png,gameEui_json,tax_json,monster_json,gameEui_png,rank_json,rank_png,stoneBar_png,stone_png,tax_png",
 			"name": "preload"
 		}
 	],
@@ -40,11 +40,6 @@
 			"url": "assets/cir.png",
 			"type": "image",
 			"name": "cir_png"
-		},
-		{
-			"url": "assets/toast.png",
-			"type": "image",
-			"name": "toast_png"
 		},
 		{
 			"url": "assets/starts2/newParticle.png",
@@ -115,6 +110,11 @@
 			"name": "stone_png",
 			"type": "image",
 			"url": "assets/stone.png"
+		},
+		{
+			"name": "tax_png",
+			"type": "image",
+			"url": "assets/tax.png"
 		}
 	]
 }

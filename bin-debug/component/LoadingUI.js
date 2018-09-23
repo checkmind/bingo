@@ -165,7 +165,6 @@ var LoadingUI = (function (_super) {
         });
     };
     LoadingUI.prototype.getUrl = function (url) {
-        var textTrue = new egret.Texture();
         var il = new egret.ImageLoader();
         il.crossOrigin = 'anonymous';
         il.load(GameConfig.domainUrl + url);

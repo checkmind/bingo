@@ -41,6 +41,7 @@ class TaxPage extends egret.Sprite{
         this.addBack()
         this.addTalk()
         this.addProgress()
+        //this.shootRock({x:40,y:40})
     }
     private addProgress() {
         const progress:Progress = new Progress(this.x, this.y, this.width, this.height)
@@ -51,7 +52,7 @@ class TaxPage extends egret.Sprite{
                 this.removeChild(progress)
             }
         })
-        this.addChild(progress)
+        this.addChildAt(progress, 9)
     }
     private async addBack() {
         let back = new Background(0,0,this.width,this.height);
@@ -73,7 +74,7 @@ class TaxPage extends egret.Sprite{
         }
        this.talkContent = new TalkContent(this.width,this.height,this);
        this.talkContent.init();
-       this.addChild(this.talkContent)  
+       this.addChildAt(this.talkContent,2)  
     }
     private async addHore() {
         let img = await GameConfig.createBitmapByName('success.png');
@@ -93,6 +94,7 @@ class TaxPage extends egret.Sprite{
         this.addChild(button);
     }
     public async passTax(score) {
+
         if(GameConfig.nowTax === GameConfig.taxConfig.length-1) {
             this.addHore();
             return;
@@ -107,16 +109,6 @@ class TaxPage extends egret.Sprite{
         this.gameInf.changeCoin()
         if(this.gameBody && this.gameBody.$parent)
             this.removeChild(this.gameBody);
-        // if(GameConfig.maxTax>=1) {
-        //     this.success = ()=>{
-        //         PageBus.gotoPage("gameTax");
-        //     }
-        //    return;
-        // }
-        // this.success = ()=>{
-        //     this.removeChildren();
-        //     this.addImage();
-        // }
     }
     public gameOver(num?:Number) {
         console.log('结束了')
@@ -167,12 +159,6 @@ class TaxPage extends egret.Sprite{
             case 'share':
                 console.log('分享')
                 let res = await platform.shareAppMessage();
-                console.log(res);
-                if(res.success) {
-                    console.log('分享成功奖励1000金')
-                    GameConfig.setCoin(1000);
-                    this.gameInf.changeCoin()
-                }
                 break;
             default:
                 return;

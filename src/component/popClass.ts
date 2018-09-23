@@ -43,7 +43,7 @@ class PopClass extends egret.Sprite{
             this.nextTax(this.x);
         else 
             this.shareFriend();
-        this.againGame();
+        this.againGame(this.x);
         this.homeGame();
         this.scaleX = .1;
         this.scaleY = .1;
@@ -93,13 +93,13 @@ class PopClass extends egret.Sprite{
             this.dispatchEvent(dataEvent);
         },this);
     }
-    private async againGame() {
+    private async againGame(x) {
         let sky:any = await GameConfig.createBitmapByName("again.png");
         sky.width = sky.height = this.buttonWidth;
         if(this.type===0)
             sky.x = this.width/2 - sky.width/2;
         else
-            sky.x = this.x + this.width - 117 - sky.width;
+            sky.x = x + this.width - 117 - sky.width;
         sky.y =this.height - 120;
         this.addChild(sky);
         sky.addEventListener('touchEnd',()=>{

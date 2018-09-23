@@ -3,6 +3,6 @@
 	<e:Image id="button" width="500" height="640" anchorOffsetX="0" anchorOffsetY="0" source="resource/assets/ending.png" x="0" y="2.48" scaleX="1" fillMode="scale" locked="true"/>
 
 	<e:Label id="labelDisplay2" size="30" fontFamily="KaiTi" verticalAlign="middle" text="恭喜你通关了" anchorOffsetX="0" anchorOffsetY="0" wordWrap="true" bold="true" background="false" backgroundColor="0xe5e3e3" strokeColor="0xfcf9f9" alpha="1" lineSpacing="8" y="234.91" width="330.4" height="46.57" textAlign="center" textColor="0x050404" horizontalCenter="-1"/>
-    <e:Label id="labelDisplay" size="25" fontFamily="KaiTi" verticalAlign="top" text="  想不到你竟然这里厉害" anchorOffsetX="0" anchorOffsetY="0" wordWrap="true" bold="true" background="false" backgroundColor="0xe5e3e3" strokeColor="0xfcf9f9" alpha="1" lineSpacing="8" width="300.4" height="105" textAlign="center" textColor="0x0a0a0a" horizontalCenter="0" bottom="233"/>
+    <e:Label id="labelDisplay" size="25" fontFamily="KaiTi" verticalAlign="top" text="  想不到你是分身乏术说法是对方是舒服舒服舒服啥竟然这里厉害" anchorOffsetX="0" anchorOffsetY="0" wordWrap="true" bold="true" background="false" backgroundColor="0xe5e3e3" strokeColor="0xfcf9f9" alpha="1" lineSpacing="20" width="300.4" height="212" textAlign="left" textColor="0x0a0a0a" horizontalCenter="0" bottom="126"/>
 
 </e:Skin>

@@ -8,41 +8,6 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
 /*
 **/
 var GameBody = (function (_super) {
@@ -191,12 +156,12 @@ var GameBody = (function (_super) {
         switch (GameConfig.helper) {
             // 清除相同的所有类别
             case 1:
-                this.clearCommonBingo(x, y);
+                GameRules.clearCommonBingo(x, y, this);
                 this.gameInf.propsArr[GameConfig.helper - 1].setNum();
                 break;
             // 清除九宫格 
             case 2:
-                this.clearHelper(x, y);
+                GameRules.clearHelper(x, y, this);
                 this.gameInf.propsArr[GameConfig.helper - 1].setNum();
                 break;
             default:
@@ -205,36 +170,6 @@ var GameBody = (function (_super) {
         this.checkFun();
         GameConfig.helper = 0;
         return false;
-    };
-    // 道具1
-    GameBody.prototype.clearHelper = function (x, y) {
-        var _this = this;
-        this.saveClears(x + "," + y);
-        this.bingos.map(function (val, j) {
-            return val.map(function (val2, i) {
-                if (Math.abs(x - j) === 1 && Math.abs(y - i) <= 1) {
-                    _this.saveClears(j + "," + i);
-                }
-                if (Math.abs(y - i) === 1 && Math.abs(x - j) <= 1) {
-                    _this.saveClears(j + "," + i);
-                }
-                return val2;
-            });
-        });
-    };
-    // 道具2
-    GameBody.prototype.clearCommonBingo = function (x, y) {
-        var _this = this;
-        this.saveClears(x + "," + y);
-        var type = this.bingos[x][y].type;
-        this.bingos.map(function (val, j) {
-            return val.map(function (val2, i) {
-                if (_this.bingos[j][i] && _this.bingos[j][i].type === type) {
-                    _this.saveClears(j + "," + i);
-                }
-                return val2;
-            });
-        });
     };
     // 判断是否可以交换
     GameBody.prototype.checkChange = function (object_1, object_2) {
@@ -276,6 +211,11 @@ var GameBody = (function (_super) {
         this.loack_2 = true;
         var coord_1 = this.getObjSet(object_1);
         var coord_2 = this.getObjSet(object_2);
+        if (!this.exitObj(this.bingos, coord_1.x, coord_1.y) || !this.exitObj(this.bingos, coord_2.x, coord_2.y)) {
+            this.stackArr = [];
+            this.loack_2 = false;
+            return;
+        }
         var obj = this.bingos[coord_1.x][coord_1.y];
         this.bingos[coord_1.x][coord_1.y] = this.bingos[coord_2.x][coord_2.y];
         this.bingos[coord_2.x][coord_2.y] = obj;
@@ -294,11 +234,9 @@ var GameBody = (function (_super) {
         this.addBack();
         this.drawBingo();
         this.gameInf.updataScroe();
-        // this.gameInf.updataStep();
-        //this.addMask();
         if (GameConfig.nowTax != -1) {
-            this.addDark();
-            this.addType();
+            GameRules.addDark(this);
+            GameRules.addType(this);
         }
     };
     GameBody.prototype.addBack = function () {
@@ -308,57 +246,6 @@ var GameBody = (function (_super) {
         shape.graphics.drawRect(-this.padding, -this.padding, this.width + this.padding * 2, this.height);
         shape.graphics.endFill();
         this.addChild(shape);
-    };
-    GameBody.prototype.addMask = function () {
-        //画一个遮罩正方形
-        var circle = new egret.Shape();
-        circle.graphics.beginFill(0x0000ff);
-        circle.graphics.drawRect(this.x, this.y, this.width, this.height);
-        circle.graphics.endFill();
-        this.$parent.addChild(circle);
-        this.mask = circle;
-    };
-    // 星球变暗色 每隔三秒遍历一次
-    GameBody.prototype.addDark = function () {
-        var _this = this;
-        if (!GameConfig.taxConfig[GameConfig.nowTax]["darkTime"]) {
-            return;
-        }
-        var timer = setInterval(function () {
-            if (GameConfig.state == 2 || GameConfig.state == 0) {
-                clearInterval(timer);
-            }
-            _this.bingos.forEach(function (val) {
-                val.forEach(function (val2) {
-                    val2 && val2.beDark();
-                });
-            });
-        }, 5000);
-    };
-    // 星球变成其他类型
-    GameBody.prototype.addType = function () {
-        var _this = this;
-        if (!GameConfig.taxConfig[GameConfig.nowTax]["changeTime"]) {
-            return;
-        }
-        var timer = setInterval(function () {
-            if (GameConfig.state == 2 || GameConfig.state == 0) {
-                clearInterval(timer);
-            }
-            if (_this.lock || _this.loack_2)
-                return;
-            _this.bingos.forEach(function (val) {
-                val.forEach(function (val2) {
-                    if (Math.floor(Math.random() * 10) === 2) {
-                        val2 && val2.beType(_this.ran());
-                        setTimeout(function () {
-                            _this.checkFun();
-                        }, _this.speed + 1);
-                    }
-                });
-            });
-            _this.checkFun();
-        }, 5000);
     };
     GameBody.prototype.drawBingo = function () {
         for (var i = 0; i < this.row; i++) {
@@ -373,7 +260,6 @@ var GameBody = (function (_super) {
             }
             this.bingos.push(arrs);
         }
-        //this.checkFun();
         this.updataGame();
     };
     GameBody.prototype.addBingo = function () {
@@ -381,7 +267,6 @@ var GameBody = (function (_super) {
             for (var k = 0; k < this.bingos[0].length; k++) {
                 if (this.bingos[0][k]) {
                     this.game = false;
-                    // return false;
                 }
             }
         for (var i = 0; i < this.row; i++) {
@@ -617,7 +502,7 @@ var GameBody = (function (_super) {
         }
         // 這邊簡單記錄一下bingos 没有解法了，就乱序
         if (!this.cloneBingos()) {
-            this.sortBingos();
+            GameRules.sortBingos(this);
             setTimeout(function () {
                 _this.checkFun();
             }, this.speed);
@@ -633,93 +518,9 @@ var GameBody = (function (_super) {
             }
             else {
                 this.lock = true;
-                this.addBoard();
+                GameRules.addBoard(this);
             }
         }
-    };
-    // 显示出飞船
-    GameBody.prototype.addBoard = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var sky, fn1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, GameConfig.createBitmapByName("borad.png")];
-                    case 1:
-                        sky = _a.sent();
-                        sky.width = sky.height = 300;
-                        this.addChild(sky);
-                        sky.x = -400;
-                        sky.y = this.height - 320;
-                        fn1 = function () {
-                            egret.Tween.get(sky).to({ x: -400 }, 500, egret.Ease.sineIn).call(function () {
-                                _this.shootBingos();
-                                _this.hadBingo = true;
-                                _this.removeChild(sky);
-                            });
-                        };
-                        egret.Tween.get(sky).to({ x: 0 }, 2000, egret.Ease.sineIn).call(function () {
-                            setTimeout(fn1, 1000);
-                        });
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    GameBody.prototype.shootBingos = function () {
-        var _this = this;
-        var set = [];
-        this.bingos.forEach(function (val, x) {
-            val.forEach(function (val2, y) {
-                var exit = _this.exitObj(_this.bingos, x, y);
-                if (exit && val2.canClear()) {
-                    set.push({
-                        x: x,
-                        y: y
-                    });
-                }
-            });
-        });
-        setTimeout(function () {
-            _this.checkFun();
-        }, 3000);
-        set.map(function (val, index) {
-            var arr = [{ x: 0, y: 1 }, { x: 1, y: 0 }, { x: 0, y: 0 }, { x: 1, y: 1 },];
-            var obj = _this.bingos[val.x][val.y];
-            _this.saveClears(val.x + "," + val.y);
-            _this.parents.shootRock({
-                x: obj.x + _this.x + GameBody.childW / 2,
-                y: obj.y + _this.y + GameBody.childH / 2,
-            });
-        });
-    };
-    GameBody.prototype.sortBingos = function () {
-        var _this = this;
-        var arr = [], set = [];
-        this.bingos.forEach(function (val, x) {
-            val.forEach(function (val2, y) {
-                if (val2) {
-                    arr.push(val2);
-                    set.push({
-                        x: x,
-                        y: y
-                    });
-                }
-            });
-        });
-        arr.sort(function () {
-            return Math.random() > .5 ? -1 : 1;
-        });
-        var i = 0;
-        this.bingos.forEach(function (val, x) {
-            val.forEach(function (val2, y) {
-                if (arr[i] && _this.judegeMatrix(x, y)) {
-                    _this.bingos[x][y] = arr[i];
-                    _this.bingos[x][y].moveToSet(set[i].x, set[i].y);
-                    i++;
-                }
-            });
-        });
     };
     GameBody.prototype.cloneBingos = function () {
         var arr = [];

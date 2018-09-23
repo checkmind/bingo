@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?> 
 <e:Skin class="skins.ToastSkin" minHeight="50" minWidth="100" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*" width="452" height="690">
-	<e:Image id="button" width="452" height="690" scale9Grid="1,3,8,8" anchorOffsetX="0" anchorOffsetY="0" source="resource/assets/toast.png" x="0" y="0"/>
+	<e:Image id="button" width="452" height="690" scale9Grid="1,3,8,8" anchorOffsetX="0" anchorOffsetY="0" source="resource/assets/tax.png" x="0" y="0"/>
 
 	<e:Label id="labelDisplay2" size="30" fontFamily="KaiTi" verticalAlign="middle" text="第一宇宙" anchorOffsetX="0" anchorOffsetY="0" wordWrap="true" bold="true" background="false" backgroundColor="0xe5e3e3" strokeColor="0xfcf9f9" alpha="1" lineSpacing="8" y="89" x="67.3" textColor="0xf4e8e8" width="330.4" height="46.57" textAlign="center"/>
     <e:Label id="labelDisplay" size="25" fontFamily="KaiTi" verticalAlign="top" text="  想不到你竟然这里厉害" anchorOffsetX="0" anchorOffsetY="0" wordWrap="true" bold="true" background="false" backgroundColor="0xe5e3e3" strokeColor="0xfcf9f9" alpha="1" lineSpacing="8" x="70.3" textColor="0xf4e8e8" width="312.4" height="316" textAlign="left" verticalCenter="82"/>

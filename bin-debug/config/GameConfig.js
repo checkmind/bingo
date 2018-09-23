@@ -181,9 +181,9 @@ var GameConfig = (function () {
     // 速度
     GameConfig.infiniteColV = 100;
     // 当前关卡
-    GameConfig.nowTax = -1;
+    GameConfig.nowTax = 0;
     // 当前最强关卡
-    GameConfig.maxTax = 0;
+    GameConfig.maxTax = 14;
     // 第一关限定步数
     GameConfig.taxConfig = [];
     GameConfig.chnNumChar = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];

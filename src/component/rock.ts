@@ -89,14 +89,13 @@ class Rock extends egret.Sprite{
         return angle;
     }
     public async shoot() {
-        this.ball = new MovieClass(this.x3, this.y3,42,100,'rank',this.rotate)
+        this.ball = new MovieClass(this.x3, this.y3,42,100,'rank',this.rotate, 60)
         this.ball.width = 42
         this.ball.height = 100;
         this.ball.x = this.x3
         this.ball.y = this.y3
         this.addChild(this.ball)
         egret.Tween.get(this,{loop:false},false,false).to({factor: 1}, this.time).call(()=>{
-            console.log('ok')
             this.ball.x = this.x3
             this.ball.y = this.y3
             this.ball.playMovie()

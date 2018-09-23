@@ -82,16 +82,6 @@ var GameGroup = (function (_super) {
         PageBus.gotoPage("pageTax");
         GameConfig.state = 1;
     };
-    GameGroup.prototype.createBitmapByName = function (name, width, height) {
-        var result = new egret.Bitmap();
-        var texture = RES.getRes(name);
-        result.texture = texture;
-        if (width)
-            result.width = width;
-        if (height)
-            result.height = height;
-        return result;
-    };
     return GameGroup;
 }(eui.Group));
 __reflect(GameGroup.prototype, "GameGroup");

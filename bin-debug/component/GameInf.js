@@ -50,7 +50,6 @@ var GameInf = (function (_super) {
     __extends(GameInf, _super);
     function GameInf(width, height, parent) {
         var _this = _super.call(this) || this;
-        _this.image = new egret.Bitmap();
         _this.myScore = 0;
         _this.propsArr = [];
         _this.backToPage = '';
@@ -199,9 +198,7 @@ var GameInf = (function (_super) {
         var self = this;
         function clickButton(index) {
             self.propsArr.forEach(function (prop, key) {
-                // if(2 !== key) {
                 prop.removeRect();
-                // }
             });
         }
         for (var type = 0; type < maxType; type++) {
