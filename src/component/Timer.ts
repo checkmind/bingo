@@ -38,8 +38,6 @@ class Timer extends eui.Group{
     public setTime(num) {
         if(this.time)
             this.time += num;
-        console.log('setTime 1')
-        console.log(this.time)
         this.taxNum.label = `时间：${this.time--}`;
     }
     private changeTimer() {
@@ -59,8 +57,6 @@ class Timer extends eui.Group{
                }
                this.parents.checkGameover();
            }
-           console.log('setTime 2')
-           console.log(this.time)
            let str = `时间：${this.time--}`
            this.taxNum.label = str;
         },1000)

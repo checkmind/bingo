@@ -35,6 +35,11 @@ var GameBody = (function (_super) {
         _this.lastY = null;
         _this.matrixes = [];
         _this.lockCheck = false;
+        // 记录一下当前元素
+        _this.nowBingo = null;
+        _this.nowBingoSet = { x: null, y: null };
+        // 连成3个就消除
+        _this.checkNum = 2;
         // 已经奖励过了
         _this.hadBingo = false;
         /************* 检查游戏函数ending************* */
@@ -262,21 +267,21 @@ var GameBody = (function (_super) {
         }
         this.updataGame();
     };
-    GameBody.prototype.addBingo = function () {
-        if (this.bingos[0])
-            for (var k = 0; k < this.bingos[0].length; k++) {
-                if (this.bingos[0][k]) {
-                    this.game = false;
-                }
-            }
-        for (var i = 0; i < this.row; i++) {
-            var ran = this.ran();
-            var bingo = new Bingo(i, -1, ran, this);
-            this.addChildAt(bingo, 0);
-            this.newBingos.push(bingo);
-        }
-        this.moveToBottom();
-    };
+    // private addBingo() {
+    //     if( this.bingos[0] )
+    //     for(let k=0;k<this.bingos[0].length;k++) {
+    //         if(this.bingos[0][k]){
+    //             this.game = false;
+    //         }
+    //     }
+    //     for(let i = 0;i<this.row;i++) {
+    //         let ran = this.ran()
+    //         let bingo:Bingo = new Bingo(i,-1,ran,this);
+    //         this.addChildAt(bingo,0);
+    //         this.newBingos.push(bingo);            
+    //     }
+    //     this.moveToBottom();
+    // }
     GameBody.prototype.moveToBottom = function () {
         var _this = this;
         // 移动到的坐标
@@ -320,13 +325,75 @@ var GameBody = (function (_super) {
     };
     /* 检测是否能消除 */
     GameBody.prototype.checkBingos = function () {
+        var _this = this;
         var that = this;
         this.bingos.forEach(function (val, x) {
             var onoff = false;
             val.forEach(function (vals, y) {
-                that.checkAround({ x: x, y: y }, false);
+                _this.nowBingo = null;
+                _this.saveNowBingo({ x: x, y: y });
             });
         });
+    };
+    GameBody.prototype.saveNowBingo = function (coord) {
+        var x = coord.x, y = coord.y;
+        if (!this.exitObj(this.bingos, x, y)) {
+            return;
+        }
+        this.nowBingo = this.bingos[x][y];
+        this.nowBingoSet = this.getObjSet(this.nowBingo);
+        console.log('++++++++++++++++++++++++++++++++++++++++');
+        console.log(this.nowBingoSet);
+        // 正确的坐标
+        if (this.nowBingo.type >= 100) {
+            return;
+        }
+        // 检测下边
+        this.check2Method({ x: x + 1, y: y }, 1);
+        // 检测右边
+        this.check2Method({ x: x, y: y + 1 }, 2);
+    };
+    /**
+     * 检测函数
+     * parm 元素坐标以及方向,通常是右边和下边
+     */
+    GameBody.prototype.check2Method = function (coord, direction) {
+        var x = coord.x, y = coord.y;
+        if (!this.exitObj(this.bingos, x, y)) {
+            return;
+        }
+        var obj = this.bingos[x][y];
+        var type = obj.type;
+        // 大于 100 的元素不会被检测，并且type不相等就跳出递归
+        if (type >= 100 || type !== this.nowBingo.type) {
+            return;
+        }
+        if (direction === 1) {
+            console.log('进入函数::::::::');
+            console.log(type, this.nowBingo.type);
+            console.log(x, y);
+            console.log('_____');
+            console.log(x, this.nowBingoSet.x);
+        }
+        // 如果是下边
+        if (direction === 1) {
+            if (x - this.nowBingoSet.x >= this.checkNum) {
+                for (var i = 0; i <= x - this.nowBingoSet.x; i++) {
+                    this.saveClears(y + "," + (this.nowBingoSet.x + i));
+                }
+            }
+            this.check2Method({ x: x + 1, y: y }, 1);
+            // 如果是右边
+        }
+        else if (direction === 2) {
+            if (y - this.nowBingoSet.y >= this.checkNum) {
+                for (var i = 0; i <= y - this.nowBingoSet.y; i++) {
+                    this.saveClears(this.nowBingoSet.y + i + "," + this.nowBingoSet.x);
+                }
+            }
+            this.check2Method({ x: x, y: y + 1 }, 2);
+        }
+        else { }
     };
     /* 检测周围有没有相同色号,第二个参数限定反向 1,2,3,4 t r b l */
     GameBody.prototype.checkAround = function (coord, direction) {

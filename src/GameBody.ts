@@ -173,7 +173,6 @@ class GameBody extends egret.Sprite{
                 return true;
             // 一在二的左边
             } else {
-
                 this.changeObj(object_1,object_2,2,4)
                 return true;
             }
@@ -207,7 +206,6 @@ class GameBody extends egret.Sprite{
         this.bingos[coord_2.x][coord_2.y] = obj;
         let p1 = object_1.moveToDirection(dir_1)
         let p2 = object_2.moveToDirection(dir_2)
-        
         Promise.all([p1,p2]).then(()=>{
             if(!onoff && !this.checkFun() && !GameConfig.canChange) {
                 this.changeObj(object_2,object_1,dir_1,dir_2,true)  
@@ -251,21 +249,21 @@ class GameBody extends egret.Sprite{
         }
         this.updataGame();    
     }
-    private addBingo() {
-        if( this.bingos[0] )
-        for(let k=0;k<this.bingos[0].length;k++) {
-            if(this.bingos[0][k]){
-                this.game = false;
-            }
-        }
-        for(let i = 0;i<this.row;i++) {
-            let ran = this.ran()
-            let bingo:Bingo = new Bingo(i,-1,ran,this);
-            this.addChildAt(bingo,0);
-            this.newBingos.push(bingo);            
-        }
-        this.moveToBottom();
-    }
+    // private addBingo() {
+    //     if( this.bingos[0] )
+    //     for(let k=0;k<this.bingos[0].length;k++) {
+    //         if(this.bingos[0][k]){
+    //             this.game = false;
+    //         }
+    //     }
+    //     for(let i = 0;i<this.row;i++) {
+    //         let ran = this.ran()
+    //         let bingo:Bingo = new Bingo(i,-1,ran,this);
+    //         this.addChildAt(bingo,0);
+    //         this.newBingos.push(bingo);            
+    //     }
+    //     this.moveToBottom();
+    // }
     private moveToBottom() {
         // 移动到的坐标
         let x,y;
@@ -312,9 +310,78 @@ class GameBody extends egret.Sprite{
         this.bingos.forEach((val, x)=>{
             let onoff = false
             val.forEach((vals, y)=>{
-                that.checkAround({x,y},false)
+                this.nowBingo = null
+                this.saveNowBingo({x,y})
             })
         })
+    }
+    // 记录一下当前元素
+    private nowBingo = null
+    private nowBingoSet = {x:null, y:null}
+    private saveNowBingo(coord) {
+        let {
+            x,y
+        } = coord
+        if(!this.exitObj(this.bingos,x,y)) {
+            return
+        }
+        this.nowBingo = this.bingos[x][y]
+        this.nowBingoSet = this.getObjSet(this.nowBingo)
+        console.log('++++++++++++++++++++++++++++++++++++++++')
+        console.log(this.nowBingoSet)
+        // 正确的坐标
+        if(this.nowBingo.type >= 100) {
+            return
+        }
+        // 检测下边
+        this.check2Method({x: x+1, y},1)
+        // 检测右边
+        this.check2Method({x, y: y+1},2)
+    }
+    // 连成3个就消除
+    private checkNum = 2
+    /**
+     * 检测函数
+     * parm 元素坐标以及方向,通常是右边和下边
+     */
+    private check2Method(coord, direction) {
+        const {
+            x,y
+        } = coord
+        
+        if(!this.exitObj(this.bingos, x, y)) {
+            return
+        }
+        const obj = this.bingos[x][y]
+        const type = obj.type
+        // 大于 100 的元素不会被检测，并且type不相等就跳出递归
+        if(type>=100 || type !== this.nowBingo.type) {
+            return
+        }
+        if(direction === 1) {
+            console.log('进入函数::::::::')
+            console.log(type, this.nowBingo.type)            
+            console.log(x,y)
+            console.log('_____')
+            console.log(x, this.nowBingoSet.x)
+        }
+        // 如果是下边
+        if(direction === 1) {
+            if(x-this.nowBingoSet.x >= this.checkNum) {
+                for(let i = 0;i<=x - this.nowBingoSet.x; i++) {
+                    this.saveClears(`${y},${this.nowBingoSet.x + i}`)
+                }
+            }
+            this.check2Method({x: x+1, y},1)
+        // 如果是右边
+        } else if( direction === 2 ) {
+            if( y-this.nowBingoSet.y >= this.checkNum ) {
+                for(let i = 0;i<=y - this.nowBingoSet.y; i++) {
+                    this.saveClears(`${this.nowBingoSet.y+i},${this.nowBingoSet.x}`)
+                }
+            }
+            this.check2Method({x, y: y+1},2)
+        } else {}
     }
     /* 检测周围有没有相同色号,第二个参数限定反向 1,2,3,4 t r b l */
     private checkAround(coord,direction) {
