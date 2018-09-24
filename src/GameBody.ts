@@ -287,6 +287,7 @@ class GameBody extends egret.Sprite{
         if(GameConfig.state!==1)
             return;
         this.checkBingos();
+        console.log(this.clears)
         if(this.clears.length ===0){
             this.lock = false;
             this.checkGameOver();
@@ -327,8 +328,6 @@ class GameBody extends egret.Sprite{
         }
         this.nowBingo = this.bingos[x][y]
         this.nowBingoSet = this.getObjSet(this.nowBingo)
-        console.log('++++++++++++++++++++++++++++++++++++++++')
-        console.log(this.nowBingoSet)
         // 正确的坐标
         if(this.nowBingo.type >= 100) {
             return
@@ -358,18 +357,11 @@ class GameBody extends egret.Sprite{
         if(type>=100 || type !== this.nowBingo.type) {
             return
         }
-        if(direction === 1) {
-            console.log('进入函数::::::::')
-            console.log(type, this.nowBingo.type)            
-            console.log(x,y)
-            console.log('_____')
-            console.log(x, this.nowBingoSet.x)
-        }
         // 如果是下边
         if(direction === 1) {
             if(x-this.nowBingoSet.x >= this.checkNum) {
                 for(let i = 0;i<=x - this.nowBingoSet.x; i++) {
-                    this.saveClears(`${y},${this.nowBingoSet.x + i}`)
+                    this.saveClears(`${this.nowBingoSet.x + i}, ${this.nowBingoSet.y}`)
                 }
             }
             this.check2Method({x: x+1, y},1)
@@ -377,79 +369,11 @@ class GameBody extends egret.Sprite{
         } else if( direction === 2 ) {
             if( y-this.nowBingoSet.y >= this.checkNum ) {
                 for(let i = 0;i<=y - this.nowBingoSet.y; i++) {
-                    this.saveClears(`${this.nowBingoSet.y+i},${this.nowBingoSet.x}`)
+                    this.saveClears(`${this.nowBingoSet.x},${this.nowBingoSet.y + i}`)
                 }
             }
             this.check2Method({x, y: y+1},2)
         } else {}
-    }
-    /* 检测周围有没有相同色号,第二个参数限定反向 1,2,3,4 t r b l */
-    private checkAround(coord,direction) {
-        let {
-            x,y
-        } = coord
-        let obj = this.bingos[x][y]
-        if(!obj)
-            return
-        let type = obj.type;
-        if(type>=100)
-            return;
-        if(!direction) {
-            /* 检测四个方向 */
-            if(this.exitObj(this.bingos,x,y-1) &&this.bingos[x][y-1].type===type) {
-                if(this.checkAround({x,y:y-1},1)){
-                    this.saveClears(x+`,`+y)
-                    this.saveClears(x+`,`+(y-1))
-                }
-            }
-            if(this.exitObj(this.bingos,x+1,y) &&this.bingos[x+1][y].type===type) {
-                if(this.checkAround({x:x+1,y},2)){
-                    this.saveClears(x+`,`+y)
-                    this.saveClears((x+1)+`,`+y)
-                }
-            }
-            if(this.exitObj(this.bingos,x,y+1) &&this.bingos[x][y+1].type===type) {
-                if(this.checkAround({x,y:y+1},3)){
-                    this.saveClears(x+`,`+y)
-                    this.saveClears(x+`,`+(y+1))
-                }
-            }
-            if(this.exitObj(this.bingos,x-1,y) &&this.bingos[x-1][y].type===type) {
-                if(this.checkAround({x:x-1,y},4)){
-                    this.saveClears(x+`,`+y)
-                    this.saveClears((x-1)+`,`+y)
-                }
-            }
-            return;
-        }
-        switch(direction) {
-            case 1:
-                if(this.exitObj(this.bingos,x,y-1) && type===this.bingos[x][y-1].type){
-                    this.saveClears(x+`,`+(y-1))
-                    return true;
-                }
-                break;
-            case 2:
-                if(this.exitObj(this.bingos,x+1,y) && type===this.bingos[x+1][y].type){
-                    this.saveClears((x+1)+`,`+y)
-                    return true;
-                }
-                break;
-            case 3:
-                if(this.exitObj(this.bingos,x,y+1) && type===this.bingos[x][y+1].type){
-                    this.saveClears(x+`,`+(y+1))
-                    return true;
-                }
-                break;
-            case 4:
-                if(this.exitObj(this.bingos,x-1,y) && type===this.bingos[x-1][y].type){
-                    this.saveClears((x-1)+`,`+y)
-                    return true;
-                }
-                break;
-            default:
-                return false;
-         }
     }
     /* 判断对象是否存在 */
     private exitObj(obj,x,y) {
@@ -534,7 +458,6 @@ class GameBody extends egret.Sprite{
                                 this.createNewBingos(i,j,num-j+1);
                             }
                         }
-                        
                         continue;            
                     }
                 // 当前有方块，记录下坐标
