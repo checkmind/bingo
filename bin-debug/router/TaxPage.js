@@ -116,6 +116,31 @@ var TaxPage = (function (_super) {
         if (GameConfig.taxConfig[GameConfig.nowTax]["monster"])
             this.addMonster();
     };
+    TaxPage.prototype.addPerfectPassImage = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var passImage;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, GameConfig.createBitmapByName('pass.png')];
+                    case 1:
+                        passImage = _a.sent();
+                        passImage.scaleX = .1;
+                        passImage.scaleY = .1;
+                        passImage.width = 300;
+                        passImage.x = this.width / 2;
+                        passImage.y = 200;
+                        this.addChild(passImage);
+                        egret.Tween.get(passImage).to({ x: this.width / 2 - passImage.width / 2, scaleX: 1, scaleY: 1, y: this.height / 3 }, 500, egret.Ease.sineIn).call(function () {
+                            setTimeout(function () {
+                                _this.removeChild(passImage);
+                            }, 1000);
+                        });
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     TaxPage.prototype.addTalk = function () {
         if (this.talkContent && this.talkContent.$parent) {
             this.removeChild(this.talkContent);
@@ -163,7 +188,10 @@ var TaxPage = (function (_super) {
                     platform.passTax(GameConfig.maxTax);
                     platform.saveData(GameConfig.maxTax);
                 }
-                this.addPopClass(0, "\u6311\u6218\u4E0B\u4E00\u5173\u5427\uFF0C\u5956\u52B1\u4F60" + score / 2 + "\u91D1", '游戏通关');
+                if (GameConfig.nowTax === 0)
+                    this.addPopClass(0, " \u53EA\u8981\u5B8C\u7F8E\u5B8C\u6210\u4EFB\u52A1\uFF0C\u5C31\u4F1A\u89E6\u53D1\u52A8\u80FD\u6B66\u5668\u653B\u51FB\uFF0C\u5E2E\u4F60\u5254\u9664\u66F4\u591A\u7684\u661F\u7403\uFF0C\u5956\u52B1\u4F60" + score / 2 + "\u91D1", '游戏通关');
+                else
+                    this.addPopClass(0, "  \u5FEB\u5750\u6211\u7684\u201C\u5170\u535A\u57FA\u57FA\u201D\u8D76\u5F80\u4E0B\u4E2A\u5B87\u5B99\u5427\uFF0C\u8FD9\u5173\u8868\u73B0\u7684\u4E0D\u9519\uFF0C\u5956\u52B1\u4F60" + score / 2 + "\u91D1", '游戏通关');
                 GameConfig.setCoin(score / 2);
                 this.gameInf.changeCoin();
                 if (this.gameBody && this.gameBody.$parent)
@@ -174,7 +202,7 @@ var TaxPage = (function (_super) {
     };
     TaxPage.prototype.gameOver = function (num) {
         console.log('结束了');
-        this.addPopClass(1, '游戏失败了', '重新来一把吧');
+        this.addPopClass(1, '  游戏失败了，也许道具和运气能拯救你！！', '重新挑战');
         if (this.gameBody && this.gameBody.$parent)
             this.removeChild(this.gameBody);
         // this.success = ()=>{

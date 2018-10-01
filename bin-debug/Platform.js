@@ -128,6 +128,20 @@ var DebugPlatform = (function () {
             });
         });
     };
+    DebugPlatform.prototype.playShootMusic = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    DebugPlatform.prototype.playPassMusic = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
     DebugPlatform.prototype.passTax = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {

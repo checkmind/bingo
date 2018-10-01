@@ -113,6 +113,9 @@ var EntryGame = (function (_super) {
                             x: 200,
                             y: 200
                         });
+                        return [4 /*yield*/, this.shareFn()];
+                    case 3:
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -130,54 +133,44 @@ var EntryGame = (function (_super) {
         });
         this.addChild(rock);
     };
+    EntryGame.prototype.shareFn = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = this;
+                        return [4 /*yield*/, GameConfig.createBitmapByName("shareBea.png")];
+                    case 1:
+                        _a.shareButton = _b.sent();
+                        this.addChild(this.shareButton);
+                        this.shareButton.width = 200;
+                        this.shareButton.height = 200;
+                        this.shareButton.x = 20;
+                        console.log('share');
+                        this.shareButton.y = this.height / 2;
+                        this.shareButton.addEventListener("touchEnd", function () {
+                            platform.shareAppMessage();
+                        });
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     /**
      * 关闭按钮和分享按钮
     */
     EntryGame.prototype.drawButton = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var _a, _b, _c;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         _a = this;
-                        return [4 /*yield*/, GameConfig.createBitmapByName("share.png")];
-                    case 1:
-                        _a.shareButton = _d.sent();
-                        //this.addChild(this.shareButton);
-                        this.shareButton.width = 207;
-                        this.shareButton.height = 80;
-                        this.shareButton.x = 20;
-                        this.shareButton.y = this.height - this.shareButton.height - 20;
-                        this.shareButton.addEventListener("touchEnd", function () {
-                            wx.shareAppMessage({
-                                title: "大夏天的，来消除几颗星球吧",
-                                imageUrl: '',
-                                query: '22',
-                                success: function () {
-                                },
-                                fail: function () {
-                                },
-                                complete: function () {
-                                }
-                            });
-                        });
-                        _b = this;
-                        return [4 /*yield*/, GameConfig.createBitmapByName("share.png")];
-                    case 2:
-                        _b.shareMyCirle = _d.sent();
-                        //this.addChild(this.shareMyCirle);
-                        this.shareMyCirle.width = 207;
-                        this.shareMyCirle.height = 80;
-                        this.shareMyCirle.x = this.width - this.shareMyCirle.width - 20;
-                        this.shareMyCirle.y = this.height - this.shareMyCirle.height - 20;
-                        this.shareMyCirle.addEventListener("touchEnd", function () {
-                            platform.shareAppMessage("\u5FEB\u6765\u548C\u6211\u4E00\u7EDD\u9AD8\u4E0B\u5427\uFF0C\u6211\u5DF2\u7ECF\u95EF\u5230\u7B2C" + GameConfig.maxTax + "\u5173\u4E86!");
-                        });
-                        _c = this;
                         return [4 /*yield*/, GameConfig.createBitmapByName("close.png")];
-                    case 3:
-                        _c.closeButton = _d.sent();
+                    case 1:
+                        _a.closeButton = _b.sent();
                         this.closeButton.width = 80;
                         this.closeButton.height = 80;
                         this.closeButton.x = this.width / 2 - this.closeButton.width / 2;

@@ -18,6 +18,10 @@ declare interface Platform {
 
     playButtonMusic() :Promise<any>
 
+    playPassMusic()
+
+    playShootMusic()
+
     shareAppMessage(msg?:String): Promise<any>
 
     saveImg():Promise<any>
@@ -74,6 +78,12 @@ class DebugPlatform implements Platform {
 
     }
     async playButtonMusic() {
+
+    }
+    async playShootMusic() {
+        
+    }
+    async playPassMusic() {
 
     }
     async passTax() {

@@ -67,7 +67,20 @@ class TaxPage extends egret.Sprite{
        if(GameConfig.taxConfig[GameConfig.nowTax]["monster"])
          this.addMonster();
     }
-   
+    private async addPerfectPassImage() {
+        let passImage = await GameConfig.createBitmapByName('pass.png')
+        passImage.scaleX = .1;
+        passImage.scaleY = .1;
+        passImage.width = 300
+        passImage.x = this.width/2
+        passImage.y = 200
+        this.addChild(passImage)
+        egret.Tween.get( passImage ).to( { x: this.width/2 - passImage.width/2, scaleX: 1,scaleY: 1,y:this.height/3 }, 500, egret.Ease.sineIn ).call(()=>{
+            setTimeout(()=>{
+                this.removeChild(passImage)
+            }, 1000)
+        })
+    }
     private addTalk() {
         if(this.talkContent && this.talkContent.$parent) {
             this.removeChild(this.talkContent);
@@ -104,7 +117,10 @@ class TaxPage extends egret.Sprite{
             platform.passTax(GameConfig.maxTax);
             platform.saveData(GameConfig.maxTax)
         }
-        this.addPopClass(0,`挑战下一关吧，奖励你${score/2}金`,'游戏通关');
+        if(GameConfig.nowTax === 0) 
+            this.addPopClass(0,` 只要完美完成任务，就会触发动能武器攻击，帮你剔除更多的星球，奖励你${score/2}金`,'游戏通关'); 
+        else
+            this.addPopClass(0,`  快坐我的“兰博基基”赶往下个宇宙吧，这关表现的不错，奖励你${score/2}金`,'游戏通关');         
         GameConfig.setCoin(score/2);
         this.gameInf.changeCoin()
         if(this.gameBody && this.gameBody.$parent)
@@ -112,7 +128,7 @@ class TaxPage extends egret.Sprite{
     }
     public gameOver(num?:Number) {
         console.log('结束了')
-        this.addPopClass(1,'游戏失败了','重新来一把吧');
+        this.addPopClass(1,'  游戏失败了，也许道具和运气能拯救你！！','重新挑战');
         if(this.gameBody && this.gameBody.$parent)
             this.removeChild(this.gameBody);
         // this.success = ()=>{

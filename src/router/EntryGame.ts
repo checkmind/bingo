@@ -28,6 +28,7 @@ class EntryGame extends egret.Sprite{
             x: 200,
             y: 200
         })
+        await this.shareFn()
     }
     private shootRock(bingo) {
         let rock:Rock = new Rock({
@@ -97,41 +98,23 @@ class EntryGame extends egret.Sprite{
     private shareButton;
     private shareMyCirle;
     private closeButton;
+    private async shareFn() {
+        this.shareButton = await GameConfig.createBitmapByName("shareBea.png");
+        this.addChild(this.shareButton);
+        this.shareButton.width = 200;
+        this.shareButton.height = 200;
+        
+        this.shareButton.x = 20;
+        console.log('share')
+        this.shareButton.y = this.height / 2;
+        this.shareButton.addEventListener("touchEnd",()=>{
+            platform.shareAppMessage()
+        })
+    }
     /** 
      * 关闭按钮和分享按钮
     */
     private async drawButton() {
-        this.shareButton = await GameConfig.createBitmapByName("share.png");
-        //this.addChild(this.shareButton);
-        this.shareButton.width = 207;
-        this.shareButton.height = 80;
-        this.shareButton.x = 20;
-        this.shareButton.y = this.height - this.shareButton.height - 20;
-        this.shareButton.addEventListener("touchEnd",()=>{
-            wx.shareAppMessage({
-                title: "大夏天的，来消除几颗星球吧",
-                imageUrl: '',
-                query: '22',
-                success() {
-                },
-                fail(){
-
-                },
-                complete() {
-                }
-            })
-        })
-
-        this.shareMyCirle = await GameConfig.createBitmapByName("share.png");
-        //this.addChild(this.shareMyCirle);
-        this.shareMyCirle.width = 207;
-        this.shareMyCirle.height = 80;
-        this.shareMyCirle.x = this.width - this.shareMyCirle.width - 20;
-        this.shareMyCirle.y = this.height - this.shareMyCirle.height - 20;
-        this.shareMyCirle.addEventListener("touchEnd",()=>{
-           platform.shareAppMessage(`快来和我一绝高下吧，我已经闯到第${GameConfig.maxTax}关了!`)
-        })
-
         this.closeButton = await GameConfig.createBitmapByName("close.png");
         this.closeButton.width = 80;
         this.closeButton.height = 80;

@@ -127,6 +127,24 @@ class GameRules{
     }
     // 显示出飞船
     static async addBoard(self) {
+        platform.playPassMusic()
+        // 时间模式
+        if(!GameConfig.taxConfig[GameConfig.nowTax].time) {
+            if(self.gameInf.maxStep < 5) {
+                self.hadBingo = true
+                self.checkFun();  
+                return
+            }
+                
+        // 步数模式
+        } else {
+            if(self.gameInf.Timer.time < 5) {
+                self.hadBingo = true
+                self.checkFun();  
+                return
+            }
+        }
+        self.parent.addPerfectPassImage()
         const sky = await GameConfig.createBitmapByName("borad.png");
         sky.width = sky.height = 300;
         self.addChild(sky);
@@ -140,6 +158,7 @@ class GameRules{
             });  
         }
         egret.Tween.get( sky ).to( { x:0 }, 2000, egret.Ease.sineIn ).call(()=>{
+            platform.playShootMusic()
             setTimeout(fn1, 1000)
         });
     }
