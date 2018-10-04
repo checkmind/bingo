@@ -3,7 +3,6 @@
 <head>
 	<title>配置</title>
 	<link rel="stylesheet" type="text/css" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.3/css/bootstrap.css">
-	<script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
 	<script type="text/javascript" src='https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js'></script>
 </head>
 <style type="text/css">
@@ -25,7 +24,6 @@
 		width: 100%;
 		height: 400px;
 		overflow: auto;
-		position: relative;
 	}
 	textarea {
 		height: 20px;
@@ -80,7 +78,6 @@
 		align-items: center;
 		justify-content: flex-start;
 	}
-
 	.taxName {
 		position: absolute;
 		left: 0 ;
@@ -96,80 +93,44 @@
 	}
 </style>
 <body>
-<div id="app">
-	<textarea class="form-control textareaa" rows="3" id='config' placeholder="先把tax.json粘贴到这里" v-model='mapData'></textarea>
-	<button id="parseButton">解析</button>
-	<button id="stringButton">新增</button>
-	<button id="ok">生成</button>
-	<div class="tabel-con">
-		<table class="table">
-		  <thead>
-		    <tr id="head">
-		    </tr>
-		  </thead>
-		  <tbody id='tbody'>
-		  	<tr v-for="item in mapData">
-		  		<td class='tds'><span class='taxName'>第${index+1}关卡</span><input value='{{ item.row }}' /> </td>
-		   		<td><input value='{{ item.col }}' /> </td>
-		   		<td><input value='{{ item.checkType }}' /> </td>
-				<td><input value='${ matrix }' type='hidden'/> <a javascript=":;" class='setMatrix' data-toggle="modal" data-target="#myModal">设置</a></td>
-		   		<td><input value='${ val.myScore||0 }' /> </td>
-		   		<td><input value='${ val.bingoType||4 }' /> </td>
-		   		<td><input value='${ val.step||0 }' /> </td>
-		   		<td><input value='${ val.time||0 }' /> </td>
-		   		<td><input value='${ val.monster||0 }' /> </td>
-		   		<td><input value='${ val.darkTime||0 }' /> </td>
-		   		<td><input value='${ val.changeTime||0 }' /> </td>
-		   		<td><input value='${ npcTalk }' type='hidden' /><a javascript=":;" class='setNpcTalk'>设置</a> </td>
-		  	</tr>
-		  </tbody>
-		</table>
-	</div>
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-body">
-					在这里添加一些文本
-				</div>
-				<div class="modal-footer">
+<textarea class="form-control textareaa" rows="3" id='config' placeholder="先把tax.json粘贴到这里"></textarea>
+<button id="parseButton">解析</button>
+<button id="stringButton">新增</button>
+<button id="ok">生成</button>
+<div class="tabel-con">
+	<table class="table">
+	  <thead>
+	    <tr id="head">
+	    </tr>
+	  </thead>
+	  <tbody id='tbody'>
+	  </tbody>
+	</table>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				在这里添加一些文本
+			</div>
+			<div class="modal-footer">
 
-					<button type="button" class="btn btn-add btn-add-hero hide" >hero+
-					</button>
-					<button type="button" class="btn btn-add btn-add-npc hide">npc +
-					</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
-					</button>
-					<button type="button" class="btn btn-primary">
-						提交更改
-					</button>
-				</div>
+				<button type="button" class="btn btn-add btn-add-hero hide" >hero+
+				</button>
+				<button type="button" class="btn btn-add btn-add-npc hide">npc +
+				</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="button" class="btn btn-primary">
+					提交更改
+				</button>
 			</div>
 		</div>
 	</div>
-	<textarea class='form-control textareaa trigger'></textarea>
 </div>
+<textarea class='form-control textareaa trigger'></textarea>
 </body>
 <script>
-	new Vue({
-	  el: '#app',
-	  computed: {
-	  	arr() {
-	  		return 2;
-	  	}
-	  },
-	  data: {
-	    message: 'Hello Vue.js!',
-	    mapData: ''
-	  },
-	  watch: {
-	  	mapData(val) {
-	  		console.log(val)
-	  	}
-	  }
-	})
-</script>
-<script>
-/*
 let style = {
 	row: '行数',
 	col: '列数',
@@ -248,7 +209,6 @@ function setNpcTalk () {
 		let row = $(trNode.find('input')[0]).val()
 		let col = $(trNode.find('input')[1]).val()
 		let data = JSON.parse($(npcTalkNode).val())
-
 		let allStr = ''
 		data.map(function(val){
 			if(isNpc(val)) {
@@ -257,7 +217,6 @@ function setNpcTalk () {
 				allStr += `<div class='hero' contenteditable="true">${val.text}</div>`
 			}
 		})
-
 		$(".modal-body").html(allStr);
 		$(".btn-add").show()
 		clickAdd();
@@ -454,6 +413,5 @@ $('.trigger').bind({
 		$('#message').html(data);
 	}
 });
-*/
 </script>
 </html>

@@ -3,8 +3,9 @@
 **/
 class PageBus{
     static pages = {};
-    // 页面包含对象
+    // 顶级父容器
     static contain;
+    // 当前页面
     static nowPage;
     public constructor(){
             

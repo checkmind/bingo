@@ -32,7 +32,7 @@ class GameConfig{
     static bingosMax = 8;
     static taxArr = ['零','一','二','三','四','五','六','七','八','九'];
     // 无限模式初始化时间
-    static infiniteTime = 1220;
+    static infiniteTime = 60;
     static infiniteRow = 7;
     static infiniteCol = 7;
     static infiniteBingoType = 7;

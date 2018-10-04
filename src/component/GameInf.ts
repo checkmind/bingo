@@ -160,13 +160,11 @@ class GameInf extends egret.Sprite{
     public checkGameover() {
         if(GameConfig.taxConfig[GameConfig.nowTax].myScore > this.myScore)
             this.gameOver()
-        else
-            this.parents.passTax()
     }
     private gameOver() {
         this.parents.gameOver();
     }
-    private async addBack() { 
+    private async addBack() {
         let sky =await GameConfig.createBitmapByName("back.png");
         sky.width = sky.height = 40;
         sky.x = 20;

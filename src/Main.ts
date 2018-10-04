@@ -58,7 +58,9 @@ class Main extends eui.UILayer {
     }
 
     private async runGame() {
+        platform.showLoading()
         const userInfo = await platform.getUserInfo();
+        platform.hideLoading()
         /* 初始化 */
         try {
             GameConfig.initData(userInfo)

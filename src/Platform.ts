@@ -37,8 +37,18 @@ declare interface Platform {
     setCoinStorage(num): Promise<any>
 
     setHelpStorage(num): Promise<any>
+
+    showLoading()
+
+    hideLoading()
 }
 class DebugPlatform implements Platform {
+    showLoading() {
+
+    }
+    hideLoading() {
+
+    }
     async getUserInfo() {
         return { nickName: "username" }
     }
