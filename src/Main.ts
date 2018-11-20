@@ -117,6 +117,8 @@ class Main extends eui.UILayer {
         this.addChild(sky);
         let stageW = this.stage.stageWidth;
         let stageH = this.stage.stageHeight;
+        GameConfig.width = stageW
+        GameConfig.height = stageH
         /* 背景色设置 */
         var shape:egret.Shape = new egret.Shape;
         shape.graphics.beginFill(0x000000,1)

@@ -39,6 +39,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var DebugPlatform = (function () {
     function DebugPlatform() {
     }
+    DebugPlatform.prototype.hadAddWeapp = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    DebugPlatform.prototype.drawAdvise = function () {
+    };
+    DebugPlatform.prototype.showLoading = function () {
+    };
+    DebugPlatform.prototype.setAdvise = function () {
+    };
+    DebugPlatform.prototype.showAdvise = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    DebugPlatform.prototype.hideLoading = function () {
+    };
     DebugPlatform.prototype.getUserInfo = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {

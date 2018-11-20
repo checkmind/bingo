@@ -26,6 +26,7 @@ class TaxTimerFast extends egret.Sprite{
         }
         this.addGameInf();
         this.addTalk();
+        platform.hideAdvise()
     }
     
     private async addBack() {

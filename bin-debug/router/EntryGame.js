@@ -95,7 +95,7 @@ var EntryGame = (function (_super) {
     }
     EntryGame.prototype.addImage = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var back;
+            var back, date, day, isShow;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -116,6 +116,79 @@ var EntryGame = (function (_super) {
                         return [4 /*yield*/, this.shareFn()];
                     case 3:
                         _a.sent();
+                        date = new Date().getMonth() + 1;
+                        day = new Date().getDate();
+                        return [4 /*yield*/, platform.showAdvise()];
+                    case 4:
+                        isShow = _a.sent();
+                        platform.setAdvise();
+                        if (!(!isShow && +("" + date + day) >= 1110)) return [3 /*break*/, 6];
+                        return [4 /*yield*/, this.addAdvis()];
+                    case 5:
+                        _a.sent();
+                        _a.label = 6;
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    EntryGame.prototype.addAdvis = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var sprite, addWeapp, width, back, share, close;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        sprite = new egret.Sprite();
+                        sprite.width = this.width;
+                        sprite.height = this.height;
+                        return [4 /*yield*/, GameConfig.createBitmapByName("advise.png")];
+                    case 1:
+                        addWeapp = _a.sent();
+                        width = this.width - 50;
+                        addWeapp.width = width;
+                        addWeapp.height = width / 0.95;
+                        addWeapp.x = (this.width - width) / 2;
+                        addWeapp.y = (this.height - addWeapp.height) / 2;
+                        back = new Background(0, 0, this.width, this.height);
+                        sprite.addChild(back);
+                        sprite.addChild(addWeapp);
+                        share = new eui.Button();
+                        share.y = this.height - 150;
+                        share.x = this.width - share.width - 250;
+                        share.label = '我要奖励';
+                        sprite.addChild(share);
+                        share.addEventListener('touchEnd', function () {
+                            platform.shareAppMessage();
+                            setTimeout(function () {
+                                _this.removeChild(sprite);
+                                _this.loadInf();
+                            }, 3500);
+                        }, this);
+                        close = new eui.Button();
+                        close.y = this.height - 150;
+                        close.x = 40;
+                        close.label = '不要奖励';
+                        sprite.addChild(close);
+                        close.addEventListener('touchEnd', function () {
+                            console.log(1);
+                            _this.removeChild(sprite);
+                        }, this);
+                        this.addChild(sprite);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    EntryGame.prototype.loadInf = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var userInfo;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, platform.getUserInfo()];
+                    case 1:
+                        userInfo = _a.sent();
+                        GameConfig.initData(userInfo);
                         return [2 /*return*/];
                 }
             });

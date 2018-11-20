@@ -224,8 +224,6 @@ var GameInf = (function (_super) {
     GameInf.prototype.checkGameover = function () {
         if (GameConfig.taxConfig[GameConfig.nowTax].myScore > this.myScore)
             this.gameOver();
-        else
-            this.parents.passTax();
     };
     GameInf.prototype.gameOver = function () {
         this.parents.gameOver();

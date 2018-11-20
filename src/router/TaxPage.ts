@@ -41,6 +41,7 @@ class TaxPage extends egret.Sprite{
         this.addBack()
         this.addTalk()
         this.addProgress()
+        platform.hideAdvise()
         //this.shootRock({x:40,y:40})
     }
     private addProgress() {

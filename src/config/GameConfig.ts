@@ -1,6 +1,8 @@
 /* 
 **/
 class GameConfig{
+    static width
+    static height
     static domainUrl = 'https://cangnanshi.com/bingo/'
     //static domainUrl = 'https://qqqdu.oss-cn-beijing.aliyuncs.com/bingo/'
     /* 即使不能消除也能交换顺序 */
@@ -45,6 +47,7 @@ class GameConfig{
      
     // 第一关限定步数
     static taxConfig = [];
+    static bannerAd
     
     static generatorBingos() {
 

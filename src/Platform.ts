@@ -41,10 +41,30 @@ declare interface Platform {
     showLoading()
 
     hideLoading()
+    setAdvise()
+    showAdvise():Promise<any>
+    hadAddWeapp() : Promise<any>
+    drawAdvise(show?)
+    hideAdvise()
 }
 class DebugPlatform implements Platform {
+    hideAdvise() {
+
+    }
+    async hadAddWeapp() {
+
+    }
+    drawAdvise(show?) {
+        
+    }
     showLoading() {
 
+    }
+    setAdvise() {
+
+    }
+    async showAdvise() {
+        
     }
     hideLoading() {
 

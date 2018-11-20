@@ -17,7 +17,6 @@ class EntryGame extends egret.Sprite{
     }
     private bitmap;
     private async addImage(){
-        
         let back = new Background(0,0,this.width,this.height);
         this.addChild(back)
         await this.addTitle();
@@ -29,6 +28,56 @@ class EntryGame extends egret.Sprite{
             y: 200
         })
         await this.shareFn()
+        const date = new Date().getMonth() + 1
+        const day = new Date().getDate()
+        const isShow =await platform.showAdvise()
+        platform.setAdvise()
+        if(!isShow && +`${date}${day}` >= 1110 )
+            await this.addAdvis()
+        platform.hideAdvise()
+    }
+    private async addAdvis() {
+        const sprite = new egret.Sprite()
+        sprite.width = this.width
+        sprite.height = this.height
+        let addWeapp = await GameConfig.createBitmapByName("advise.png");
+        const width = this.width - 50
+
+        addWeapp.width = width
+        addWeapp.height = width / 0.95
+        addWeapp.x = (this.width - width) / 2
+        addWeapp.y = (this.height - addWeapp.height) /2
+        const back = new Background(0,0,this.width,this.height)
+        sprite.addChild(back)
+        sprite.addChild(addWeapp)
+
+        let share = new eui.Button();
+        share.y = this.height - 150;
+        share.x = this.width - share.width - 250
+        share.label = '我要奖励';
+        sprite.addChild(share);
+        share.addEventListener('touchEnd', ()=>{
+            platform.shareAppMessage()
+            setTimeout(() => {
+                this.removeChild(sprite)
+                this.loadInf()
+            }, 3500)
+        },this)
+
+        let close = new eui.Button();
+        close.y = this.height - 150;
+        close.x = 40
+        close.label = '不要奖励';
+        sprite.addChild(close);
+        close.addEventListener('touchEnd', ()=>{
+            console.log(1)
+            this.removeChild(sprite)
+        },this)
+        this.addChild(sprite)
+    }
+    private async loadInf() {
+        const userInfo = await platform.getUserInfo();
+        GameConfig.initData(userInfo)
     }
     private shootRock(bingo) {
         let rock:Rock = new Rock({

@@ -101,9 +101,12 @@ var Main = (function (_super) {
             var userInfo, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, platform.getUserInfo()];
+                    case 0:
+                        platform.showLoading();
+                        return [4 /*yield*/, platform.getUserInfo()];
                     case 1:
                         userInfo = _a.sent();
+                        platform.hideLoading();
                         /* 初始化 */
                         try {
                             GameConfig.initData(userInfo);
@@ -181,6 +184,8 @@ var Main = (function (_super) {
         this.addChild(sky);
         var stageW = this.stage.stageWidth;
         var stageH = this.stage.stageHeight;
+        GameConfig.width = stageW;
+        GameConfig.height = stageH;
         /* 背景色设置 */
         var shape = new egret.Shape;
         shape.graphics.beginFill(0x000000, 1);

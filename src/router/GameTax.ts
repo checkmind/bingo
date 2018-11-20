@@ -21,6 +21,21 @@ class GameTax extends egret.Sprite{
         this.addBack();
         this.addGroup();
         this.addReturn();
+        const hadAddWeapp = await platform.hadAddWeapp()
+        GameConfig.bannerAd = platform.drawAdvise()
+        if(!hadAddWeapp) {
+            await this.drawAddMyweapp()
+        }
+    }
+    
+    private async drawAddMyweapp() {
+        let addWeapp = await GameConfig.createBitmapByName("add.png");
+        addWeapp.width = this.width
+        addWeapp.height = this.height
+        this.addChild(addWeapp)
+        addWeapp.addEventListener('touchEnd', ()=>{
+            this.removeChild(addWeapp)
+        },this)
     }
     private shootRock(bingo) {
         let rock:Rock = new Rock({

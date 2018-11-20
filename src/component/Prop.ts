@@ -237,7 +237,7 @@ class Prop extends egret.Sprite{
             this.removeChild(this.propText);
         }
         this.propText = new egret.TextField();
-        this.propText.width = this.stage.stageWidth - 80;
+        this.propText.width = GameConfig.width - 80;
         this.propText.y = this.y + 130;
         this.propText.text = words;
         this.propText.textAlign = 'center';
@@ -253,7 +253,7 @@ class Prop extends egret.Sprite{
         if(this.timeWordsText && this.timeWordsText.$parent)
             this.removeChild(this.timeWordsText)
         this.timeWordsText = new egret.TextField();
-        this.timeWordsText.width = this.stage.stageWidth - 80;
+        this.timeWordsText.width = GameConfig.width - 80;
         this.timeWordsText.y = this.y + 130;
         this.timeWordsText.text = words;
         this.timeWordsText.textAlign = 'center';

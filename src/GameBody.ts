@@ -25,6 +25,7 @@ class GameBody extends egret.Sprite{
     public speed;
     public constructor(width,height,gameInf,parents){
         super();
+        platform.hideAdvise()
         this.width = width;
         this.parents = parents;
         if(GameConfig.nowTax!==-1){

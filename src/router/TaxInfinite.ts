@@ -28,6 +28,7 @@ class TaxInfinite extends egret.Sprite{
         }
         this.addTalk();
         this.addProgress()
+        platform.hideAdvise()
     }
     private addProgress() {
         const progress:Progress = new Progress(this.x, this.y, this.width, this.height)

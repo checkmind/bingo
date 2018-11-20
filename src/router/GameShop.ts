@@ -27,6 +27,7 @@ class GameShop extends egret.Sprite{
        this.myCoin();
        this.addBack()
        this.addButton()
+       GameConfig.bannerAd = platform.drawAdvise(true)
     }
     private addButton() {
        let button = new eui.Button();

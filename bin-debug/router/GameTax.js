@@ -61,11 +61,44 @@ var GameTax = (function (_super) {
     }
     GameTax.prototype.addImage = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var hadAddWeapp;
             return __generator(this, function (_a) {
-                this.addBack();
-                this.addGroup();
-                this.addReturn();
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        this.addBack();
+                        this.addGroup();
+                        this.addReturn();
+                        return [4 /*yield*/, platform.hadAddWeapp()];
+                    case 1:
+                        hadAddWeapp = _a.sent();
+                        platform.drawAdvise();
+                        if (!!hadAddWeapp) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.drawAddMyweapp()];
+                    case 2:
+                        _a.sent();
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    GameTax.prototype.drawAddMyweapp = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var addWeapp;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, GameConfig.createBitmapByName("add.png")];
+                    case 1:
+                        addWeapp = _a.sent();
+                        addWeapp.width = this.width;
+                        addWeapp.height = this.height;
+                        this.addChild(addWeapp);
+                        addWeapp.addEventListener('touchEnd', function () {
+                            _this.removeChild(addWeapp);
+                        }, this);
+                        return [2 /*return*/];
+                }
             });
         });
     };
